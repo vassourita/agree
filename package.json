@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests --no-cache"
   },
   "workspaces": {
     "packages": [
