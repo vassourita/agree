@@ -21,12 +21,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module'
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-    'prettier',
-    'import-helpers'
-  ],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'import-helpers'],
   rules: {
     'prettier/prettier': 'error',
     'space-before-function-paren': 'off',
