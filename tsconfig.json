@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
     "target": "es2019",
     "module": "commonjs",
     "resolveJsonModule": true,
@@ -11,15 +13,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@agree/config/*": [
-        "./config/*"
-      ],
-      "@agree/libs/*": [
-        "./libs/*"
-      ],
-      "@agree/apps/*": [
-        "./apps/*"
-      ]
+      "@agree/config/*": ["./config/*"],
+      "@agree/libs/*": ["./libs/*"],
+      "@agree/apps/*": ["./apps/*"]
     }
   }
 }
