@@ -1,0 +1,8 @@
+{
+  "name": "@agree/config-prettier",
+  "version": "1.0.0",
+  "main": "prettier.config.js",
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
+}
