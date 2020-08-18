@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "checkJs": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@agree/config/*": [
+        "./config/*"
+      ],
+      "@agree/libs/*": [
+        "./libs/*"
+      ],
+      "@agree/apps/*": [
+        "./apps/*"
+      ]
+    }
+  }
+}
