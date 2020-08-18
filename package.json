@@ -1,0 +1,25 @@
+{
+  "name": "agree",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vassourita/agree.git",
+  "author": "Vinicius Vassao <vlviniciusguaruja7@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "jest --passWithNoTests"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*",
+      "config/*"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "jest": "^26.4.0",
+    "ts-jest": "^26.2.0",
+    "typescript": "^3.9.7"
+  }
+}
