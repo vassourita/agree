@@ -17,6 +17,8 @@
     ]
   },
   "devDependencies": {
+    "@agree/config-eslint": "*",
+    "@agree/config-prettier": "*",
     "@types/jest": "^26.0.10",
     "jest": "^26.4.0",
     "ts-jest": "^26.2.0",
