@@ -4,3 +4,17 @@ type User {
   email: String!
   createdAt: String!
 }
+
+input CreateUserInput {
+  name: String!
+  email: String!
+}
+
+type Mutation {
+  createAccount(data: CreateUserInput): User!
+}
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User!
+}

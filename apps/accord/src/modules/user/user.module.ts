@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common'
 
-@Module({})
+import { UserResolver } from './graphql/resolvers/user.resolver'
+@Module({
+  providers: [UserResolver]
+})
 export class UserModule {}
