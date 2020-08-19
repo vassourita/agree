@@ -23,6 +23,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier', 'import-helpers'],
   rules: {
+    indent: 'off',
     'prettier/prettier': 'error',
     'space-before-function-paren': 'off',
     'no-useless-constructor': 'off',
