@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, ConflictException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { IUseCase } from 'src/shared/protocols/use-case'
@@ -15,6 +15,14 @@ export class CreateUserUseCase implements IUseCase<ICreateUserDTO, UserEntity> {
   ) {}
 
   async execute(data: ICreateUserDTO) {
+    const userExists = await this.userRepository.findOne({
+      where: { email: data.email }
+    })
+
+    if (userExists) {
+      throw new ConflictException('Email already in use')
+    }
+
     const user = this.userRepository.create(data)
     await this.userRepository.save(user)
 

@@ -19,22 +19,14 @@ import { databaseConfig } from '../config/database.config'
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
-        ...config.get(`database.${config.get('api.env')}`),
-        autoLoadEntities: true
+        ...config.get(`database.${config.get('api.env')}`)
       }),
       inject: [ConfigService]
     }),
     GraphQLModule.forRoot({
       typePaths: ['../**/*.graphql'],
       definitions: {
-        path: join(
-          process.cwd(),
-          '..',
-          '..',
-          'libs',
-          'graphql-typedefs',
-          'graphql.ts'
-        )
+        path: join(process.cwd(), '..', '..', 'libs', 'graphql-typedefs', 'graphql.ts')
       }
     })
   ]

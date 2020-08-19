@@ -9,11 +9,6 @@ import { ListUsersUseCase } from './use-cases/list-users/list-users.use-case'
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
-  providers: [
-    UserResolver,
-    CreateUserUseCase,
-    ListUsersUseCase,
-    FindUserByIdUseCase
-  ]
+  providers: [UserResolver, CreateUserUseCase, ListUsersUseCase, FindUserByIdUseCase]
 })
 export class UserModule {}

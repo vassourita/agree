@@ -1,3 +1,3 @@
-export interface IUseCase<IRequest, IResponse> {
-  execute(data: IRequest): Promise<IResponse>
+export interface IUseCase<TInput, TOutput> {
+  execute(data: TInput): Promise<TOutput>
 }

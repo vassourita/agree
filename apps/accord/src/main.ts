@@ -7,9 +7,8 @@ async function main() {
   const app = await NestFactory.create(AppModule, {
     cors: true
   })
-  const configService = app.get(ConfigService)
 
-  const port = configService.get('api.port')
+  const port = app.get(ConfigService).get('api.port')
   await app.listen(port)
 }
 main()

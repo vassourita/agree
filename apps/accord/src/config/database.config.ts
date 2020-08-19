@@ -5,16 +5,14 @@ export const databaseConfig = registerAs('database', () => ({
     type: 'postgres',
     host: process.env.DATABASE_HOST || 'localhost',
     port: Number(process.env.DATABASE_PORT) || 5432,
-    database: process.env.DATABASE_NAME,
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS
+    database: process.env.DATABASE_NAME || 'accord',
+    username: process.env.DATABASE_USER || 'docker',
+    password: process.env.DATABASE_PASS || 'docker',
+    autoLoadEntities: true
   },
   test: {
     type: 'sqlite',
-    host: process.env.DATABASE_HOST || 'localhost',
-    port: Number(process.env.DATABASE_PORT) || 5432,
-    name: process.env.DATABASE_NAME,
-    user: process.env.DATABASE_USER,
-    pass: process.env.DATABASE_PASS
+    database: ':memory:',
+    autoLoadEntities: true
   }
 }))
