@@ -5,6 +5,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 
 import { CurrentUserId } from 'src/shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from 'src/shared/guards/jwt/jwt.guard'
+import { AuthProvider } from 'src/shared/providers/auth.provider'
 
 import { CreateUserUseCase } from '../../use-cases/create-user/create-user.use-case'
 import { FindUserByIdUseCase } from '../../use-cases/find-user-by-id/find-user-by-id.use-case'
@@ -15,7 +16,8 @@ export class UserResolver {
   constructor(
     private readonly createUser: CreateUserUseCase,
     private readonly listUsers: ListUsersUseCase,
-    private readonly findUserById: FindUserByIdUseCase
+    private readonly findUserById: FindUserByIdUseCase,
+    private readonly auth: AuthProvider
   ) {}
 
   @Query()
@@ -38,6 +40,12 @@ export class UserResolver {
 
   @Mutation()
   async createAccount(@Args('data') data: CreateUserInput) {
-    return this.createUser.execute(data)
+    const user = await this.createUser.execute(data)
+    const token = await this.auth.signToken(user.id)
+
+    return {
+      user,
+      token
+    }
   }
 }

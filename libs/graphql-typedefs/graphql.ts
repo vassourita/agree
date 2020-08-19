@@ -31,8 +31,13 @@ export interface LoginResponse {
     token: string;
 }
 
+export interface CreateAccountResponse {
+    token: string;
+    user: User;
+}
+
 export interface IMutation {
-    createAccount(data?: CreateUserInput): User | Promise<User>;
+    createAccount(data?: CreateUserInput): CreateAccountResponse | Promise<CreateAccountResponse>;
     login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 

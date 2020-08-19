@@ -23,8 +23,13 @@ type LoginResponse {
   token: String!
 }
 
+type CreateAccountResponse {
+  token: String!
+  user: User!
+}
+
 type Mutation {
-  createAccount(data: CreateUserInput): User!
+  createAccount(data: CreateUserInput): CreateAccountResponse!
   login(data: LoginInput): LoginResponse!
 }
 
