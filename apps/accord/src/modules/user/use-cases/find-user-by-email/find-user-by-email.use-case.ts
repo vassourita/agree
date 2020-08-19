@@ -14,7 +14,7 @@ export class FindUserByEmailUseCase implements IUseCase<IFindUserByEmailDTO, Use
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  async execute(email: IFindUserByEmailDTO) {
+  async execute({ email }: IFindUserByEmailDTO) {
     const user = await this.userRepository.findOne({
       where: { email }
     })

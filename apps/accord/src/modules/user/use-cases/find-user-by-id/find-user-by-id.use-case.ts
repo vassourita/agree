@@ -14,7 +14,7 @@ export class FindUserByIdUseCase implements IUseCase<IFindUserByIdDTO, UserEntit
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  async execute(id: IFindUserByIdDTO) {
+  async execute({ id }: IFindUserByIdDTO) {
     const user = this.userRepository.findOne(id)
 
     if (!user) {

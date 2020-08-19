@@ -1,6 +1,6 @@
 import { CreateUserInput } from '@agree/graphql-typedefs'
 
-import { UseGuards } from '@nestjs/common'
+import { UseGuards, ParseUUIDPipe } from '@nestjs/common'
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 
 import { CurrentUserId } from 'src/shared/guards/jwt/jwt-autheticated-user.decorator'
@@ -23,7 +23,7 @@ export class UserResolver {
   @Query()
   @UseGuards(GqlJwtAuthGuard)
   async me(@CurrentUserId() id: string) {
-    return this.findUserById.execute(id)
+    return this.findUserById.execute({ id })
   }
 
   @Query()
@@ -34,8 +34,11 @@ export class UserResolver {
 
   @Query()
   @UseGuards(GqlJwtAuthGuard)
-  async user(@Args('id') id: string) {
-    return this.findUserById.execute(id)
+  async user(
+    @Args('id', new ParseUUIDPipe())
+    id: string
+  ) {
+    return this.findUserById.execute({ id })
   }
 
   @Mutation()
