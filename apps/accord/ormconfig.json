@@ -1,0 +1,17 @@
+[
+  {
+    "name": "accord-postgres",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "docker",
+    "password": "docker",
+    "database": "accord",
+    "entities": ["src/modules/**/entities/*.ts"],
+    "migrations": ["src/shared/database/migrations/*.ts"],
+    "cli": {
+      "entitiesDir": "src/modules/**/entities",
+      "migrationsDir": "src/shared/database/migrations"
+    }
+  }
+]

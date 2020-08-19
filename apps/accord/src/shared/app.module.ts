@@ -4,12 +4,14 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { join } from 'path'
+import { UserModule } from 'src/modules/user/user.module'
 
 import { apiConfig } from '../config/api.config'
 import { databaseConfig } from '../config/database.config'
 
 @Module({
   imports: [
+    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, apiConfig]
