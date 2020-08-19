@@ -1,13 +1,17 @@
 type User {
   id: ID!
+  tag: Int!
   name: String!
   email: String!
+  status: String!
+  avatarUrl: String!
   createdAt: String!
 }
 
 input CreateUserInput {
   name: String!
   email: String!
+  password: String!
 }
 
 type Mutation {
@@ -15,6 +19,7 @@ type Mutation {
 }
 
 type Query {
-  users: [User!]!
+  me: User!
   user(id: ID!): User!
+  users: [User!]!
 }

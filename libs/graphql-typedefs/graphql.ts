@@ -9,12 +9,16 @@
 export interface CreateUserInput {
     name: string;
     email: string;
+    password: string;
 }
 
 export interface User {
     id: string;
+    tag: number;
     name: string;
     email: string;
+    status: string;
+    avatarUrl: string;
     createdAt: string;
 }
 
@@ -23,6 +27,7 @@ export interface IMutation {
 }
 
 export interface IQuery {
-    users(): User[] | Promise<User[]>;
+    me(): User | Promise<User>;
     user(id: string): User | Promise<User>;
+    users(): User[] | Promise<User[]>;
 }
