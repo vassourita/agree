@@ -26,7 +26,8 @@ export class CreateUserUseCase implements IUseCase<ICreateUserDTO, UserEntity> {
     }
 
     const nameInUse = await this.userRepository.findOne({
-      where: { name: data.name }
+      where: { name: data.name },
+      order: { tag: 'DESC' }
     })
 
     const hashed = await this.auth.hashPassword(data.password)
