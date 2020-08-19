@@ -7,6 +7,7 @@ import { join } from 'path'
 import { UserModule } from 'src/modules/user/user.module'
 
 import { apiConfig } from '../config/api.config'
+import { authConfig } from '../config/auth.config'
 import { databaseConfig } from '../config/database.config'
 
 @Module({
@@ -14,7 +15,7 @@ import { databaseConfig } from '../config/database.config'
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, apiConfig]
+      load: [databaseConfig, apiConfig, authConfig]
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -27,7 +28,8 @@ import { databaseConfig } from '../config/database.config'
       typePaths: ['../**/*.graphql'],
       definitions: {
         path: join(process.cwd(), '..', '..', 'libs', 'graphql-typedefs', 'graphql.ts')
-      }
+      },
+      context: ({ req }) => ({ req })
     })
   ]
 })
