@@ -21,15 +21,19 @@
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
+    "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/graphql": "^7.6.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/typeorm": "^7.1.0",
     "apollo-server-express": "^2.16.1",
     "graphql": "^15.3.0",
     "graphql-tools": "^6.0.18",
+    "pg": "^8.3.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@agree/config-eslint": "*",
