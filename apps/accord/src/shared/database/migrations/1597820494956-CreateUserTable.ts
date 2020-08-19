@@ -8,8 +8,9 @@ export class CreateUserTable1597820494956 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'uuid'
           },
           {
@@ -24,7 +25,8 @@ export class CreateUserTable1597820494956 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp with time zone'
+            type: 'timestamp with time zone',
+            default: 'now()'
           }
         ]
       })

@@ -7,7 +7,7 @@ import {
 } from 'typeorm'
 
 @Entity('user')
-export class UserEntity implements User {
+export class UserEntity implements Omit<User, 'createdAt'> {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -17,6 +17,6 @@ export class UserEntity implements User {
   @Column()
   email: string
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: string
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  createdAt: Date
 }

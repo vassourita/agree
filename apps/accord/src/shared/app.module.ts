@@ -18,20 +18,10 @@ import { databaseConfig } from '../config/database.config'
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => {
-        const env = config.get('api.env')
-        const { host, port, username, password, database } = config.get(
-          `database.postgres.${env}`
-        )
-        return {
-          type: 'postgres',
-          host,
-          port,
-          username,
-          password,
-          database
-        }
-      },
+      useFactory: (config: ConfigService) => ({
+        ...config.get(`database.${config.get('api.env')}`),
+        autoLoadEntities: true
+      }),
       inject: [ConfigService]
     }),
     GraphQLModule.forRoot({
