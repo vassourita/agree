@@ -12,6 +12,7 @@ import { UserResolver } from './graphql/resolvers/user.resolver'
 import { CreateUserUseCase } from './use-cases/create-user/create-user.use-case'
 import { FindUserByEmailUseCase } from './use-cases/find-user-by-email/find-user-by-email.use-case'
 import { FindUserByIdUseCase } from './use-cases/find-user-by-id/find-user-by-id.use-case'
+import { FindUserByNameAndTagUseCase } from './use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
 import { ListUsersUseCase } from './use-cases/list-users/list-users.use-case'
 
 @Module({
@@ -34,6 +35,7 @@ import { ListUsersUseCase } from './use-cases/list-users/list-users.use-case'
     ListUsersUseCase,
     FindUserByIdUseCase,
     FindUserByEmailUseCase,
+    FindUserByNameAndTagUseCase,
     AuthProvider,
     JwtStrategy
   ]

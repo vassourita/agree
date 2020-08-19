@@ -36,5 +36,6 @@ type Mutation {
 type Query {
   me: User!
   user(id: ID!): User
+  userByNameTag(nameTag: String!): User
   users: [User!]!
 }

@@ -9,6 +9,7 @@ import { AuthProvider } from 'src/shared/providers/auth.provider'
 
 import { CreateUserUseCase } from '../../use-cases/create-user/create-user.use-case'
 import { FindUserByIdUseCase } from '../../use-cases/find-user-by-id/find-user-by-id.use-case'
+import { FindUserByNameAndTagUseCase } from '../../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
 import { ListUsersUseCase } from '../../use-cases/list-users/list-users.use-case'
 
 @Resolver()
@@ -17,6 +18,7 @@ export class UserResolver {
     private readonly createUser: CreateUserUseCase,
     private readonly listUsers: ListUsersUseCase,
     private readonly findUserById: FindUserByIdUseCase,
+    private readonly findUserByNameAndTag: FindUserByNameAndTagUseCase,
     private readonly auth: AuthProvider
   ) {}
 
@@ -39,6 +41,19 @@ export class UserResolver {
     id: string
   ) {
     return this.findUserById.execute({ id })
+  }
+
+  @Query()
+  @UseGuards(GqlJwtAuthGuard)
+  async userByNameTag(
+    @Args('nameTag')
+    nameTag: string
+  ) {
+    const [name, tag] = nameTag.split('#')
+    return this.findUserByNameAndTag.execute({
+      name,
+      tag: Number(tag)
+    })
   }
 
   @Mutation()
