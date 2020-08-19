@@ -1,4 +1,5 @@
 import { User } from '@agree/graphql-typedefs'
+
 import { Expose, Exclude } from 'class-transformer'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
 
