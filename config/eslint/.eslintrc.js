@@ -41,11 +41,7 @@ module.exports = {
       'warn',
       {
         newlinesBetween: 'always',
-        groups: [
-          ['/^next/', '/^react/', '/^@nestjs/'],
-          'module',
-          ['parent', 'sibling', 'index']
-        ],
+        groups: [['/^@agree/'], ['/^next/', '/^react/', '/^@nestjs/'], 'module', ['parent', 'sibling', 'index']],
         alphabetize: {
           order: 'asc',
           ignoreCase: true
