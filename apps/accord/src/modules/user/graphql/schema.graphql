@@ -14,8 +14,18 @@ input CreateUserInput {
   password: String!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  token: String!
+}
+
 type Mutation {
   createAccount(data: CreateUserInput): User!
+  login(data: LoginInput): LoginResponse!
 }
 
 type Query {

@@ -1,6 +1,6 @@
 import { User } from '@agree/graphql-typedefs'
 
-import { Expose, Exclude } from 'class-transformer'
+import { Expose } from 'class-transformer'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
 
 @Entity('user')
@@ -18,18 +18,17 @@ export class UserEntity implements Omit<User, 'createdAt'> {
   email: string
 
   @Column()
-  @Exclude()
   password: string
 
-  @Column()
+  @Column({ nullable: true })
   status: string
 
-  @Column()
+  @Column({ nullable: true })
   avatar: string
 
   @Expose()
   get avatarUrl() {
-    return ''
+    return this.avatar
   }
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })

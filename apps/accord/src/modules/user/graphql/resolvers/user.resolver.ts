@@ -10,7 +10,7 @@ import { CreateUserUseCase } from '../../use-cases/create-user/create-user.use-c
 import { FindUserByIdUseCase } from '../../use-cases/find-user-by-id/find-user-by-id.use-case'
 import { ListUsersUseCase } from '../../use-cases/list-users/list-users.use-case'
 
-@Resolver('Author')
+@Resolver()
 export class UserResolver {
   constructor(
     private readonly createUser: CreateUserUseCase,

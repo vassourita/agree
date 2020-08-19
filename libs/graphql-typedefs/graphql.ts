@@ -12,6 +12,11 @@ export interface CreateUserInput {
     password: string;
 }
 
+export interface LoginInput {
+    email: string;
+    password: string;
+}
+
 export interface User {
     id: string;
     tag: number;
@@ -22,8 +27,13 @@ export interface User {
     createdAt: string;
 }
 
+export interface LoginResponse {
+    token: string;
+}
+
 export interface IMutation {
     createAccount(data?: CreateUserInput): User | Promise<User>;
+    login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export interface IQuery {
