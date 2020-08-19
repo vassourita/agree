@@ -3,13 +3,13 @@ version: '3'
 services:
   accord-postgres:
     container_name: 'accord-postgres'
-    image: 'bitnami/postgresql'
+    image: postgres
     restart: always
     ports:
-      - '5432:5432'
+      - 5432
     environment:
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_DATABASE=skylab
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_DB=accord
     volumes:
-      - './volume-data/accord-postgres:/bitnami/postgresql'
+      - './volume-data/accord-postgres:/var/lib/postgresql/data'
