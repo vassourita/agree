@@ -22,7 +22,11 @@
   "dependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
+    "@nestjs/graphql": "^7.6.0",
     "@nestjs/platform-express": "^7.0.0",
+    "apollo-server-express": "^2.16.1",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.0.18",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4"
@@ -30,6 +34,7 @@
   "devDependencies": {
     "@agree/config-eslint": "*",
     "@agree/config-prettier": "*",
+    "@agree/graphql-typedefs": "*",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",

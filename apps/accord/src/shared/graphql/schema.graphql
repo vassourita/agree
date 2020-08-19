@@ -1,0 +1,7 @@
+type Query {
+  me: User!
+}
+
+type Mutation {
+  login(email: String!): User!
+}
