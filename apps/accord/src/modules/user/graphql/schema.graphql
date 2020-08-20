@@ -3,8 +3,8 @@ type User {
   tag: Int!
   name: String!
   email: String!
-  status: String!
-  avatarUrl: String!
+  status: String
+  avatarUrl: String
   createdAt: String!
 }
 
@@ -12,6 +12,11 @@ input CreateUserInput {
   name: String!
   email: String!
   password: String!
+}
+
+input UpdateAccountInput {
+  name: String
+  status: String
 }
 
 input LoginInput {
@@ -30,12 +35,13 @@ type CreateAccountResponse {
 
 type Mutation {
   createAccount(data: CreateUserInput): CreateAccountResponse!
+  updateAccount(data: UpdateAccountInput): User!
   login(data: LoginInput): LoginResponse!
 }
 
 type Query {
   me: User!
-  user(id: ID!): User
+  userById(id: ID!): User
   userByNameTag(nameTag: String!): User
   users: [User!]!
 }

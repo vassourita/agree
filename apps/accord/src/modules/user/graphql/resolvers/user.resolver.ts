@@ -1,9 +1,10 @@
-import { CreateUserInput } from '@agree/graphql-typedefs'
+import { CreateUserInput, UpdateAccountInput } from '@agree/graphql-typedefs'
 
 import { UseGuards, ParseUUIDPipe } from '@nestjs/common'
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 
 import { ParseNametagPipe } from '@modules/user/pipes/parse-nametag.pipe'
+import { UpdateUserUseCase } from '@modules/user/use-cases/update-user/update-user.use-case'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { AuthProvider } from '@shared/providers/auth.provider'
@@ -17,6 +18,7 @@ import { ListUsersUseCase } from '../../use-cases/list-users/list-users.use-case
 export class UserResolver {
   constructor(
     private readonly createUser: CreateUserUseCase,
+    private readonly updateUser: UpdateUserUseCase,
     private readonly listUsers: ListUsersUseCase,
     private readonly findUserById: FindUserByIdUseCase,
     private readonly findUserByNameAndTag: FindUserByNameAndTagUseCase,
@@ -37,7 +39,7 @@ export class UserResolver {
 
   @Query()
   @UseGuards(GqlJwtAuthGuard)
-  async user(
+  async userById(
     @Args('id', new ParseUUIDPipe())
     id: string
   ) {
@@ -65,5 +67,16 @@ export class UserResolver {
       user,
       token
     }
+  }
+
+  @Mutation()
+  @UseGuards(GqlJwtAuthGuard)
+  async updateAccount(@Args('data') data: UpdateAccountInput, @CurrentUserId() id: string) {
+    const user = await this.updateUser.execute({
+      ...data,
+      id
+    })
+
+    return user
   }
 }

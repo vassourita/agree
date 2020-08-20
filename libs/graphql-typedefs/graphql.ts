@@ -12,6 +12,11 @@ export interface CreateUserInput {
     password: string;
 }
 
+export interface UpdateAccountInput {
+    name?: string;
+    status?: string;
+}
+
 export interface LoginInput {
     email: string;
     password: string;
@@ -22,8 +27,8 @@ export interface User {
     tag: number;
     name: string;
     email: string;
-    status: string;
-    avatarUrl: string;
+    status?: string;
+    avatarUrl?: string;
     createdAt: string;
 }
 
@@ -38,12 +43,13 @@ export interface CreateAccountResponse {
 
 export interface IMutation {
     createAccount(data?: CreateUserInput): CreateAccountResponse | Promise<CreateAccountResponse>;
+    updateAccount(data?: UpdateAccountInput): User | Promise<User>;
     login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export interface IQuery {
     me(): User | Promise<User>;
-    user(id: string): User | Promise<User>;
+    userById(id: string): User | Promise<User>;
     userByNameTag(nameTag: string): User | Promise<User>;
     users(): User[] | Promise<User[]>;
 }
