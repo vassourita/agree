@@ -3,9 +3,9 @@ import { CreateUserInput } from '@agree/graphql-typedefs'
 import { UseGuards, ParseUUIDPipe } from '@nestjs/common'
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 
-import { CurrentUserId } from 'src/shared/guards/jwt/jwt-autheticated-user.decorator'
-import { GqlJwtAuthGuard } from 'src/shared/guards/jwt/jwt.guard'
-import { AuthProvider } from 'src/shared/providers/auth.provider'
+import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
+import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
+import { AuthProvider } from '@shared/providers/auth.provider'
 
 import { CreateUserUseCase } from '../../use-cases/create-user/create-user.use-case'
 import { FindUserByIdUseCase } from '../../use-cases/find-user-by-id/find-user-by-id.use-case'

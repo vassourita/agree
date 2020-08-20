@@ -3,17 +3,13 @@ import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { JwtStrategy } from 'src/shared/guards/jwt/jwt.strategy'
-import { AuthProvider } from 'src/shared/providers/auth.provider'
+import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
+import { AuthProvider } from '@shared/providers/auth.provider'
 
 import { UserEntity } from './entities/user.entity'
 import { AuthResolver } from './graphql/resolvers/auth.resolver'
 import { UserResolver } from './graphql/resolvers/user.resolver'
-import { CreateUserUseCase } from './use-cases/create-user/create-user.use-case'
-import { FindUserByEmailUseCase } from './use-cases/find-user-by-email/find-user-by-email.use-case'
-import { FindUserByIdUseCase } from './use-cases/find-user-by-id/find-user-by-id.use-case'
-import { FindUserByNameAndTagUseCase } from './use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
-import { ListUsersUseCase } from './use-cases/list-users/list-users.use-case'
+import { userUseCases } from './use-cases'
 
 @Module({
   imports: [
@@ -28,16 +24,6 @@ import { ListUsersUseCase } from './use-cases/list-users/list-users.use-case'
       inject: [ConfigService]
     })
   ],
-  providers: [
-    UserResolver,
-    AuthResolver,
-    CreateUserUseCase,
-    ListUsersUseCase,
-    FindUserByIdUseCase,
-    FindUserByEmailUseCase,
-    FindUserByNameAndTagUseCase,
-    AuthProvider,
-    JwtStrategy
-  ]
+  providers: [UserResolver, AuthResolver, AuthProvider, JwtStrategy, ...userUseCases]
 })
 export class UserModule {}

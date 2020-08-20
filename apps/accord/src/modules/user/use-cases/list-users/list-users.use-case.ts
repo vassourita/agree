@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
-import { IUseCase } from 'src/shared/protocols/use-case'
+import { IUseCase } from '@shared/protocols/use-case'
 import { Repository } from 'typeorm'
 
 import { UserEntity } from '../../entities/user.entity'
