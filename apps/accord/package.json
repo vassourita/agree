@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node ./node_modules/.bin/typeorm"
+    "typeorm": "ts-node ./node_modules/.bin/typeorm",
+    "migrate:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c accord-postgres",
+    "migrate:run": "ts-node ./node_modules/.bin/typeorm migration:run -c accord-postgres",
+    "migrate:create": "ts-node ./node_modules/.bin/typeorm migration:create -c accord-postgres -n"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
