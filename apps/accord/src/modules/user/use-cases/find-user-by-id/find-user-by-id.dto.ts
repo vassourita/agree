@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator'
-export class IFindUserByIdDTO {
+export class FindUserByIdDTO {
   @IsUUID('4')
   id: string
 }

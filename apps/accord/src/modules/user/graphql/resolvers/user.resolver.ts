@@ -3,6 +3,7 @@ import { CreateUserInput } from '@agree/graphql-typedefs'
 import { UseGuards, ParseUUIDPipe } from '@nestjs/common'
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 
+import { ParseNametagPipe } from '@modules/user/pipes/parse-nametag.pipe'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { AuthProvider } from '@shared/providers/auth.provider'
@@ -46,13 +47,12 @@ export class UserResolver {
   @Query()
   @UseGuards(GqlJwtAuthGuard)
   async userByNameTag(
-    @Args('nameTag')
-    nameTag: string
+    @Args('nameTag', new ParseNametagPipe())
+    [name, tag]: [string, number]
   ) {
-    const [name, tag] = nameTag.split('#')
     return this.findUserByNameAndTag.execute({
       name,
-      tag: Number(tag)
+      tag
     })
   }
 

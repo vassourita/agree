@@ -1,9 +1,11 @@
-import { IsString, IsInt } from 'class-validator'
+import { IsString, IsNumberString, IsNotEmpty } from 'class-validator'
 
-export class IFindUserByNameAndTagDTO {
+export class FindUserByNameAndTagDTO {
   @IsString()
+  @IsNotEmpty()
   name: string
 
-  @IsInt()
+  @IsNumberString()
+  @IsNotEmpty()
   tag: number
 }
