@@ -5,7 +5,7 @@ import { FindUserByNameAndTagUseCase } from './find-user-by-name-and-tag/find-us
 import { ListUsersUseCase } from './list-users/list-users.use-case'
 import { UpdateUserUseCase } from './update-user/update-user.use-case'
 
-export const userUseCases = [
+export const useCases = [
   CreateUserUseCase,
   UpdateUserUseCase,
   FindUserByEmailUseCase,
