@@ -10,5 +10,6 @@
       "@shared/*": ["src/shared/*"],
       "@config/*": ["src/config/*"]
     }
-  }
+  },
+  "exclude": ["uploads", "dist", "coverage"]
 }

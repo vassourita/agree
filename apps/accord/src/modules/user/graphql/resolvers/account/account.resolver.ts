@@ -8,9 +8,9 @@ import { UpdateUserUseCase } from '@modules/user/use-cases/update-user/update-us
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { AuthProvider } from '@shared/providers/auth.provider'
-import { createWriteStream } from 'fs'
+import fs from 'fs'
 import { FileUpload, GraphQLUpload } from 'graphql-upload'
-import { join } from 'path'
+import path from 'path'
 
 import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
 import { CreateAccountDTO } from './dtos/create-account.dto'
@@ -20,12 +20,12 @@ import { UpdateAccountDTO } from './dtos/update-account.dto'
 @Resolver()
 export class AccountResolver {
   constructor(
+    private readonly auth: AuthProvider,
+    private readonly config: ConfigService,
     private readonly createUser: CreateUserUseCase,
     private readonly updateUser: UpdateUserUseCase,
-    private readonly auth: AuthProvider,
-    private readonly findUserByEmail: FindUserByEmailUseCase,
     private readonly findUserById: FindUserByIdUseCase,
-    private readonly config: ConfigService
+    private readonly findUserByEmail: FindUserByEmailUseCase
   ) {}
 
   @Mutation()
@@ -71,17 +71,20 @@ export class AccountResolver {
     @Args({ name: 'file', type: () => GraphQLUpload }) avatarFile: FileUpload,
     @CurrentUserId() id: string
   ) {
-    const filename = `${Date.now()}-${id}-avatar-${avatarFile.filename}`
+    let user = await this.findUserById.execute({ id })
+
+    const filePath = this.config.get('upload.dir')
+    const filename = `${id}-avatar${path.extname(avatarFile.filename)}`
 
     await new Promise((resolve, reject) =>
       avatarFile
         .createReadStream()
-        .pipe(createWriteStream(join(this.config.get('upload.dir'), filename)))
+        .pipe(fs.createWriteStream(path.join(filePath, filename)))
         .on('finish', () => resolve(true))
         .on('error', _err => reject(new InternalServerErrorException('Error while uploading the avatar file')))
     )
 
-    const user = await this.updateUser.execute({
+    user = await this.updateUser.execute({
       id,
       avatar: filename
     })
