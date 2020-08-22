@@ -1,0 +1,305 @@
+_type: export
+__export_format: 4
+__export_date: 2020-08-22T13:14:52.160Z
+__export_source: insomnia.desktop.app:v2020.3.3
+resources:
+  - _id: req_e8f60b8d7a7b4a43a321b6fdc2122b24
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"mutation ($data: CreateAccountInput) {\n  createAccount(data:
+        $data) {\n    token\n    user
+        {\n      id\n    }\n  }\n}\n","variables":{"data":{"name":"","email":"","password":""}}}'
+    created: 1598093985985
+    description: ""
+    headers:
+      - id: pair_5a69c4ddb50244debbeea4ea1f473a8e
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093641791.5
+    method: POST
+    modified: 1598097746048
+    name: createAccount
+    parameters: []
+    parentId: fld_daf1cb3a10db49489de233521f27e725
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: fld_daf1cb3a10db49489de233521f27e725
+    created: 1598093096665
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598093096665
+    modified: 1598093096665
+    name: mutations
+    parentId: fld_2302428154a747a7889a97f5ba07f2a3
+    _type: request_group
+  - _id: fld_2302428154a747a7889a97f5ba07f2a3
+    created: 1598092882618
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598092882618
+    modified: 1598092882618
+    name: users
+    parentId: fld_b97c82dc552944b0a6c995223e9d0e4e
+    _type: request_group
+  - _id: fld_b97c82dc552944b0a6c995223e9d0e4e
+    created: 1598092870579
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598093078816
+    modified: 1598093086681
+    name: graphql
+    parentId: fld_e9c422acbbf84cd39d89e3f689cd923b
+    _type: request_group
+  - _id: fld_e9c422acbbf84cd39d89e3f689cd923b
+    created: 1598093078866
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598093078866
+    modified: 1598093078866
+    name: accord
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: request_group
+  - _id: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    created: 1598037348634
+    description: ""
+    modified: 1598037348634
+    name: agree
+    parentId: null
+    scope: null
+    _type: workspace
+  - _id: req_e1fa3573b3494b95b519cc4d8f8dafb4
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"mutation ($data: UpdateAccountInput) {\n  updateAccount(data:
+        $data)
+        {\n    id\n    name\n    status\n  }\n}\n","variables":{"data":{"name":"","status":""}}}'
+    created: 1598094075279
+    description: ""
+    headers:
+      - id: pair_5a69c4ddb50244debbeea4ea1f473a8e
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093524574.25
+    method: POST
+    modified: 1598094112402
+    name: updateAccount
+    parameters: []
+    parentId: fld_daf1cb3a10db49489de233521f27e725
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: req_37a526c150b748298617e3c7ab67fe0f
+    authentication: {}
+    body:
+      mimeType: multipart/form-data
+      params:
+        - description: ""
+          id: pair_5d21b3b139124d8fb8160dcf9c6bbffb
+          multiline: false
+          name: operations
+          type: text
+          value: '{ "query": "mutation ($file: Upload!) { uploadAvatar(file: $file) { id }
+            }", "variables": { "file": null } }'
+        - description: ""
+          id: pair_d5ab557b032d4b01bd34b0e0cf1d3c50
+          multiline: false
+          name: map
+          type: text
+          value: '{ "avatarFile": ["variables.file"]  }'
+        - description: ""
+          fileName: /home/vassao/Imagens/bspwm-Dracula-theme-unixporn.png
+          id: pair_fc9ce266b0a446f8bd4a1edb4a19e910
+          name: avatarFile
+          type: file
+          value: ""
+    created: 1598093876226
+    description: ""
+    headers:
+      - id: pair_5a69c4ddb50244debbeea4ea1f473a8e
+        name: Content-Type
+        value: multipart/form-data
+    isPrivate: false
+    metaSortKey: -1598093524549.25
+    method: POST
+    modified: 1598101876919
+    name: uploadAvatar
+    parameters: []
+    parentId: fld_daf1cb3a10db49489de233521f27e725
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: req_3184062c449d4fef8259f38df2323ce4
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"{\n  me {\n    id\n    avatarUrl\n  }\n}"}'
+    created: 1598093118532
+    description: ""
+    headers:
+      - id: pair_0f626f3d4d124811a09734b8d4e92196
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093118532
+    method: POST
+    modified: 1598099841185
+    name: me
+    parameters: []
+    parentId: fld_62a5d5a61f644dfaa300e8d9f5a06067
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: fld_62a5d5a61f644dfaa300e8d9f5a06067
+    created: 1598092889042
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598092889042
+    modified: 1598092889042
+    name: querys
+    parentId: fld_2302428154a747a7889a97f5ba07f2a3
+    _type: request_group
+  - _id: req_e9bee41249fd408d8efd3cb0cfdfcd6d
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"{\n  users {\n    id\n  }\n}"}'
+    created: 1598092902123
+    description: ""
+    headers:
+      - id: pair_d9305ccd64f24775a2c69b8017c805fc
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093118482
+    method: POST
+    modified: 1598093848345
+    name: users
+    parameters: []
+    parentId: fld_62a5d5a61f644dfaa300e8d9f5a06067
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: req_acfb7284827a403dad1f183322b65f0b
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"query ($id: ID!) {\n  userById(id: $id)
+        {\n    id\n  }\n}\n","variables":{"id":""}}'
+    created: 1598093407357
+    description: ""
+    headers:
+      - id: pair_a7eac260ba5a482b90b48dc8890f38f1
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093118432
+    method: POST
+    modified: 1598093841324
+    name: userById
+    parameters: []
+    parentId: fld_62a5d5a61f644dfaa300e8d9f5a06067
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: req_908319d52b3b4859a37d4702694f469a
+    authentication: {}
+    body:
+      mimeType: application/graphql
+      text: '{"query":"query ($a: String!) {\n  userByNameTag(nameTag: $a)
+        {\n    id\n  }\n}\n","variables":{"a":""}}'
+    created: 1598093478736
+    description: ""
+    headers:
+      - id: pair_a7eac260ba5a482b90b48dc8890f38f1
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598093010277.5
+    method: POST
+    modified: 1598093847077
+    name: userByNameTag
+    parameters: []
+    parentId: fld_62a5d5a61f644dfaa300e8d9f5a06067
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ gqlUrl }}"
+    _type: request
+  - _id: env_3fcfc30177825bb3ff4b98fad1b61bdf8c59450e
+    color: null
+    created: 1598037348991
+    data:
+      DEFAULT_HEADERS:
+        Authorization: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1M2I4NDVjLWYyNDAtNGI3ZC1iNjljLWI4NTI5MWExYzdiOSIsImlhdCI6MTU5Nzg1NjU5OSwiZXhwIjoxNTk4NDYxMzk5fQ._A8Jd7U_NQDL4_XJngylu_zXAk7RJe0g1NoBQ-xjDtI
+      gqlUrl: http://localhost:3333/graphql
+    dataPropertyOrder:
+      "&":
+        - gqlUrl
+        - DEFAULT_HEADERS
+      "&~|DEFAULT_HEADERS":
+        - Authorization
+    isPrivate: false
+    metaSortKey: 1598037348991
+    modified: 1598093329341
+    name: Base Environment
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: environment
+  - _id: jar_3fcfc30177825bb3ff4b98fad1b61bdf8c59450e
+    cookies: []
+    created: 1598037348998
+    modified: 1598037348998
+    name: Default Jar
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: cookie_jar
+  - _id: spc_7642ac8925d5459dba7f807d5978e9e4
+    contentType: yaml
+    contents: ""
+    created: 1598037348648
+    fileName: agree
+    modified: 1598037348648
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: api_spec
