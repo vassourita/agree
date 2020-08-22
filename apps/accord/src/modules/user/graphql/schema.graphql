@@ -36,7 +36,7 @@ type LoginResponse {
 type Mutation {
   createAccount(data: CreateAccountInput): CreateAccountResponse!
   updateAccount(data: UpdateAccountInput): User!
-  uploadAvatar(file: Upload!): User!
+  updateAvatar(file: Upload!): User!
   login(data: LoginInput): LoginResponse!
 }
 

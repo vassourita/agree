@@ -23,6 +23,6 @@ import { useCases } from './use-cases'
       inject: [ConfigService]
     })
   ],
-  providers: [...resolvers, AuthProvider, JwtStrategy, ...useCases]
+  providers: [...resolvers, ...useCases, AuthProvider, JwtStrategy]
 })
 export class UserModule {}

@@ -44,7 +44,7 @@ export interface LoginResponse {
 export interface IMutation {
     createAccount(data?: CreateAccountInput): CreateAccountResponse | Promise<CreateAccountResponse>;
     updateAccount(data?: UpdateAccountInput): User | Promise<User>;
-    uploadAvatar(file: Upload): User | Promise<User>;
+    updateAvatar(file: Upload): User | Promise<User>;
     login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 

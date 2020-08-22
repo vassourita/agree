@@ -13,7 +13,7 @@ import { UploadScalar } from './upload.scalar'
         path: join(process.cwd(), '..', '..', 'libs', 'graphql-typedefs', 'graphql.ts')
       },
       uploads: {
-        maxFileSize: 20000000, // 20 MB
+        maxFileSize: 4000000, // 4 MB
         maxFiles: 5
       },
       context: ({ req }) => ({ req })
