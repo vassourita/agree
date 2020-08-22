@@ -5,9 +5,9 @@ import { ParseNametagPipe } from '@modules/user/pipes/parse-nametag.pipe'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
-import { FindUserByIdUseCase } from '../../use-cases/find-user-by-id/find-user-by-id.use-case'
-import { FindUserByNameAndTagUseCase } from '../../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
-import { ListUsersUseCase } from '../../use-cases/list-users/list-users.use-case'
+import { FindUserByIdUseCase } from '../../../use-cases/find-user-by-id/find-user-by-id.use-case'
+import { FindUserByNameAndTagUseCase } from '../../../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
+import { ListUsersUseCase } from '../../../use-cases/list-users/list-users.use-case'
 
 @Resolver()
 export class UserResolver {

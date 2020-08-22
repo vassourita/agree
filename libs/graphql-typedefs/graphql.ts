@@ -6,7 +6,7 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export interface CreateUserInput {
+export interface CreateAccountInput {
     name: string;
     email: string;
     password: string;
@@ -32,17 +32,17 @@ export interface User {
     createdAt: string;
 }
 
-export interface LoginResponse {
-    token: string;
-}
-
 export interface CreateAccountResponse {
     token: string;
     user: User;
 }
 
+export interface LoginResponse {
+    token: string;
+}
+
 export interface IMutation {
-    createAccount(data?: CreateUserInput): CreateAccountResponse | Promise<CreateAccountResponse>;
+    createAccount(data?: CreateAccountInput): CreateAccountResponse | Promise<CreateAccountResponse>;
     updateAccount(data?: UpdateAccountInput): User | Promise<User>;
     login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }

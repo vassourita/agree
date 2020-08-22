@@ -1,4 +1,4 @@
-import { AccountResolver } from './account.resolver'
-import { UserResolver } from './user.resolver'
+import { AccountResolver } from './account/account.resolver'
+import { UserResolver } from './user/user.resolver'
 
 export const resolvers = [AccountResolver, UserResolver]

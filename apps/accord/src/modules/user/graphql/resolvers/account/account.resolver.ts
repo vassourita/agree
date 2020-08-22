@@ -1,5 +1,3 @@
-import { LoginInput, CreateUserInput, UpdateAccountInput } from '@agree/graphql-typedefs'
-
 import { UnauthorizedException, UseGuards } from '@nestjs/common'
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
 
@@ -9,7 +7,10 @@ import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorato
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { AuthProvider } from '@shared/providers/auth.provider'
 
-import { FindUserByEmailUseCase } from '../../use-cases/find-user-by-email/find-user-by-email.use-case'
+import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
+import { CreateAccountDTO } from './dtos/create-account.dto'
+import { LoginDTO } from './dtos/login.dto'
+import { UpdateAccountDTO } from './dtos/update-account.dto'
 
 @Resolver()
 export class AccountResolver {
@@ -21,7 +22,7 @@ export class AccountResolver {
   ) {}
 
   @Mutation()
-  async login(@Args('data') data: LoginInput) {
+  async login(@Args('data') data: LoginDTO) {
     const user = await this.findUserByEmail.execute({ email: data.email })
 
     if (!(await this.auth.comparePassword(data.password, user.password))) {
@@ -36,7 +37,7 @@ export class AccountResolver {
   }
 
   @Mutation()
-  async createAccount(@Args('data') data: CreateUserInput) {
+  async createAccount(@Args('data') data: CreateAccountDTO) {
     const user = await this.createUser.execute(data)
     const token = await this.auth.signToken(user.id)
 
@@ -48,7 +49,7 @@ export class AccountResolver {
 
   @Mutation()
   @UseGuards(GqlJwtAuthGuard)
-  async updateAccount(@Args('data') data: UpdateAccountInput, @CurrentUserId() id: string) {
+  async updateAccount(@Args('data') data: UpdateAccountDTO, @CurrentUserId() id: string) {
     const user = await this.updateUser.execute({
       ...data,
       id

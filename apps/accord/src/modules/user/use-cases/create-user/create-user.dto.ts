@@ -1,8 +1,8 @@
-import { CreateUserInput } from '@agree/graphql-typedefs'
+import { CreateAccountInput } from '@agree/graphql-typedefs'
 
 import { IsString, IsEmail } from 'class-validator'
 
-export class CreateUserDTO implements CreateUserInput {
+export class CreateUserDTO implements CreateAccountInput {
   @IsString()
   name: string
 
