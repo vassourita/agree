@@ -3,6 +3,8 @@ import { GraphQLModule } from '@nestjs/graphql'
 
 import { join } from 'path'
 
+import { UploadScalar } from './upload.scalar'
+
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -10,8 +12,13 @@ import { join } from 'path'
       definitions: {
         path: join(process.cwd(), '..', '..', 'libs', 'graphql-typedefs', 'graphql.ts')
       },
+      uploads: {
+        maxFileSize: 20000000, // 20 MB
+        maxFiles: 5
+      },
       context: ({ req }) => ({ req })
     })
-  ]
+  ],
+  providers: [UploadScalar]
 })
 export class AccordGraphQLModule {}

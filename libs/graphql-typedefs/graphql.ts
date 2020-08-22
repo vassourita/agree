@@ -44,6 +44,7 @@ export interface LoginResponse {
 export interface IMutation {
     createAccount(data?: CreateAccountInput): CreateAccountResponse | Promise<CreateAccountResponse>;
     updateAccount(data?: UpdateAccountInput): User | Promise<User>;
+    uploadAvatar(file?: Upload): User | Promise<User>;
     login(data?: LoginInput): LoginResponse | Promise<LoginResponse>;
 }
 
@@ -53,3 +54,5 @@ export interface IQuery {
     userByNameTag(nameTag: string): User | Promise<User>;
     users(): User[] | Promise<User[]>;
 }
+
+export type Upload = any;
