@@ -28,7 +28,7 @@ export class UserEntity implements Omit<User, 'createdAt'> {
 
   @Expose()
   get avatarUrl() {
-    return this.avatar
+    return `${process.env.PUBLIC_FILES_URL}/${this.avatar}`
   }
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })

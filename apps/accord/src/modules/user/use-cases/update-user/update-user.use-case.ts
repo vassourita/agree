@@ -23,6 +23,9 @@ export class UpdateUserUseCase implements IUseCase<UpdateUserDTO, UserEntity> {
     if (data.status !== user.status) {
       user.status = data.status
     }
+    if (data.avatar) {
+      user.avatar = data.avatar
+    }
 
     await this.userRepository.save(user)
 
