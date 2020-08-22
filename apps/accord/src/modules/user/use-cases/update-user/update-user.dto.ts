@@ -11,4 +11,7 @@ export class UpdateUserDTO implements UpdateAccountInput {
 
   @IsUUID()
   id: string
+
+  @IsString()
+  avatar?: string
 }

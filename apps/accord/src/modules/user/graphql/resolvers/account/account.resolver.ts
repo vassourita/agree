@@ -1,11 +1,16 @@
-import { UnauthorizedException, UseGuards } from '@nestjs/common'
+import { UnauthorizedException, UseGuards, InternalServerErrorException } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
 
 import { CreateUserUseCase } from '@modules/user/use-cases/create-user/create-user.use-case'
+import { FindUserByIdUseCase } from '@modules/user/use-cases/find-user-by-id/find-user-by-id.use-case'
 import { UpdateUserUseCase } from '@modules/user/use-cases/update-user/update-user.use-case'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { GqlJwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { AuthProvider } from '@shared/providers/auth.provider'
+import { createWriteStream } from 'fs'
+import { FileUpload, GraphQLUpload } from 'graphql-upload'
+import { join } from 'path'
 
 import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
 import { CreateAccountDTO } from './dtos/create-account.dto'
@@ -18,7 +23,9 @@ export class AccountResolver {
     private readonly createUser: CreateUserUseCase,
     private readonly updateUser: UpdateUserUseCase,
     private readonly auth: AuthProvider,
-    private readonly findUserByEmail: FindUserByEmailUseCase
+    private readonly findUserByEmail: FindUserByEmailUseCase,
+    private readonly findUserById: FindUserByIdUseCase,
+    private readonly config: ConfigService
   ) {}
 
   @Mutation()
@@ -53,6 +60,30 @@ export class AccountResolver {
     const user = await this.updateUser.execute({
       ...data,
       id
+    })
+
+    return user
+  }
+
+  @Mutation()
+  @UseGuards(GqlJwtAuthGuard)
+  async uploadAvatar(
+    @Args({ name: 'file', type: () => GraphQLUpload }) avatarFile: FileUpload,
+    @CurrentUserId() id: string
+  ) {
+    const filename = `${Date.now()}-${id}-avatar-${avatarFile.filename}`
+
+    await new Promise((resolve, reject) =>
+      avatarFile
+        .createReadStream()
+        .pipe(createWriteStream(join(this.config.get('upload.dir'), filename)))
+        .on('finish', () => resolve(true))
+        .on('error', _err => reject(new InternalServerErrorException('Error while uploading the avatar file')))
+    )
+
+    const user = await this.updateUser.execute({
+      id,
+      avatar: filename
     })
 
     return user
