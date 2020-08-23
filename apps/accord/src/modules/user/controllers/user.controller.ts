@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Put, Param, Body, UseGuards, CacheInterceptor, UseInterceptors } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Body,
+  UseGuards,
+  CacheInterceptor,
+  UseInterceptors,
+  UploadedFile
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
@@ -57,10 +69,17 @@ export class UserController {
 
   @Put('/')
   @UseGuards(JwtAuthGuard)
-  public async update(@Body() data: UpdateAccountDTO, @CurrentUserId() id: string) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  public async update(
+    @Body() data: UpdateAccountDTO,
+    @UploadedFile() file: Express.Multer.File,
+    @CurrentUserId() id: string
+  ) {
     const user = await this.updateUser.execute({
-      ...data,
-      id
+      id,
+      name: data.name,
+      status: data.status,
+      avatar: file.filename
     })
 
     return user

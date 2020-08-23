@@ -8,4 +8,6 @@ export class UpdateAccountDTO {
   @IsString()
   @IsNotEmpty()
   status: string
+
+  avatar: any
 }
