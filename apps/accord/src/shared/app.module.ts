@@ -7,14 +7,12 @@ import { UserModule } from '@modules/user/user.module'
 import redisStore from 'cache-manager-ioredis'
 
 import { DatabaseModule } from './database/database.module'
-import { AccordGraphQLModule } from './graphql/graphql.module'
 import { JwtStrategy } from './guards/jwt/jwt.strategy'
 
 @Module({
   imports: [
     UserModule,
     DatabaseModule,
-    AccordGraphQLModule,
     AccordConfigModule,
     ServeStaticModule.forRootAsync({
       useFactory: (config: ConfigService) => [

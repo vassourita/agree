@@ -6,8 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
 
+import { SessionController } from './controllers/session.controller'
+import { UserController } from './controllers/user.controller'
 import { UserEntity } from './entities/user.entity'
-import { resolvers } from './graphql/resolvers'
 import { useCases } from './use-cases'
 
 @Module({
@@ -23,6 +24,6 @@ import { useCases } from './use-cases'
       inject: [ConfigService]
     })
   ],
-  providers: [...resolvers, ...useCases, AuthProvider, JwtStrategy]
+  providers: [...useCases, AuthProvider, JwtStrategy, UserController, SessionController]
 })
 export class UserModule {}

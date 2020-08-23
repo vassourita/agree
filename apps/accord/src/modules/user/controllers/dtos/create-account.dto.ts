@@ -1,8 +1,6 @@
-import { CreateAccountInput } from '@agree/graphql-typedefs'
-
 import { IsNotEmpty, IsEmail, IsString } from 'class-validator'
 
-export class CreateAccountDTO implements CreateAccountInput {
+export class CreateAccountDTO {
   @IsNotEmpty()
   @IsString()
   name: string

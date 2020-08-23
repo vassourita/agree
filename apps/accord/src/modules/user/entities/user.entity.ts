@@ -1,10 +1,8 @@
-import { User } from '@agree/graphql-typedefs'
-
-import { Expose } from 'class-transformer'
+import { Expose, Exclude } from 'class-transformer'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
 
 @Entity('user')
-export class UserEntity implements Omit<User, 'createdAt'> {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -18,6 +16,7 @@ export class UserEntity implements Omit<User, 'createdAt'> {
   email: string
 
   @Column()
+  @Exclude()
   password: string
 
   @Column({ nullable: true })
@@ -33,8 +32,4 @@ export class UserEntity implements Omit<User, 'createdAt'> {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date
-
-  constructor(data: Partial<UserEntity>) {
-    Object.assign(this, data)
-  }
 }

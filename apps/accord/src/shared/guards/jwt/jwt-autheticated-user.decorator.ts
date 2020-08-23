@@ -1,7 +1,9 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common'
-import { GqlExecutionContext } from '@nestjs/graphql'
+import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common'
 
 export const CurrentUserId = createParamDecorator((_, context: ExecutionContext) => {
-  const ctx = GqlExecutionContext.create(context)
-  return ctx.getContext().req.user.id
+  const id = context.switchToHttp().getRequest().user?.id
+  if (!id) {
+    throw new UnauthorizedException()
+  }
+  return id
 })
