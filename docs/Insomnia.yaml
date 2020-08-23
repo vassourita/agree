@@ -1,0 +1,242 @@
+_type: export
+__export_format: 4
+__export_date: 2020-08-23T18:06:57.948Z
+__export_source: insomnia.desktop.app:v2020.3.3
+resources:
+  - _id: req_b7a8337bb9fb4ca5b5b90a76a46b9815
+    authentication: {}
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "",
+        	"password": ""
+        }
+    created: 1598197557145
+    description: ""
+    headers:
+      - id: pair_c20dc040415f4ab9a8cfdfbf6759beb9
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598197557145
+    method: POST
+    modified: 1598197625156
+    name: store
+    parameters: []
+    parentId: fld_c0895da6bac941fcab8710caa6be171e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/sessions"
+    _type: request
+  - _id: fld_c0895da6bac941fcab8710caa6be171e
+    created: 1598197554986
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598197554986
+    modified: 1598197554986
+    name: sessions
+    parentId: fld_e9c422acbbf84cd39d89e3f689cd923b
+    _type: request_group
+  - _id: fld_e9c422acbbf84cd39d89e3f689cd923b
+    created: 1598093078866
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598093078866
+    modified: 1598093078866
+    name: accord
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: request_group
+  - _id: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    created: 1598037348634
+    description: ""
+    modified: 1598037348634
+    name: agree
+    parentId: null
+    scope: null
+    _type: workspace
+  - _id: req_0f4ed0c7ce41482fae54962132a9f6ce
+    authentication: {}
+    body: {}
+    created: 1598195023223
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1598195023223
+    method: GET
+    modified: 1598195487607
+    name: index
+    parameters: []
+    parentId: fld_ba618816d6e14803b3727d79dc1ee28e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/users"
+    _type: request
+  - _id: fld_ba618816d6e14803b3727d79dc1ee28e
+    created: 1598195019568
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598195019568
+    modified: 1598195019568
+    name: users
+    parentId: fld_e9c422acbbf84cd39d89e3f689cd923b
+    _type: request_group
+  - _id: req_c2de2b20f3d8438db9a296c5aa255129
+    authentication: {}
+    body: {}
+    created: 1598196457135
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1598195023173
+    method: GET
+    modified: 1598196536114
+    name: show
+    parameters: []
+    parentId: fld_ba618816d6e14803b3727d79dc1ee28e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/users/Vassoura%231"
+    _type: request
+  - _id: req_9524f553f9074840ba27fe62d619ad3b
+    authentication: {}
+    body: {}
+    created: 1598196561296
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1598195023123
+    method: GET
+    modified: 1598196571854
+    name: me
+    parameters: []
+    parentId: fld_ba618816d6e14803b3727d79dc1ee28e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/users/@me"
+    _type: request
+  - _id: req_0d69b3a48a864e858268dc9b802dc133
+    authentication: {}
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "vass_oura",
+        	"email": "vassao@agree.com",
+        	"password": "1234567"
+        }
+    created: 1598196595599
+    description: ""
+    headers:
+      - id: pair_3e24b927f2094ae8b9fcba4e6c783183
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598195023073
+    method: POST
+    modified: 1598202274165
+    name: store
+    parameters: []
+    parentId: fld_ba618816d6e14803b3727d79dc1ee28e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/users"
+    _type: request
+  - _id: req_1e1f7e6e03bd4bacae557a6eae3eebb9
+    authentication: {}
+    body:
+      mimeType: multipart/form-data
+      params:
+        - disabled: false
+          id: pair_9c185587c6314e0a808a4817b269d87d
+          name: name
+          value: aaa
+        - description: ""
+          id: pair_7372d9d565f943f183f772dec130a0cd
+          name: status
+          value: aaa
+        - description: ""
+          fileName: /home/vassao/Imagens/and1s6vyo4s31.png
+          id: pair_caed501519114e29b2b5214f84d2d380
+          name: avatar
+          type: file
+          value: ""
+    created: 1598197154442
+    description: ""
+    headers:
+      - id: pair_e608efc60f274f94878c1c3bf42024b6
+        name: Content-Type
+        value: multipart/form-data
+    isPrivate: false
+    metaSortKey: -1598195023023
+    method: PUT
+    modified: 1598202103318
+    name: update
+    parameters: []
+    parentId: fld_ba618816d6e14803b3727d79dc1ee28e
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/users"
+    _type: request
+  - _id: env_3fcfc30177825bb3ff4b98fad1b61bdf8c59450e
+    color: null
+    created: 1598037348991
+    data:
+      DEFAULT_HEADERS:
+        Authorization: Bearer
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZTQ1YWI3LTZjOWItNDcyNy1hN2MyLTBjMWE4MzI4NjU0NyIsImlhdCI6MTU5ODIwMjI3NSwiZXhwIjoxNTk4ODA3MDc1fQ.isFphpUzv85Es9XSqr3hnNbTr_Iu1E_5_zFz8quRbHs
+      baseURL: http://localhost:4001
+    dataPropertyOrder:
+      "&":
+        - baseURL
+        - DEFAULT_HEADERS
+      "&~|DEFAULT_HEADERS":
+        - Authorization
+    isPrivate: false
+    metaSortKey: 1598037348991
+    modified: 1598202294060
+    name: Base Environment
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: environment
+  - _id: jar_3fcfc30177825bb3ff4b98fad1b61bdf8c59450e
+    cookies: []
+    created: 1598037348998
+    modified: 1598037348998
+    name: Default Jar
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: cookie_jar
+  - _id: spc_7642ac8925d5459dba7f807d5978e9e4
+    contentType: yaml
+    contents: ""
+    created: 1598037348648
+    fileName: agree
+    modified: 1598037348648
+    parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
+    _type: api_spec
