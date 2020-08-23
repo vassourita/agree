@@ -2,14 +2,31 @@ version: '3'
 
 services:
   accord-postgres:
-    container_name: 'accord-postgres'
     image: postgres
+    container_name: 'accord-postgres'
     restart: always
     ports:
-      - 5432:5432
+      - 5001:5432
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
       - POSTGRES_DB=accord
     volumes:
       - './volume-data/accord-postgres:/var/lib/postgresql/data'
+    networks:
+      - accord-network
+
+  accord-redis:
+    image: redis:alpine
+    container_name: 'accord-redis'
+    command: 'redis-server --requirepass docker'
+    ports:
+      - 5002:6379
+    volumes:
+      - './volume-data/accord-redis:/data'
+    networks:
+      - accord-network
+
+networks:
+  accord-network:
+    driver: bridge

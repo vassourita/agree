@@ -3,7 +3,7 @@
     "name": "accord-postgres",
     "type": "postgres",
     "host": "localhost",
-    "port": 5432,
+    "port": 5001,
     "username": "docker",
     "password": "docker",
     "database": "accord",
