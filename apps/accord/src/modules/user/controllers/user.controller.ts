@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Param, Body, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Put, Param, Body, UseGuards, CacheInterceptor, UseInterceptors } from '@nestjs/common'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
@@ -14,6 +14,7 @@ import { CreateAccountDTO } from './dtos/create-account.dto'
 import { UpdateAccountDTO } from './dtos/update-account.dto'
 
 @Controller('/users')
+@UseInterceptors(CacheInterceptor)
 export class UserController {
   constructor(
     private readonly auth: AuthProvider,

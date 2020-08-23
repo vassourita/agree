@@ -1,10 +1,9 @@
-import { Module, CacheModule } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ServeStaticModule } from '@nestjs/serve-static'
 
 import { AccordConfigModule } from '@config/config.module'
 import { UserModule } from '@modules/user/user.module'
-import redisStore from 'cache-manager-ioredis'
 
 import { DatabaseModule } from './database/database.module'
 import { JwtStrategy } from './guards/jwt/jwt.strategy'
@@ -21,15 +20,6 @@ import { JwtStrategy } from './guards/jwt/jwt.strategy'
           serveRoot: '/files'
         }
       ],
-      inject: [ConfigService]
-    }),
-    CacheModule.registerAsync({
-      useFactory: (config: ConfigService) => ({
-        store: redisStore,
-        host: config.get('database.redis.host'),
-        port: config.get('database.redis.port'),
-        password: config.get('database.redis.password')
-      }),
       inject: [ConfigService]
     })
   ],
