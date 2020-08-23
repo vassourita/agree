@@ -9,6 +9,7 @@ async function main() {
     cors: true
   })
   app.useGlobalPipes(new ValidationPipe())
+
   const port = app.get(ConfigService).get('api.port')
   await app.listen(port)
 }

@@ -8,7 +8,8 @@ import {
   UseGuards,
   CacheInterceptor,
   UseInterceptors,
-  UploadedFile
+  UploadedFile,
+  ClassSerializerInterceptor
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
@@ -26,7 +27,7 @@ import { CreateAccountDTO } from './dtos/create-account.dto'
 import { UpdateAccountDTO } from './dtos/update-account.dto'
 
 @Controller('/users')
-@UseInterceptors(CacheInterceptor)
+@UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
 export class UserController {
   constructor(
     private readonly auth: AuthProvider,

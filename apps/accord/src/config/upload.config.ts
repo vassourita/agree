@@ -11,7 +11,8 @@ export const uploadConfig = registerAs('upload', () => ({
     filename: (req, file, cb) => {
       const randomName = uuid()
       return cb(null, `${randomName}${extname(file.originalname)}`)
-    }
+    },
+    destination: resolve(__dirname, '..', '..', 'uploads')
   }),
   filter: (req, file: Express.Multer.File, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {

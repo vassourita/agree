@@ -15,7 +15,6 @@ export class UpdateUserUseCase implements IUseCase<UpdateUserDTO, UserEntity> {
   ) {}
 
   async execute(data: UpdateUserDTO) {
-    console.log(data)
     const user = await this.userRepository.findOne(data.id)
 
     if (data.name !== user.name) {

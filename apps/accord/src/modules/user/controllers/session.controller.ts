@@ -1,4 +1,11 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  UseInterceptors,
+  ClassSerializerInterceptor
+} from '@nestjs/common'
 
 import { AuthProvider } from '@shared/providers/auth.provider'
 
@@ -6,6 +13,7 @@ import { FindUserByEmailUseCase } from '../use-cases/find-user-by-email/find-use
 import { LoginDTO } from './dtos/login.dto'
 
 @Controller('/sessions')
+@UseInterceptors(ClassSerializerInterceptor)
 export class SessionController {
   constructor(private readonly auth: AuthProvider, private readonly findUserByEmail: FindUserByEmailUseCase) {}
 
