@@ -19,7 +19,7 @@ export class ListUsersUseCase implements IUseCase<IListUsersDTO, UserEntity[]> {
     const limit = pagination.limit || 15
 
     return this.userRepository.find({
-      skip: page * limit,
+      skip: (page - 1) * limit,
       take: limit
     })
   }

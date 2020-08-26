@@ -1,5 +1,6 @@
+import { ServerEntity } from '@modules/server/entities/server.entity'
 import { Expose, Exclude } from 'class-transformer'
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm'
 
 @Entity('user')
 export class UserEntity {
@@ -36,4 +37,7 @@ export class UserEntity {
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial)
   }
+
+  @OneToMany(_type => ServerEntity, s => s.owner)
+  ownedServers: ServerEntity[]
 }

@@ -1,4 +1,4 @@
 export interface IListUsersDTO {
-  page: number
-  limit: number
+  page?: number
+  limit?: number
 }
