@@ -9,7 +9,9 @@ import {
   CacheInterceptor,
   UseInterceptors,
   UploadedFile,
-  ClassSerializerInterceptor
+  ClassSerializerInterceptor,
+  Query,
+  ParseIntPipe
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
@@ -40,8 +42,12 @@ export class UserController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  public async index() {
-    return this.listUsers.execute()
+  public async index(@Query('page') page: string, @Query('limit') limit: string) {
+    const pagination = {
+      page: page && Number(page),
+      limit: limit && Number(limit)
+    }
+    return this.listUsers.execute(pagination)
   }
 
   @Get('/@me')
