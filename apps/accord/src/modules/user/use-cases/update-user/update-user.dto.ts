@@ -1,15 +1,6 @@
-import { IsString, IsUUID } from 'class-validator'
-
-export class UpdateUserDTO {
-  @IsString()
+export interface IUpdateUserDTO {
   name?: string
-
-  @IsString()
   status?: string
-
-  @IsUUID()
   id: string
-
-  @IsString()
   avatar?: string
 }

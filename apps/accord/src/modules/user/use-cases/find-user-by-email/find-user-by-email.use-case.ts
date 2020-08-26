@@ -5,16 +5,16 @@ import { IUseCase } from '@shared/protocols/use-case'
 import { Repository } from 'typeorm'
 
 import { UserEntity } from '../../entities/user.entity'
-import { FindUserByEmailDTO } from './find-user-by-email.dto'
+import { IFindUserByEmailDTO } from './find-user-by-email.dto'
 
 @Injectable()
-export class FindUserByEmailUseCase implements IUseCase<FindUserByEmailDTO, UserEntity> {
+export class FindUserByEmailUseCase implements IUseCase<IFindUserByEmailDTO, UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  async execute({ email }: FindUserByEmailDTO) {
+  async execute({ email }: IFindUserByEmailDTO) {
     const user = await this.userRepository.findOne({
       where: { email }
     })

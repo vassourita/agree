@@ -1,12 +1,5 @@
-import { IsString, IsEmail } from 'class-validator'
-
-export class CreateUserDTO {
-  @IsString()
+export interface ICreateUserDTO {
   name: string
-
-  @IsEmail()
   email: string
-
-  @IsString()
   password: string
 }

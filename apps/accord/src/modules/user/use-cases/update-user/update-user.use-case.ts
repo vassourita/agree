@@ -8,17 +8,17 @@ import { join } from 'path'
 import { Repository } from 'typeorm'
 
 import { UserEntity } from '../../entities/user.entity'
-import { UpdateUserDTO } from './update-user.dto'
+import { IUpdateUserDTO } from './update-user.dto'
 
 @Injectable()
-export class UpdateUserUseCase implements IUseCase<UpdateUserDTO, UserEntity> {
+export class UpdateUserUseCase implements IUseCase<IUpdateUserDTO, UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly config: ConfigService
   ) {}
 
-  async execute(data: UpdateUserDTO) {
+  async execute(data: IUpdateUserDTO) {
     const user = await this.userRepository.findOne(data.id)
 
     if (data.name !== user.name) {

@@ -6,17 +6,17 @@ import { AuthProvider } from '@shared/providers/auth.provider'
 import { Repository } from 'typeorm'
 
 import { UserEntity } from '../../entities/user.entity'
-import { CreateUserDTO } from './create-user.dto'
+import { ICreateUserDTO } from './create-user.dto'
 
 @Injectable()
-export class CreateUserUseCase implements IUseCase<CreateUserDTO, UserEntity> {
+export class CreateUserUseCase implements IUseCase<ICreateUserDTO, UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly auth: AuthProvider
   ) {}
 
-  async execute(data: CreateUserDTO) {
+  async execute(data: ICreateUserDTO) {
     const emailInUse = await this.userRepository.findOne({
       where: { email: data.email }
     })
