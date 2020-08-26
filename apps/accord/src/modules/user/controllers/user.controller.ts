@@ -10,8 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ClassSerializerInterceptor,
-  Query,
-  ParseIntPipe
+  Query
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 

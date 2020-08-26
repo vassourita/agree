@@ -4,15 +4,19 @@ import { JwtModule } from '@nestjs/jwt'
 import { MulterModule } from '@nestjs/platform-express'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+import { UserEntity } from '@modules/user/entities/user.entity'
 import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
 import redisStore from 'cache-manager-ioredis'
 
+import { MemberController } from './controllers/member.controller'
+import { ServerController } from './controllers/server.controller'
+import { ServerMemberEntity } from './entities/server-member.entity'
 import { ServerEntity } from './entities/server.entity'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ServerEntity]),
+    TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity]),
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
         secret: config.get('auth.key'),
@@ -40,7 +44,7 @@ import { ServerEntity } from './entities/server.entity'
       inject: [ConfigService]
     })
   ],
-  controllers: [],
+  controllers: [ServerController, MemberController],
   providers: [AuthProvider, JwtStrategy]
 })
 export class ServerModule {}

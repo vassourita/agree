@@ -9,6 +9,9 @@ export class ServerEntity {
   @Column()
   name: string
 
+  @Column({ name: 'member_count', type: 'int', default: 0 })
+  memberCount: number
+
   @Column({ name: 'owner_id', type: 'uuid' })
   ownerId: string
 
