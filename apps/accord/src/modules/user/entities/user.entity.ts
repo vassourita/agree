@@ -1,3 +1,4 @@
+import { ServerMemberEntity } from '@modules/server/entities/server-member.entity'
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { Expose, Exclude } from 'class-transformer'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm'
@@ -40,4 +41,7 @@ export class UserEntity {
 
   @OneToMany(_type => ServerEntity, s => s.owner)
   ownedServers: ServerEntity[]
+
+  @OneToMany(_type => ServerMemberEntity, s => s.member)
+  serverMembers: ServerMemberEntity[]
 }

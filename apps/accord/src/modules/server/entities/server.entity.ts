@@ -1,5 +1,7 @@
 import { UserEntity } from '@modules/user/entities/user.entity'
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
+
+import { ServerMemberEntity } from './server-member.entity'
 
 @Entity('server')
 export class ServerEntity {
@@ -25,4 +27,7 @@ export class ServerEntity {
   @ManyToOne(_type => UserEntity, user => user.ownedServers)
   @JoinColumn({ name: 'owner_id', referencedColumnName: 'id' })
   owner: UserEntity
+
+  @OneToMany(_type => ServerMemberEntity, s => s.server)
+  serverMembers: ServerMemberEntity[]
 }

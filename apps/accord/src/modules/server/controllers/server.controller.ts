@@ -81,6 +81,8 @@ export class ServerController {
       ownerId: userId
     })
 
+    server.memberCount = 1
+
     await this.serverRepository.save(server)
 
     const serverOwnerAsMember = await this.memberRepository.create({

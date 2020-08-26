@@ -53,11 +53,23 @@ export class MemberController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
-  public async store(@Param('server_id', new ParseUUIDPipe()) serverId: string, @CurrentUserId() memberId: string) {
+  public async store(
+    @Param('server_id', new ParseUUIDPipe()) serverId: string,
+    @Body('memberId', new ParseUUIDPipe()) memberId: string,
+    @CurrentUserId() loggedUserId: string
+  ) {
+    if (memberId === loggedUserId) {
+      throw new ConflictException('You cannot add yourself to a server')
+    }
+
     const server = await this.serverRepository.findOne(serverId)
 
     if (!server) {
       throw new NotFoundException('Server does not exists')
+    }
+
+    if (server.ownerId !== loggedUserId) {
+      throw new UnauthorizedException('You cannot add a user to this server as you are not the server owner')
     }
 
     const userIsInServer = await this.memberRepository.findOne({

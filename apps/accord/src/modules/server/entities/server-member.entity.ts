@@ -18,11 +18,11 @@ export class ServerMemberEntity {
     Object.assign(this, partial)
   }
 
-  @ManyToOne(_type => UserEntity)
+  @ManyToOne(_type => UserEntity, user => user.serverMembers)
   @JoinColumn({ name: 'member_id', referencedColumnName: 'id' })
   member: UserEntity
 
-  @ManyToOne(_type => ServerEntity)
+  @ManyToOne(_type => ServerEntity, server => server.serverMembers)
   @JoinColumn({ name: 'server_id', referencedColumnName: 'id' })
   server: ServerEntity
 }
