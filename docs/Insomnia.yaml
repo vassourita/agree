@@ -1,37 +1,45 @@
 _type: export
 __export_format: 4
-__export_date: 2020-08-26T19:42:47.436Z
+__export_date: 2020-08-27T02:08:02.885Z
 __export_source: insomnia.desktop.app:v2020.3.3
 resources:
-  - _id: req_8c1f717a655f4ee9a342d374556e71b5
+  - _id: req_68b4163ee8754e1abfec90480f090980
     authentication: {}
-    body: {}
-    created: 1598467774551
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2ZXJJZCI6ImQzZDhhMGQxLWE2NTctNDQyOC04NWY4LTA3MjlmOGQ2NmVhOSIsImlhdCI6MTU5ODQ5MDI1MiwiZXhwIjoxNTk5MDk1MDUyfQ.uxrugyHGY4ARCbquF8RkHuPCMqSuZ3WA-iZPOOAJKhc"
+        }
+    created: 1598490277210
     description: ""
-    headers: []
+    headers:
+      - id: pair_4e78689c87f748879e05f7489d1d080e
+        name: Content-Type
+        value: application/json
     isPrivate: false
-    metaSortKey: -1598467774551
-    method: GET
-    modified: 1598469308499
-    name: index
+    metaSortKey: -1598490277210
+    method: POST
+    modified: 1598490348595
+    name: accept
     parameters: []
-    parentId: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
+    parentId: fld_e6c59749778c4b0898c280e207b2859a
     settingDisableRenderRequestBody: false
     settingEncodeUrl: true
     settingFollowRedirects: global
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers/57ef1b84-5b82-4c99-a713-f6a27c1fb16b/members"
+    url: "{{ baseURL }}/servers/invites/accept"
     _type: request
-  - _id: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
-    created: 1598464814859
+  - _id: fld_e6c59749778c4b0898c280e207b2859a
+    created: 1598489616894
     description: ""
     environment: {}
     environmentPropertyOrder: null
-    metaSortKey: -1598464814859
-    modified: 1598468641197
-    name: members
+    metaSortKey: -1598489616894
+    modified: 1598489616894
+    name: invites
     parentId: fld_e9c422acbbf84cd39d89e3f689cd923b
     _type: request_group
   - _id: fld_e9c422acbbf84cd39d89e3f689cd923b
@@ -52,13 +60,73 @@ resources:
     parentId: null
     scope: null
     _type: workspace
+  - _id: req_5e701d589a034fc5aa6e2b3328778f4c
+    authentication: {}
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"serverId": "d3d8a0d1-a657-4428-85f8-0729f8d66ea9"
+        }
+    created: 1598489624934
+    description: ""
+    headers:
+      - id: pair_37122f42b97f465181132c0971e203e5
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1598489624934
+    method: POST
+    modified: 1598490207686
+    name: generate
+    parameters: []
+    parentId: fld_e6c59749778c4b0898c280e207b2859a
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/servers/invites"
+    _type: request
+  - _id: req_8c1f717a655f4ee9a342d374556e71b5
+    authentication: {}
+    body: {}
+    created: 1598467774551
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1598467774551
+    method: GET
+    modified: 1598485216827
+    name: index
+    parameters: []
+    parentId: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: "{{ baseURL }}/servers/d3d8a0d1-a657-4428-85f8-0729f8d66ea9/members"
+    _type: request
+  - _id: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
+    created: 1598464814859
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1598464814859
+    modified: 1598468641197
+    name: members
+    parentId: fld_e9c422acbbf84cd39d89e3f689cd923b
+    _type: request_group
   - _id: req_5ff4fde05f1b4e7ca091c96f3cd9d5f4
     authentication: {}
     body:
       mimeType: application/json
       text: |-
         {
-        	"name": "meu server"
+        	"memberId": "d839ab2d-3854-422b-b0e4-08d4bb3e8d33"
         }
     created: 1598467929018
     description: ""
@@ -69,7 +137,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774469.75
     method: POST
-    modified: 1598470755828
+    modified: 1598485690858
     name: store
     parameters: []
     parentId: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
@@ -79,7 +147,7 @@ resources:
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers/57ef1b84-5b82-4c99-a713-f6a27c1fb16b/members"
+    url: "{{ baseURL }}/servers/d3d8a0d1-a657-4428-85f8-0729f8d66ea9/members"
     _type: request
   - _id: req_cb8412b691774dd1ab93f3d2c142eac4
     authentication: {}
@@ -250,7 +318,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774413.5
     method: DELETE
-    modified: 1598468985668
+    modified: 1598485130694
     name: destroy
     parameters: []
     parentId: fld_5e92a6b53a6f444a96192d180aabeb7a
@@ -260,7 +328,7 @@ resources:
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers/c774f6ad-438d-450d-a2b7-c3ee86005c24"
+    url: "{{ baseURL }}/servers/57ef1b84-5b82-4c99-a713-f6a27c1fb16b"
     _type: request
   - _id: req_b7a8337bb9fb4ca5b5b90a76a46b9815
     authentication: {}
