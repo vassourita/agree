@@ -9,10 +9,12 @@ import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
 import redisStore from 'cache-manager-ioredis'
 
+import { InviteController } from './controllers/invite.controller'
 import { MemberController } from './controllers/member.controller'
 import { ServerController } from './controllers/server.controller'
 import { ServerMemberEntity } from './entities/server-member.entity'
 import { ServerEntity } from './entities/server.entity'
+import { useCases } from './use-cases'
 
 @Module({
   imports: [
@@ -44,7 +46,7 @@ import { ServerEntity } from './entities/server.entity'
       inject: [ConfigService]
     })
   ],
-  controllers: [ServerController, MemberController],
-  providers: [AuthProvider, JwtStrategy]
+  controllers: [ServerController, MemberController, InviteController],
+  providers: [...useCases, AuthProvider, JwtStrategy]
 })
 export class ServerModule {}
