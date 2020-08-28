@@ -13,11 +13,12 @@ export const databaseConfig = registerAs('database', () => ({
   test: {
     type: 'sqlite',
     database: ':memory:',
+    synchronize: true,
     autoLoadEntities: true
   },
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: Number(process.env.REDIS_PORT) || 6379,
-    password: Number(process.env.REDIS_PASS) || 'docker'
+    password: process.env.REDIS_PASS || 'docker'
   }
 }))
