@@ -17,7 +17,7 @@ export class ServerEntity {
   @Column({ name: 'owner_id', type: 'uuid' })
   ownerId: string
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date
 
   constructor(partial: Partial<ServerEntity>) {

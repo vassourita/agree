@@ -32,7 +32,7 @@ export class UserEntity {
     return `${process.env.PUBLIC_FILES_URL}/${this.avatar}`
   }
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date
 
   constructor(partial: Partial<UserEntity>) {

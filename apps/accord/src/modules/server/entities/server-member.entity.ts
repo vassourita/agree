@@ -11,7 +11,7 @@ export class ServerMemberEntity {
   @PrimaryColumn({ name: 'server_id', type: 'uuid' })
   serverId: string
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date
 
   constructor(partial: Partial<ServerMemberEntity>) {
