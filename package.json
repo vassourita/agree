@@ -7,7 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest --passWithNoTests --no-cache"
+    "test": "jest --passWithNoTests --no-cache",
+    "docker-up": "cd docker && docker-compose up -d",
+    "docker-down": "cd docker && docker-compose down"
   },
   "workspaces": {
     "packages": [
