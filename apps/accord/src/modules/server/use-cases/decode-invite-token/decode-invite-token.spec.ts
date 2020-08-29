@@ -69,7 +69,7 @@ describe('DecodeInviteTokenUseCase', () => {
       ownerId: sutServerOwner.id
     })
 
-    const token = await signToken.execute(sutServer.id)
+    const token = await signToken.execute({ serverId: sutServer.id, expiresIn: '7d' })
 
     expect(await sut.execute(token)).toEqual(sutServer.id)
   })

@@ -1,4 +1,4 @@
 export interface ISignInviteTokenDTO {
   serverId: string
-  expiresIn: string
+  expiresIn?: string
 }
