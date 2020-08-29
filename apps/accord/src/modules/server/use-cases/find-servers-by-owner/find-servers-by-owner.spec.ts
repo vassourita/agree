@@ -26,6 +26,12 @@ describe('FindServersByOwnerUseCase', () => {
     sut = moduleRef.get(FindServersByOwnerUseCase)
   })
 
+  afterAll(async () => {
+    await getRepository(UserEntity).createQueryBuilder().delete().execute()
+    await getRepository(ServerEntity).createQueryBuilder().delete().execute()
+    await getRepository(ServerMemberEntity).createQueryBuilder().delete().execute()
+  })
+
   it('should be defined', async () => {
     expect(sut).toBeDefined()
     expect(sut.execute).toBeDefined()
