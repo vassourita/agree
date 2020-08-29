@@ -12,9 +12,9 @@ export class FindServersByOwnerUseCase implements IUseCase<string, ServerEntity[
     private readonly serverRepository: Repository<ServerEntity>
   ) {}
 
-  async execute(id: string): Promise<ServerEntity[]> {
+  async execute(ownerId: string): Promise<ServerEntity[]> {
     return this.serverRepository.find({
-      where: { ownerId: id }
+      where: { ownerId }
     })
   }
 }

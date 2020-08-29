@@ -8,14 +8,14 @@ export class DecodeInviteTokenUseCase implements IUseCase<string, string> {
   constructor(private readonly jwtService: JwtService) {}
 
   async execute(token: string): Promise<string> {
-    const payload = await this.jwtService.decode(token)
+    try {
+      const payload = this.jwtService.decode(token) as { serverId: string }
 
-    if (typeof payload !== 'object') {
+      const { serverId } = payload
+
+      return serverId
+    } catch (error) {
       throw new BadRequestException('Invalid token')
     }
-
-    const { serverId } = payload
-
-    return serverId as string
   }
 }

@@ -23,7 +23,7 @@ export class ListServersUseCase implements IUseCase<IListServersDTO, ServerEntit
         .createQueryBuilder('s')
         .offset((page - 1) * limit)
         .limit(limit)
-        .where("lower(replace(s.name, ' ', '')) ILIKE lower(replace(:name, ' ', ''))", { name: `%${data.query}%` })
+        .where("lower(replace(s.name, ' ', '')) LIKE lower(replace(:name, ' ', ''))", { name: `%${data.query}%` })
         .orderBy('s.member_count')
         .getMany()
     }

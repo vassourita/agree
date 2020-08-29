@@ -1,6 +1,8 @@
 import { registerAs } from '@nestjs/config'
 
-export const databaseConfig = registerAs('database', () => ({
+import { ConnectionOptions } from 'typeorm'
+
+export const databaseConfig = registerAs<() => Record<string, Partial<ConnectionOptions>>>('database', () => ({
   development: {
     type: 'postgres',
     host: process.env.DATABASE_HOST || 'localhost',
@@ -14,7 +16,8 @@ export const databaseConfig = registerAs('database', () => ({
     type: 'sqlite',
     database: ':memory:',
     synchronize: true,
-    autoLoadEntities: true
+    autoLoadEntities: true,
+    keepConnectionAlive: true
   },
   redis: {
     host: process.env.REDIS_HOST || 'localhost',

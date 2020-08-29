@@ -28,6 +28,6 @@ export class ServerEntity {
   @JoinColumn({ name: 'owner_id', referencedColumnName: 'id' })
   owner: UserEntity
 
-  @OneToMany(_type => ServerMemberEntity, s => s.server)
+  @OneToMany(_type => ServerMemberEntity, s => s.server, { onDelete: 'CASCADE' })
   serverMembers: ServerMemberEntity[]
 }
