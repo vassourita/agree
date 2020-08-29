@@ -13,35 +13,61 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-191929?style=flat-square">
   <img alt="Stars" src="https://img.shields.io/github/stars/vassourita/agree?style=flat-square">
   <img alt="Last Commit" src="https://img.shields.io/github/last-commit/vassourita/agree?style=flat-square" />
+  <a href="http://standardjs.com">
+    <img alt="Code Style" src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" />
+  </a>
+  <br/>
+  <img alt="functions coverage" src="./.github/assets/badge-functions.svg">
+  <img alt="branches coverage" src="./.github/assets/badge-branches.svg">
+  <img alt="lines coverage" src="./.github/assets/badge-lines.svg">
+  <img alt="statements coverage" src="./.github/assets/badge-statements.svg">
 </h1>
 
 > #### Agree is a voice, video and text communication service based on Discord, currently under development
 
-<!-- # :pushpin: Table of Contents
+## :pushpin: Table of Contents
 
-- [Technologies](#computer-technologies)
+- [Running the project](#computer-running-the-project)
+- [Running tests](#pencil-running-tests)
+- [License](#pagefacingup-license)
 
-# :computer: Technologies
+## :computer: Running the project
 
-This project was made using the following technologies:
+This section approaches on how to run the project on your own machine
 
-- Languages
-  - [Typescript](https://www.typescriptlang.org/)
-  - [Rust](https://www.rust-lang.org/)
-- Server
-  - [NestJS](https://nestjs.com/)
-  - [GraphQL](https://graphql.org/)
-  - [Socket.io](https://socket.io/)
-  - [PostgreSQL](https://www.postgresql.org/)
-  - [MongoDB](https://www.mongodb.com/)
-  - [Redis](https://redis.io/)
-  - [Keycloak](https://www.keycloak.org/)
-- Client
-  - [NextJS](https://nextjs.org/)
-  - [ReactJS](https://reactjs.org/)
-  - [Styled Components](https://styled-components.com/)
-  - [WebRTC](https://webrtc.org/)
-- Other
-  - [Docker](https://www.docker.com/)
-  - [Jest](https://jestjs.io/)
-  - [ESLint](https://eslint.org/) -->
+#### Make sure you have installed in your computer:
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [NodeJS](https://nodejs.dev/) ^12.13
+- [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable) (optional)
+
+#### On a terminal open in the project root:
+
+```sh
+# clone the repository
+$ git clone https://github.com/vassourita/agree.git
+# install dependencies
+$ yarn
+# run docker database containers
+$ yarn docker-up
+# run accord migrations and server on dev mode
+$ yarn accord:dev
+# in case you want to finish the docker-compose process
+$ yarn docker-down
+```
+
+## :pencil: Running tests
+
+```sh
+# to run tests
+$ yarn test
+# to run tests with coverage reports
+$ yarn test:cov
+# to run tests with coverage reports and update coverage badges
+$ yarn test:badges
+```
+
+## :page_facing_up: License
+
+This project is licensed under the terms of the [MIT license](/LICENSE).
