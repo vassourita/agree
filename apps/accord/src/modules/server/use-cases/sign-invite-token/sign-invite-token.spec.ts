@@ -68,7 +68,7 @@ describe('SignInviteTokenUseCase', () => {
       ownerId: sutServerOwner.id
     })
 
-    const token = await sut.execute(sutServer.id)
+    const token = await sut.execute({ serverId: sutServer.id, expiresIn: '7d' })
 
     const result = jwtService.decode(token)
     const expected = expect.objectContaining({ serverId: sutServer.id })

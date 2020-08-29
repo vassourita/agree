@@ -15,6 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
+import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date.pipe'
 import { Repository } from 'typeorm'
 
 import { ServerMemberEntity } from '../entities/server-member.entity'
@@ -36,7 +37,11 @@ export class InviteController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
-  async generate(@Body('serverId', new ParseUUIDPipe()) serverId: string, @CurrentUserId() userId: string) {
+  async generate(
+    @Body('serverId', new ParseUUIDPipe()) serverId: string,
+    @Body('expiresIn', new ParseExpireDatePipe()) expiresIn: string,
+    @CurrentUserId() userId: string
+  ) {
     const server = await this.serverRepository.findOne(serverId)
 
     if (!server) {
@@ -47,7 +52,7 @@ export class InviteController {
       throw new UnauthorizedException('You cannot create a invite token as you are not the server owner')
     }
 
-    const token = await this.signInviteToken.execute(serverId)
+    const token = await this.signInviteToken.execute({ serverId, expiresIn })
 
     return { token }
   }
