@@ -15,7 +15,7 @@ export class FindUserByIdUseCase implements IUseCase<IFindUserByIdDTO, UserEntit
   ) {}
 
   async execute({ id }: IFindUserByIdDTO) {
-    const user = this.userRepository.findOne(id)
+    const user = await this.userRepository.findOne(id)
 
     if (!user) {
       throw new NotFoundException('User not found')
