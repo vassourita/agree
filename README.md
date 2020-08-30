@@ -47,6 +47,8 @@ This section approaches on how to run the project on your own machine
 ```sh
 # clone the repository
 $ git clone https://github.com/vassourita/agree.git
+# cd into the project folder
+$ cd ./agree
 # install dependencies
 $ yarn
 # run docker database containers
