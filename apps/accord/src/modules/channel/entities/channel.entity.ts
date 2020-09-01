@@ -22,7 +22,7 @@ export class ChannelEntity {
   name: string
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ChannelTypes,
     default: ChannelTypes.TEXT
   })

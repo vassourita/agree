@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AccordConfigModule } from '@config/config.module'
+import { ChannelEntity } from '@modules/channel/entities/channel.entity'
 import { ServerMemberEntity } from '@modules/server/entities/server-member.entity'
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
@@ -25,7 +26,7 @@ describe('SignInviteTokenUseCase', () => {
       imports: [
         AccordConfigModule,
         DatabaseModule,
-        TypeOrmModule.forFeature([UserEntity, ServerEntity, ServerMemberEntity]),
+        TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity, ChannelEntity]),
         JwtModule.registerAsync({
           useFactory: (config: ConfigService) => ({
             secret: config.get('auth.key'),
@@ -48,6 +49,7 @@ describe('SignInviteTokenUseCase', () => {
     await getRepository(UserEntity).createQueryBuilder().delete().execute()
     await getRepository(ServerEntity).createQueryBuilder().delete().execute()
     await getRepository(ServerMemberEntity).createQueryBuilder().delete().execute()
+    await getRepository(ChannelEntity).createQueryBuilder().delete().execute()
   })
 
   it('should be defined', async () => {

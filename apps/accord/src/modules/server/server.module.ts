@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { MulterModule } from '@nestjs/platform-express'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+import { ChannelEntity } from '@modules/channel/entities/channel.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
@@ -18,7 +19,7 @@ import { useCases } from './use-cases'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity]),
+    TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity, ChannelEntity]),
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
         secret: config.get('auth.key'),

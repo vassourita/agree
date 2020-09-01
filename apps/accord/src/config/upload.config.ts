@@ -8,13 +8,13 @@ import { uuid } from 'uuidv4'
 export const uploadConfig = registerAs('upload', () => ({
   dir: resolve(__dirname, '..', '..', 'uploads'),
   storage: diskStorage({
-    filename: (req, file, cb) => {
+    filename: (_req, file, cb) => {
       const randomName = uuid()
       return cb(null, `${randomName}${extname(file.originalname)}`)
     },
     destination: resolve(__dirname, '..', '..', 'uploads')
   }),
-  filter: (req, file: Express.Multer.File, cb) => {
+  filter: (_req, file: Express.Multer.File, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
       return cb(new BadRequestException('Uploaded avatar file is not an image'), false)
     }
