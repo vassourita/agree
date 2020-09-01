@@ -1,3 +1,4 @@
+import { ChannelEntity } from '@modules/channel/entities/channel.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
@@ -30,4 +31,7 @@ export class ServerEntity {
 
   @OneToMany(_type => ServerMemberEntity, s => s.server, { onDelete: 'CASCADE' })
   serverMembers: ServerMemberEntity[]
+
+  @OneToMany(_type => ChannelEntity, channel => channel.server, { onDelete: 'CASCADE' })
+  channels: ChannelEntity[]
 }

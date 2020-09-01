@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { ServeStaticModule } from '@nestjs/serve-static'
 
 import { AccordConfigModule } from '@config/config.module'
+import { ChannelModule } from '@modules/channel/channel.module'
 import { ServerModule } from '@modules/server/server.module'
 import { UserModule } from '@modules/user/user.module'
 
@@ -13,6 +14,7 @@ import { JwtStrategy } from './guards/jwt/jwt.strategy'
   imports: [
     UserModule,
     ServerModule,
+    ChannelModule,
     DatabaseModule,
     AccordConfigModule,
     ServeStaticModule.forRootAsync({
