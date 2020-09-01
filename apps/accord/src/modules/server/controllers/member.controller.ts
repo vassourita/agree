@@ -10,22 +10,18 @@ import {
   ClassSerializerInterceptor,
   ParseUUIDPipe,
   ConflictException,
-  NotFoundException,
   Body,
   UnauthorizedException
 } from '@nestjs/common'
 import { ApiTags, ApiBearerAuth, ApiBody } from '@nestjs/swagger'
-import { InjectRepository } from '@nestjs/typeorm'
 
-import { UserEntity } from '@modules/user/entities/user.entity'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
-import { Repository } from 'typeorm'
 
-import { ServerMemberEntity } from '../entities/server-member.entity'
-import { ServerEntity } from '../entities/server.entity'
 import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
+import { FindMembersFromServerUseCase } from '../use-cases/find-members-from-server/find-members-from-server.use-case'
 import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
+import { RemoveMemberUseCase } from '../use-cases/remove-member/remove-member.use-case'
 
 @Controller('/servers/:server_id/members')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
@@ -33,14 +29,10 @@ import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-serve
 @ApiBearerAuth()
 export class MemberController {
   constructor(
-    @InjectRepository(ServerEntity)
-    private readonly serverRepository: Repository<ServerEntity>,
-    @InjectRepository(ServerMemberEntity)
-    private readonly memberRepository: Repository<ServerMemberEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
     private readonly findServerById: FindServerByIdUseCase,
-    private readonly addMemberToServer: AddMemberToServerUseCase
+    private readonly addMemberToServer: AddMemberToServerUseCase,
+    private readonly findMembersFromServer: FindMembersFromServerUseCase,
+    private readonly removeMember: RemoveMemberUseCase
   ) {}
 
   @Get('/')
@@ -48,10 +40,7 @@ export class MemberController {
   public async index(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
     await this.findServerById.execute(serverId)
 
-    return this.userRepository
-      .createQueryBuilder('u')
-      .innerJoin(ServerMemberEntity, 'sm', 'sm.server_id = :serverId AND sm.member_id = u.id', { serverId })
-      .getMany()
+    return this.findMembersFromServer.execute(serverId)
   }
 
   @Post('/')
@@ -86,35 +75,12 @@ export class MemberController {
     @Body('memberId', new ParseUUIDPipe()) memberId: string,
     @CurrentUserId() loggedUserId: string
   ) {
-    const server = await this.serverRepository.findOne(serverId)
+    const server = await this.findServerById.execute(serverId)
 
-    if (!server) {
-      throw new NotFoundException('Server does not exists')
-    }
-
-    if (server.ownerId === memberId && memberId === loggedUserId) {
-      throw new UnauthorizedException('You cannot remove yourself from the server as you are the server owner')
-    }
-
-    const userIsInServer = await this.memberRepository.findOne({
+    await this.removeMember.execute({
+      loggedUserId,
       memberId,
-      serverId
-    })
-
-    if (!userIsInServer) {
-      throw new NotFoundException('User is not in server')
-    }
-
-    if (loggedUserId !== memberId && server.ownerId !== loggedUserId) {
-      throw new UnauthorizedException('You must be the server owner to remove another user from a server')
-    }
-
-    server.memberCount--
-    await this.serverRepository.save(server)
-
-    await this.memberRepository.delete({
-      memberId,
-      serverId
+      server
     })
   }
 }
