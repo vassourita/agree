@@ -37,6 +37,10 @@ This section approaches on how to run the project on your own machine
 
 #### On a terminal open in the project root:
 
+Inside apps/accord rename ```.env.example``` as ```.env``` and add a hash or secret pass for the 'API_KEY'
+
+#### On a terminal open in the project root:
+
 ```sh
 # clone the repository
 $ git clone https://github.com/vassourita/agree.git
