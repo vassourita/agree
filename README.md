@@ -3,10 +3,6 @@
 </p>
 
 <h1 align="center">
-  <a href="https://www.linkedin.com/in/vinicius-vassao">
-    <img alt="Vinicius Vassão" src="https://img.shields.io/badge/-Vinicius%20Vassão-191929?style=flat-square&logo=Linkedin&logoColor=white" />
-  </a>
-  <br/>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-191929?style=flat-square">
   <img alt="Stars" src="https://img.shields.io/github/stars/vassourita/agree?style=flat-square">
   <img alt="Last Commit" src="https://img.shields.io/github/last-commit/vassourita/agree?style=flat-square" />
