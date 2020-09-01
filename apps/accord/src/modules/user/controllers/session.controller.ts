@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 
 import { AuthProvider } from '@shared/providers/auth.provider'
 
@@ -14,6 +15,7 @@ import { LoginDTO } from './dtos/login.dto'
 
 @Controller('/sessions')
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('sessions')
 export class SessionController {
   constructor(private readonly auth: AuthProvider, private readonly findUserByEmail: FindUserByEmailUseCase) {}
 

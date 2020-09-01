@@ -7,46 +7,42 @@ import {
   UseGuards,
   ParseUUIDPipe,
   UnauthorizedException,
-  NotFoundException,
-  Body,
-  ConflictException
+  Body
 } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
+import { ApiTags, ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date.pipe'
-import { Repository } from 'typeorm'
 
-import { ServerMemberEntity } from '../entities/server-member.entity'
-import { ServerEntity } from '../entities/server.entity'
+import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
 import { DecodeInviteTokenUseCase } from '../use-cases/decode-invite-token/decode-invite-token.use-case'
+import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
 import { SignInviteTokenUseCase } from '../use-cases/sign-invite-token/sign-invite-token.use-case'
+import { CreateInviteDTO } from './dtos/create-invite.dto'
 
 @Controller('/servers/invites')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
+@ApiTags('invites')
+@ApiBearerAuth()
 export class InviteController {
   constructor(
-    @InjectRepository(ServerEntity)
-    private readonly serverRepository: Repository<ServerEntity>,
-    @InjectRepository(ServerMemberEntity)
-    private readonly memberRepository: Repository<ServerMemberEntity>,
     private readonly signInviteToken: SignInviteTokenUseCase,
-    private readonly decodeInviteToken: DecodeInviteTokenUseCase
+    private readonly decodeInviteToken: DecodeInviteTokenUseCase,
+    private readonly addMemberToServer: AddMemberToServerUseCase,
+    private readonly findServerById: FindServerByIdUseCase
   ) {}
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
+  @ApiBody({ type: CreateInviteDTO })
+  @ApiResponse({ schema: { example: { token: 'somebearerinvitetoken' } } })
   async generate(
     @Body('serverId', new ParseUUIDPipe()) serverId: string,
     @Body('expiresIn', new ParseExpireDatePipe()) expiresIn: string,
     @CurrentUserId() userId: string
   ) {
-    const server = await this.serverRepository.findOne(serverId)
-
-    if (!server) {
-      throw new NotFoundException('Server does not exists')
-    }
+    const server = await this.findServerById.execute(serverId)
 
     if (server.ownerId !== userId) {
       throw new UnauthorizedException('You cannot create a invite token as you are not the server owner')
@@ -59,30 +55,15 @@ export class InviteController {
 
   @Post('/accept')
   @UseGuards(JwtAuthGuard)
-  async accept(@Body('token') token: string, @CurrentUserId() memberId: string) {
+  @ApiBody({ schema: { example: { token: 'somebearerinvitetoken' } } })
+  async accept(@Body('token') token: string, @CurrentUserId() userId: string) {
     const serverId = await this.decodeInviteToken.execute(token)
 
-    const server = await this.serverRepository.findOne(serverId)
+    const server = await this.findServerById.execute(serverId)
 
-    if (!server) {
-      throw new NotFoundException('Server does not exists anymore')
-    }
-
-    const userIsInServer = await this.memberRepository.findOne({
-      memberId,
-      serverId
+    await this.addMemberToServer.execute({
+      server,
+      userId
     })
-
-    if (userIsInServer) {
-      throw new ConflictException('User is already in server')
-    }
-
-    const member = this.memberRepository.create({ memberId, serverId })
-    server.memberCount++
-
-    await this.memberRepository.save(member)
-    await this.serverRepository.save(server)
-
-    return member
   }
 }

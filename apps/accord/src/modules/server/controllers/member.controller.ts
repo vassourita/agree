@@ -14,6 +14,7 @@ import {
   Body,
   UnauthorizedException
 } from '@nestjs/common'
+import { ApiTags, ApiBearerAuth, ApiBody } from '@nestjs/swagger'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { UserEntity } from '@modules/user/entities/user.entity'
@@ -23,9 +24,13 @@ import { Repository } from 'typeorm'
 
 import { ServerMemberEntity } from '../entities/server-member.entity'
 import { ServerEntity } from '../entities/server.entity'
+import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
+import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
 
 @Controller('/servers/:server_id/members')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
+@ApiTags('members')
+@ApiBearerAuth()
 export class MemberController {
   constructor(
     @InjectRepository(ServerEntity)
@@ -33,17 +38,15 @@ export class MemberController {
     @InjectRepository(ServerMemberEntity)
     private readonly memberRepository: Repository<ServerMemberEntity>,
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
+    private readonly findServerById: FindServerByIdUseCase,
+    private readonly addMemberToServer: AddMemberToServerUseCase
   ) {}
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
   public async index(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
-    const serverExists = await this.serverRepository.findOne(serverId)
-
-    if (!serverExists) {
-      throw new NotFoundException('Server does not exists')
-    }
+    await this.findServerById.execute(serverId)
 
     return this.userRepository
       .createQueryBuilder('u')
@@ -53,6 +56,7 @@ export class MemberController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
+  @ApiBody({ schema: { example: { memberId: 'the user id to be added in the server' } } })
   public async store(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
     @Body('memberId', new ParseUUIDPipe()) memberId: string,
@@ -62,39 +66,21 @@ export class MemberController {
       throw new ConflictException('You cannot add yourself to a server')
     }
 
-    const server = await this.serverRepository.findOne(serverId)
-
-    if (!server) {
-      throw new NotFoundException('Server does not exists')
-    }
+    const server = await this.findServerById.execute(serverId)
 
     if (server.ownerId !== loggedUserId) {
       throw new UnauthorizedException('You cannot add a user to this server as you are not the server owner')
     }
 
-    const userIsInServer = await this.memberRepository.findOne({
-      memberId,
-      serverId
+    await this.addMemberToServer.execute({
+      server,
+      userId: memberId
     })
-
-    if (userIsInServer) {
-      throw new ConflictException('User is already in server')
-    }
-
-    const member = this.memberRepository.create({
-      memberId,
-      serverId
-    })
-    server.memberCount++
-
-    await this.memberRepository.save(member)
-    await this.serverRepository.save(server)
-
-    return member
   }
 
   @Delete('/')
   @UseGuards(JwtAuthGuard)
+  @ApiBody({ schema: { example: { memberId: 'the user id to be removed from the server' } } })
   public async destroy(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
     @Body('memberId', new ParseUUIDPipe()) memberId: string,

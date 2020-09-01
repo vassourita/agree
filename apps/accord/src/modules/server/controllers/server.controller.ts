@@ -13,6 +13,7 @@ import {
   Put,
   Delete
 } from '@nestjs/common'
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
@@ -28,6 +29,8 @@ import { UpdateServerDTO } from './dtos/update-server.dto'
 
 @Controller('/servers')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
+@ApiTags('servers')
+@ApiBearerAuth()
 export class ServerController {
   constructor(
     private readonly listServers: ListServersUseCase,
@@ -40,6 +43,9 @@ export class ServerController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'name', required: false, type: 'string' })
+  @ApiQuery({ name: 'page', required: false, type: 'integer' })
+  @ApiQuery({ name: 'limit', required: false, type: 'integer' })
   public async index(@Query('page') page: string, @Query('limit') limit: string, @Query('name') name: string) {
     const pagination = {
       page: page ? Number(page) : 1,

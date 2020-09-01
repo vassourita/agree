@@ -13,10 +13,10 @@ import {
   Query
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { ApiTags, ApiBearerAuth, ApiConsumes, ApiParam, ApiQuery } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
-import { AuthProvider } from '@shared/providers/auth.provider'
 
 import { ParseNametagPipe } from '../pipes/parse-nametag.pipe'
 import { CreateUserUseCase } from '../use-cases/create-user/create-user.use-case'
@@ -29,9 +29,9 @@ import { UpdateAccountDTO } from './dtos/update-account.dto'
 
 @Controller('/users')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
+@ApiTags('users')
 export class UserController {
   constructor(
-    private readonly auth: AuthProvider,
     private readonly createUser: CreateUserUseCase,
     private readonly findUserById: FindUserByIdUseCase,
     private readonly findUserByNameAndTag: FindUserByNameAndTagUseCase,
@@ -41,7 +41,10 @@ export class UserController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  public async index(@Query('page') page: string, @Query('limit') limit: string) {
+  @ApiBearerAuth()
+  @ApiQuery({ name: 'page', required: false, type: 'integer' })
+  @ApiQuery({ name: 'limit', required: false, type: 'integer' })
+  public async index(@Query('page') page?: string, @Query('limit') limit?: string) {
     const pagination = {
       page: page && Number(page),
       limit: limit && Number(limit)
@@ -51,31 +54,31 @@ export class UserController {
 
   @Get('/@me')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   public async me(@CurrentUserId() id: string) {
     return this.findUserById.execute({ id })
   }
 
   @Get('/:nametag')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiParam({ name: 'nametag', example: 'Vassoura#8230', type: 'string' })
   public async show(@Param('nametag', new ParseNametagPipe()) [name, tag]: [string, number]) {
     return this.findUserByNameAndTag.execute({ name, tag })
   }
 
   @Post('/')
-  @UseGuards(JwtAuthGuard)
   public async store(@Body() data: CreateAccountDTO) {
     const user = await this.createUser.execute(data)
-    const token = await this.auth.signToken(user.id)
 
-    return {
-      user,
-      token
-    }
+    return user
   }
 
   @Put('/')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
   public async update(
     @Body() data: UpdateAccountDTO,
     @UploadedFile() file: Express.Multer.File,
