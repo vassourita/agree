@@ -6,9 +6,6 @@
   <a href="https://www.linkedin.com/in/vinicius-vassao">
     <img alt="Vinicius Vassão" src="https://img.shields.io/badge/-Vinicius%20Vassão-191929?style=flat-square&logo=Linkedin&logoColor=white" />
   </a>
-  <a href="https://www.twitter.com/vass_oura">
-    <img alt="vass_oura" src="https://img.shields.io/badge/-vass%5Foura-191929?style=flat-square&logo=Twitter&logoColor=white" />
-  </a>
   <br/>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-191929?style=flat-square">
   <img alt="Stars" src="https://img.shields.io/github/stars/vassourita/agree?style=flat-square">
