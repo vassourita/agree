@@ -56,6 +56,8 @@ $ yarn accord:dev
 $ yarn docker-down
 ```
 
+Now you can browse to http://localhost:4001/docs to see the Swagger documentation
+
 ## :pencil: Running tests
 
 ```sh
