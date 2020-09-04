@@ -20,26 +20,24 @@
 
 ## :pushpin: Table of Contents
 
-- [Running the project](#computer-running-the-project)
-- [Running tests](#pencil-running-tests)
-- [License](#pagefacingup-license)
+- [:pushpin: Table of Contents](#pushpin-table-of-contents)
+- [:computer: Running the project](#computer-running-the-project)
+- [:pencil: Running tests](#pencil-running-tests)
+- [:handshake: Contributing](#handshake-contributing)
+- [:page_facing_up: License](#page_facing_up-license)
 
 ## :computer: Running the project
 
 This section approaches on how to run the project on your own machine
 
-#### Make sure you have installed in your computer:
+Make sure you have installed in your computer:
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [NodeJS](https://nodejs.dev/) ^12.13
 - [Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable) (optional)
 
-#### On a terminal open in the project root:
-
-Inside apps/accord rename ```.env.example``` as ```.env``` and add a hash or secret pass for the 'API_KEY'
-
-#### On a terminal open in the project root:
+Inside apps/accord rename `.env.example` as `.env` and add a hash or secret pass for the 'API_KEY'
 
 ```sh
 # clone the repository
@@ -68,6 +66,10 @@ $ yarn test:cov
 # to run tests with coverage reports and update coverage badges
 $ yarn test:badges
 ```
+
+## :handshake: Contributing
+
+PRs are welcome. Be sure to lint the code correctly according to the standard style guide. Open a issue if you have any question.
 
 ## :page_facing_up: License
 
