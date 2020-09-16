@@ -8,23 +8,23 @@ import {
   ParseUUIDPipe,
   Body
 } from '@nestjs/common'
-import { ApiTags, ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date.pipe'
 
-import { ServerOwnerAuthGuard } from '../guards/server-owner/server-owner.guard'
-import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
-import { DecodeInviteTokenUseCase } from '../use-cases/decode-invite-token/decode-invite-token.use-case'
-import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
-import { SignInviteTokenUseCase } from '../use-cases/sign-invite-token/sign-invite-token.use-case'
-import { CreateInviteDTO } from './dtos/create-invite.dto'
+import { ServerOwnerAuthGuard } from '../../../guards/server-owner/server-owner.guard'
+import { AddMemberToServerUseCase } from '../../../use-cases/add-member-to-server/add-member-to-server.use-case'
+import { DecodeInviteTokenUseCase } from '../../../use-cases/decode-invite-token/decode-invite-token.use-case'
+import { FindServerByIdUseCase } from '../../../use-cases/find-server-by-id/find-server-by-id.use-case'
+import { SignInviteTokenUseCase } from '../../../use-cases/sign-invite-token/sign-invite-token.use-case'
+import { InviteAcceptDocs } from './docs/invite-accept.docs'
+import { InviteGenerateDocs } from './docs/invite-generate.docs'
+import { InviteDocs } from './docs/invite.docs'
 
 @Controller('/servers/invites')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
-@ApiTags('invites')
-@ApiBearerAuth()
+@InviteDocs()
 export class InviteController {
   constructor(
     private readonly signInviteToken: SignInviteTokenUseCase,
@@ -35,8 +35,7 @@ export class InviteController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  @ApiBody({ type: CreateInviteDTO })
-  @ApiResponse({ schema: { example: { token: 'somebearerinvitetoken' } } })
+  @InviteGenerateDocs()
   async generate(
     @Body('serverId', new ParseUUIDPipe()) serverId: string,
     @Body('expiresIn', new ParseExpireDatePipe()) expiresIn: string
@@ -50,7 +49,7 @@ export class InviteController {
 
   @Post('/accept')
   @UseGuards(JwtAuthGuard)
-  @ApiBody({ schema: { example: { token: 'somebearerinvitetoken' } } })
+  @InviteAcceptDocs()
   async accept(@Body('token') token: string, @CurrentUserId() userId: string) {
     const serverId = await this.decodeInviteToken.execute(token)
 

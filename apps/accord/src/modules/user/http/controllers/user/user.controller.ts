@@ -13,23 +13,27 @@ import {
   Query
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiTags, ApiBearerAuth, ApiConsumes, ApiParam, ApiQuery } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
-import { ParseNametagPipe } from '../pipes/parse-nametag.pipe'
-import { CreateUserUseCase } from '../use-cases/create-user/create-user.use-case'
-import { FindUserByIdUseCase } from '../use-cases/find-user-by-id/find-user-by-id.use-case'
-import { FindUserByNameAndTagUseCase } from '../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
-import { ListUsersUseCase } from '../use-cases/list-users/list-users.use-case'
-import { UpdateUserUseCase } from '../use-cases/update-user/update-user.use-case'
+import { ParseNametagPipe } from '../../../pipes/parse-nametag.pipe'
+import { CreateUserUseCase } from '../../../use-cases/create-user/create-user.use-case'
+import { FindUserByIdUseCase } from '../../../use-cases/find-user-by-id/find-user-by-id.use-case'
+import { FindUserByNameAndTagUseCase } from '../../../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
+import { ListUsersUseCase } from '../../../use-cases/list-users/list-users.use-case'
+import { UpdateUserUseCase } from '../../../use-cases/update-user/update-user.use-case'
+import { UserIndexDocs } from './docs/user-index.docs'
+import { UserMeDocs } from './docs/user-me.docs'
+import { UserShowDocs } from './docs/user-show.docs'
+import { UserUpdateDocs } from './docs/user-update.docs'
+import { UserDocs } from './docs/user.docs'
 import { CreateAccountDTO } from './dtos/create-account.dto'
 import { UpdateAccountDTO } from './dtos/update-account.dto'
 
 @Controller('/users')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
-@ApiTags('users')
+@UserDocs()
 export class UserController {
   constructor(
     private readonly createUser: CreateUserUseCase,
@@ -41,9 +45,7 @@ export class UserController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiQuery({ name: 'page', required: false, type: 'integer' })
-  @ApiQuery({ name: 'limit', required: false, type: 'integer' })
+  @UserIndexDocs()
   async index(@Query('page') page?: string, @Query('limit') limit?: string) {
     const pagination = {
       page: page && Number(page),
@@ -54,15 +56,14 @@ export class UserController {
 
   @Get('/@me')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @UserMeDocs()
   async me(@CurrentUserId() id: string) {
     return this.findUserById.execute({ id })
   }
 
   @Get('/:nametag')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiParam({ name: 'nametag', example: 'Vassoura#8230', type: 'string' })
+  @UserShowDocs()
   async show(@Param('nametag', new ParseNametagPipe()) [name, tag]: [string, number]) {
     return this.findUserByNameAndTag.execute({ name, tag })
   }
@@ -77,8 +78,7 @@ export class UserController {
   @Put('/')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
-  @ApiBearerAuth()
-  @ApiConsumes('multipart/form-data')
+  @UserUpdateDocs()
   async update(@Body() data: UpdateAccountDTO, @UploadedFile() file: Express.Multer.File, @CurrentUserId() id: string) {
     const user = await this.updateUser.execute({
       id,

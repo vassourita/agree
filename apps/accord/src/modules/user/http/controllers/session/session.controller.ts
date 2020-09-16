@@ -4,23 +4,24 @@ import {
   Body,
   UnauthorizedException,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  Put
+  ClassSerializerInterceptor
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
-import { ApiTags } from '@nestjs/swagger'
 
 import { IJwtPayloadDTO } from '@shared/guards/jwt/jwt-payload.dto'
 import { AuthProvider } from '@shared/providers/auth.provider'
 
-import { FindUserByEmailUseCase } from '../use-cases/find-user-by-email/find-user-by-email.use-case'
-import { FindUserByIdUseCase } from '../use-cases/find-user-by-id/find-user-by-id.use-case'
+import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
+import { FindUserByIdUseCase } from '../../../use-cases/find-user-by-id/find-user-by-id.use-case'
+import { SessionRefreshDocs } from './docs/session-refresh.docs'
+import { SessionStoreDocs } from './docs/session-store.docs'
+import { SessionDocs } from './docs/session.docs'
 import { LoginDTO } from './dtos/login.dto'
 
 @Controller('/sessions')
 @UseInterceptors(ClassSerializerInterceptor)
-@ApiTags('sessions')
+@SessionDocs()
 export class SessionController {
   constructor(
     private readonly auth: AuthProvider,
@@ -31,6 +32,7 @@ export class SessionController {
   ) {}
 
   @Post('/')
+  @SessionStoreDocs()
   public async store(@Body() data: LoginDTO) {
     const user = await this.findUserByEmail.execute({ email: data.email })
 
@@ -60,7 +62,8 @@ export class SessionController {
     }
   }
 
-  @Put('/')
+  @Post('/refresh')
+  @SessionRefreshDocs()
   async refresh(@Body('refreshToken') refreshToken: string) {
     const { id } = this.jwtService.decode(refreshToken) as IJwtPayloadDTO
     const user = await this.findUserById.execute({ id })

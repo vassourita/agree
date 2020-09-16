@@ -12,22 +12,23 @@ import {
   ConflictException,
   Body
 } from '@nestjs/common'
-import { ApiTags, ApiBearerAuth, ApiBody } from '@nestjs/swagger'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
-import { ServerMemberAuthGuard } from '../guards/server-member/server-member.guard'
-import { ServerOwnerAuthGuard } from '../guards/server-owner/server-owner.guard'
-import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
-import { FindMembersFromServerUseCase } from '../use-cases/find-members-from-server/find-members-from-server.use-case'
-import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
-import { RemoveMemberUseCase } from '../use-cases/remove-member/remove-member.use-case'
+import { ServerMemberAuthGuard } from '../../../guards/server-member/server-member.guard'
+import { ServerOwnerAuthGuard } from '../../../guards/server-owner/server-owner.guard'
+import { AddMemberToServerUseCase } from '../../../use-cases/add-member-to-server/add-member-to-server.use-case'
+import { FindMembersFromServerUseCase } from '../../../use-cases/find-members-from-server/find-members-from-server.use-case'
+import { FindServerByIdUseCase } from '../../../use-cases/find-server-by-id/find-server-by-id.use-case'
+import { RemoveMemberUseCase } from '../../../use-cases/remove-member/remove-member.use-case'
+import { MemberDestroyDocs } from './docs/member-destroy.docs'
+import { MemberStoreDocs } from './docs/member-store.docs'
+import { MemberDocs } from './docs/member.docs'
 
 @Controller('/servers/:server_id/members')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
-@ApiTags('members')
-@ApiBearerAuth()
+@MemberDocs()
 export class MemberController {
   constructor(
     private readonly findServerById: FindServerByIdUseCase,
@@ -46,7 +47,7 @@ export class MemberController {
 
   @Post('/')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  @ApiBody({ schema: { example: { memberId: 'the user id to be added in the server' } } })
+  @MemberStoreDocs()
   public async store(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
     @Body('memberId', new ParseUUIDPipe()) memberId: string,
@@ -66,7 +67,7 @@ export class MemberController {
 
   @Delete('/')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  @ApiBody({ schema: { example: { memberId: 'the user id to be removed from the server' } } })
+  @MemberDestroyDocs()
   public async destroy(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
     @Body('memberId', new ParseUUIDPipe()) memberId: string,

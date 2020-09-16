@@ -12,9 +12,9 @@ import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
 import redisStore from 'cache-manager-ioredis'
 
-import { SessionController } from './controllers/session.controller'
-import { UserController } from './controllers/user.controller'
 import { UserEntity } from './entities/user.entity'
+import { SessionController } from './http/controllers/session/session.controller'
+import { UserController } from './http/controllers/user/user.controller'
 import { useCases } from './use-cases'
 
 @Module({
