@@ -20,7 +20,7 @@ export class ServerMemberAuthGuard implements CanActivate {
 
     const memberId = request.user?.id
     if (!memberId) {
-      throw new UnauthorizedException()
+      throw new UnauthorizedException('You should be a member of the server to execute this action')
     }
     const member = await getRepository(ServerMemberEntity).findOne({
       where: {

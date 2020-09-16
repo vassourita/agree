@@ -27,7 +27,7 @@ export class ServerOwnerAuthGuard implements CanActivate {
 
     const userId = request.user?.id
     if (userId !== server.ownerId) {
-      throw new UnauthorizedException()
+      throw new UnauthorizedException('You should be the server owner to execute this action')
     }
 
     return true
