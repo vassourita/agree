@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 
@@ -20,6 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_NAME) {
 
   async validate(payload: IJwtPayloadDTO) {
     const { id } = payload
+    if (!id || typeof id !== 'string') {
+      throw new BadRequestException('Token contains invalid user info')
+    }
     return { id }
   }
 }
