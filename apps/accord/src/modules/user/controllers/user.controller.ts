@@ -44,7 +44,7 @@ export class UserController {
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: false, type: 'integer' })
   @ApiQuery({ name: 'limit', required: false, type: 'integer' })
-  public async index(@Query('page') page?: string, @Query('limit') limit?: string) {
+  async index(@Query('page') page?: string, @Query('limit') limit?: string) {
     const pagination = {
       page: page && Number(page),
       limit: limit && Number(limit)
@@ -55,7 +55,7 @@ export class UserController {
   @Get('/@me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  public async me(@CurrentUserId() id: string) {
+  async me(@CurrentUserId() id: string) {
     return this.findUserById.execute({ id })
   }
 
@@ -63,12 +63,12 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiParam({ name: 'nametag', example: 'Vassoura#8230', type: 'string' })
-  public async show(@Param('nametag', new ParseNametagPipe()) [name, tag]: [string, number]) {
+  async show(@Param('nametag', new ParseNametagPipe()) [name, tag]: [string, number]) {
     return this.findUserByNameAndTag.execute({ name, tag })
   }
 
   @Post('/')
-  public async store(@Body() data: CreateAccountDTO) {
+  async store(@Body() data: CreateAccountDTO) {
     const user = await this.createUser.execute(data)
 
     return user
@@ -79,11 +79,7 @@ export class UserController {
   @UseInterceptors(FileInterceptor('avatar'))
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
-  public async update(
-    @Body() data: UpdateAccountDTO,
-    @UploadedFile() file: Express.Multer.File,
-    @CurrentUserId() id: string
-  ) {
+  async update(@Body() data: UpdateAccountDTO, @UploadedFile() file: Express.Multer.File, @CurrentUserId() id: string) {
     const user = await this.updateUser.execute({
       id,
       name: data.name,
