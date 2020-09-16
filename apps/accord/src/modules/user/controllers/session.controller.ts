@@ -5,9 +5,7 @@ import {
   UnauthorizedException,
   UseInterceptors,
   ClassSerializerInterceptor,
-  Put,
-  Request,
-  Body
+  Put
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
