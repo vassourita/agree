@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { ChannelEntity } from '@modules/channel/entities/channel.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
+import { RedisClientNames } from '@shared/database/redis.service'
 import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import { AuthProvider } from '@shared/providers/auth.provider'
 import redisStore from 'cache-manager-ioredis'
@@ -34,7 +35,9 @@ import { useCases } from './use-cases'
         store: redisStore,
         host: config.get('database.redis.host'),
         port: config.get('database.redis.port'),
-        password: config.get('database.redis.password')
+        password: config.get('database.redis.password'),
+        ttl: 15,
+        keyPrefix: RedisClientNames.CACHE
       }),
       inject: [ConfigService]
     }),
