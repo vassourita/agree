@@ -36,7 +36,7 @@ import { useCases } from './use-cases'
         host: config.get('database.redis.host'),
         port: config.get('database.redis.port'),
         password: config.get('database.redis.password'),
-        ttl: 15,
+        ttl: config.get('database.redis.ttl'),
         keyPrefix: RedisClientNames.CACHE
       }),
       inject: [ConfigService]
