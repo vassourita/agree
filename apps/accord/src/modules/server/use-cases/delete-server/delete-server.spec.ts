@@ -60,31 +60,30 @@ describe('DeleteServerUseCase', () => {
     expect((await getRepository(ServerEntity).find()).length).toEqual(1)
 
     await sut.execute({
-      server: sutServer,
-      userId: sutServerOwner.id
+      server: sutServer
     })
 
     expect((await getRepository(ServerEntity).find()).length).toEqual(0)
   })
 
-  it('should throw if the user is not the server owner', async () => {
-    const sutServerOwner = await getRepository(UserEntity).save({
-      name: 'server owner',
-      email: 'test@user.com',
-      password: '123',
-      tag: 1
-    })
+  // TODO: reuse this test on controller test
+  // it('should throw if the user is not the server owner', async () => {
+  //   const sutServerOwner = await getRepository(UserEntity).save({
+  //     name: 'server owner',
+  //     email: 'test@user.com',
+  //     password: '123',
+  //     tag: 1
+  //   })
 
-    const sutServer = await createServer.execute({
-      name: 'my test server',
-      ownerId: sutServerOwner.id
-    })
+  //   const sutServer = await createServer.execute({
+  //     name: 'my test server',
+  //     ownerId: sutServerOwner.id
+  //   })
 
-    await expect(
-      sut.execute({
-        server: sutServer,
-        userId: 'someotherid123'
-      })
-    ).rejects.toThrow('You might be the server owner to delete the server')
-  })
+  //   await expect(
+  //     sut.execute({
+  //       server: sutServer
+  //     })
+  //   ).rejects.toThrow('You might be the server owner to delete the server')
+  // })
 })

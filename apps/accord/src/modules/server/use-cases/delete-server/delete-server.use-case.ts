@@ -1,4 +1,4 @@
-import { UnauthorizedException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { ServerEntity } from '@modules/server/entities/server.entity'
@@ -15,10 +15,6 @@ export class DeleteServerUseCase implements IUseCase<IDeleteServerDTO, void> {
   ) {}
 
   async execute(data: IDeleteServerDTO): Promise<void> {
-    if (data.server.ownerId !== data.userId) {
-      throw new UnauthorizedException('You might be the server owner to delete the server')
-    }
-
     await this.serverRepository.delete({
       id: data.server.id
     })

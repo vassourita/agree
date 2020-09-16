@@ -6,7 +6,6 @@ import {
   UseInterceptors,
   UseGuards,
   ParseUUIDPipe,
-  UnauthorizedException,
   Body
 } from '@nestjs/common'
 import { ApiTags, ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
@@ -15,6 +14,7 @@ import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorato
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date.pipe'
 
+import { ServerOwnerAuthGuard } from '../guards/server-owner/server-owner.guard'
 import { AddMemberToServerUseCase } from '../use-cases/add-member-to-server/add-member-to-server.use-case'
 import { DecodeInviteTokenUseCase } from '../use-cases/decode-invite-token/decode-invite-token.use-case'
 import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
@@ -34,19 +34,14 @@ export class InviteController {
   ) {}
 
   @Post('/')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
   @ApiBody({ type: CreateInviteDTO })
   @ApiResponse({ schema: { example: { token: 'somebearerinvitetoken' } } })
   async generate(
     @Body('serverId', new ParseUUIDPipe()) serverId: string,
-    @Body('expiresIn', new ParseExpireDatePipe()) expiresIn: string,
-    @CurrentUserId() userId: string
+    @Body('expiresIn', new ParseExpireDatePipe()) expiresIn: string
   ) {
-    const server = await this.findServerById.execute(serverId)
-
-    if (server.ownerId !== userId) {
-      throw new UnauthorizedException('You cannot create a invite token as you are not the server owner')
-    }
+    await this.findServerById.execute(serverId)
 
     const token = await this.signInviteToken.execute({ serverId, expiresIn })
 

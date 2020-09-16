@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ServerMemberEntity } from '@modules/server/entities/server-member.entity'
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { IUseCase } from '@shared/protocols/use-case'
-import { Repository } from 'typeorm'
+import { getConnection, Repository } from 'typeorm'
 
 import { IAddMemberToServerDTO } from './add-member-to-server.dto'
 
@@ -12,9 +12,7 @@ import { IAddMemberToServerDTO } from './add-member-to-server.dto'
 export class AddMemberToServerUseCase implements IUseCase<IAddMemberToServerDTO, void> {
   constructor(
     @InjectRepository(ServerMemberEntity)
-    private readonly memberRepository: Repository<ServerMemberEntity>,
-    @InjectRepository(ServerEntity)
-    private readonly serverRepository: Repository<ServerEntity>
+    private readonly memberRepository: Repository<ServerMemberEntity>
   ) {}
 
   async execute(data: IAddMemberToServerDTO): Promise<void> {
@@ -27,13 +25,15 @@ export class AddMemberToServerUseCase implements IUseCase<IAddMemberToServerDTO,
       throw new ConflictException('User is already in server')
     }
 
-    const serverOwnerAsMember = this.memberRepository.create({
-      memberId: data.userId,
-      serverId: data.server.id
-    })
-    await this.memberRepository.save(serverOwnerAsMember)
+    await getConnection().transaction(async entityManager => {
+      const serverOwnerAsMember = entityManager.create(ServerMemberEntity, {
+        memberId: data.userId,
+        serverId: data.server.id
+      })
+      await entityManager.save(ServerMemberEntity, serverOwnerAsMember)
 
-    data.server.memberCount++
-    await this.serverRepository.save(data.server)
+      data.server.memberCount++
+      await entityManager.save(ServerEntity, data.server)
+    })
   }
 }

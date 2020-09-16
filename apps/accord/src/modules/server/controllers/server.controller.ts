@@ -18,6 +18,7 @@ import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
+import { ServerOwnerAuthGuard } from '../guards/server-owner/server-owner.guard'
 import { CreateServerUseCase } from '../use-cases/create-server/create-server.use-case'
 import { DeleteServerUseCase } from '../use-cases/delete-server/delete-server.use-case'
 import { FindServerByIdUseCase } from '../use-cases/find-server-by-id/find-server-by-id.use-case'
@@ -64,9 +65,9 @@ export class ServerController {
     return this.findServersByOwner.execute(id)
   }
 
-  @Get('/:id')
+  @Get('/:server_id')
   @UseGuards(JwtAuthGuard)
-  public async show(@Param('id', new ParseUUIDPipe()) id: string) {
+  public async show(@Param('server_id', new ParseUUIDPipe()) id: string) {
     return this.findServerById.execute(id)
   }
 
@@ -81,9 +82,9 @@ export class ServerController {
     return server
   }
 
-  @Put('/:id')
-  @UseGuards(JwtAuthGuard)
-  public async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() { name }: UpdateServerDTO) {
+  @Put('/:server_id')
+  @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
+  public async update(@Param('server_id', new ParseUUIDPipe()) id: string, @Body() { name }: UpdateServerDTO) {
     const server = await this.findServerById.execute(id)
 
     return this.updateServer.execute({
@@ -92,14 +93,13 @@ export class ServerController {
     })
   }
 
-  @Delete('/:id')
-  @UseGuards(JwtAuthGuard)
-  public async destroy(@Param('id', new ParseUUIDPipe()) serverId: string, @CurrentUserId() userId: string) {
+  @Delete('/:server_id')
+  @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
+  public async destroy(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
     const server = await this.findServerById.execute(serverId)
 
     await this.deleteServer.execute({
-      server,
-      userId
+      server
     })
   }
 }
