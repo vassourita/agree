@@ -22,7 +22,6 @@ import { AddMemberToServerUseCase } from '../../../use-cases/add-member-to-serve
 import { FindMembersFromServerUseCase } from '../../../use-cases/find-members-from-server/find-members-from-server.use-case'
 import { FindServerByIdUseCase } from '../../../use-cases/find-server-by-id/find-server-by-id.use-case'
 import { RemoveMemberUseCase } from '../../../use-cases/remove-member/remove-member.use-case'
-import { MemberDestroyDocs } from './docs/member-destroy.docs'
 import { MemberStoreDocs } from './docs/member-store.docs'
 import { MemberDocs } from './docs/member.docs'
 
@@ -39,7 +38,7 @@ export class MemberController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard, new ServerMemberAuthGuard())
-  public async index(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
+  async index(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
     await this.findServerById.execute(serverId)
 
     return this.findMembersFromServer.execute(serverId)
@@ -48,7 +47,7 @@ export class MemberController {
   @Post('/')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
   @MemberStoreDocs()
-  public async store(
+  async store(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
     @Body('memberId', new ParseUUIDPipe()) memberId: string,
     @CurrentUserId() loggedUserId: string
@@ -65,12 +64,11 @@ export class MemberController {
     })
   }
 
-  @Delete('/')
+  @Delete('/:member_id')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  @MemberDestroyDocs()
-  public async destroy(
+  async destroy(
     @Param('server_id', new ParseUUIDPipe()) serverId: string,
-    @Body('memberId', new ParseUUIDPipe()) memberId: string,
+    @Param('member_id', new ParseUUIDPipe()) memberId: string,
     @CurrentUserId() loggedUserId: string
   ) {
     const server = await this.findServerById.execute(serverId)

@@ -30,7 +30,6 @@ import { ServerIndexDocs } from './docs/server-index.docs'
 import { ServerUpdateDocs } from './docs/server-update.docs'
 import { ServerDocs } from './docs/server.docs'
 import { CreateServerDTO } from './dtos/create-server.dto'
-import { UpdateServerDTO } from './dtos/update-server.dto'
 
 @Controller('/servers')
 @UseInterceptors(CacheInterceptor, ClassSerializerInterceptor)
@@ -48,7 +47,7 @@ export class ServerController {
   @Get('/')
   @UseGuards(JwtAuthGuard)
   @ServerIndexDocs()
-  public async index(@Query('page') page: string, @Query('limit') limit: string, @Query('name') name: string) {
+  async index(@Query('page') page: string, @Query('limit') limit: string, @Query('name') name: string) {
     const pagination = {
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 15
@@ -62,19 +61,19 @@ export class ServerController {
 
   @Get('/@me')
   @UseGuards(JwtAuthGuard)
-  public async me(@CurrentUserId() id: string) {
+  async me(@CurrentUserId() id: string) {
     return this.findServersByOwner.execute(id)
   }
 
   @Get('/:server_id')
   @UseGuards(JwtAuthGuard)
-  public async show(@Param('server_id', new ParseUUIDPipe()) id: string) {
+  async show(@Param('server_id', new ParseUUIDPipe()) id: string) {
     return this.findServerById.execute(id)
   }
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
-  public async store(@Body() { name }: CreateServerDTO, @CurrentUserId() userId: string) {
+  async store(@Body() { name }: CreateServerDTO, @CurrentUserId() userId: string) {
     const server = await this.createServer.execute({
       name,
       ownerId: userId
@@ -87,7 +86,7 @@ export class ServerController {
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   @ServerUpdateDocs()
-  public async update(
+  async update(
     @Param('server_id', new ParseUUIDPipe()) id: string,
     @Body('name') name: string,
     @UploadedFile() file: Express.Multer.File
@@ -102,7 +101,7 @@ export class ServerController {
 
   @Delete('/:server_id')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  public async destroy(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
+  async destroy(@Param('server_id', new ParseUUIDPipe()) serverId: string) {
     const server = await this.findServerById.execute(serverId)
 
     await this.deleteServer.execute({
