@@ -15,7 +15,8 @@ export const uploadConfig = registerAs('upload', () => ({
     destination: resolve(__dirname, '..', '..', 'uploads')
   }),
   filter: (_req, file: Express.Multer.File, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    const ext = extname(file.originalname)
+    if (!ext.match(/(.jpg|.jpeg|.png|.gif)$/)) {
       return cb(new BadRequestException('Uploaded avatar file is not an image'), false)
     }
     return cb(null, true)
