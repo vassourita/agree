@@ -4,12 +4,13 @@ import {
   Body,
   UnauthorizedException,
   UseInterceptors,
-  ClassSerializerInterceptor
+  ClassSerializerInterceptor,
+  BadRequestException
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 
-import { IJwtPayloadDTO } from '@shared/guards/jwt/jwt-payload.dto'
+import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/jwt-payload.dto'
 import { AuthProvider } from '@shared/providers/auth.provider'
 
 import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
@@ -44,14 +45,14 @@ export class SessionController {
       throw new UnauthorizedException('Wrong password')
     }
 
-    const payload: IJwtPayloadDTO = { id: user.id }
-
-    const accessToken = this.jwtService.sign(payload, {
+    const accessPayload: IJwtPayloadDTO = { id: user.id, typ: JwtType.ACCESS }
+    const accessToken = this.jwtService.sign(accessPayload, {
       secret: this.config.get('auth.key'),
       expiresIn: '6h'
     })
 
-    const refreshToken = this.jwtService.sign(payload, {
+    const refreshPayload: IJwtPayloadDTO = { id: user.id, typ: JwtType.REFRESH }
+    const refreshToken = this.jwtService.sign(refreshPayload, {
       secret: this.config.get('auth.jwt.refreshKey'),
       expiresIn: '1y'
     })
@@ -65,15 +66,17 @@ export class SessionController {
   @Post('/refresh')
   @SessionRefreshDocs()
   async refresh(@Body('refreshToken') refreshToken: string) {
-    const { id } = this.jwtService.decode(refreshToken) as IJwtPayloadDTO
-    const user = await this.findUserById.execute({ id })
+    const { id, typ } = this.jwtService.decode(refreshToken) as IJwtPayloadDTO
+    if (typ !== JwtType.REFRESH) {
+      throw new BadRequestException('Token is not a refresh token')
+    }
 
+    const user = await this.findUserById.execute({ id })
     if (!user) {
       throw new UnauthorizedException('User does not exists')
     }
 
-    const payload: IJwtPayloadDTO = { id: user.id }
-
+    const payload: IJwtPayloadDTO = { id: user.id, typ: JwtType.ACCESS }
     const accessToken = this.jwtService.sign(payload, {
       secret: this.config.get('auth.key'),
       expiresIn: '6h'

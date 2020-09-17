@@ -9,6 +9,7 @@ import { ServerMemberEntity } from '@modules/server/entities/server-member.entit
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
+import { JwtType } from '@shared/guards/jwt/jwt-payload.dto'
 import { getRepository } from 'typeorm'
 
 import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
@@ -57,7 +58,7 @@ describe('SignInviteTokenUseCase', () => {
     expect(sut.execute).toBeDefined()
   })
 
-  it('should sign and return an invite token', async () => {
+  it('should sign and return a valid invite token', async () => {
     const sutServerOwner = await getRepository(UserEntity).save({
       name: 'server owner',
       email: 'test@user.com',
@@ -73,7 +74,7 @@ describe('SignInviteTokenUseCase', () => {
     const token = await sut.execute({ serverId: sutServer.id, expiresIn: '7d' })
 
     const result = jwtService.decode(token)
-    const expected = expect.objectContaining({ serverId: sutServer.id })
+    const expected = expect.objectContaining({ id: sutServer.id, typ: JwtType.INVITE })
     expect(result).toEqual(expected)
   })
 })

@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config'
-import { JwtModule } from '@nestjs/jwt'
+import { JwtModule, JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
@@ -9,6 +9,7 @@ import { ServerMemberEntity } from '@modules/server/entities/server-member.entit
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
+import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/jwt-payload.dto'
 import { getRepository } from 'typeorm'
 
 import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
@@ -21,6 +22,7 @@ describe('DecodeInviteTokenUseCase', () => {
 
   let signToken: SignInviteTokenUseCase
   let createServer: CreateServerUseCase
+  let jwtService: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -44,6 +46,7 @@ describe('DecodeInviteTokenUseCase', () => {
     sut = moduleRef.get(DecodeInviteTokenUseCase)
     signToken = moduleRef.get(SignInviteTokenUseCase)
     createServer = moduleRef.get(CreateServerUseCase)
+    jwtService = moduleRef.get(JwtService)
   })
 
   afterAll(async () => {
@@ -78,5 +81,27 @@ describe('DecodeInviteTokenUseCase', () => {
 
   it('should throw if the token is invalid', async () => {
     await expect(sut.execute('someinvalidtoken123')).rejects.toThrow('Invalid token')
+  })
+
+  it('should throw if the token is not of type INVITE', async () => {
+    const sutServerOwner = await getRepository(UserEntity).save({
+      name: 'server owner',
+      email: 'test@user.com',
+      password: '123',
+      tag: 1
+    })
+
+    const sutServer = await createServer.execute({
+      name: 'my test server',
+      ownerId: sutServerOwner.id
+    })
+
+    const payload: IJwtPayloadDTO = {
+      id: sutServer.id,
+      typ: JwtType.ACCESS
+    }
+    const token = await jwtService.signAsync(payload, { expiresIn: '7d' })
+
+    await expect(sut.execute(token)).rejects.toThrow('Token is not a invite token')
   })
 })

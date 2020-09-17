@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport'
 
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
-import { IJwtPayloadDTO } from './jwt-payload.dto'
+import { IJwtPayloadDTO, JwtType } from './jwt-payload.dto'
 
 export const JWT_STRATEGY_NAME = 'default-jwt'
 
@@ -19,9 +19,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY_NAME) {
   }
 
   async validate(payload: IJwtPayloadDTO) {
-    const { id } = payload
+    const { id, typ } = payload
     if (!id || typeof id !== 'string') {
       throw new BadRequestException('Token contains invalid user info')
+    }
+    if (typ !== JwtType.ACCESS) {
+      throw new BadRequestException('Token is not a access token')
     }
     return { id }
   }
