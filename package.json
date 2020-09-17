@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "test": "jest --passWithNoTests --no-cache",
-    "test:cov": "jest --passWithNoTests --no-cache --coverage",
+    "test:cov": "jest --passWithNoTests --no-cache --coverage --verbose",
     "test:badges": "npm run test:cov && jest-coverage-badges --output \"./.github/assets/\"",
     "docker-up": "cd docker && docker-compose up -d",
     "docker-down": "cd docker && docker-compose down",
