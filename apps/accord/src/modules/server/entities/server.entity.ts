@@ -33,7 +33,7 @@ export class ServerEntity {
   @Expose()
   @ApiProperty({ example: 'http://localhost:4001/files/someserverimage.png' })
   get avatarUrl() {
-    return this.avatar ? `${process.env.PUBLIC_FILES_URL}/${this.avatar}` : null
+    return `${process.env.PUBLIC_FILES_URL}/${this.avatar}`
   }
 
   constructor(partial: Partial<ServerEntity>) {
