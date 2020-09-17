@@ -1,7 +1,7 @@
-import { PipeTransform, ArgumentMetadata, BadRequestException } from '@nestjs/common'
+import { PipeTransform, BadRequestException } from '@nestjs/common'
 
 export class ParseNametagPipe implements PipeTransform {
-  transform(value: any, _metadata: ArgumentMetadata) {
+  async transform(value: unknown) {
     if (typeof value !== 'string') {
       throw new BadRequestException('Invalid nametag')
     }
@@ -17,6 +17,6 @@ export class ParseNametagPipe implements PipeTransform {
       throw new BadRequestException('Invalid tag number')
     }
 
-    return [name, tag]
+    return [name, Number(tag)]
   }
 }

@@ -17,7 +17,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
-import { ParseNametagPipe } from '../../../pipes/parse-nametag.pipe'
+import { ParseNametagPipe } from '../../../pipes/parse-nametag/parse-nametag.pipe'
 import { CreateUserUseCase } from '../../../use-cases/create-user/create-user.use-case'
 import { FindUserByIdUseCase } from '../../../use-cases/find-user-by-id/find-user-by-id.use-case'
 import { FindUserByNameAndTagUseCase } from '../../../use-cases/find-user-by-name-and-tag/find-user-by-name-and-tag.use-case'
