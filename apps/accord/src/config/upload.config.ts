@@ -3,13 +3,13 @@ import { registerAs } from '@nestjs/config'
 
 import { diskStorage } from 'multer'
 import { resolve, extname } from 'path'
-import { uuid } from 'uuidv4'
+import * as uuid from 'uuid'
 
 export const uploadConfig = registerAs('upload', () => ({
   dir: resolve(__dirname, '..', '..', 'uploads'),
   storage: diskStorage({
     filename: (_req, file, cb) => {
-      const randomName = uuid()
+      const randomName = uuid.v4()
       return cb(null, `${randomName}${extname(file.originalname)}`)
     },
     destination: resolve(__dirname, '..', '..', 'uploads')
