@@ -1,4 +1,11 @@
-import { Injectable, ExecutionContext, CanActivate, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import {
+  Injectable,
+  ExecutionContext,
+  CanActivate,
+  NotFoundException,
+  UnauthorizedException,
+  InternalServerErrorException
+} from '@nestjs/common'
 
 import { ServerMemberEntity } from '@modules/server/entities/server-member.entity'
 import { ServerEntity } from '@modules/server/entities/server.entity'
@@ -12,6 +19,9 @@ export class ServerMemberAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>()
     const serverId = request.params.server_id || request.params.serverId || request.body.serverId
+    if (!serverId) {
+      throw new InternalServerErrorException('Internal server error')
+    }
 
     const server = await getRepository(ServerEntity).findOne(serverId)
     if (!server) {
@@ -20,7 +30,7 @@ export class ServerMemberAuthGuard implements CanActivate {
 
     const memberId = request.user?.id
     if (!memberId) {
-      throw new UnauthorizedException('You should be a member of the server to execute this action')
+      throw new UnauthorizedException('Authentication not found')
     }
     const member = await getRepository(ServerMemberEntity).findOne({
       where: {

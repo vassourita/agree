@@ -17,7 +17,7 @@ export class ServerOwnerAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>()
     const serverId = request.params.server_id || request.params.serverId || request.body.serverId
     if (!serverId) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException('Internal server error')
     }
 
     const server = await getRepository(ServerEntity).findOne(serverId)
@@ -26,7 +26,7 @@ export class ServerOwnerAuthGuard implements CanActivate {
     }
 
     const userId = request.user?.id
-    if (userId !== server.ownerId) {
+    if (!userId || userId !== server.ownerId) {
       throw new UnauthorizedException('You should be the server owner to execute this action')
     }
 
