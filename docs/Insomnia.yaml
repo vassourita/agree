@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2020-08-27T02:08:02.885Z
+__export_date: 2020-09-17T00:57:24.929Z
 __export_source: insomnia.desktop.app:v2020.3.3
 resources:
   - _id: req_68b4163ee8754e1abfec90480f090980
@@ -9,7 +9,7 @@ resources:
       mimeType: application/json
       text: >-
         {
-        	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2ZXJJZCI6ImQzZDhhMGQxLWE2NTctNDQyOC04NWY4LTA3MjlmOGQ2NmVhOSIsImlhdCI6MTU5ODQ5MDI1MiwiZXhwIjoxNTk5MDk1MDUyfQ.uxrugyHGY4ARCbquF8RkHuPCMqSuZ3WA-iZPOOAJKhc"
+        	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2ZXJJZCI6ImQzZDhhMGQxLWE2NTctNDQyOC04NWY4LTA3MjlmOGQ2NmVhOSIsImlhdCI6MTU5ODY2MDIxMywiZXhwIjoxNTk5MjY1MDEzfQ.rgJ9NblaUocRA-9xSwJkcFsd4budQvHlllRiXBcebo8"
         }
     created: 1598490277210
     description: ""
@@ -20,7 +20,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598490277210
     method: POST
-    modified: 1598490348595
+    modified: 1598660228875
     name: accept
     parameters: []
     parentId: fld_e6c59749778c4b0898c280e207b2859a
@@ -77,7 +77,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598489624934
     method: POST
-    modified: 1598490207686
+    modified: 1598660212275
     name: generate
     parameters: []
     parentId: fld_e6c59749778c4b0898c280e207b2859a
@@ -98,7 +98,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774551
     method: GET
-    modified: 1598485216827
+    modified: 1598559698342
     name: index
     parameters: []
     parentId: fld_f7f1a6ba4b5c4bb484fddc28d08e5cb2
@@ -187,7 +187,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774551
     method: GET
-    modified: 1598469260812
+    modified: 1600298928532
     name: index
     parameters: []
     parentId: fld_5e92a6b53a6f444a96192d180aabeb7a
@@ -197,7 +197,7 @@ resources:
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers?name=m"
+    url: "{{ baseURL }}/servers"
     _type: request
   - _id: fld_5e92a6b53a6f444a96192d180aabeb7a
     created: 1598468421886
@@ -218,7 +218,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774501
     method: GET
-    modified: 1598468421909
+    modified: 1598559529294
     name: show
     parameters: []
     parentId: fld_5e92a6b53a6f444a96192d180aabeb7a
@@ -228,7 +228,7 @@ resources:
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers/c774f6ad-438d-450d-a2b7-c3ee86005c24"
+    url: "{{ baseURL }}/servers/d3d8a0d1-a657-4428-85f8-0729f8d66ea9"
     _type: request
   - _id: req_c8035b7b2e6144558bced7163b822f19
     authentication: {}
@@ -257,7 +257,7 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"name": "meu server 1"
+        	"name": "meu server 2"
         }
     created: 1598468421913
     description: ""
@@ -268,7 +268,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598467774469.75
     method: POST
-    modified: 1598469224775
+    modified: 1598559553638
     name: store
     parameters: []
     parentId: fld_5e92a6b53a6f444a96192d180aabeb7a
@@ -283,21 +283,28 @@ resources:
   - _id: req_fe819ffdc5024affbbf61ae929ebafab
     authentication: {}
     body:
-      mimeType: application/json
-      text: |-
-        {
-        	"name": "serv"
-        }
+      mimeType: multipart/form-data
+      params:
+        - id: pair_05f8694371144e90883adcb6f1ce5027
+          name: name
+          value: servertest
+        - description: ""
+          disabled: false
+          fileName: /home/vassao/Imagens/kant.jpg
+          id: pair_d567eb1155ed4c1ea04b7c22a7448764
+          name: avatar
+          type: file
+          value: ""
     created: 1598468421918
     description: ""
     headers:
       - id: pair_4e7453b023234c0a98cdc5bad15a5972
         name: Content-Type
-        value: application/json
+        value: multipart/form-data
     isPrivate: false
     metaSortKey: -1598467774463.5
     method: PUT
-    modified: 1598468421918
+    modified: 1600303216885
     name: update
     parameters: []
     parentId: fld_5e92a6b53a6f444a96192d180aabeb7a
@@ -307,7 +314,7 @@ resources:
     settingRebuildPath: true
     settingSendCookies: true
     settingStoreCookies: true
-    url: "{{ baseURL }}/servers/c774f6ad-438d-450d-a2b7-c3ee86005c24"
+    url: "{{ baseURL }}/servers/d3d8a0d1-a657-4428-85f8-0729f8d66ea9"
     _type: request
   - _id: req_9f7eeb80400c454b8777d67dbb6d3494
     authentication: {}
@@ -348,7 +355,7 @@ resources:
     isPrivate: false
     metaSortKey: -1598197557145
     method: POST
-    modified: 1598469147570
+    modified: 1600299058067
     name: store
     parameters: []
     parentId: fld_c0895da6bac941fcab8710caa6be171e
@@ -520,7 +527,7 @@ resources:
     data:
       DEFAULT_HEADERS:
         Authorization: Bearer
-          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZTQ1YWI3LTZjOWItNDcyNy1hN2MyLTBjMWE4MzI4NjU0NyIsImlhdCI6MTU5ODQ2OTE0OCwiZXhwIjoxNTk5MDczOTQ4fQ.Wp1jojrFLd5hZuyPnSCLs6kdOF-bo9IlSNd0AdNAD3A
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZTQ1YWI3LTZjOWItNDcyNy1hN2MyLTBjMWE4MzI4NjU0NyIsImlhdCI6MTYwMDI5OTA1OCwiZXhwIjoxNjAwMzIwNjU4fQ.wGfZOewN5NJih7rg-oLyvWkEqcGq14IiKQQYI_kHvKQ
       baseURL: http://localhost:4001
     dataPropertyOrder:
       "&":
@@ -530,7 +537,7 @@ resources:
         - Authorization
     isPrivate: false
     metaSortKey: 1598037348991
-    modified: 1598469158995
+    modified: 1600299066448
     name: Base Environment
     parentId: wrk_af6ba3ac338346b791a7ab8fe552c74b
     _type: environment
