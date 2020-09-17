@@ -38,7 +38,7 @@ export class UserEntity {
   @Expose()
   @ApiProperty({ example: 'http://localhost:4001/files/someuserphoto.png' })
   get avatarUrl() {
-    return `${process.env.PUBLIC_FILES_URL}/${this.avatar}`
+    return this.avatar ? `${process.env.PUBLIC_FILES_URL}/${this.avatar}` : null
   }
 
   @Expose()

@@ -1,15 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
 
-import { IsString, IsNotEmpty } from 'class-validator'
+import { IsString } from 'class-validator'
 
 export class UpdateAccountDTO {
   @IsString()
-  @IsNotEmpty()
   @ApiPropertyOptional()
   name: string
 
   @IsString()
-  @IsNotEmpty()
   @ApiPropertyOptional()
   status: string
 

@@ -84,7 +84,7 @@ export class UserController {
       id,
       name: data.name,
       status: data.status,
-      avatar: file.filename
+      avatar: file?.filename
     })
 
     return user

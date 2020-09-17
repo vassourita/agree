@@ -1,7 +1,12 @@
-import { IsString, IsNotEmpty } from 'class-validator'
+import { ApiPropertyOptional } from '@nestjs/swagger'
+
+import { IsString } from 'class-validator'
 
 export class UpdateServerDTO {
   @IsString()
-  @IsNotEmpty()
+  @ApiPropertyOptional()
   name: string
+
+  @ApiPropertyOptional({ type: 'string', format: 'binary' })
+  avatar: Express.Multer.File
 }

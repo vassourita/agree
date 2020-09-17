@@ -28,7 +28,7 @@ export class UpdateUserUseCase implements IUseCase<IUpdateUserDTO, UserEntity> {
       user.status = data.status
     }
     if (data.avatar) {
-      const pathToOldAvatar = join(this.config.get('upload.dir'), user.avatar)
+      const pathToOldAvatar = join(this.config.get('upload.dir'), user.avatar || '')
       unlink(pathToOldAvatar, () => 0)
       user.avatar = data.avatar
     }

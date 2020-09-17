@@ -11,8 +11,10 @@ import {
   Query,
   ParseUUIDPipe,
   Put,
-  Delete
+  Delete,
+  UploadedFile
 } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
@@ -25,6 +27,7 @@ import { FindServersByOwnerUseCase } from '../../../use-cases/find-servers-by-ow
 import { ListServersUseCase } from '../../../use-cases/list-servers/list-servers.use-case'
 import { UpdateServerUseCase } from '../../../use-cases/update-server/update-server.use-case'
 import { ServerIndexDocs } from './docs/server-index.docs'
+import { ServerUpdateDocs } from './docs/server-update.docs'
 import { ServerDocs } from './docs/server.docs'
 import { CreateServerDTO } from './dtos/create-server.dto'
 import { UpdateServerDTO } from './dtos/update-server.dto'
@@ -82,12 +85,18 @@ export class ServerController {
 
   @Put('/:server_id')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)
-  public async update(@Param('server_id', new ParseUUIDPipe()) id: string, @Body() { name }: UpdateServerDTO) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  @ServerUpdateDocs()
+  public async update(
+    @Param('server_id', new ParseUUIDPipe()) id: string,
+    @Body('name') name: string,
+    @UploadedFile() file: Express.Multer.File
+  ) {
     const server = await this.findServerById.execute(id)
 
     return this.updateServer.execute({
       server,
-      update: { name }
+      update: { name, avatar: file?.filename }
     })
   }
 
