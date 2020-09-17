@@ -11,7 +11,7 @@ import {
 
 import { CurrentUserId } from '@shared/guards/jwt/jwt-autheticated-user.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
-import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date.pipe'
+import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date/parse-expire-date.pipe'
 
 import { ServerOwnerAuthGuard } from '../../../guards/server-owner/server-owner.guard'
 import { AddMemberToServerUseCase } from '../../../use-cases/add-member-to-server/add-member-to-server.use-case'

@@ -1,9 +1,9 @@
-import { PipeTransform, ArgumentMetadata, BadRequestException } from '@nestjs/common'
+import { PipeTransform, BadRequestException } from '@nestjs/common'
 
 import ms from 'ms'
 
 export class ParseExpireDatePipe implements PipeTransform {
-  transform(value: any, _metadata: ArgumentMetadata) {
+  async transform(value: unknown) {
     if (!value) {
       return undefined
     }
