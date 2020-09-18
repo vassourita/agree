@@ -6,9 +6,11 @@ import {
   UseInterceptors,
   UseGuards,
   ParseUUIDPipe,
-  Body
+  Body,
+  Get
 } from '@nestjs/common'
 
+import { ServerMemberAuthGuard } from '@modules/server/guards/server-member/server-member.guard'
 import { CurrentUserId } from '@shared/guards/jwt/decorators/current-user-id.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 import { ParseExpireDatePipe } from '@shared/pipes/parse-expire-date/parse-expire-date.pipe'
@@ -20,6 +22,7 @@ import { FindServerByIdUseCase } from '../../../use-cases/find-server-by-id/find
 import { SignInviteTokenUseCase } from '../../../use-cases/sign-invite-token/sign-invite-token.use-case'
 import { InviteAcceptDocs } from './docs/invite-accept.docs'
 import { InviteGenerateDocs } from './docs/invite-generate.docs'
+import { InviteShowDocs } from './docs/invite-show.docs'
 import { InviteDocs } from './docs/invite.docs'
 
 @Controller('/servers/invites')
@@ -32,6 +35,17 @@ export class InviteController {
     private readonly addMemberToServer: AddMemberToServerUseCase,
     private readonly findServerById: FindServerByIdUseCase
   ) {}
+
+  @Get('/')
+  @UseGuards(JwtAuthGuard, new ServerMemberAuthGuard(false))
+  @InviteShowDocs()
+  async show(@Body('token') token: string) {
+    const serverId = await this.decodeInviteToken.execute(token)
+
+    const server = await this.findServerById.execute(serverId)
+
+    return server
+  }
 
   @Post('/')
   @UseGuards(JwtAuthGuard, ServerOwnerAuthGuard)

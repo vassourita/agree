@@ -68,6 +68,12 @@ describe('InviteController', () => {
     expect(sut).toBeDefined()
   })
 
+  describe('GET /servers/invites', () => {
+    it('should be defined', () => {
+      expect(sut.show).toBeDefined()
+    })
+  })
+
   describe('POST /servers/invites', () => {
     it('should be defined', () => {
       expect(sut.generate).toBeDefined()
