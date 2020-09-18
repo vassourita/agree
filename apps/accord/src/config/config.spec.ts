@@ -1,4 +1,4 @@
-import { uploadConfig } from './upload.config'
+import { uploadConfig } from './modules/upload.config'
 
 describe('ConfigModule', () => {
   describe('uploadConfig', () => {

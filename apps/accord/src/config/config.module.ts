@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { apiConfig } from './api.config'
-import { authConfig } from './auth.config'
-import { databaseConfig } from './database.config'
-import { uploadConfig } from './upload.config'
+import { apiConfig } from './modules/api.config'
+import { authConfig } from './modules/auth.config'
+import { databaseConfig } from './modules/database.config'
+import { uploadConfig } from './modules/upload.config'
 
 @Module({
   imports: [
