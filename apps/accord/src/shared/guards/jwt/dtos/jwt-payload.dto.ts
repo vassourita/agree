@@ -9,4 +9,5 @@ export interface IJwtPayloadDTO {
   typ: JwtType
   sub?: string
   exp?: number
+  iss?: string
 }

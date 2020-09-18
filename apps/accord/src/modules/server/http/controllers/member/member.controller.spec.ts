@@ -33,7 +33,8 @@ describe('MemberController', () => {
           useFactory: (config: ConfigService) => ({
             secret: config.get('auth.key'),
             signOptions: {
-              expiresIn: config.get('auth.jwt.expiresIn')
+              expiresIn: config.get('auth.jwt.expiresIn'),
+              issuer: config.get('auth.jwt.issuer')
             }
           }),
           inject: [ConfigService]

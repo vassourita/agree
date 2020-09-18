@@ -9,7 +9,7 @@ import { ServerMemberEntity } from '@modules/server/entities/server-member.entit
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
-import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/jwt-payload.dto'
+import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/dtos/jwt-payload.dto'
 import { getRepository } from 'typeorm'
 
 import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
@@ -34,7 +34,8 @@ describe('DecodeInviteTokenUseCase', () => {
           useFactory: (config: ConfigService) => ({
             secret: config.get('auth.key'),
             signOptions: {
-              expiresIn: config.get('auth.jwt.expiresIn')
+              expiresIn: config.get('auth.jwt.expiresIn'),
+              issuer: config.get('auth.jwt.issuer')
             }
           }),
           inject: [ConfigService]

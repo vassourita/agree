@@ -13,7 +13,7 @@ import {
   Body
 } from '@nestjs/common'
 
-import { CurrentUserId } from '@shared/guards/jwt/current-user-id.decorator'
+import { CurrentUserId } from '@shared/guards/jwt/decorators/current-user-id.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
 import { ServerMemberAuthGuard } from '../../../guards/server-member/server-member.guard'

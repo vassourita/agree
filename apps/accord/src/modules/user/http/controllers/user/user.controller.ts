@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
-import { CurrentUserId } from '@shared/guards/jwt/current-user-id.decorator'
+import { CurrentUserId } from '@shared/guards/jwt/decorators/current-user-id.decorator'
 import { JwtAuthGuard } from '@shared/guards/jwt/jwt.guard'
 
 import { ParseNametagPipe } from '../../../pipes/parse-nametag/parse-nametag.pipe'

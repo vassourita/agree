@@ -10,7 +10,7 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 
-import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/jwt-payload.dto'
+import { IJwtPayloadDTO, JwtType } from '@shared/guards/jwt/dtos/jwt-payload.dto'
 import { AuthProvider } from '@shared/providers/auth.provider'
 
 import { FindUserByEmailUseCase } from '../../../use-cases/find-user-by-email/find-user-by-email.use-case'
