@@ -20,7 +20,8 @@ import { ChannelEntity } from './entities/channel.entity'
       useFactory: (config: ConfigService) => ({
         secret: config.get('auth.key'),
         signOptions: {
-          expiresIn: config.get('auth.jwt.expiresIn')
+          expiresIn: config.get('auth.jwt.expiresIn'),
+          issuer: config.get('auth.jwt.issuer')
         }
       }),
       inject: [ConfigService]
@@ -31,7 +32,7 @@ import { ChannelEntity } from './entities/channel.entity'
         host: config.get('database.redis.host'),
         port: config.get('database.redis.port'),
         password: config.get('database.redis.password'),
-        ttl: 15,
+        ttl: config.get('database.redis.ttl'),
         keyPrefix: RedisClientNames.CACHE
       }),
       inject: [ConfigService]
