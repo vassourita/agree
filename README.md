@@ -20,7 +20,6 @@
 
 ## :pushpin: Table of Contents
 
-- [:pushpin: Table of Contents](#pushpin-table-of-contents)
 - [:computer: Running the project](#computer-running-the-project)
 - [:pencil: Running tests](#pencil-running-tests)
 - [:handshake: Contributing](#handshake-contributing)
