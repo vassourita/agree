@@ -9,13 +9,14 @@ import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
 import { getRepository } from 'typeorm'
 
+import { CreateServerUseCase } from '../../server/create-server/create-server.use-case'
 import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
-import { CreateServerUseCase } from '../create-server/create-server.use-case'
-import { DeleteServerUseCase } from './delete-server.use-case'
+import { FindMembersFromServerUseCase } from './find-members-from-server.use-case'
 
-describe('DeleteServerUseCase', () => {
-  let sut: DeleteServerUseCase
+describe('FindMembersFromServerUseCase', () => {
+  let sut: FindMembersFromServerUseCase
 
+  let addMember: AddMemberToServerUseCase
   let createServer: CreateServerUseCase
 
   beforeAll(async () => {
@@ -25,11 +26,12 @@ describe('DeleteServerUseCase', () => {
         DatabaseModule,
         TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity, ChannelEntity])
       ],
-      providers: [DeleteServerUseCase, CreateServerUseCase, AddMemberToServerUseCase]
+      providers: [AddMemberToServerUseCase, CreateServerUseCase, FindMembersFromServerUseCase]
     }).compile()
 
-    sut = moduleRef.get(DeleteServerUseCase)
+    sut = moduleRef.get(FindMembersFromServerUseCase)
     createServer = moduleRef.get(CreateServerUseCase)
+    addMember = moduleRef.get(AddMemberToServerUseCase)
   })
 
   afterAll(async () => {
@@ -44,46 +46,35 @@ describe('DeleteServerUseCase', () => {
     expect(sut.execute).toBeDefined()
   })
 
-  it('should delete a server', async () => {
-    const sutServerOwner = await getRepository(UserEntity).save({
+  it('should return the users that are members from the server', async () => {
+    const serverOwner = await getRepository(UserEntity).save({
       name: 'server owner',
       email: 'test@user.com',
       password: '123',
       tag: 1
     })
 
-    const sutServer = await createServer.execute({
-      name: 'my test server',
-      ownerId: sutServerOwner.id
+    const server = await createServer.execute({
+      name: 'test server',
+      ownerId: serverOwner.id
     })
 
-    expect((await getRepository(ServerEntity).find()).length).toEqual(1)
+    for await (const i of [...Array(15).keys()]) {
+      const newMember = await getRepository(UserEntity).save({
+        name: `user ${i}`,
+        email: `test@user${i}.com`,
+        password: '123',
+        tag: 1
+      })
 
-    await sut.execute({
-      server: sutServer
-    })
+      await addMember.execute({
+        server,
+        userId: newMember.id
+      })
+    }
 
-    expect((await getRepository(ServerEntity).find()).length).toEqual(0)
+    const result = await sut.execute(server.id)
+
+    expect(result.length).toEqual(16)
   })
-
-  // TODO: reuse this test on controller test
-  // it('should throw if the user is not the server owner', async () => {
-  //   const sutServerOwner = await getRepository(UserEntity).save({
-  //     name: 'server owner',
-  //     email: 'test@user.com',
-  //     password: '123',
-  //     tag: 1
-  //   })
-
-  //   const sutServer = await createServer.execute({
-  //     name: 'my test server',
-  //     ownerId: sutServerOwner.id
-  //   })
-
-  //   await expect(
-  //     sut.execute({
-  //       server: sutServer
-  //     })
-  //   ).rejects.toThrow('You might be the server owner to delete the server')
-  // })
 })

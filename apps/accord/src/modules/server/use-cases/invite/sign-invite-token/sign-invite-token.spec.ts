@@ -12,8 +12,8 @@ import { DatabaseModule } from '@shared/database/database.module'
 import { JwtType } from '@shared/guards/jwt/dtos/jwt-payload.dto'
 import { getRepository } from 'typeorm'
 
-import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
-import { CreateServerUseCase } from '../create-server/create-server.use-case'
+import { AddMemberToServerUseCase } from '../../member/add-member-to-server/add-member-to-server.use-case'
+import { CreateServerUseCase } from '../../server/create-server/create-server.use-case'
 import { SignInviteTokenUseCase } from './sign-invite-token.use-case'
 
 describe('SignInviteTokenUseCase', () => {

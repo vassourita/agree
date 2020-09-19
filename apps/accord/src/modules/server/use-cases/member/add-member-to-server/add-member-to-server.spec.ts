@@ -9,14 +9,16 @@ import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
 import { getRepository } from 'typeorm'
 
-import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
-import { CreateServerUseCase } from './create-server.use-case'
+import { CreateServerUseCase } from '../../server/create-server/create-server.use-case'
+import { AddMemberToServerUseCase } from './add-member-to-server.use-case'
 
-describe('CreateServerUseCase', () => {
-  let sut: CreateServerUseCase
+describe('AddMemberToServerUseCase', () => {
+  let sut: AddMemberToServerUseCase
 
   let sutServer: ServerEntity
   let sutServerOwner: UserEntity
+
+  let createServer: CreateServerUseCase
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -25,10 +27,11 @@ describe('CreateServerUseCase', () => {
         DatabaseModule,
         TypeOrmModule.forFeature([ServerEntity, ServerMemberEntity, UserEntity, ChannelEntity])
       ],
-      providers: [CreateServerUseCase, AddMemberToServerUseCase]
+      providers: [AddMemberToServerUseCase, CreateServerUseCase]
     }).compile()
 
-    sut = moduleRef.get(CreateServerUseCase)
+    sut = moduleRef.get(AddMemberToServerUseCase)
+    createServer = moduleRef.get(CreateServerUseCase)
   })
 
   afterAll(async () => {
@@ -43,7 +46,7 @@ describe('CreateServerUseCase', () => {
     expect(sut.execute).toBeDefined()
   })
 
-  it('should create and return a new server', async () => {
+  it("should increase the server's member count", async () => {
     sutServerOwner = await getRepository(UserEntity).save({
       name: 'server owner',
       email: 'test@user.com',
@@ -51,26 +54,39 @@ describe('CreateServerUseCase', () => {
       tag: 1
     })
 
-    sutServer = await sut.execute({
+    sutServer = await createServer.execute({
       name: 'my test server',
       ownerId: sutServerOwner.id
     })
 
-    expect(sutServer).toBeDefined()
-    expect(sutServer).toBeInstanceOf(ServerEntity)
-  })
+    expect(sutServer.memberCount).toEqual(1)
 
-  it('should have added the owner as a server member', async () => {
-    const result = await getRepository(ServerMemberEntity).findOne({
-      serverId: sutServer.id,
-      memberId: sutServerOwner.id
+    const newMember = await getRepository(UserEntity).save({
+      name: 'new member of server',
+      email: 'test@user.com',
+      password: '123',
+      tag: 1
     })
 
-    expect(result).toBeDefined()
-    expect(result).toBeInstanceOf(ServerMemberEntity)
+    await sut.execute({ server: sutServer, userId: newMember.id })
+
+    expect(sutServer.memberCount).toEqual(2)
   })
 
-  it('should have increased the member count to 1', async () => {
-    expect(sutServer.memberCount).toBe(1)
+  it('should have created a new Server Member instance', async () => {
+    const result = await getRepository(ServerMemberEntity).find({
+      where: { serverId: sutServer.id }
+    })
+
+    expect(result.length).toBe(2)
+  })
+
+  it('should throw if the user is already in the server', async () => {
+    await expect(
+      sut.execute({
+        server: sutServer,
+        userId: sutServerOwner.id
+      })
+    ).rejects.toThrow('User is already in server')
   })
 })

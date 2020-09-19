@@ -9,8 +9,8 @@ import { UserEntity } from '@modules/user/entities/user.entity'
 import { DatabaseModule } from '@shared/database/database.module'
 import { getRepository } from 'typeorm'
 
+import { CreateServerUseCase } from '../../server/create-server/create-server.use-case'
 import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
-import { CreateServerUseCase } from '../create-server/create-server.use-case'
 import { FindMembersFromServerUseCase } from '../find-members-from-server/find-members-from-server.use-case'
 import { RemoveMemberUseCase } from './remove-member.use-case'
 

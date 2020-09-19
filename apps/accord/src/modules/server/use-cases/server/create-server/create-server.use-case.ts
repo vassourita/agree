@@ -5,7 +5,7 @@ import { ServerEntity } from '@modules/server/entities/server.entity'
 import { IUseCase } from '@shared/protocols/use-case'
 import { Repository } from 'typeorm'
 
-import { AddMemberToServerUseCase } from '../add-member-to-server/add-member-to-server.use-case'
+import { AddMemberToServerUseCase } from '../../member/add-member-to-server/add-member-to-server.use-case'
 import { ICreateServerDTO } from './create-server.dto'
 
 @Injectable()
