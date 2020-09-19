@@ -13,6 +13,7 @@ import redisStore from 'cache-manager-ioredis'
 
 import { ServerMemberEntity } from './entities/server-member.entity'
 import { ServerEntity } from './entities/server.entity'
+import { ChannelController } from './http/controllers/channel/channel.controller'
 import { InviteController } from './http/controllers/invite/invite.controller'
 import { MemberController } from './http/controllers/member/member.controller'
 import { ServerController } from './http/controllers/server/server.controller'
@@ -51,7 +52,7 @@ import { useCases } from './use-cases'
       inject: [ConfigService]
     })
   ],
-  controllers: [ServerController, MemberController, InviteController],
+  controllers: [ServerController, MemberController, InviteController, ChannelController],
   providers: [...useCases, AuthProvider, JwtStrategy]
 })
 export class ServerModule {}

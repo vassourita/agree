@@ -18,10 +18,10 @@ import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
 import redisStore from 'cache-manager-ioredis'
 
 import { FindServerByIdUseCase } from '../../../use-cases/server/find-server-by-id/find-server-by-id.use-case'
-import { InviteController } from './invite.controller'
+import { ChannelController } from './channel.controller'
 
-describe('InviteController', () => {
-  let sut: InviteController
+describe('ChannelController', () => {
+  let sut: ChannelController
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -58,31 +58,37 @@ describe('InviteController', () => {
         FindServerByIdUseCase,
         JwtStrategy
       ],
-      controllers: [InviteController]
+      controllers: [ChannelController]
     }).compile()
 
-    sut = moduleRef.get(InviteController)
+    sut = moduleRef.get(ChannelController)
   })
 
   it('should be defined', () => {
     expect(sut).toBeDefined()
   })
 
-  describe('GET /servers/invites', () => {
+  describe('GET /servers/:server_id/channels', () => {
     it('should be defined', () => {
-      expect(sut.show).toBeDefined()
+      expect(sut.index).toBeDefined()
     })
   })
 
-  describe('POST /servers/invites', () => {
+  describe('POST /servers/:server_id/channels', () => {
     it('should be defined', () => {
-      expect(sut.generate).toBeDefined()
+      expect(sut.store).toBeDefined()
     })
   })
 
-  describe('POST /servers/invites/accept', () => {
+  describe('PUT /servers/:server_id/channels/:channel_id', () => {
     it('should be defined', () => {
-      expect(sut.generate).toBeDefined()
+      expect(sut.destroy).toBeDefined()
+    })
+  })
+
+  describe('DELETE /servers/:server_id/channels/:channel_id', () => {
+    it('should be defined', () => {
+      expect(sut.destroy).toBeDefined()
     })
   })
 })
