@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AccordConfigModule } from '@config/config.module'
-import { ChannelEntity } from '@modules/channel/entities/channel.entity'
+import { ChannelEntity } from '@modules/server/entities/channel.entity'
 import { ServerMemberEntity } from '@modules/server/entities/server-member.entity'
 import { ServerEntity } from '@modules/server/entities/server.entity'
 import { AddMemberToServerUseCase } from '@modules/server/use-cases/add-member-to-server/add-member-to-server.use-case'

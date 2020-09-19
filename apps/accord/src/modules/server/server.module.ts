@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { MulterModule } from '@nestjs/platform-express'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { ChannelEntity } from '@modules/channel/entities/channel.entity'
+import { ChannelEntity } from '@modules/server/entities/channel.entity'
 import { UserEntity } from '@modules/user/entities/user.entity'
 import { RedisClientNames } from '@shared/database/redis.service'
 import { JwtStrategy } from '@shared/guards/jwt/jwt.strategy'
