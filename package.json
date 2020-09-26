@@ -7,8 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest --passWithNoTests --no-cache",
+    "test": "jest --passWithNoTests --no-cache --verbose",
     "test:cov": "jest --passWithNoTests --no-cache --coverage --verbose",
+    "test:ci": "jest --no-cache --coverage && cat ./coverage/lcov.info | coveralls",
     "test:badges": "npm run test:cov && jest-coverage-badges --output \"./.github/assets/\"",
     "docker-up": "cd docker && docker-compose up -d",
     "docker-down": "cd docker && docker-compose down",
@@ -28,6 +29,7 @@
     "@agree/config-eslint": "*",
     "@agree/config-prettier": "*",
     "@types/jest": "^26.0.10",
+    "coveralls": "^3.1.0",
     "jest": "^26.4.0",
     "jest-coverage-badges": "vassourita/jest-coverage-badges",
     "sqlite3": "^5.0.0",
