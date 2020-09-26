@@ -10,10 +10,8 @@
     <img alt="Code Style" src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" />
   </a>
   <br/>
-  <img alt="functions coverage" src="./.github/assets/badge-functions.svg">
-  <img alt="branches coverage" src="./.github/assets/badge-branches.svg">
-  <img alt="lines coverage" src="./.github/assets/badge-lines.svg">
-  <img alt="statements coverage" src="./.github/assets/badge-statements.svg">
+  <img alt="build status" src="https://img.shields.io/travis/vassourita/agree?style=flat-square" />
+  <img alt="coverage status" src="https://img.shields.io/coveralls/github/vassourita/agree?style=flat-square">
 </h1>
 
 > #### Agree is a voice, video and text communication service based on Discord, currently under development

@@ -10,7 +10,6 @@
     "test": "jest --passWithNoTests --no-cache --verbose --detectOpenHandles --forceExit",
     "test:cov": "jest --passWithNoTests --no-cache --coverage --detectOpenHandles --forceExit",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "test:badges": "npm run test:cov && jest-coverage-badges --output \"./.github/assets/\"",
     "docker-up": "cd docker && docker-compose up -d",
     "docker-down": "cd docker && docker-compose down",
     "accord:dev": "cd apps/accord && yarn migrate:run && yarn start:dev"
@@ -31,7 +30,6 @@
     "@types/jest": "^26.0.10",
     "coveralls": "^3.1.0",
     "jest": "^26.4.0",
-    "jest-coverage-badges": "vassourita/jest-coverage-badges",
     "sqlite3": "^5.0.0",
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7"
