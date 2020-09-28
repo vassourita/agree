@@ -60,8 +60,6 @@ Now you can browse to http://localhost:4001/docs to see the Swagger documentatio
 $ yarn test
 # to run tests with coverage reports
 $ yarn test:cov
-# to run tests with coverage reports and update coverage badges
-$ yarn test:badges
 ```
 
 ## :handshake: Contributing
