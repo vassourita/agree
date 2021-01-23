@@ -26,6 +26,7 @@ namespace Agree.Athens.Infrastructure.Data.Contexts
             modelBuilder.Entity<Message>(new MessageMap().Configure);
             modelBuilder.Entity<Category>(new CategoryMap().Configure);
             modelBuilder.Entity<ServerUser>(new ServerUserMap().Configure);
+            modelBuilder.Entity<ServerUserRole>(new ServerUserRoleMap().Configure);
         }
     }
 }

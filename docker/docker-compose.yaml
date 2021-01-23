@@ -2,7 +2,7 @@ version: '3'
 
 services:
   athens-postgres:
-    image: postgres:13.1-alpine
+    image: postgres
     container_name: 'athens-postgres'
     restart: always
     ports:

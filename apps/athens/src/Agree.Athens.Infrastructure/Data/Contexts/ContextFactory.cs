@@ -8,7 +8,7 @@ namespace Agree.Athens.Infrastructure.Data.Contexts
     {
         public DataContext CreateDbContext(string[] args)
         {
-            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=agree_athens_db";
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=athens";
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
             optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.LogTo(Console.WriteLine);

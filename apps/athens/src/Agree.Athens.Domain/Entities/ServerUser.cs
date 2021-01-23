@@ -11,6 +11,7 @@ namespace Agree.Athens.Domain.Entities
         public ServerUser()
         {
             Roles = new Collection<Role>();
+            ServerUserRoles = new List<ServerUserRole>();
         }
 
         public Guid UserId { get; set; }
@@ -18,6 +19,8 @@ namespace Agree.Athens.Domain.Entities
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
 
+
+        public List<ServerUserRole> ServerUserRoles { get; set; }
         public ICollection<Role> Roles { get; set; }
     }
 }

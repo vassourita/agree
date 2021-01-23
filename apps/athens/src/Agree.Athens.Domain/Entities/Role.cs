@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
@@ -8,6 +10,8 @@ namespace Agree.Athens.Domain.Entities
     {
         public Role()
         {
+            ServerUsers = new Collection<ServerUser>();
+            ServerUserRoles = new List<ServerUserRole>();
         }
 
         public string Name { get; set; }
@@ -24,5 +28,8 @@ namespace Agree.Athens.Domain.Entities
 
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
+
+        public List<ServerUserRole> ServerUserRoles { get; set; }
+        public ICollection<ServerUser> ServerUsers { get; set; }
     }
 }

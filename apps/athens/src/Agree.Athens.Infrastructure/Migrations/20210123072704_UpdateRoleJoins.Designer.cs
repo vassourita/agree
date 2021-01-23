@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210123072704_UpdateRoleJoins")]
+    partial class UpdateRoleJoins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,37 +316,26 @@ namespace Agree.Athens.Infrastructure.Migrations
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUserRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ServerUserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("server_user_id");
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
+                    b.HasKey("RoleId", "ServerUserId", "Id");
 
                     b.HasIndex("ServerUserId");
 
-                    b.ToTable("server_user_role");
+                    b.ToTable("ServerUserRole");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>
@@ -484,7 +475,7 @@ namespace Agree.Athens.Infrastructure.Migrations
                 {
                     b.HasOne("Agree.Athens.Domain.Entities.Role", "Role")
                         .WithMany("ServerUserRoles")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("ServerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
