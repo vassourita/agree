@@ -6,6 +6,9 @@ namespace Agree.Athens.Domain.Entities
 {
     public class Message : BaseEntity<long>, IAggregateRoot
     {
+        public Message()
+        {
+        }
         public string Content { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }

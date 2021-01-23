@@ -29,25 +29,25 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
                 .IsRequired()
                 .HasColumnName("order");
 
-            builder.Property(r => r.Permissions.CanCreateNewRoles)
+            builder.Property(r => r.CanCreateNewRoles)
                 .IsRequired()
                 .HasColumnName("permissions_can_create_new_roles");
-            builder.Property(r => r.Permissions.CanDeleteRoles)
+            builder.Property(r => r.CanDeleteRoles)
                 .IsRequired()
                 .HasColumnName("permissions_can_delete_roles");
-            builder.Property(r => r.Permissions.CanDeleteServer)
+            builder.Property(r => r.CanDeleteServer)
                 .IsRequired()
                 .HasColumnName("permissions_can_delete_server");
-            builder.Property(r => r.Permissions.CanRemoveUsers)
+            builder.Property(r => r.CanRemoveUsers)
                 .IsRequired()
                 .HasColumnName("permissions_can_remove_users");
-            builder.Property(r => r.Permissions.CanUpdateServerAvatar)
+            builder.Property(r => r.CanUpdateServerAvatar)
                 .IsRequired()
                 .HasColumnName("permissions_can_update_server_avatar");
-            builder.Property(r => r.Permissions.CanUpdateServerDescription)
+            builder.Property(r => r.CanUpdateServerDescription)
                 .IsRequired()
                 .HasColumnName("permissions_can_update_server_description");
-            builder.Property(r => r.Permissions.CanUpdateServerName)
+            builder.Property(r => r.CanUpdateServerName)
                 .IsRequired()
                 .HasColumnName("permissions_can_update_server_name");
 
