@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Presentation", "Agree.Athens.Presentation\Agree.Athens.Presentation.csproj", "{76719B5D-A19F-4469-8AFE-748DEA028520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Service", "Agree.Athens.Service\Agree.Athens.Service.csproj", "{0EE62864-AF79-41A9-B928-E5CC7F9F518A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Application", "Agree.Athens.Application\Agree.Athens.Application.csproj", "{A656919B-E216-4E60-8E2C-0C8A73AAB02F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,5 +72,17 @@ Global
 		{0EE62864-AF79-41A9-B928-E5CC7F9F518A}.Release|x64.Build.0 = Release|Any CPU
 		{0EE62864-AF79-41A9-B928-E5CC7F9F518A}.Release|x86.ActiveCfg = Release|Any CPU
 		{0EE62864-AF79-41A9-B928-E5CC7F9F518A}.Release|x86.Build.0 = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|x64.Build.0 = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Debug|x86.Build.0 = Debug|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|x64.ActiveCfg = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|x64.Build.0 = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|x86.ActiveCfg = Release|Any CPU
+		{A656919B-E216-4E60-8E2C-0C8A73AAB02F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
