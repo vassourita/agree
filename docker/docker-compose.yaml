@@ -1,32 +1,32 @@
 version: '3'
 
 services:
-  accord-postgres:
-    image: postgres
-    container_name: 'accord-postgres'
+  athens-postgres:
+    image: postgres:13.1-alpine
+    container_name: 'athens-postgres'
     restart: always
     ports:
       - 5001:5432
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
-      - POSTGRES_DB=accord
+      - POSTGRES_DB=athens
     volumes:
-      - './volume-data/accord-postgres:/var/lib/postgresql/data'
+      - './volume-data/athens-postgres:/var/lib/postgresql/data'
     networks:
-      - accord-network
+      - athens-network
 
-  accord-redis:
+  athens-redis:
     image: redis:alpine
-    container_name: 'accord-redis'
+    container_name: 'athens-redis'
     command: 'redis-server --requirepass docker'
     ports:
       - 5002:6379
     volumes:
-      - './volume-data/accord-redis:/data'
+      - './volume-data/athens-redis:/data'
     networks:
-      - accord-network
+      - athens-network
 
 networks:
-  accord-network:
+  athens-network:
     driver: bridge
