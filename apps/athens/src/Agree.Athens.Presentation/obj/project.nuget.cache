@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k42W9HcfC3Pm/WchNE1mLcBuCut7cdX4iG6Rvx3gt6dGH8TAIw3lB3vibIKzAxDbryh8kjwpB5YKXPibBktUKA==",
+  "dgSpecHash": "5g7wmdBua6n7NZrBbjhRMhL2PldG4F3rXsASBZRhKR2iVfgGsTMraFjxsH1mQpP4ipXk7kJGqnYTSQzNQcUKWw==",
   "success": true,
-  "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
+  "projectFilePath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
   "expectedPackageFiles": [
     "/home/vassao/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",

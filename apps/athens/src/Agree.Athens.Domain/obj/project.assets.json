@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj",
+      "projectUniqueName": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj",
       "projectName": "Agree.Athens.Domain",
-      "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj",
+      "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj",
       "packagesPath": "/home/vassao/.nuget/packages/",
-      "outputPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Domain/obj/",
+      "outputPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/vassao/.nuget/NuGet/NuGet.Config"

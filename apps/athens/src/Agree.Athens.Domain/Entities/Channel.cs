@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Entities.Abstractions;
@@ -7,6 +8,11 @@ namespace Agree.Athens.Domain.Entities
 {
     public class Channel : DeletableBaseEntity<Guid>, IAggregateRoot
     {
+        public Channel()
+        {
+            Messages = new Collection<Message>();
+        }
+
         public enum ChannelType
         {
             Text, Media
@@ -14,6 +20,9 @@ namespace Agree.Athens.Domain.Entities
         public string Name { get; set; }
         public int Order { get; set; }
         public ChannelType Type { get; set; }
+
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
 
         public ICollection<Message> Messages { get; set; }
     }

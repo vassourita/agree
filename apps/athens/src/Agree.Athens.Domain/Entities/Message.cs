@@ -4,7 +4,7 @@ using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Message : DeletableBaseEntity<long>, IAggregateRoot
+    public class Message : BaseEntity<long>, IAggregateRoot
     {
         public string Content { get; set; }
         public Guid UserId { get; set; }

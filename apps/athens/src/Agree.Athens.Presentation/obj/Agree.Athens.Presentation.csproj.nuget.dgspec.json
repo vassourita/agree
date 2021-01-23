@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj": {}
+    "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj": {}
   },
   "projects": {
-    "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj": {
+    "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
+        "projectUniqueName": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
         "projectName": "Agree.Athens.Presentation",
-        "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
+        "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj",
         "packagesPath": "/home/vassao/.nuget/packages/",
-        "outputPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Athens.Presentation/obj/",
+        "outputPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/vassao/.nuget/NuGet/NuGet.Config"
