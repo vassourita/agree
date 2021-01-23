@@ -20,6 +20,11 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
                 .IsRequired()
                 .HasColumnName("email");
 
+            builder.Property(u => u.Username)
+                .IsRequired()
+                .HasMaxLength(40)
+                .HasColumnName("username");
+
             builder.Property(u => u.PasswordHash)
                 .IsRequired()
                 .HasMaxLength(255)

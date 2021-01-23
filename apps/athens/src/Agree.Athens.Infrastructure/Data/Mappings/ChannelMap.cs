@@ -16,6 +16,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
 
             builder.Property(c => c.Name)
                 .IsRequired()
+                .HasMaxLength(30)
                 .HasColumnName("name");
 
             builder.Property(c => c.Order)

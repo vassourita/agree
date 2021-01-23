@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JvbFIMtOyRekoP6MO55IgLNCSysUc9pU446sTZ8+CEbz8wqPIMuV72ud0tH21jmVLfikiI8+u35Qsbul7snYBQ==",
+  "dgSpecHash": "g8d3ipoiU/0TeIEE4BNA+dYdCxq4bq/Ge5o7RYcuE88D8OuTwhDIXBjcaCF/dj6QZP2jYewUMkEZSg2bInE3pw==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure/Agree.Athens.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.analyzers/5.0.2/microsoft.entityframeworkcore.analyzers.5.0.2.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.design/5.0.2/microsoft.entityframeworkcore.design.5.0.2.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.relational/5.0.2/microsoft.entityframeworkcore.relational.5.0.2.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.tools/5.0.2/microsoft.entityframeworkcore.tools.5.0.2.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.extensions.caching.abstractions/5.0.0/microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.extensions.caching.memory/5.0.0/microsoft.extensions.caching.memory.5.0.0.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.extensions.configuration.abstractions/5.0.0/microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",

@@ -9,9 +9,10 @@ namespace Agree.Athens.Infrastructure.Data.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Server> Servers { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<ServerUser> ServerUsers { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -24,6 +25,7 @@ namespace Agree.Athens.Infrastructure.Data.Contexts
             modelBuilder.Entity<Channel>(new ChannelMap().Configure);
             modelBuilder.Entity<Message>(new MessageMap().Configure);
             modelBuilder.Entity<Category>(new CategoryMap().Configure);
+            modelBuilder.Entity<ServerUser>(new ServerUserMap().Configure);
         }
     }
 }

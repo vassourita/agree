@@ -16,6 +16,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
 
             builder.Property(r => r.Name)
                 .IsRequired()
+                .HasMaxLength(40)
                 .HasColumnName("name");
 
             builder.Property(r => r.ColorHex)
