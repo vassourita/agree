@@ -29,7 +29,6 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
             where T : DeletableBaseEntity<TId>
         {
             builder.Property(u => u.DeletedAt)
-                .IsRequired()
                 .HasColumnName("deleted_at");
             builder.HasQueryFilter(u => u.DeletedAt != null);
         }
