@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Entities.Abstractions;
+using Agree.Athens.Domain.Interfaces.Common;
 
 namespace Agree.Athens.Domain.Interfaces.Repositories
 {
