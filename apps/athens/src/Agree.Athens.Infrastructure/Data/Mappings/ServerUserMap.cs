@@ -10,8 +10,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("server_user");
 
-            MappingHelper.AddBaseEntityProperties<ServerUser, int>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<ServerUser, int>(builder);
+            MappingHelper.AddBaseEntityProperties<ServerUser>(builder);
 
             builder.Property(su => su.ServerId)
                 .IsRequired()

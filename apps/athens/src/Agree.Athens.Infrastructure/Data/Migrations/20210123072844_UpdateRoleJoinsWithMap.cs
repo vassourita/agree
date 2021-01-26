@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Agree.Athens.Infrastructure.Migrations
+namespace Agree.Athens.Infrastructure.Data.Migrations
 {
     public partial class UpdateRoleJoinsWithMap : Migration
     {

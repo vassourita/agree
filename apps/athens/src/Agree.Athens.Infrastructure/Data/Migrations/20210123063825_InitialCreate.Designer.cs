@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Agree.Athens.Infrastructure.Migrations
+namespace Agree.Athens.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210123072844_UpdateRoleJoinsWithMap")]
-    partial class UpdateRoleJoinsWithMap
+    [Migration("20210123063825_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,9 @@ namespace Agree.Athens.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("server_id");
 
+                    b.Property<int?>("ServerUserId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp without time zone")
@@ -227,6 +230,8 @@ namespace Agree.Athens.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
+
+                    b.HasIndex("ServerUserId");
 
                     b.ToTable("role");
                 });
@@ -312,41 +317,6 @@ namespace Agree.Athens.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("server_user");
-                });
-
-            modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
-
-                    b.Property<int>("ServerUserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("server_user_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("ServerUserId");
-
-                    b.ToTable("server_user_role");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>
@@ -460,6 +430,10 @@ namespace Agree.Athens.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Agree.Athens.Domain.Entities.ServerUser", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("ServerUserId");
+
                     b.Navigation("Server");
                 });
 
@@ -482,25 +456,6 @@ namespace Agree.Athens.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUserRole", b =>
-                {
-                    b.HasOne("Agree.Athens.Domain.Entities.Role", "Role")
-                        .WithMany("ServerUserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Agree.Athens.Domain.Entities.ServerUser", "ServerUser")
-                        .WithMany("ServerUserRoles")
-                        .HasForeignKey("ServerUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("ServerUser");
-                });
-
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Channels");
@@ -509,11 +464,6 @@ namespace Agree.Athens.Infrastructure.Migrations
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Channel", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("Agree.Athens.Domain.Entities.Role", b =>
-                {
-                    b.Navigation("ServerUserRoles");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Server", b =>
@@ -527,7 +477,7 @@ namespace Agree.Athens.Infrastructure.Migrations
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUser", b =>
                 {
-                    b.Navigation("ServerUserRoles");
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>

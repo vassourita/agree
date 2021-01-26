@@ -10,7 +10,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("server_user_role");
 
-            MappingHelper.AddBaseEntityProperties<ServerUserRole, int>(builder);
+            MappingHelper.AddBaseEntityProperties<ServerUserRole>(builder);
 
             builder.Property(sur => sur.RoleId)
                 .IsRequired()

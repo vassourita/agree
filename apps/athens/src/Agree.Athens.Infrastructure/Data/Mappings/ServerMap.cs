@@ -11,8 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("server");
 
-            MappingHelper.AddBaseEntityProperties<Server, Guid>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<Server, Guid>(builder);
+            MappingHelper.AddBaseEntityProperties<Server>(builder);
 
             builder.Property(u => u.Name)
                 .IsRequired()

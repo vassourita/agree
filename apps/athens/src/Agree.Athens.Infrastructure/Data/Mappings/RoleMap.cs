@@ -11,8 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("role");
 
-            MappingHelper.AddBaseEntityProperties<Role, int>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<Role, int>(builder);
+            MappingHelper.AddBaseEntityProperties<Role>(builder);
 
             builder.Property(r => r.Name)
                 .IsRequired()

@@ -11,7 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("message");
 
-            MappingHelper.AddBaseEntityProperties<Message, long>(builder);
+            MappingHelper.AddBaseEntityProperties<Message>(builder);
 
             builder.Property(m => m.Content)
                 .IsRequired()

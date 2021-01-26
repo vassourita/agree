@@ -1,13 +1,14 @@
 using System;
 
-namespace Agree.Athens.Domain.Entities.Abstractions
+namespace Agree.Athens.Domain.Entities
 {
-    public abstract class BaseEntity<TId>
+    public abstract class BaseEntity
     {
-        public TId Id { get; set; }
+        public Guid Id { get; set; }
         public string IdStr { get => Id.ToString(); }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

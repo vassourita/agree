@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Agree.Athens.Infrastructure.Migrations
+namespace Agree.Athens.Infrastructure.Data.Migrations
 {
     public partial class UpdateRoleJoins : Migration
     {

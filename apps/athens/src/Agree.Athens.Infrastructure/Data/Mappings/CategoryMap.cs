@@ -11,8 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("category");
 
-            MappingHelper.AddBaseEntityProperties<Category, Guid>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<Category, Guid>(builder);
+            MappingHelper.AddBaseEntityProperties<Category>(builder);
 
             builder.Property(c => c.Name)
                 .IsRequired()

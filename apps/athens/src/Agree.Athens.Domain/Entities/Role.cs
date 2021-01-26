@@ -1,12 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
-using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Role : DeletableBaseEntity<int>, IAggregateRoot
+    public class Role : BaseEntity, IAggregateRoot
     {
         public Role()
         {

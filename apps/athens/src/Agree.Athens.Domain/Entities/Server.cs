@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Server : DeletableBaseEntity<Guid>, IAggregateRoot
+    public class Server : BaseEntity, IAggregateRoot
     {
         public Server()
         {

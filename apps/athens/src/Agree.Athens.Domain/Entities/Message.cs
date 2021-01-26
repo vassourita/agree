@@ -1,10 +1,9 @@
 using System;
-using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Message : BaseEntity<long>, IAggregateRoot
+    public class Message : BaseEntity, IAggregateRoot
     {
         public Message()
         {

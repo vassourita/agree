@@ -11,8 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("channel");
 
-            MappingHelper.AddBaseEntityProperties<Channel, Guid>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<Channel, Guid>(builder);
+            MappingHelper.AddBaseEntityProperties<Channel>(builder);
 
             builder.Property(c => c.Name)
                 .IsRequired()

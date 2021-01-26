@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Agree.Athens.Infrastructure.Migrations
+namespace Agree.Athens.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20210123072704_UpdateRoleJoins")]

@@ -1,12 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
-using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Channel : DeletableBaseEntity<Guid>, IAggregateRoot
+    public class Channel : BaseEntity, IAggregateRoot
     {
         public Channel()
         {

@@ -1,13 +1,13 @@
-using Agree.Athens.Domain.Entities.Abstractions;
+using Agree.Athens.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Agree.Athens.Infrastructure.Data.Mappings
 {
-    public class MappingHelper
+    public static class MappingHelper
     {
-        public static void AddBaseEntityProperties<T, TId>(EntityTypeBuilder<T> builder)
-            where T : BaseEntity<TId>
+        public static void AddBaseEntityProperties<T>(EntityTypeBuilder<T> builder)
+            where T : BaseEntity
         {
             builder.HasKey(u => u.Id);
 
@@ -19,18 +19,14 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
                 .HasColumnName("created_at")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(u => u.DeletedAt)
+                .HasColumnName("deleted_at");
+            builder.HasQueryFilter(u => u.DeletedAt != null);
+
             builder.Property(u => u.UpdatedAt)
                 .IsRequired()
                 .HasColumnName("updated_at")
                 .ValueGeneratedOnUpdate();
-        }
-
-        public static void AddDeletableBaseEntityProperties<T, TId>(EntityTypeBuilder<T> builder)
-            where T : DeletableBaseEntity<TId>
-        {
-            builder.Property(u => u.DeletedAt)
-                .HasColumnName("deleted_at");
-            builder.HasQueryFilter(u => u.DeletedAt != null);
         }
     }
 }

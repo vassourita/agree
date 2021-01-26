@@ -1,12 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System;
-using Agree.Athens.Domain.Entities.Abstractions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class User : DeletableBaseEntity<Guid>, IAggregateRoot
+    public class User : BaseEntity, IAggregateRoot
     {
         public User()
         {

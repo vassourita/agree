@@ -11,8 +11,7 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.ToTable("user");
 
-            MappingHelper.AddBaseEntityProperties<User, Guid>(builder);
-            MappingHelper.AddDeletableBaseEntityProperties<User, Guid>(builder);
+            MappingHelper.AddBaseEntityProperties<User>(builder);
 
             builder.HasIndex(u => u.Email)
                 .IsUnique();
