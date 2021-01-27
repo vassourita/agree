@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Agree.Athens.Domain.Interfaces;
 using Agree.Athens.Infrastructure.Data.Contexts;
 
@@ -18,16 +17,7 @@ namespace Agree.Athens.Infrastructure.Data
             _context.SaveChanges();
         }
 
-        public async Task CommitAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
         public void Rollback()
-        {
-        }
-
-        public async Task RollbackAsync()
         {
         }
     }
