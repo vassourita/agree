@@ -9,23 +9,18 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Server> builder)
         {
-            builder.ToTable("server");
-
             MappingHelper.AddBaseEntityProperties<Server>(builder);
 
             builder.Property(u => u.Name)
                 .IsRequired()
-                .HasMaxLength(40)
-                .HasColumnName("name");
+                .HasMaxLength(40);
 
             builder.Property(u => u.Description)
-                .IsRequired()
-                .HasColumnName("description");
+                .IsRequired();
 
             builder.Property(u => u.AvatarFileName)
                 .IsRequired(false)
-                .HasMaxLength(255)
-                .HasColumnName("avatar_file_name");
+                .HasMaxLength(255);
 
             builder.HasMany(u => u.Users)
                 .WithMany(server => server.Servers)

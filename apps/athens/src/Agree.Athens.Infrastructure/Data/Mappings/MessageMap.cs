@@ -9,21 +9,17 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
-            builder.ToTable("message");
-
             MappingHelper.AddBaseEntityProperties<Message>(builder);
 
             builder.Property(m => m.Content)
                 .IsRequired()
-                .HasColumnType("text")
-                .HasColumnName("content");
+                .HasColumnType("text");
 
             builder.Property(m => m.UserId)
-                .IsRequired()
-                .HasColumnName("user_id");
+                .IsRequired();
+
             builder.Property(m => m.ChannelId)
-                .IsRequired()
-                .HasColumnName("channel_id");
+                .IsRequired();
 
             builder.HasOne(m => m.User)
                 .WithMany(u => u.Messages)

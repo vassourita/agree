@@ -11,21 +11,14 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
         {
             builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.Id)
-                .HasColumnName("id");
+            builder.Property(u => u.Id);
 
             builder.Property(u => u.CreatedAt)
                 .IsRequired()
-                .HasColumnName("created_at")
                 .ValueGeneratedOnAdd();
-
-            builder.Property(u => u.DeletedAt)
-                .HasColumnName("deleted_at");
-            builder.HasQueryFilter(u => u.DeletedAt != null);
 
             builder.Property(u => u.UpdatedAt)
                 .IsRequired()
-                .HasColumnName("updated_at")
                 .ValueGeneratedOnUpdate();
         }
     }

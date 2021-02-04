@@ -9,50 +9,37 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("role");
-
             MappingHelper.AddBaseEntityProperties<Role>(builder);
 
             builder.Property(r => r.Name)
                 .IsRequired()
-                .HasMaxLength(40)
-                .HasColumnName("name");
+                .HasMaxLength(40);
 
             builder.Property(r => r.ColorHex)
                 .IsRequired()
                 .HasMaxLength(6)
-                .IsFixedLength()
-                .HasColumnName("color_hex");
+                .IsFixedLength();
 
             builder.Property(r => r.Order)
-                .IsRequired()
-                .HasColumnName("order");
+                .IsRequired();
 
             builder.Property(r => r.CanCreateNewRoles)
-                .IsRequired()
-                .HasColumnName("permissions_can_create_new_roles");
+                .IsRequired();
             builder.Property(r => r.CanDeleteRoles)
-                .IsRequired()
-                .HasColumnName("permissions_can_delete_roles");
+                .IsRequired();
             builder.Property(r => r.CanDeleteServer)
-                .IsRequired()
-                .HasColumnName("permissions_can_delete_server");
+                .IsRequired();
             builder.Property(r => r.CanRemoveUsers)
-                .IsRequired()
-                .HasColumnName("permissions_can_remove_users");
+                .IsRequired();
             builder.Property(r => r.CanUpdateServerAvatar)
-                .IsRequired()
-                .HasColumnName("permissions_can_update_server_avatar");
+                .IsRequired();
             builder.Property(r => r.CanUpdateServerDescription)
-                .IsRequired()
-                .HasColumnName("permissions_can_update_server_description");
+                .IsRequired();
             builder.Property(r => r.CanUpdateServerName)
-                .IsRequired()
-                .HasColumnName("permissions_can_update_server_name");
+                .IsRequired();
 
             builder.Property(r => r.ServerId)
-                .IsRequired()
-                .HasColumnName("server_id");
+                .IsRequired();
 
             builder.HasOne(r => r.Server)
                 .WithMany(s => s.Roles)

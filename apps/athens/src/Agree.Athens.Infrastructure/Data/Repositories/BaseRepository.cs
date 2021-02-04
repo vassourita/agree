@@ -48,53 +48,32 @@ namespace Agree.Athens.Infrastructure.Data.Repositories
 
         public async Task<IList<T>> ListAsync(ISpecification<T> specification)
         {
-            try
-            {
-                return await _dataSet
-                    .Where(item => specification.IsSatisfied(item))
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
+            return await _dataSet
+                .Where(item => specification.IsSatisfied(item))
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<T> AddAsync(T entity)
         {
-            try
-            {
-                entity.CreatedAt = DateTime.UtcNow;
+            entity.CreatedAt = DateTime.UtcNow;
 
-                await _dataSet.AddAsync(entity);
-            }
-            catch (Exception err)
-            {
-                throw err;
-            }
+            await _dataSet.AddAsync(entity);
 
             return entity;
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            try
+            var result = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(entity.Id));
+            if (result == null)
             {
-                var result = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(entity.Id));
-                if (result == null)
-                {
-                    throw new EntityNotFoundException<T>(entity.Id);
-                }
-
-                entity.UpdatedAt = DateTime.UtcNow;
-
-                _context.Entry(result).CurrentValues.SetValues(entity);
+                throw new EntityNotFoundException<T>(entity.Id);
             }
-            catch (Exception err)
-            {
-                throw err;
-            }
+
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            _context.Entry(result).CurrentValues.SetValues(entity);
 
             return entity;
         }
@@ -119,33 +98,6 @@ namespace Agree.Athens.Infrastructure.Data.Repositories
             }
 
             _dataSet.Remove(result);
-        }
-
-        public async Task SoftDeleteAsync(T entity)
-        {
-            var result = await _dataSet.FindAsync(entity);
-            if (result == null)
-            {
-                throw new EntityNotFoundException<T>(entity.Id);
-            }
-
-            entity.DeletedAt = DateTime.UtcNow;
-
-            _context.Update(entity);
-
-        }
-
-        public async Task SoftDeleteAsync(Guid id)
-        {
-            var entity = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(id));
-            if (entity == null)
-            {
-                throw new EntityNotFoundException<T>(id);
-            }
-
-            entity.DeletedAt = DateTime.UtcNow;
-
-            _context.Update(entity);
         }
     }
 }

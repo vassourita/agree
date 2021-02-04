@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace Agree.Athens.Domain.Interfaces
 {
     public interface IUnitOfWork
     {
-        void Commit();
-        void Rollback();
+        Task Commit();
+        Task Rollback();
     }
 }

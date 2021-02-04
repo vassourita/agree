@@ -9,40 +9,35 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("user");
-
             MappingHelper.AddBaseEntityProperties<User>(builder);
 
             builder.HasIndex(u => u.Email)
                 .IsUnique();
             builder.Property(u => u.Email)
-                .IsRequired()
-                .HasColumnName("email");
+                .IsRequired();
 
             builder.Property(u => u.Username)
                 .IsRequired()
-                .HasMaxLength(40)
-                .HasColumnName("username");
+                .HasMaxLength(40);
 
             builder.Property(u => u.PasswordHash)
                 .IsRequired()
-                .HasMaxLength(255)
-                .HasColumnName("password_hash");
+                .HasMaxLength(255);
 
             builder.Property(u => u.Tag)
                 .IsRequired()
-                .HasMaxLength(4)
-                .HasColumnName("tag");
+                .HasMaxLength(4);
 
             builder.Property(u => u.Status)
                 .IsRequired(false)
-                .HasMaxLength(255)
-                .HasColumnName("status");
+                .HasMaxLength(255);
 
             builder.Property(u => u.AvatarFileName)
                 .IsRequired(false)
-                .HasMaxLength(255)
-                .HasColumnName("avatar_file_name");
+                .HasMaxLength(255);
+
+            builder.Property(u => u.DeletedAt);
+            builder.HasQueryFilter(u => u.DeletedAt != null);
 
             builder.HasMany(u => u.Messages)
                 .WithOne(m => m.User)

@@ -16,7 +16,5 @@ namespace Agree.Athens.Domain.Interfaces.Repositories
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task DeleteAsync(Guid id);
-        Task SoftDeleteAsync(T entity);
-        Task SoftDeleteAsync(Guid id);
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Agree.Athens.Domain.Interfaces;
 using Agree.Athens.Infrastructure.Data.Contexts;
 
@@ -12,13 +13,14 @@ namespace Agree.Athens.Infrastructure.Data
             _context = context;
         }
 
-        public void Commit()
+        public async Task Commit()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Rollback()
+        public Task Rollback()
         {
+            return Task.CompletedTask;
         }
     }
 }

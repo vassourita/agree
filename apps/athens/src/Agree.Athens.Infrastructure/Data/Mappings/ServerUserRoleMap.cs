@@ -8,16 +8,12 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<ServerUserRole> builder)
         {
-            builder.ToTable("server_user_role");
-
             MappingHelper.AddBaseEntityProperties<ServerUserRole>(builder);
 
             builder.Property(sur => sur.RoleId)
-                .IsRequired()
-                .HasColumnName("role_id");
+                .IsRequired();
             builder.Property(sur => sur.ServerUserId)
-                .IsRequired()
-                .HasColumnName("server_user_id");
+                .IsRequired();
 
             builder.HasOne(sur => sur.Role)
                 .WithMany(r => r.ServerUserRoles)

@@ -23,6 +23,8 @@ namespace Agree.Athens.Domain.Entities
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public DateTime? DeletedAt { get; set; }
+
         public ICollection<Message> Messages { get; set; }
     }
 }

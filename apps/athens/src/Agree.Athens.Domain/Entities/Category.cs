@@ -18,6 +18,8 @@ namespace Agree.Athens.Domain.Entities
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
 
+        public DateTime? DeletedAt { get; set; }
+
         public ICollection<Channel> Channels { get; set; }
     }
 }

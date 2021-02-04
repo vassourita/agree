@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Agree.Athens.Domain.Exceptions
 {
-    public class EntityNotFoundException<T> : Exception
+    public class EntityNotFoundException<T> : BaseDomainException
         where T : BaseEntity
     {
         public IEnumerable<Guid> NotFoundIds { get; private set; }
