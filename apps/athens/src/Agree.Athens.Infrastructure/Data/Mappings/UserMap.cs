@@ -26,7 +26,12 @@ namespace Agree.Athens.Infrastructure.Data.Mappings
 
             builder.Property(u => u.Tag)
                 .IsRequired()
-                .HasMaxLength(4);
+                .HasConversion(
+                    v => v.ToString(),
+                    v => new Domain.ValueObjects.UserTag(v)
+                )
+                .HasMaxLength(4)
+                .IsFixedLength();
 
             builder.Property(u => u.Status)
                 .IsRequired(false)

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agree.Athens.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210123072844_UpdateRoleJoinsWithMap")]
-    partial class UpdateRoleJoinsWithMap
+    [Migration("20210204111116_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,123 +25,99 @@ namespace Agree.Athens.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<int>("Order")
-                        .HasColumnType("integer")
-                        .HasColumnName("order");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("ServerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("server_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Channel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<int>("Order")
-                        .HasColumnType("integer")
-                        .HasColumnName("order");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("channel");
+                    b.ToTable("Channels");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Message", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ChannelId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("channel_id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("content");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -149,161 +125,119 @@ namespace Agree.Athens.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("CanCreateNewRoles")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_create_new_roles");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanDeleteRoles")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_delete_roles");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanDeleteServer")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_delete_server");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanRemoveUsers")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_remove_users");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanUpdateServerAvatar")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_update_server_avatar");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanUpdateServerDescription")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_update_server_description");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("CanUpdateServerName")
-                        .HasColumnType("boolean")
-                        .HasColumnName("permissions_can_update_server_name");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ColorHex")
                         .IsRequired()
                         .HasMaxLength(6)
                         .HasColumnType("character(6)")
-                        .HasColumnName("color_hex")
                         .IsFixedLength(true);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(40)");
 
                     b.Property<int>("Order")
-                        .HasColumnType("integer")
-                        .HasColumnName("order");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("ServerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("server_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Server", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AvatarFileName")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("avatar_file_name");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(40)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("server");
+                    b.ToTable("Servers");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("ServerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("server_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -311,34 +245,28 @@ namespace Agree.Athens.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("server_user");
+                    b.ToTable("ServerUsers");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUserRole", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityByDefaultColumn();
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("ServerUserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("server_user_id");
+                    b.Property<Guid>("ServerUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -346,69 +274,60 @@ namespace Agree.Athens.Infrastructure.Data.Migrations
 
                     b.HasIndex("ServerUserId");
 
-                    b.ToTable("server_user_role");
+                    b.ToTable("ServerUserRole");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AvatarFileName")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("avatar_file_name");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("deleted_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("password_hash");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Status")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("status");
+                        .HasColumnType("character varying(255)");
 
-                    b.Property<int>("Tag")
+                    b.Property<string>("Tag")
+                        .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("integer")
-                        .HasColumnName("tag");
+                        .HasColumnType("character(4)")
+                        .IsFixedLength(true);
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("username");
+                        .HasColumnType("character varying(40)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("user");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Category", b =>

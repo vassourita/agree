@@ -16,6 +16,7 @@ namespace Agree.Athens.Domain.Entities
         {
             Text, Media
         }
+
         public string Name { get; set; }
         public int Order { get; set; }
         public ChannelType Type { get; set; }
