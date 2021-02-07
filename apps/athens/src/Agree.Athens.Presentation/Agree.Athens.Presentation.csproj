@@ -8,4 +8,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Agree.Athens.Infrastructure.IoC\Agree.Athens.Infrastructure.IoC.csproj" />
+  </ItemGroup>
+
 </Project>

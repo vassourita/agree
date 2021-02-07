@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agree.Athens.Infrastructure.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,11 +27,12 @@ namespace Agree.Athens.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            NativeInjectorBootStrapper.RegisterServices(services, Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Athens.Presentation", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Athens", Version = "v1" });
             });
         }
 
@@ -41,7 +43,7 @@ namespace Agree.Athens.Presentation
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agree.Athens.Presentation v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agree.Athens v1"));
             }
 
             app.UseHttpsRedirection();

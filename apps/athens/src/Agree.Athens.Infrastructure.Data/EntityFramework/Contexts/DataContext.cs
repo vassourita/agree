@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using System;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
@@ -31,6 +34,21 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration<ServerUser>(new ServerUserMap());
             modelBuilder.ApplyConfiguration<ServerUserRole>(new ServerUserRoleMap());
             base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("../../appsettings.json", reloadOnChange: false, optional: false)
+                .AddEnvironmentVariables()
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=athens";
+
+            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.LogTo(Console.WriteLine);
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }
