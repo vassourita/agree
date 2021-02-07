@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Interfaces;
-using Agree.Athens.Infrastructure.Data.Contexts;
+using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 
-namespace Agree.Athens.Infrastructure.Data
+namespace Agree.Athens.Infrastructure.Data.EntityFramework
 {
     public class UnitOfWork : IUnitOfWork
     {

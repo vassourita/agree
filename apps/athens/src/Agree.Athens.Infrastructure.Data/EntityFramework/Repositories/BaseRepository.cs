@@ -6,7 +6,7 @@ using Agree.Athens.Domain.Entities;
 using Agree.Athens.Domain.Interfaces;
 using Agree.Athens.Domain.Interfaces.Common;
 using Agree.Athens.Domain.Interfaces.Repositories;
-using Agree.Athens.Infrastructure.Data.Contexts;
+using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using System;
 using Agree.Athens.Domain.Exceptions;
 
