@@ -2,7 +2,7 @@ using Agree.Athens.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Agree.Athens.Infrastructure.Data.Mappings
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
 {
     public class ServerUserMap : IEntityTypeConfiguration<ServerUser>
     {

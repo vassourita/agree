@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Agree.Athens.Infrastructure.Data.Contexts
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
     public class ContextFactory : IDesignTimeDbContextFactory<DataContext>
     {

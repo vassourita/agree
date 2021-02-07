@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Agree.Athens.Infrastructure.Data.Migrations
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     public partial class InitialCreate : Migration
     {

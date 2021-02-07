@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
-using Agree.Athens.Infrastructure.Data.Mappings;
+using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 
-namespace Agree.Athens.Infrastructure.Data.Contexts
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
     public class DataContext : DbContext
     {

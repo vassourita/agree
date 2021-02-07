@@ -10,7 +10,7 @@ using Agree.Athens.Infrastructure.Data.Contexts;
 using System;
 using Agree.Athens.Domain.Exceptions;
 
-namespace Agree.Athens.Infrastructure.Data.Repositories
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T>
         where T : BaseEntity, IAggregateRoot
