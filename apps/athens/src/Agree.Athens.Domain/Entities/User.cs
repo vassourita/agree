@@ -21,13 +21,13 @@ namespace Agree.Athens.Domain.Entities
             }
 
             Id = id;
+            Tag = new UserTag(tag);
             Username = username ?? throw new ArgumentNullException(nameof(username));
             Email = email ?? throw new ArgumentNullException(nameof(email));
-            Tag = new UserTag(tag);
             PasswordHash = password ?? throw new ArgumentNullException(nameof(password));
         }
 
-        public User(Guid id, string username, string email, string tag, string password)
+        public User(Guid id, string username, string email, string tag, string passwordHash)
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
@@ -39,13 +39,18 @@ namespace Agree.Athens.Domain.Entities
             }
 
             Id = id;
+            Tag = new UserTag(tag);
             Username = username ?? throw new ArgumentNullException(nameof(username));
             Email = email ?? throw new ArgumentNullException(nameof(email));
-            Tag = new UserTag(tag);
-            PasswordHash = password ?? throw new ArgumentNullException(nameof(password));
+            PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
         }
 
-        protected User() { }
+        protected User()
+        {
+            UserServers = new List<ServerUser>();
+            Servers = new Collection<Server>();
+            Messages = new Collection<Message>();
+        }
 
         public string Username { get; set; }
         public string Email { get; set; }
