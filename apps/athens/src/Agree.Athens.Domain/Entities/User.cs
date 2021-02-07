@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Interfaces;
 using System;
-using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.ValueObjects;
 
 namespace Agree.Athens.Domain.Entities
@@ -15,12 +14,7 @@ namespace Agree.Athens.Domain.Entities
             Servers = new Collection<Server>();
             Messages = new Collection<Message>();
 
-            if (id == null || id == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Id = id;
+            Id = id == null ? throw new ArgumentNullException(nameof(id)) : id;
             Tag = new UserTag(tag);
             Username = username ?? throw new ArgumentNullException(nameof(username));
             Email = email ?? throw new ArgumentNullException(nameof(email));
@@ -33,12 +27,7 @@ namespace Agree.Athens.Domain.Entities
             Servers = new Collection<Server>();
             Messages = new Collection<Message>();
 
-            if (id == null || id == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Id = id;
+            Id = id == null ? throw new ArgumentNullException(nameof(id)) : id;
             Tag = new UserTag(tag);
             Username = username ?? throw new ArgumentNullException(nameof(username));
             Email = email ?? throw new ArgumentNullException(nameof(email));
