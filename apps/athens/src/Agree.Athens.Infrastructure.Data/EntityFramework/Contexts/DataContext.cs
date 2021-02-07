@@ -14,19 +14,23 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         public DbSet<Message> Messages { get; set; }
         public DbSet<ServerUser> ServerUsers { get; set; }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration<Role>(new RoleMap());
+            modelBuilder.ApplyConfiguration<User>(new UserMap());
+            modelBuilder.ApplyConfiguration<Server>(new ServerMap());
+            modelBuilder.ApplyConfiguration<Channel>(new ChannelMap());
+            modelBuilder.ApplyConfiguration<Message>(new MessageMap());
+            modelBuilder.ApplyConfiguration<Category>(new CategoryMap());
+            modelBuilder.ApplyConfiguration<ServerUser>(new ServerUserMap());
+            modelBuilder.ApplyConfiguration<ServerUserRole>(new ServerUserRoleMap());
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Role>(new RoleMap().Configure);
-            modelBuilder.Entity<User>(new UserMap().Configure);
-            modelBuilder.Entity<Server>(new ServerMap().Configure);
-            modelBuilder.Entity<Channel>(new ChannelMap().Configure);
-            modelBuilder.Entity<Message>(new MessageMap().Configure);
-            modelBuilder.Entity<Category>(new CategoryMap().Configure);
-            modelBuilder.Entity<ServerUser>(new ServerUserMap().Configure);
-            modelBuilder.Entity<ServerUserRole>(new ServerUserRoleMap().Configure);
         }
     }
 }
