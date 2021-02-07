@@ -57,6 +57,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
         public async Task<T> AddAsync(T entity)
         {
             entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
 
             await _dataSet.AddAsync(entity);
 
@@ -65,11 +66,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            var result = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(entity.Id));
-            if (result == null)
-            {
-                throw new EntityNotFoundException<T>(entity.Id);
-            }
+            var result = await GetByIdAsync(entity.Id);
 
             entity.UpdatedAt = DateTime.UtcNow;
 
@@ -80,22 +77,14 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 
         public async Task DeleteAsync(T entity)
         {
-            var result = await _dataSet.FindAsync(entity);
-            if (result == null)
-            {
-                throw new EntityNotFoundException<T>(entity.Id);
-            }
+            var result = await GetByIdAsync(entity.Id);
 
             _dataSet.Remove(entity);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var result = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(id));
-            if (result == null)
-            {
-                throw new EntityNotFoundException<T>(id);
-            }
+            var result = await GetByIdAsync(id);
 
             _dataSet.Remove(result);
         }
