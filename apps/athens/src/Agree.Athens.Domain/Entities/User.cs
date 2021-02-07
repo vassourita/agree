@@ -6,7 +6,7 @@ using Agree.Athens.Domain.ValueObjects;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class User : BaseEntity, IAggregateRoot
+    public class User : BaseEntity, IAggregateRoot, ISoftDeletable
     {
         public User(Guid id, string username, string email, int tag, string password)
         {

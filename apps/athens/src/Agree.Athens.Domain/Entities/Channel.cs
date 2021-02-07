@@ -5,7 +5,7 @@ using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Channel : BaseEntity, IAggregateRoot
+    public class Channel : BaseEntity, IAggregateRoot, ISoftDeletable
     {
         public Channel()
         {

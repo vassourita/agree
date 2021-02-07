@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Agree.Athens.Domain.Entities
 {
-    public class Category : BaseEntity, IAggregateRoot
+    public class Category : BaseEntity, IAggregateRoot, ISoftDeletable
     {
         public Category()
         {
