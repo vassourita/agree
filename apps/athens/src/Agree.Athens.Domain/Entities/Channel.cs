@@ -7,7 +7,28 @@ namespace Agree.Athens.Domain.Entities
 {
     public class Channel : BaseEntity, IAggregateRoot, ISoftDeletable
     {
-        public Channel()
+        public Channel(string name, Category category, ChannelType channelType = ChannelType.Text) : base()
+        {
+            Messages = new Collection<Message>();
+
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (category == null) throw new ArgumentNullException(nameof(category));
+
+            Name = name;
+
+            Type = channelType;
+            Category = category;
+            CategoryId = category.Id;
+
+            Order = Category.Channels.Count + 1;
+        }
+
+        public static Channel CreateNewServerDefaultChannel(Category category)
+        {
+            return new Channel("Welcome!", category);
+        }
+
+        protected Channel()
         {
             Messages = new Collection<Message>();
         }

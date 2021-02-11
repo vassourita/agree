@@ -1,14 +1,23 @@
+using System.ComponentModel.DataAnnotations;
 using System;
 
 namespace Agree.Athens.Domain.Entities
 {
     public abstract class BaseEntity
     {
+        [Key]
         public Guid Id { get; set; }
         public string IdStr { get => Id.ToString(); }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        protected BaseEntity()
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
+        }
 
         public bool IsTransient()
         {

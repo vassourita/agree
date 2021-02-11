@@ -8,30 +8,37 @@ namespace Agree.Athens.Domain.Entities
 {
     public class User : BaseEntity, IAggregateRoot, ISoftDeletable
     {
-        public User(Guid id, string username, string email, int tag, string password)
+        public User(string username, string email, int tag, string passwordHash) : base()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
             Messages = new Collection<Message>();
 
-            Id = id == null ? throw new ArgumentNullException(nameof(id)) : id;
+            if (username == null) throw new ArgumentNullException(nameof(username));
+            if (email == null) throw new ArgumentNullException(nameof(email));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
+
             Tag = new UserTag(tag);
-            Username = username ?? throw new ArgumentNullException(nameof(username));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-            PasswordHash = password ?? throw new ArgumentNullException(nameof(password));
+            Username = username;
+            Email = email;
+            PasswordHash = passwordHash;
         }
 
-        public User(Guid id, string username, string email, string tag, string passwordHash)
+        public User(string username, string email, string tag, string passwordHash) : base()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
             Messages = new Collection<Message>();
 
-            Id = id == null ? throw new ArgumentNullException(nameof(id)) : id;
+            if (username == null) throw new ArgumentNullException(nameof(username));
+            if (email == null) throw new ArgumentNullException(nameof(email));
+            if (tag == null) throw new ArgumentNullException(nameof(tag));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
+
             Tag = new UserTag(tag);
-            Username = username ?? throw new ArgumentNullException(nameof(username));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
-            PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
+            Username = username;
+            Email = email;
+            PasswordHash = passwordHash;
         }
 
         protected User()
