@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Interfaces;
+using Agree.Athens.Domain.Exceptions;
 
 namespace Agree.Athens.Domain.Entities
 {
@@ -26,6 +27,18 @@ namespace Agree.Athens.Domain.Entities
         public static Channel CreateNewServerDefaultChannel(Category category)
         {
             return new Channel("Welcome!", category);
+        }
+
+        public Message AddMessage(string content, User author)
+        {
+            if (Type == ChannelType.Media)
+            {
+                throw InvalidChannelTypeException.ChannelCannotReceiveMessages();
+            }
+
+            var message = new Message(content, author, this);
+            Messages.Add(message);
+            return message;
         }
 
         protected Channel()
