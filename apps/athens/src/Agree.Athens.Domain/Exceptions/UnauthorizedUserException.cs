@@ -10,5 +10,7 @@ namespace Agree.Athens.Domain.Exceptions
 
         public static UnauthorizedUserException UserIsNotMemberOfServer(User user, Server server)
             => new UnauthorizedUserException($"User {user.Id} is not member of server {server.Id}");
+        public static UnauthorizedUserException UserIsAlreadyInServer(User user, Server server)
+            => new UnauthorizedUserException($"User {user.Id} is already member of server {server.Id}");
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Domain.Entities
@@ -34,6 +35,27 @@ namespace Agree.Athens.Domain.Entities
             Users = new Collection<User>();
             Roles = new Collection<Role>();
             Categories = new Collection<Category>();
+        }
+
+        public void AddUser(User user)
+        {
+            if (Users.Contains(user))
+            {
+                throw UnauthorizedUserException.UserIsAlreadyInServer(user, this);
+            }
+
+            ServerUsers.Add(new ServerUser(this, user, new Role[] { }));
+            Users.Add(user);
+        }
+
+        public void AddRole(Role role)
+        {
+            if (Roles.Contains(role))
+            {
+                throw InvalidRoleException.RoleAlreadyExists(role, this);
+            }
+
+            Roles.Add(role);
         }
 
         public string Name { get; set; }

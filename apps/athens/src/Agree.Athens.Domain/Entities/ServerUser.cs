@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Interfaces;
 using System.Collections.ObjectModel;
+using Agree.Athens.Domain.Exceptions;
 
 namespace Agree.Athens.Domain.Entities
 {
@@ -33,6 +34,20 @@ namespace Agree.Athens.Domain.Entities
         {
             Roles = new Collection<Role>();
             ServerUserRoles = new List<ServerUserRole>();
+        }
+
+        public void AddRole(Role role, User user)
+        {
+            if (!Server.Roles.Contains(role))
+            {
+                throw InvalidRoleException.RoleIsNotFromServer(role, Server);
+            }
+            if (Roles.Contains(role))
+            {
+                throw InvalidRoleException.UserAlreadyHasRole(role, user);
+            }
+
+            Roles.Add(role);
         }
 
         public Guid UserId { get; set; }
