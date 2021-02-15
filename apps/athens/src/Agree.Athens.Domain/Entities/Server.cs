@@ -62,9 +62,9 @@ namespace Agree.Athens.Domain.Entities
         public string Description { get; set; }
         public string AvatarFileName { get; set; }
 
-        public List<ServerUser> ServerUsers { get; set; }
-        public ICollection<User> Users { get; set; }
-        public ICollection<Role> Roles { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public List<ServerUser> ServerUsers { get; private set; }
+        public ICollection<User> Users { get; private set; }
+        public ICollection<Role> Roles { get; private set; }
+        public ICollection<Category> Categories { get; private set; }
     }
 }

@@ -56,7 +56,7 @@ namespace Agree.Athens.Domain.Entities
         public Server Server { get; set; }
 
 
-        public List<ServerUserRole> ServerUserRoles { get; set; }
-        public ICollection<Role> Roles { get; set; }
+        public List<ServerUserRole> ServerUserRoles { get; private set; }
+        public ICollection<Role> Roles { get; private set; }
     }
 }

@@ -78,7 +78,7 @@ namespace Agree.Athens.Domain.Entities
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
 
-        public List<ServerUserRole> ServerUserRoles { get; set; }
-        public ICollection<ServerUser> ServerUsers { get; set; }
+        public List<ServerUserRole> ServerUserRoles { get; private set; }
+        public ICollection<ServerUser> ServerUsers { get; private set; }
     }
 }

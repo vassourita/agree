@@ -43,6 +43,6 @@ namespace Agree.Athens.Domain.Entities
 
         public DateTime? DeletedAt { get; set; }
 
-        public ICollection<Channel> Channels { get; set; }
+        public ICollection<Channel> Channels { get; private set; }
     }
 }

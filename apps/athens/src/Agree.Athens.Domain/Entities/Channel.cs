@@ -60,6 +60,6 @@ namespace Agree.Athens.Domain.Entities
 
         public DateTime? DeletedAt { get; set; }
 
-        public ICollection<Message> Messages { get; set; }
+        public ICollection<Message> Messages { get; private set; }
     }
 }

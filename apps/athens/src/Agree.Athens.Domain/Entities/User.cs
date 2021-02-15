@@ -58,8 +58,8 @@ namespace Agree.Athens.Domain.Entities
 
         public DateTime? DeletedAt { get; set; }
 
-        public List<ServerUser> UserServers { get; set; }
-        public ICollection<Server> Servers { get; set; }
-        public ICollection<Message> Messages { get; set; }
+        public List<ServerUser> UserServers { get; private set; }
+        public ICollection<Server> Servers { get; private set; }
+        public ICollection<Message> Messages { get; private set; }
     }
 }
