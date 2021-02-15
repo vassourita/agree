@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces;
@@ -28,6 +29,7 @@ namespace Agree.Athens.Domain.Entities
         {
         }
 
+        [MinLength(1)]
         public string Content { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }

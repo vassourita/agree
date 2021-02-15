@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Interfaces;
@@ -48,14 +49,17 @@ namespace Agree.Athens.Domain.Entities
             Messages = new Collection<Message>();
         }
 
+        [MinLength(1)]
+        [MaxLength(20)]
         public string Username { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public UserTag Tag { get; set; }
+        [MaxLength(100)]
         public string Status { get; set; }
         public string Usertag { get => $"{Username}#{Tag}"; }
         public string AvatarFileName { get; set; }
-
         public DateTime? DeletedAt { get; set; }
 
         public List<ServerUser> UserServers { get; private set; }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,6 +59,8 @@ namespace Agree.Athens.Domain.Entities
             Roles.Add(role);
         }
 
+        [MinLength(1)]
+        [MaxLength(40)]
         public string Name { get; set; }
         public string Description { get; set; }
         public string AvatarFileName { get; set; }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Collections.Generic;
 using System;
@@ -35,6 +36,8 @@ namespace Agree.Athens.Domain.Entities
             return category;
         }
 
+        [MinLength(1)]
+        [MaxLength(30)]
         public string Name { get; set; }
         public int Order { get; set; }
 

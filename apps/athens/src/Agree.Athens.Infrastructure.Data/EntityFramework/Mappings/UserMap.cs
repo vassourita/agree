@@ -1,5 +1,6 @@
 using System;
 using Agree.Athens.Domain.Entities;
+using Agree.Athens.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,11 +15,12 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
             builder.HasIndex(u => u.Email)
                 .IsUnique();
             builder.Property(u => u.Email)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(255);
 
             builder.Property(u => u.Username)
                 .IsRequired()
-                .HasMaxLength(40);
+                .HasMaxLength(20);
 
             builder.Property(u => u.PasswordHash)
                 .IsRequired()
@@ -28,18 +30,18 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .IsRequired()
                 .HasConversion(
                     v => v.ToString(),
-                    v => new Domain.ValueObjects.UserTag(v)
+                    v => new UserTag(v)
                 )
                 .HasMaxLength(4)
                 .IsFixedLength();
 
             builder.Property(u => u.Status)
                 .IsRequired(false)
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.Property(u => u.AvatarFileName)
                 .IsRequired(false)
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.Property(u => u.DeletedAt);
             builder.HasQueryFilter(u => u.DeletedAt != null);

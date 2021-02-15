@@ -11,23 +11,23 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
         {
             MappingHelper.AddBaseEntityProperties<Server>(builder);
 
-            builder.Property(u => u.Name)
+            builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(40);
 
-            builder.Property(u => u.Description)
-                .IsRequired();
+            builder.Property(s => s.Description)
+                .IsRequired(false);
 
-            builder.Property(u => u.AvatarFileName)
+            builder.Property(s => s.AvatarFileName)
                 .IsRequired(false)
                 .HasMaxLength(255);
 
-            builder.HasMany(u => u.Users)
+            builder.HasMany(s => s.Users)
                 .WithMany(server => server.Servers)
                 .UsingEntity<ServerUser>(
                     j => j
                         .HasOne(su => su.User)
-                        .WithMany(u => u.UserServers)
+                        .WithMany(s => s.UserServers)
                         .HasForeignKey(su => su.UserId)
                         .OnDelete(DeleteBehavior.Cascade),
                     j => j

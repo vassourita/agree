@@ -55,7 +55,6 @@ namespace Agree.Athens.Domain.Entities
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
 
-
         public List<ServerUserRole> ServerUserRoles { get; private set; }
         public ICollection<Role> Roles { get; private set; }
     }

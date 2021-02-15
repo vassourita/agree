@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Exceptions;
 
@@ -5,21 +6,24 @@ namespace Agree.Athens.Domain.ValueObjects
 {
     public class UserTag : ValueObject
     {
+        [MaxLength(4)]
+        [MinLength(4)]
         private string _value { get; set; }
 
         public UserTag(int tag)
         {
-            if (tag.ToString().Length > 4)
+            var tagString = tag.ToString();
+            if (tagString.Length > 4)
             {
                 throw new InvalidUserTagException();
             }
-            if (tag.ToString().Length < 4)
+            if (tagString.Length < 4)
             {
-                _value = tag.ToString().PadLeft(4, '0');
+                _value = tagString.PadLeft(4, '0');
             }
             else
             {
-                _value = tag.ToString();
+                _value = tagString;
             }
         }
 

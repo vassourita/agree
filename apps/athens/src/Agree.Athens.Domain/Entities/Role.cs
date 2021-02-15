@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
@@ -39,11 +40,9 @@ namespace Agree.Athens.Domain.Entities
 
         public static Role CreateDefaultOwnerRole(Server server)
         {
-            return new Role
+            return new Role("Admin", CreateRandomHexColor())
             {
                 Id = Guid.NewGuid(),
-                Name = "Admin",
-                ColorHex = CreateRandomHexColor(),
                 Order = 1,
                 CanCreateNewRoles = true,
                 CanDeleteRoles = true,
@@ -63,7 +62,11 @@ namespace Agree.Athens.Domain.Entities
             return color;
         }
 
+        [MinLength(1)]
+        [MaxLength(40)]
         public string Name { get; set; }
+        [MinLength(6)]
+        [MaxLength(6)]
         public string ColorHex { get; set; }
         public int Order { get; set; }
 
