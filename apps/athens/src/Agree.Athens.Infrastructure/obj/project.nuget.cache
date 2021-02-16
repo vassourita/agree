@@ -1,8 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "qLcbXQ0KTIKo2jv/GTRyEPxCvmROhth/NMHmYyZE5gUCI5HY9WyelL92Locaz0KMlP6htpWaaagvj91jbryKPQ==",
+  "dgSpecHash": "LztCuOcnoT2rwZkUGE4/kp3nb1tva+a7MP/HL1Wuq+3bTFGw8pa8Hl4oNxiMrGBjf37fNbKfXyzUwngJ+rFd1g==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure/Agree.Athens.Infrastructure.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration/5.0.0/microsoft.extensions.configuration.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration.abstractions/5.0.0/microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration.environmentvariables/5.0.0/microsoft.extensions.configuration.environmentvariables.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration.fileextensions/5.0.0/microsoft.extensions.configuration.fileextensions.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration.json/5.0.0/microsoft.extensions.configuration.json.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.configuration.usersecrets/5.0.0/microsoft.extensions.configuration.usersecrets.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.fileproviders.abstractions/5.0.0/microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.fileproviders.physical/5.0.0/microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.filesystemglobbing/5.0.0/microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.primitives/5.0.0/microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

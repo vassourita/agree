@@ -4,6 +4,7 @@ using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System;
+using Agree.Athens.Infrastructure.Configuration;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
@@ -38,16 +39,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("../../appsettings.json", reloadOnChange: false, optional: false)
-                .AddEnvironmentVariables()
-                .Build();
+            var configuration = ConfigurationFactory.CreateConfiguration();
 
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=athens";
 
             optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.LogTo(Console.WriteLine);
+
             base.OnConfiguring(optionsBuilder);
         }
     }
