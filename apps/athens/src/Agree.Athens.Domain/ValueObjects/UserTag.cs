@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Exceptions;
@@ -18,16 +19,17 @@ namespace Agree.Athens.Domain.ValueObjects
 
         public UserTag(string tag)
         {
-            if (!int.TryParse(tag, out _))
-            {
-                throw InvalidUserTagException.NotNumeric();
-            }
+            if (tag == null) throw InvalidUserTagException.NullOrEmpty();
             _value = ValidateAndFormatTag(tag);
         }
 
         private string ValidateAndFormatTag(string tag)
         {
             tag = tag.Trim();
+            if (!int.TryParse(tag, out _))
+            {
+                throw InvalidUserTagException.NotNumeric();
+            }
             if (string.IsNullOrEmpty(tag))
             {
                 throw InvalidUserTagException.NullOrEmpty();
