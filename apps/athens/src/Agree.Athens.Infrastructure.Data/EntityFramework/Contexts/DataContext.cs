@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
+using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 using System;
-using Agree.Athens.Infrastructure.Configuration;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
@@ -20,8 +19,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,8 +38,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         {
             var configuration = ConfigurationFactory.CreateConfiguration();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=athens";
-
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.LogTo(Console.WriteLine);
 

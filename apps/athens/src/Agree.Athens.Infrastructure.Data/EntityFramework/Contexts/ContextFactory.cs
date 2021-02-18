@@ -16,7 +16,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=5001;Uid=docker;Pwd=docker;Database=athens";
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.LogTo(Console.WriteLine);
