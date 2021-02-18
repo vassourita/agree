@@ -18,6 +18,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .IsRequired()
                 .HasMaxLength(255);
 
+            builder.Property(u => u.EmailVerified)
+                .IsRequired();
+
             builder.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -68,6 +71,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                         j.HasKey(t => new { t.ServerId, t.UserId, t.Id });
                     }
                 );
+
+            builder.HasMany(u => u.Roles)
+                .WithMany(r => r.Users);
         }
     }
 }

@@ -5,6 +5,7 @@
     <ProjectReference Include="..\Agree.Athens.Infrastructure.Data\Agree.Athens.Infrastructure.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
   <PropertyGroup>

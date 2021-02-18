@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
 using Agree.Athens.Domain.Interfaces;
-using Agree.Athens.Domain.Interfaces.Common;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using System;
 using Agree.Athens.Domain.Exceptions;
+using Agree.Athens.Domain.Specifications;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 {
@@ -46,10 +46,10 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return items;
         }
 
-        public async Task<IList<T>> ListAsync(ISpecification<T> specification)
+        public async Task<IList<T>> ListAsync(Specification<T> specification)
         {
             return await _dataSet
-                .Where(item => specification.IsSatisfied(item))
+                .Where(specification.ToExpression())
                 .AsNoTracking()
                 .ToListAsync();
         }

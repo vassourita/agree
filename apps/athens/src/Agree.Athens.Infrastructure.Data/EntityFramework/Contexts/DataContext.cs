@@ -30,7 +30,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration<Message>(new MessageMap());
             modelBuilder.ApplyConfiguration<Category>(new CategoryMap());
             modelBuilder.ApplyConfiguration<ServerUser>(new ServerUserMap());
-            modelBuilder.ApplyConfiguration<ServerUserRole>(new ServerUserRoleMap());
             base.OnModelCreating(modelBuilder);
         }
 

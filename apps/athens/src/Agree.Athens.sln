@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Presentation", "Agree.Athens.Presentation\Agree.Athens.Presentation.csproj", "{76719B5D-A19F-4469-8AFE-748DEA028520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Application", "Agree.Athens.Application\Agree.Athens.Application.csproj", "{A656919B-E216-4E60-8E2C-0C8A73AAB02F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Infrastructure.IoC", "Agree.Athens.Infrastructure.IoC\Agree.Athens.Infrastructure.IoC.csproj", "{6CB78D25-4E8D-4D52-ADC8-5CDB4CAC1BAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Athens.Infrastructure.Data", "Agree.Athens.Infrastructure.Data\Agree.Athens.Infrastructure.Data.csproj", "{6033D197-B4F0-4B3F-85A6-0680734790B8}"

@@ -11,9 +11,6 @@ namespace Agree.Athens.Domain.Entities
     {
         public ServerUser(Server server, User user, Role[] roles)
         {
-            Roles = new Collection<Role>();
-            ServerUserRoles = new List<ServerUserRole>();
-
             if (server == null) throw new ArgumentNullException(nameof(server));
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (roles == null) throw new ArgumentNullException(nameof(roles));
@@ -25,37 +22,31 @@ namespace Agree.Athens.Domain.Entities
 
             foreach (var role in roles)
             {
-                ServerUserRoles.Add(new ServerUserRole(this, role));
-                Roles.Add(role);
+                User.Roles.Add(role);
             }
         }
 
         protected ServerUser()
         {
-            Roles = new Collection<Role>();
-            ServerUserRoles = new List<ServerUserRole>();
         }
 
-        public void AddRole(Role role, User user)
+        public void AddRole(Role role)
         {
             if (!Server.Roles.Contains(role))
             {
                 throw InvalidRoleException.RoleIsNotFromServer(role, Server);
             }
-            if (Roles.Contains(role))
+            if (User.Roles.Contains(role))
             {
-                throw InvalidRoleException.UserAlreadyHasRole(role, user);
+                throw InvalidRoleException.UserAlreadyHasRole(role, User);
             }
 
-            Roles.Add(role);
+            User.Roles.Add(role);
         }
 
         public Guid UserId { get; set; }
         public User User { get; set; }
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
-
-        public List<ServerUserRole> ServerUserRoles { get; private set; }
-        public ICollection<Role> Roles { get; private set; }
     }
 }

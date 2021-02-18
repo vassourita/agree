@@ -49,6 +49,12 @@ namespace Agree.Athens.Domain.ValueObjects
             return tag;
         }
 
+        public static UserTag Generate()
+        {
+            var random = new Random().Next(1, 9999);
+            return new UserTag(random);
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return _value;

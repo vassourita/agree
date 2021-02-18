@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210218052546_UpdateRelations")]
+    partial class UpdateRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +176,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     b.Property<Guid>("ServerId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ServerUserId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp without time zone");
@@ -181,6 +186,8 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
+
+                    b.HasIndex("ServerUserId");
 
                     b.ToTable("Roles");
                 });
@@ -266,9 +273,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
-
-                    b.Property<bool>("EmailVerified")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -366,6 +370,10 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Agree.Athens.Domain.Entities.ServerUser", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("ServerUserId");
+
                     b.Navigation("Server");
                 });
 
@@ -420,6 +428,11 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     b.Navigation("Roles");
 
                     b.Navigation("ServerUsers");
+                });
+
+            modelBuilder.Entity("Agree.Athens.Domain.Entities.ServerUser", b =>
+                {
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>

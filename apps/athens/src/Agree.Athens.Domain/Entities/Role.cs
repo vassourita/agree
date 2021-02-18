@@ -11,8 +11,7 @@ namespace Agree.Athens.Domain.Entities
     {
         public Role(string name, string colorHex) : base()
         {
-            ServerUsers = new Collection<ServerUser>();
-            ServerUserRoles = new List<ServerUserRole>();
+            Users = new Collection<User>();
 
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (colorHex == null) colorHex = CreateRandomHexColor();
@@ -34,8 +33,7 @@ namespace Agree.Athens.Domain.Entities
 
         protected Role()
         {
-            ServerUsers = new Collection<ServerUser>();
-            ServerUserRoles = new List<ServerUserRole>();
+            Users = new Collection<User>();
         }
 
         public static Role CreateDefaultOwnerRole(Server server)
@@ -51,7 +49,8 @@ namespace Agree.Athens.Domain.Entities
                 CanUpdateServerAvatar = true,
                 CanUpdateServerDescription = true,
                 CanUpdateServerName = true,
-                ServerId = server.Id
+                ServerId = server.Id,
+                Server = server
             };
         }
 
@@ -81,7 +80,6 @@ namespace Agree.Athens.Domain.Entities
         public Guid ServerId { get; set; }
         public Server Server { get; set; }
 
-        public List<ServerUserRole> ServerUserRoles { get; private set; }
-        public ICollection<ServerUser> ServerUsers { get; private set; }
+        public ICollection<User> Users { get; private set; }
     }
 }

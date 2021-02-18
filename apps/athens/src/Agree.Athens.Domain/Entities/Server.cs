@@ -24,6 +24,7 @@ namespace Agree.Athens.Domain.Entities
 
             var defaultAdminRole = Role.CreateDefaultOwnerRole(this);
             Roles.Add(defaultAdminRole);
+            owner.Roles.Add(defaultAdminRole);
 
             ServerUsers.Add(new ServerUser(this, owner, new Role[] { defaultAdminRole }));
             Users.Add(owner);

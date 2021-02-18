@@ -45,24 +45,8 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .WithMany(s => s.Roles)
                 .HasForeignKey(r => r.ServerId);
 
-            builder.HasMany(r => r.ServerUsers)
-                .WithMany(su => su.Roles)
-                .UsingEntity<ServerUserRole>(
-                    j => j
-                        .HasOne(sur => sur.ServerUser)
-                        .WithMany(su => su.ServerUserRoles)
-                        .HasForeignKey(su => su.ServerUserId)
-                        .OnDelete(DeleteBehavior.Cascade),
-                    j => j
-                        .HasOne(sur => sur.Role)
-                        .WithMany(r => r.ServerUserRoles)
-                        .HasForeignKey(r => r.ServerUserId)
-                        .OnDelete(DeleteBehavior.Cascade),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.RoleId, t.ServerUserId, t.Id });
-                    }
-                );
+            builder.HasMany(r => r.Users)
+                .WithMany(u => u.Roles);
         }
     }
 }

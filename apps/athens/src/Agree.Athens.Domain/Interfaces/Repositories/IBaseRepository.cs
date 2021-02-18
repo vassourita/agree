@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Agree.Athens.Domain.Specifications;
 using Agree.Athens.Domain.Entities;
-using Agree.Athens.Domain.Interfaces.Common;
 
 namespace Agree.Athens.Domain.Interfaces.Repositories
 {
@@ -11,7 +11,7 @@ namespace Agree.Athens.Domain.Interfaces.Repositories
     {
         Task<T> GetByIdAsync(Guid id);
         Task<IList<T>> ListAsync();
-        Task<IList<T>> ListAsync(ISpecification<T> specification);
+        Task<IList<T>> ListAsync(Specification<T> specification);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);

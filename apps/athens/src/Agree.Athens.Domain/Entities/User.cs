@@ -13,6 +13,7 @@ namespace Agree.Athens.Domain.Entities
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
+            Roles = new Collection<Role>();
             Messages = new Collection<Message>();
 
             if (username == null) throw new ArgumentNullException(nameof(username));
@@ -29,6 +30,7 @@ namespace Agree.Athens.Domain.Entities
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
+            Roles = new Collection<Role>();
             Messages = new Collection<Message>();
 
             if (username == null) throw new ArgumentNullException(nameof(username));
@@ -42,10 +44,29 @@ namespace Agree.Athens.Domain.Entities
             PasswordHash = passwordHash;
         }
 
+        public User(string username, string email, UserTag tag, string passwordHash) : base()
+        {
+            UserServers = new List<ServerUser>();
+            Servers = new Collection<Server>();
+            Roles = new Collection<Role>();
+            Messages = new Collection<Message>();
+
+            if (username == null) throw new ArgumentNullException(nameof(username));
+            if (email == null) throw new ArgumentNullException(nameof(email));
+            if (tag == null) throw new ArgumentNullException(nameof(tag));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
+
+            Tag = tag;
+            Username = username;
+            Email = email;
+            PasswordHash = passwordHash;
+        }
+
         protected User()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
+            Roles = new Collection<Role>();
             Messages = new Collection<Message>();
         }
 
@@ -54,6 +75,7 @@ namespace Agree.Athens.Domain.Entities
         public string Username { get; set; }
         [EmailAddress]
         public string Email { get; set; }
+        public bool EmailVerified { get; set; }
         public string PasswordHash { get; set; }
         public UserTag Tag { get; set; }
         [MaxLength(100)]
@@ -64,6 +86,7 @@ namespace Agree.Athens.Domain.Entities
 
         public List<ServerUser> UserServers { get; private set; }
         public ICollection<Server> Servers { get; private set; }
+        public ICollection<Role> Roles { get; private set; }
         public ICollection<Message> Messages { get; private set; }
     }
 }
