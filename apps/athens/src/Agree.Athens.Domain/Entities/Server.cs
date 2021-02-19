@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces;
+using Agree.Athens.Domain.Factories;
 
 namespace Agree.Athens.Domain.Entities
 {
@@ -22,7 +23,7 @@ namespace Agree.Athens.Domain.Entities
             Name = name;
             Description = string.Empty;
 
-            var defaultAdminRole = Role.CreateDefaultOwnerRole(this);
+            var defaultAdminRole = RoleFactory.CreateDefaultOwnerRole(this);
             Roles.Add(defaultAdminRole);
             owner.Roles.Add(defaultAdminRole);
 
@@ -48,6 +49,19 @@ namespace Agree.Athens.Domain.Entities
 
             ServerUsers.Add(new ServerUser(this, user, new Role[] { }));
             Users.Add(user);
+            user.Servers.Add(this);
+        }
+
+        public void AddUser(User user, IEnumerable<Role> roles)
+        {
+            if (Users.Contains(user))
+            {
+                throw UnauthorizedUserException.UserIsAlreadyInServer(user, this);
+            }
+
+            ServerUsers.Add(new ServerUser(this, user, roles));
+            Users.Add(user);
+            user.Servers.Add(this);
         }
 
         public void AddRole(Role role)
@@ -57,6 +71,8 @@ namespace Agree.Athens.Domain.Entities
                 throw InvalidRoleException.RoleAlreadyExists(role, this);
             }
 
+            role.Order = Roles.Count + 1;
+            role.Server = this;
             Roles.Add(role);
         }
 

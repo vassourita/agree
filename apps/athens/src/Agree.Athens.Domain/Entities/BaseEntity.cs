@@ -15,8 +15,8 @@ namespace Agree.Athens.Domain.Entities
         protected BaseEntity()
         {
             Id = Guid.NewGuid();
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public bool IsTransient()

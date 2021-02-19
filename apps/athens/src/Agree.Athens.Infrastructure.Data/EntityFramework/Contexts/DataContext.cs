@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
-using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
-using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
@@ -19,10 +17,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            Database.Migrate();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration<Role>(new RoleMap());
             modelBuilder.ApplyConfiguration<User>(new UserMap());
             modelBuilder.ApplyConfiguration<Server>(new ServerMap());
@@ -30,15 +31,10 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration<Message>(new MessageMap());
             modelBuilder.ApplyConfiguration<Category>(new CategoryMap());
             modelBuilder.ApplyConfiguration<ServerUser>(new ServerUserMap());
-            base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var configuration = ConfigurationFactory.CreateConfiguration();
-
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.LogTo(Console.WriteLine);
 
             base.OnConfiguring(optionsBuilder);

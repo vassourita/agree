@@ -12,7 +12,6 @@ namespace Agree.Athens.Infrastructure.Configuration
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(configurationFilePath, reloadOnChange: false, optional: false)
-                .AddEnvironmentVariables()
                 .Build();
 
             return configuration;

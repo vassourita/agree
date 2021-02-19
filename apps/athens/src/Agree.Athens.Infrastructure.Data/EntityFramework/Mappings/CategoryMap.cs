@@ -1,4 +1,3 @@
-using System;
 using Agree.Athens.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

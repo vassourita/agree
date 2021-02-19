@@ -1,4 +1,3 @@
-using System;
 using Agree.Athens.Domain.Entities;
 using Agree.Athens.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +17,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(u => u.EmailVerified)
-                .IsRequired();
-
             builder.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(20);
-
-            builder.Property(u => u.PasswordHash)
-                .IsRequired()
-                .HasMaxLength(255);
 
             builder.Property(u => u.Tag)
                 .IsRequired()

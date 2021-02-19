@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Entities;
-using System.Linq;
 
 namespace Agree.Athens.Domain.Exceptions
 {

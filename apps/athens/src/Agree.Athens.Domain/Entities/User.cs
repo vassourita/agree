@@ -9,7 +9,7 @@ namespace Agree.Athens.Domain.Entities
 {
     public class User : BaseEntity, IAggregateRoot, ISoftDeletable
     {
-        public User(string username, string email, int tag, string passwordHash) : base()
+        public User(string username, string email, int tag) : base()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
@@ -18,15 +18,13 @@ namespace Agree.Athens.Domain.Entities
 
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
-            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = new UserTag(tag);
             Username = username;
             Email = email;
-            PasswordHash = passwordHash;
         }
 
-        public User(string username, string email, string tag, string passwordHash) : base()
+        public User(string username, string email, string tag) : base()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
@@ -36,15 +34,13 @@ namespace Agree.Athens.Domain.Entities
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
             if (tag == null) throw new ArgumentNullException(nameof(tag));
-            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = new UserTag(tag);
             Username = username;
             Email = email;
-            PasswordHash = passwordHash;
         }
 
-        public User(string username, string email, UserTag tag, string passwordHash) : base()
+        public User(string username, string email, UserTag tag) : base()
         {
             UserServers = new List<ServerUser>();
             Servers = new Collection<Server>();
@@ -54,12 +50,10 @@ namespace Agree.Athens.Domain.Entities
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
             if (tag == null) throw new ArgumentNullException(nameof(tag));
-            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = tag;
             Username = username;
             Email = email;
-            PasswordHash = passwordHash;
         }
 
         protected User()
@@ -75,8 +69,6 @@ namespace Agree.Athens.Domain.Entities
         public string Username { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        public bool EmailVerified { get; set; }
-        public string PasswordHash { get; set; }
         public UserTag Tag { get; set; }
         [MaxLength(100)]
         public string Status { get; set; }

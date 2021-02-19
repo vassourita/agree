@@ -4,6 +4,78 @@
     "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Presentation/Agree.Athens.Presentation.csproj": {}
   },
   "projects": {
+    "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj",
+        "projectName": "Agree.Athens.Application",
+        "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj",
+        "packagesPath": "/home/vassao/.nuget/packages/",
+        "outputPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/vassao/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj"
+              },
+              "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure.Data/Agree.Athens.Infrastructure.Data.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure.Data/Agree.Athens.Infrastructure.Data.csproj"
+              },
+              "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure/Agree.Athens.Infrastructure.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Infrastructure/Agree.Athens.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.8.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -37,12 +109,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "MediatR": {
-              "target": "Package",
-              "version": "[9.0.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -157,6 +223,9 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
+              "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj"
+              },
               "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj": {
                 "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj"
               },
@@ -179,13 +248,17 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "MediatR.Extensions.Microsoft.DependencyInjection": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[5.0.3, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[5.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             }
           },
           "imports": [
@@ -253,10 +326,6 @@
               "target": "Package",
               "version": "[5.0.0, )"
             },
-            "Microsoft.Extensions.Configuration.EnvironmentVariables": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[5.0.0, )"
@@ -311,6 +380,9 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
+              "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Application/Agree.Athens.Application.csproj"
+              },
               "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj": {
                 "projectPath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj"
               },

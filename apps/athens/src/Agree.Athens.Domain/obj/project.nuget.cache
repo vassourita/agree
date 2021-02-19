@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "O9PK7kZ2J56kSROSfmr485YoG+B/jPgM9YkdoqgwGu2vwGJQhj6WVg6VTM4U3iXYc8YKqE/ihnnnviHsArO8zw==",
+  "dgSpecHash": "bE6k/rSJLhIjBJ6xnP+oKJhkXR+HIUBTmqIlPiLi0TKrs7hDQbqKmFWimmihC30MdPTOtA5HMsKMlEp8JrWKZw==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/athens/src/Agree.Athens.Domain/Agree.Athens.Domain.csproj",
-  "expectedPackageFiles": [
-    "/home/vassao/.nuget/packages/mediatr/9.0.0/mediatr.9.0.0.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

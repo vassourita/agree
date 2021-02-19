@@ -49,7 +49,7 @@ namespace Agree.Athens.Domain.ValueObjects
             return tag;
         }
 
-        public static UserTag Generate()
+        public static UserTag GenerateRandomTag()
         {
             var random = new Random().Next(1, 9999);
             return new UserTag(random);

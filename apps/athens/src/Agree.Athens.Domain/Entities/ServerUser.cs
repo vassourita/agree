@@ -1,15 +1,12 @@
-using System.Linq;
 using System.Collections.Generic;
 using System;
 using Agree.Athens.Domain.Interfaces;
-using System.Collections.ObjectModel;
-using Agree.Athens.Domain.Exceptions;
 
 namespace Agree.Athens.Domain.Entities
 {
     public class ServerUser : BaseEntity, IAggregateRoot
     {
-        public ServerUser(Server server, User user, Role[] roles)
+        public ServerUser(Server server, User user, IEnumerable<Role> roles)
         {
             if (server == null) throw new ArgumentNullException(nameof(server));
             if (user == null) throw new ArgumentNullException(nameof(user));
@@ -28,20 +25,6 @@ namespace Agree.Athens.Domain.Entities
 
         protected ServerUser()
         {
-        }
-
-        public void AddRole(Role role)
-        {
-            if (!Server.Roles.Contains(role))
-            {
-                throw InvalidRoleException.RoleIsNotFromServer(role, Server);
-            }
-            if (User.Roles.Contains(role))
-            {
-                throw InvalidRoleException.UserAlreadyHasRole(role, User);
-            }
-
-            User.Roles.Add(role);
         }
 
         public Guid UserId { get; set; }

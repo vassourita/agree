@@ -6,11 +6,8 @@ using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text;
-using Agree.Athens.Infrastructure.Configuration.JwtAuthSampleAPI.Configuration;
-using MediatR;
-using System;
-using Agree.Athens.Domain.Commands.Auth.CreateAccount;
+using Agree.Athens.Infrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Athens.Infrastructure.IoC
 {
@@ -18,21 +15,18 @@ namespace Agree.Athens.Infrastructure.IoC
     {
         public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
-            // Infrastructure - Data
-            services.AddDbContext<DataContext>();
+            // Infrastructure - Data - EntityFramework
+            services.AddDbContext<DataContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(ISoftDeleteRepository<>), typeof(SoftDeleteRepository<>));
 
             // Infrastructure - Identity
-            services.AddDbContext<IdentityContext>();
-            services.AddIdentityCore<ApplicationUser>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-            }).AddEntityFrameworkStores<IdentityContext>();
-
-            // Domain - Command
-            services.AddScoped<IRequestHandler<CreateAccountCommand, Guid>, CreateAccountHandler>();
+            services.AddDbContext<IdentityContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentityCore<ApplicationUser>(IdentitySetup.Configure)
+                .AddEntityFrameworkStores<IdentityContext>();
         }
     }
 }

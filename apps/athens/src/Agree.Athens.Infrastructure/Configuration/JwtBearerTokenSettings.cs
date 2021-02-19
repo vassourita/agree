@@ -1,14 +1,11 @@
 namespace Agree.Athens.Infrastructure.Configuration
 {
-    namespace JwtAuthSampleAPI.Configuration
+    public class JwtBearerTokenSettings
     {
-        public class JwtBearerTokenSettings
-        {
-            public string SecretKey { get; set; }
-            public string Audience { get; set; }
-            public string Issuer { get; set; }
-            public int ExpiryTimeInSeconds { get; set; }
-            public int RefreshTokenExpiryInDays { get; set; }
-        }
+        public string SecretKey { get; set; }
+        public string Audience { get; set; }
+        public string Issuer { get; set; }
+        public int ExpiryTimeInSeconds { get; set; }
+        public int RefreshTokenExpiryInDays { get; set; }
     }
 }

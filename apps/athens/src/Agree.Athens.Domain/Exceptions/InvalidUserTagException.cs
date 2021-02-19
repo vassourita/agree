@@ -1,6 +1,3 @@
-using System;
-using Agree.Athens.Domain.Entities;
-
 namespace Agree.Athens.Domain.Exceptions
 {
     public class InvalidUserTagException : BaseDomainException

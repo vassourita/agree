@@ -19,7 +19,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             entity = await GetByIdAsync(entity.Id);
             if (entity.DeletedAt != null)
             {
-                entity.DeletedAt = DateTime.Now;
+                entity.DeletedAt = DateTime.UtcNow;
             }
             await UpdateAsync(entity);
         }
@@ -29,7 +29,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             var entity = await GetByIdAsync(id);
             if (entity.DeletedAt != null)
             {
-                entity.DeletedAt = DateTime.Now;
+                entity.DeletedAt = DateTime.UtcNow;
             }
             await UpdateAsync(entity);
         }

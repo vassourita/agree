@@ -1,4 +1,5 @@
 using System;
+
 namespace Agree.Athens.Domain.Exceptions
 {
     public abstract class BaseDomainException : Exception

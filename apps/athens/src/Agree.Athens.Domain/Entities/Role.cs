@@ -14,7 +14,7 @@ namespace Agree.Athens.Domain.Entities
             Users = new Collection<User>();
 
             if (name == null) throw new ArgumentNullException(nameof(name));
-            if (colorHex == null) colorHex = CreateRandomHexColor();
+            if (colorHex == null) throw new ArgumentNullException(nameof(colorHex));
 
             Name = name;
             if (colorHex.Length == 3)
@@ -34,31 +34,6 @@ namespace Agree.Athens.Domain.Entities
         protected Role()
         {
             Users = new Collection<User>();
-        }
-
-        public static Role CreateDefaultOwnerRole(Server server)
-        {
-            return new Role("Admin", CreateRandomHexColor())
-            {
-                Id = Guid.NewGuid(),
-                Order = 1,
-                CanCreateNewRoles = true,
-                CanDeleteRoles = true,
-                CanDeleteServer = true,
-                CanRemoveUsers = true,
-                CanUpdateServerAvatar = true,
-                CanUpdateServerDescription = true,
-                CanUpdateServerName = true,
-                ServerId = server.Id,
-                Server = server
-            };
-        }
-
-        public static string CreateRandomHexColor()
-        {
-            var random = new Random();
-            var color = String.Format("{0:X6}", random.Next(0x1000000));
-            return color;
         }
 
         [MinLength(1)]
