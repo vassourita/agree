@@ -94,9 +94,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+            "BCrypt.Net-Next": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[4.0.2, )"
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",

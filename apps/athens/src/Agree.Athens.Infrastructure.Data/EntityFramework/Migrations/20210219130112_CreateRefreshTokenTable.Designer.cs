@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210219130112_CreateRefreshTokenTable")]
+    partial class CreateRefreshTokenTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -312,9 +314,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                         .UseIdentityByDefaultColumn();
 
                     b.Property<string>("CreatedByIp")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
@@ -323,17 +323,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("RevokedByIp")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("RevokedOn")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

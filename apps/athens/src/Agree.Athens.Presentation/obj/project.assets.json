@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "FluentValidation/9.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/FluentValidation.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -601,6 +610,7 @@
           "Agree.Athens.Domain": "1.0.0",
           "Agree.Athens.Infrastructure": "1.0.0",
           "Agree.Athens.Infrastructure.Data": "1.0.0",
+          "FluentValidation": "9.5.1",
           "Microsoft.Extensions.Options": "5.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
         },
@@ -626,7 +636,6 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Agree.Athens.Domain": "1.0.0",
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
           "Microsoft.Extensions.Configuration.UserSecrets": "5.0.0",
@@ -678,6 +687,24 @@
     }
   },
   "libraries": {
+    "FluentValidation/9.5.1": {
+      "sha512": "By09e2m4N3giD7Giq8NCFgkgN5Hkm8Lv/bk8AadD9Xc6jjj2WDGrD6l9keZbWbkO9aygiHQREIt47iS2sVSU7w==",
+      "type": "package",
+      "path": "fluentvalidation/9.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fluent-validation-icon.png",
+        "fluentvalidation.9.5.1.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net461/FluentValidation.dll",
+        "lib/net461/FluentValidation.xml",
+        "lib/net5.0/FluentValidation.dll",
+        "lib/net5.0/FluentValidation.xml",
+        "lib/netstandard2.0/FluentValidation.dll",
+        "lib/netstandard2.0/FluentValidation.xml"
+      ]
+    },
     "Humanizer.Core/2.8.26": {
       "sha512": "OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "type": "package",

@@ -4,29 +4,35 @@ using System.Collections.Generic;
 using Agree.Athens.Domain.Interfaces;
 using System;
 using Agree.Athens.Domain.ValueObjects;
+using Agree.Athens.Domain.Security;
 
 namespace Agree.Athens.Domain.Entities
 {
     public class User : BaseEntity, IAggregateRoot, ISoftDeletable
     {
-        public User(string username, string email, int tag) : base()
+        public User(string username, string email, int tag, string passwordHash) : base()
         {
             UserServers = new List<ServerUser>();
+            RefreshTokens = new List<RefreshToken>();
             Servers = new Collection<Server>();
             Roles = new Collection<Role>();
             Messages = new Collection<Message>();
 
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = new UserTag(tag);
             Username = username;
             Email = email;
+            PasswordHash = passwordHash;
+            EmailVerified = false;
         }
 
-        public User(string username, string email, string tag) : base()
+        public User(string username, string email, string tag, string passwordHash) : base()
         {
             UserServers = new List<ServerUser>();
+            RefreshTokens = new List<RefreshToken>();
             Servers = new Collection<Server>();
             Roles = new Collection<Role>();
             Messages = new Collection<Message>();
@@ -34,15 +40,19 @@ namespace Agree.Athens.Domain.Entities
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
             if (tag == null) throw new ArgumentNullException(nameof(tag));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = new UserTag(tag);
             Username = username;
             Email = email;
+            PasswordHash = passwordHash;
+            EmailVerified = false;
         }
 
-        public User(string username, string email, UserTag tag) : base()
+        public User(string username, string email, UserTag tag, string passwordHash) : base()
         {
             UserServers = new List<ServerUser>();
+            RefreshTokens = new List<RefreshToken>();
             Servers = new Collection<Server>();
             Roles = new Collection<Role>();
             Messages = new Collection<Message>();
@@ -50,15 +60,19 @@ namespace Agree.Athens.Domain.Entities
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (email == null) throw new ArgumentNullException(nameof(email));
             if (tag == null) throw new ArgumentNullException(nameof(tag));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
             Tag = tag;
             Username = username;
             Email = email;
+            PasswordHash = passwordHash;
+            EmailVerified = false;
         }
 
         protected User()
         {
             UserServers = new List<ServerUser>();
+            RefreshTokens = new List<RefreshToken>();
             Servers = new Collection<Server>();
             Roles = new Collection<Role>();
             Messages = new Collection<Message>();
@@ -67,16 +81,28 @@ namespace Agree.Athens.Domain.Entities
         [MinLength(1)]
         [MaxLength(20)]
         public string Username { get; set; }
+
         [EmailAddress]
         public string Email { get; set; }
+
+        public bool EmailVerified { get; set; }
+
         public UserTag Tag { get; set; }
+
+        [EmailAddress]
+        public string PasswordHash { get; set; }
+
         [MaxLength(100)]
         public string Status { get; set; }
+
         public string Usertag { get => $"{Username}#{Tag}"; }
+
         public string AvatarFileName { get; set; }
+
         public DateTime? DeletedAt { get; set; }
 
         public List<ServerUser> UserServers { get; private set; }
+        public List<RefreshToken> RefreshTokens { get; private set; }
         public ICollection<Server> Servers { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Message> Messages { get; private set; }

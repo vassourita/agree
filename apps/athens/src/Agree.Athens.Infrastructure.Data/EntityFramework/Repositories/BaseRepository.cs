@@ -34,6 +34,12 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return item;
         }
 
+        public async Task<T> GetBySpecAsync(Specification<T> specification)
+        {
+            var item = await _dataSet.SingleOrDefaultAsync(specification.ToExpression());
+            return item;
+        }
+
         public async Task<IList<T>> ListAsync()
         {
             var items = await _dataSet

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Agree.Athens.Domain.Entities;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 using System;
+using Agree.Athens.Domain.Security;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
@@ -14,6 +15,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ServerUser> ServerUsers { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -31,6 +33,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration<Message>(new MessageMap());
             modelBuilder.ApplyConfiguration<Category>(new CategoryMap());
             modelBuilder.ApplyConfiguration<ServerUser>(new ServerUserMap());
+            modelBuilder.ApplyConfiguration<RefreshToken>(new RefreshTokenMap());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

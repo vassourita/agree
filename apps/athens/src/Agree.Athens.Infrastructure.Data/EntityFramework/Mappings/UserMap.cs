@@ -17,9 +17,17 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .IsRequired()
                 .HasMaxLength(255);
 
+            builder.Property(u => u.EmailVerified)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(20);
+
+            builder.Property(u => u.PasswordHash)
+                .IsRequired()
+                .HasMaxLength(255);
 
             builder.Property(u => u.Tag)
                 .IsRequired()
@@ -64,8 +72,15 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                     }
                 );
 
+            builder.HasMany(u => u.RefreshTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId);
+
             builder.HasMany(u => u.Roles)
-                .WithMany(r => r.Users);
+                .WithMany(r => r.Users)
+                .UsingEntity(
+                    j => j.ToTable("UserRoles")
+                );
         }
     }
 }

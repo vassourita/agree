@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Agree.Athens.Domain.Entities;
 
-namespace Agree.Athens.Infrastructure.Identity
+namespace Agree.Athens.Domain.Security
 {
     public class RefreshToken
     {
@@ -10,7 +11,9 @@ namespace Agree.Athens.Infrastructure.Identity
 
         public string Token { get; set; }
 
-        public string UserId { get; set; }
+        public User User { get; set; }
+
+        public Guid UserId { get; set; }
 
         public DateTime ExpiryOn { get; set; }
 

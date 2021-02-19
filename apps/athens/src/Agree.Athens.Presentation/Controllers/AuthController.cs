@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Agree.Athens.Application.Dtos.Account;
+using Agree.Athens.Application.Dtos.Auth;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +21,7 @@ namespace Agree.Athens.Presentation.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
@@ -37,14 +38,15 @@ namespace Agree.Athens.Presentation.Controllers
             }
             catch (BaseDomainException exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { Message = exception.Message });
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = exception.Message });
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
@@ -62,18 +64,18 @@ namespace Agree.Athens.Presentation.Controllers
             }
             catch (BaseDomainException exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { Message = exception.Message });
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = exception.Message });
             }
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("RefreshToken")]
-        public IActionResult RefreshToken()
+        public async Task<IActionResult> RefreshToken()
         {
             if (!ModelState.IsValid)
             {
@@ -84,19 +86,20 @@ namespace Agree.Athens.Presentation.Controllers
             {
                 var token = HttpContext.Request.Cookies["agree-athens-refresh-token"];
                 var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
-                var newToken = _authService.RefreshToken(token, ipAddress);
+                var newToken = await _authService.RefreshToken(token, ipAddress);
                 return Ok(new { Token = newToken });
             }
             catch (BaseDomainException exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { Message = exception.Message });
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = exception.Message });
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("RevokeToken")]
         public async Task<IActionResult> RevokeToken(string token)
@@ -114,14 +117,15 @@ namespace Agree.Athens.Presentation.Controllers
             }
             catch (BaseDomainException exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { Message = exception.Message });
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = exception.Message });
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
@@ -140,11 +144,11 @@ namespace Agree.Athens.Presentation.Controllers
             }
             catch (BaseDomainException exception)
             {
-                return BadRequest(exception.Message);
+                return BadRequest(new { Message = exception.Message });
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = exception.Message });
             }
         }
     }

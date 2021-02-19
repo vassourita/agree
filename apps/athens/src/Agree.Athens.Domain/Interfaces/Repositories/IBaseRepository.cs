@@ -10,6 +10,7 @@ namespace Agree.Athens.Domain.Interfaces.Repositories
         where T : BaseEntity, IAggregateRoot
     {
         Task<T> GetByIdAsync(Guid id);
+        Task<T> GetBySpecAsync(Specification<T> specification);
         Task<IList<T>> ListAsync();
         Task<IList<T>> ListAsync(Specification<T> specification);
         Task<T> AddAsync(T entity);

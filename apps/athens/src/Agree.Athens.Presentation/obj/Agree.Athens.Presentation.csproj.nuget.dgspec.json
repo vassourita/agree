@@ -48,6 +48,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[9.5.1, )"
+            },
             "Microsoft.Extensions.Options": {
               "target": "Package",
               "version": "[5.0.0, )"
@@ -318,10 +322,6 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[5.0.0, )"

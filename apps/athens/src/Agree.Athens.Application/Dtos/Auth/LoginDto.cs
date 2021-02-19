@@ -1,4 +1,4 @@
-namespace Agree.Athens.Application.Dtos.Account
+namespace Agree.Athens.Application.Dtos.Auth
 {
     public class LoginDto
     {

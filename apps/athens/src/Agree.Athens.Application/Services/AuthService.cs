@@ -1,11 +1,9 @@
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using Agree.Athens.Application.Dtos.Account;
+using Agree.Athens.Application.Dtos.Auth;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Infrastructure.Configuration;
-using Agree.Athens.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text;
@@ -14,56 +12,70 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using Agree.Athens.Domain.Interfaces.Repositories;
+using Agree.Athens.Domain.Entities;
+using Agree.Athens.Domain.Interfaces.Providers;
+using Agree.Athens.Domain.Security;
+using Agree.Athens.Domain.Specifications;
+using Agree.Athens.Domain.Interfaces;
 
 namespace Agree.Athens.Application.Services
 {
     public class AuthService
     {
         private readonly JwtBearerTokenSettings _jwtBearerTokenSettings;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly IdentityContext identityContext;
+        private readonly IBaseRepository<User> _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IHashProvider _hashProvider;
+        private readonly UserService _userService;
 
-        public AuthService(IOptions<JwtBearerTokenSettings> jwtTokenOptions, UserManager<ApplicationUser> userManager, IdentityContext identityContext)
+        public AuthService(IOptions<JwtBearerTokenSettings> jwtTokenOptions,
+                           IBaseRepository<User> userRepository,
+                           IUnitOfWork unitOfWork,
+                           IHashProvider hashProvider,
+                           UserService userService)
         {
             _jwtBearerTokenSettings = jwtTokenOptions.Value;
-            this.userManager = userManager;
-            this.identityContext = identityContext;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
+            _hashProvider = hashProvider;
+            _userService = userService;
         }
 
-        public async Task Register(CreateAccountDto createAccountDto)
+        public async Task<Guid> Register(CreateAccountDto createAccountDto)
         {
-            if (createAccountDto == null)
+            var emailAlreadyInUse = await _userService.IsUniqueEmail(createAccountDto.Email);
+            if (emailAlreadyInUse)
             {
-                throw new NullReferenceException(nameof(createAccountDto));
+                throw AccountException.EmailAlreadyInUse(createAccountDto.Email);
             }
 
-            var userAccount = new ApplicationUser() { UserName = createAccountDto.Username, Email = createAccountDto.Email };
-            var result = await userManager.CreateAsync(userAccount, createAccountDto.Password);
-            if (!result.Succeeded)
-            {
-                throw AccountException.RegisterError(result.Errors.Select(e => e.Description));
-            }
+            var tag = await _userService.GenerateUniqueTagForUser(createAccountDto.Username);
+            var passwordHash = _hashProvider.Hash(createAccountDto.Password);
+            var user = new User(createAccountDto.Username, createAccountDto.Email, tag, passwordHash);
+            await _userRepository.AddAsync(user);
+
+            return user.Id;
         }
 
-        public async Task<string> Login(LoginDto credentials, string ipAdress)
+        public async Task<string> Login(LoginDto loginDto, string ipAdress)
         {
-            ApplicationUser identityUser;
+            User user;
 
-            if (credentials == null || (identityUser = await ValidateUser(credentials)) == null)
+            if (loginDto == null || (user = await ValidateUser(loginDto)) == null)
             {
                 throw AccountException.LoginError();
             }
 
-            var token = GenerateTokens(identityUser, ipAdress);
+            var token = await GenerateTokens(user, ipAdress);
             return token;
         }
 
-        public string RefreshToken(string token, string ipAddress)
+        public async Task<string> RefreshToken(string token, string ipAddress)
         {
-            var identityUser = identityContext.Users.Include(x => x.RefreshTokens)
-                .FirstOrDefault(x => x.RefreshTokens.Any(y => y.Token == token && y.UserId == x.Id));
+            var user = await _userRepository.GetBySpecAsync(new RefreshTokenSpecification(token));
 
-            var existingRefreshToken = GetValidRefreshToken(token, identityUser);
+            var existingRefreshToken = GetValidRefreshToken(token, user);
             if (existingRefreshToken == null)
             {
                 throw AccountException.NoRefreshTokens();
@@ -72,7 +84,7 @@ namespace Agree.Athens.Application.Services
             existingRefreshToken.RevokedByIp = ipAddress;
             existingRefreshToken.RevokedOn = DateTime.UtcNow;
 
-            var newToken = GenerateTokens(identityUser, ipAddress);
+            var newToken = await GenerateTokens(user, ipAddress);
             return newToken;
         }
 
@@ -89,64 +101,58 @@ namespace Agree.Athens.Application.Services
             await RevokeRefreshToken(token, revokedByIp);
         }
 
-        private RefreshToken GetValidRefreshToken(string token, ApplicationUser identityUser)
+        private RefreshToken GetValidRefreshToken(string token, User user)
         {
-            if (identityUser == null)
+            if (user == null)
             {
                 return null;
             }
 
-            var existingToken = identityUser.RefreshTokens.FirstOrDefault(x => x.Token == token);
+            var existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
             return IsRefreshTokenValid(existingToken) ? existingToken : null;
         }
 
         private async Task<bool> RevokeRefreshToken(string token, string revokedByIp)
         {
-            var identityUser = await identityContext.Users.Include(x => x.RefreshTokens)
-                .FirstOrDefaultAsync(x => x.RefreshTokens.Any(y => y.Token == token && y.UserId == x.Id));
-            if (identityUser == null)
+            var user = await _userRepository.GetBySpecAsync(new RefreshTokenSpecification(token));
+
+            if (user == null)
             {
                 return false;
             }
 
-            var existingToken = identityUser.RefreshTokens.FirstOrDefault(x => x.Token == token);
+            var existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
             existingToken.RevokedByIp = revokedByIp;
             existingToken.RevokedOn = DateTime.UtcNow;
-            identityContext.Update(identityUser);
-            await identityContext.SaveChangesAsync();
+            await _userRepository.UpdateAsync(user);
+            await _unitOfWork.Commit();
             return true;
         }
 
-        private async Task<ApplicationUser> ValidateUser(LoginDto loginDto)
+        private async Task<User> ValidateUser(LoginDto loginDto)
         {
-            var identityUser = await userManager.FindByEmailAsync(loginDto.Email);
-            if (identityUser != null)
+            var user = await _userRepository.GetBySpecAsync(new UserEmailSpecification(loginDto.Email));
+            if (user == null)
             {
-                var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, loginDto.Password);
-                return result == PasswordVerificationResult.Failed ? null : identityUser;
+                return null;
             }
-
-            return null;
+            var compareResult = _hashProvider.Compare(user.PasswordHash, loginDto.Password);
+            return compareResult ? user : null;
         }
 
-        private string GenerateTokens(ApplicationUser identityUser, string ipAddress)
+        private async Task<string> GenerateTokens(User user, string ipAddress)
         {
-            var accessToken = GenerateAccessToken(identityUser);
+            var accessToken = GenerateAccessToken(user);
 
-            var refreshToken = GenerateRefreshToken(ipAddress, identityUser.Id);
+            var refreshToken = GenerateRefreshToken(ipAddress, user.Id);
 
-            if (identityUser.RefreshTokens == null)
-            {
-                identityUser.RefreshTokens = new List<RefreshToken>();
-            }
-
-            identityUser.RefreshTokens.Add(refreshToken);
-            identityContext.Update(identityUser);
-            identityContext.SaveChanges();
+            user.RefreshTokens.Add(refreshToken);
+            await _userRepository.UpdateAsync(user);
+            await _unitOfWork.Commit();
             return accessToken;
         }
 
-        private string GenerateAccessToken(ApplicationUser identityUser)
+        private string GenerateAccessToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtBearerTokenSettings.SecretKey);
@@ -155,8 +161,8 @@ namespace Agree.Athens.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, identityUser.UserName.ToString()),
-                    new Claim(ClaimTypes.Email, identityUser.Email)
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email)
                 }),
 
                 Expires = DateTime.UtcNow.AddSeconds(_jwtBearerTokenSettings.ExpiryTimeInSeconds),
@@ -169,7 +175,7 @@ namespace Agree.Athens.Application.Services
             return tokenHandler.WriteToken(token);
         }
 
-        private RefreshToken GenerateRefreshToken(string ipAddress, string userId)
+        private RefreshToken GenerateRefreshToken(string ipAddress, Guid userId)
         {
             using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
             {

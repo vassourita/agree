@@ -24,8 +24,10 @@ namespace Agree.Athens.Presentation
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // IoC Container
             NativeInjectorBootStrapper.RegisterServices(services, Configuration);
 
+            // Authentication
             var jwtSection = Configuration.GetSection("JwtBearerTokenSettings");
             services.Configure<JwtBearerTokenSettings>(jwtSection);
             var jwtBearerTokenSettings = jwtSection.Get<JwtBearerTokenSettings>();
@@ -52,6 +54,7 @@ namespace Agree.Athens.Presentation
                 };
             });
 
+            // Default
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -69,10 +72,16 @@ namespace Agree.Athens.Presentation
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
 
             app.UseEndpoints(endpoints =>
             {

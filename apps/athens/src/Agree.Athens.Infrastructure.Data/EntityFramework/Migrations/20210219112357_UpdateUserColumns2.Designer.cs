@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210219112357_UpdateUserColumns2")]
+    partial class UpdateUserColumns2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,47 +306,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Agree.Athens.Domain.Security.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<string>("CreatedByIp")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("ExpiryOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("RevokedByIp")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
-
-                    b.Property<DateTime>("RevokedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshToken");
-                });
-
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<Guid>("RolesId")
@@ -357,7 +318,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("Agree.Athens.Domain.Entities.Category", b =>
@@ -431,17 +392,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Agree.Athens.Domain.Security.RefreshToken", b =>
-                {
-                    b.HasOne("Agree.Athens.Domain.Entities.User", "User")
-                        .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.HasOne("Agree.Athens.Domain.Entities.Role", null)
@@ -479,8 +429,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
             modelBuilder.Entity("Agree.Athens.Domain.Entities.User", b =>
                 {
                     b.Navigation("Messages");
-
-                    b.Navigation("RefreshTokens");
 
                     b.Navigation("UserServers");
                 });
