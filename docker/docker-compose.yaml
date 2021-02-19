@@ -6,7 +6,7 @@ services:
     container_name: 'athens-postgres'
     restart: always
     ports:
-      - 5001:5432
+      - 4001:5432
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
@@ -19,9 +19,10 @@ services:
   athens-redis:
     image: redis:alpine
     container_name: 'athens-redis'
+    restart: always
     command: 'redis-server --requirepass docker'
     ports:
-      - 5002:6379
+      - 4002:6379
     volumes:
       - './volume-data/athens-redis:/data'
     networks:
