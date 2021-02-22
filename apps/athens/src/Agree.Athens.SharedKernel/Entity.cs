@@ -1,8 +1,10 @@
 using System;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace Agree.Athens.SharedKernel
 {
-    public abstract class Entity
+    public abstract class Entity : Validatable
     {
         protected Entity()
         {
