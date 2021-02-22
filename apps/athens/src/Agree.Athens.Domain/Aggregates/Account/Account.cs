@@ -17,6 +17,10 @@ namespace Agree.Athens.Domain.Aggregates.Account
             Validate(this, new AccountValidator());
         }
 
+        // Empty constructor for EF Core
+        protected Account()
+        { }
+
         public void VerifyEmail()
         {
             EmailVerified = true;
