@@ -1,6 +1,4 @@
 using System;
-using FluentValidation;
-using FluentValidation.Results;
 
 namespace Agree.Athens.SharedKernel
 {
@@ -9,9 +7,14 @@ namespace Agree.Athens.SharedKernel
         protected Entity()
         {
             Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
 
         public override bool Equals(object obj)
         {
