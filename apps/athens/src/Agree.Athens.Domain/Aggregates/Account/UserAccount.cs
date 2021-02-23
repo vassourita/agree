@@ -46,18 +46,23 @@ namespace Agree.Athens.Domain.Aggregates.Account
             Tag = newTag;
         }
 
-        public string UserName { get; private set; }
+        public string UserName { get; protected set; }
 
-        public string Email { get; private set; }
+        public string Email { get; protected set; }
 
-        public UserTag Tag { get; private set; }
+        public UserTag Tag { get; protected set; }
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
 
-        public bool EmailVerified { get; private set; }
+        public bool EmailVerified { get; protected set; }
 
-        public string PasswordHash { get; private set; }
+        public string PasswordHash { get; protected set; }
 
-        public DateTime? DeletedAt { get; set; }
+        public void SoftDelete()
+        {
+            DeletedAt = DateTime.UtcNow;
+        }
+
+        public DateTime? DeletedAt { get; protected set; }
     }
 }

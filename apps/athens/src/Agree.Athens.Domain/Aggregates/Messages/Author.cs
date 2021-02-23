@@ -23,16 +23,16 @@ namespace Agree.Athens.Domain.Aggregates.Messages
             Messages = new Collection<Message>();
         }
 
-        public string UserName { get; private set; }
+        public string UserName { get; protected set; }
 
-        public string Email { get; private set; }
+        public string Email { get; protected set; }
 
-        public UserTag Tag { get; private set; }
+        public UserTag Tag { get; protected set; }
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
 
         public bool Active { get; set; }
 
-        public ICollection<Message> Messages { get; private set; }
+        public ICollection<Message> Messages { get; protected set; }
     }
 }

@@ -18,14 +18,14 @@ namespace Agree.Athens.Domain.Aggregates.Messages
         protected Message()
         { }
 
-        public string Content { get; private set; }
+        public string Content { get; protected set; }
 
-        public Author Author { get; set; }
+        public Author Author { get; protected set; }
 
-        public Guid AuthorId { get; set; }
+        public Guid AuthorId { get; protected set; }
 
-        public TextChannel Channel { get; private set; }
+        public TextChannel Channel { get; protected set; }
 
-        public Guid ChannelId { get; private set; }
+        public Guid ChannelId { get; protected set; }
     }
 }

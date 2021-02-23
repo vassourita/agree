@@ -53,18 +53,18 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Roles.Remove(role);
         }
 
-        public string UserName { get; private set; }
+        public string UserName { get; protected set; }
 
-        public string Email { get; private set; }
+        public string Email { get; protected set; }
 
-        public UserTag Tag { get; private set; }
+        public UserTag Tag { get; protected set; }
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
 
         public bool Active { get; set; }
 
-        public Server Server { get; private set; }
+        public Server Server { get; protected set; }
 
-        public ICollection<Role> Roles { get; private set; }
+        public ICollection<Role> Roles { get; protected set; }
     }
 }

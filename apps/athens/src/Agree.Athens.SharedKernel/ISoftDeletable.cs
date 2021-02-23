@@ -3,6 +3,8 @@ namespace Agree.Athens.SharedKernel
 {
     public interface ISoftDeletable
     {
-        DateTime? DeletedAt { get; set; }
+        void SoftDelete();
+
+        DateTime? DeletedAt { get; }
     }
 }

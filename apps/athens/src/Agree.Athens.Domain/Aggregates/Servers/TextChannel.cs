@@ -30,10 +30,10 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Validate(this, new TextChannelValidator());
         }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
-        public Server Server { get; private set; }
+        public Server Server { get; protected set; }
 
-        public ICollection<Message> Messages { get; private set; }
+        public ICollection<Message> Messages { get; protected set; }
     }
 }

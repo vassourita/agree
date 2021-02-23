@@ -92,12 +92,12 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Roles.Remove(role);
         }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
-        public ICollection<TextChannel> TextChannels { get; private set; }
+        public ICollection<TextChannel> TextChannels { get; protected set; }
 
-        public ICollection<User> Users { get; private set; }
+        public ICollection<User> Users { get; protected set; }
 
-        public ICollection<Role> Roles { get; private set; }
+        public ICollection<Role> Roles { get; protected set; }
     }
 }

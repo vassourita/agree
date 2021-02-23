@@ -39,14 +39,14 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Validate(this, new RoleValidator());
         }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
-        public ColorHex ColorHex { get; private set; }
+        public ColorHex ColorHex { get; protected set; }
 
-        public RolePermissions Permissions { get; private set; }
+        public RolePermissions Permissions { get; protected set; }
 
-        public Server Server { get; private set; }
+        public Server Server { get; protected set; }
 
-        public ICollection<User> Users { get; private set; }
+        public ICollection<User> Users { get; protected set; }
     }
 }
