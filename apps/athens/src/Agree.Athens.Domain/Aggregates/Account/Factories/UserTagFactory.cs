@@ -16,5 +16,10 @@ namespace Agree.Athens.Domain.Aggregates.Account.Factories
             var formatted = tag.ToString().PadLeft(4, '0');
             return new UserTag(formatted);
         }
+
+        public static UserTag FromString(string tag)
+        {
+            return new UserTag(tag);
+        }
     }
 }

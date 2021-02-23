@@ -34,6 +34,6 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public Server Server { get; private set; }
 
-        public IEnumerable<Message> Messages { get; private set; }
+        public ICollection<Message> Messages { get; private set; }
     }
 }

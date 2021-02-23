@@ -1,3 +1,4 @@
+using System;
 using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.SharedKernel;
 
@@ -9,7 +10,9 @@ namespace Agree.Athens.Domain.Aggregates.Messages
         {
             Content = content;
             Author = author;
+            AuthorId = author.Id;
             Channel = channel;
+            ChannelId = channel.Id;
         }
 
         protected Message()
@@ -19,6 +22,10 @@ namespace Agree.Athens.Domain.Aggregates.Messages
 
         public Author Author { get; set; }
 
+        public Guid AuthorId { get; set; }
+
         public TextChannel Channel { get; private set; }
+
+        public Guid ChannelId { get; private set; }
     }
 }

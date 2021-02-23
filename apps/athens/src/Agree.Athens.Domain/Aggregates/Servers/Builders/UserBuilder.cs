@@ -10,6 +10,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Factories
     {
         private string _userName { get; set; } = "";
         private string _email { get; set; } = "";
+        private bool _active { get; set; } = true;
         private UserTag _tag { get; set; } = UserTagFactory.CreateRandomUserTag();
         private Server _server { get; set; }
         public IEnumerable<Role> _roles { get; private set; } = new List<Role>();
@@ -19,6 +20,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Factories
             _userName = account.UserName;
             _email = account.Email;
             _tag = account.Tag;
+            _active = account.DeletedAt is not null;
             return this;
         }
 
@@ -45,7 +47,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Factories
 
         public User Build()
         {
-            return new User(_userName, _email, _tag, _server, _roles);
+            return new User(_userName, _email, _tag, _server, _roles, _active);
         }
     }
 }

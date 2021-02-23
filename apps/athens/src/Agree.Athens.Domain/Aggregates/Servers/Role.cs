@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Agree.Athens.Domain.Aggregates.Servers.Validators;
 using Agree.Athens.SharedKernel;
 
@@ -7,6 +9,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
     {
         public Role(string name, ColorHex colorHex, RolePermissions permissions, Server server)
         {
+            Users = new Collection<User>();
             Name = name;
             ColorHex = colorHex;
             Permissions = permissions;
@@ -18,6 +21,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         // Empty constructor for EF Core
         protected Role()
         {
+            Users = new Collection<User>();
             Permissions = new RolePermissions();
         }
 
@@ -42,5 +46,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public RolePermissions Permissions { get; private set; }
 
         public Server Server { get; private set; }
+
+        public ICollection<User> Users { get; private set; }
     }
 }

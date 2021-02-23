@@ -1,3 +1,4 @@
+using System;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using Agree.Athens.Domain.Aggregates.Account.Validators;
 using Agree.Athens.SharedKernel;
@@ -56,5 +57,7 @@ namespace Agree.Athens.Domain.Aggregates.Account
         public bool EmailVerified { get; private set; }
 
         public string PasswordHash { get; private set; }
+
+        public DateTime? DeletedAt { get; set; }
     }
 }

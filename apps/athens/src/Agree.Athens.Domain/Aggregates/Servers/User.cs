@@ -7,7 +7,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 {
     public class User : Entity
     {
-        public User(string userName, string email, UserTag tag, Server server, IEnumerable<Role> roles)
+        public User(string userName, string email, UserTag tag, Server server, IEnumerable<Role> roles, bool active)
         {
             Roles = new Collection<Role>();
 
@@ -15,6 +15,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Email = email;
             Tag = Tag;
             Server = server;
+            Active = active;
 
             foreach (var role in roles)
             {
@@ -59,6 +60,8 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public UserTag Tag { get; private set; }
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
+
+        public bool Active { get; set; }
 
         public Server Server { get; private set; }
 
