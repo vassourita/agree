@@ -4,9 +4,9 @@ using Agree.Athens.SharedKernel;
 
 namespace Agree.Athens.Domain.Aggregates.Account
 {
-    public class Account : Entity, IAggregateRoot
+    public class UserAccount : Entity, IAggregateRoot
     {
-        public Account(string userName, string email, string passwordHash)
+        public UserAccount(string userName, string email, string passwordHash)
         {
             UserName = userName;
             Email = email;
@@ -14,11 +14,11 @@ namespace Agree.Athens.Domain.Aggregates.Account
             Tag = UserTagFactory.CreateRandomUserTag();
             EmailVerified = false;
 
-            Validate(this, new AccountValidator());
+            Validate(this, new UserAccountValidator());
         }
 
         // Empty constructor for EF Core
-        protected Account()
+        protected UserAccount()
         { }
 
         public void VerifyEmail()
@@ -30,14 +30,14 @@ namespace Agree.Athens.Domain.Aggregates.Account
         {
             UserName = newUserName;
 
-            Validate(this, new AccountValidator());
+            Validate(this, new UserAccountValidator());
         }
 
         public void UpdateEmail(string newEmail)
         {
             Email = newEmail;
 
-            Validate(this, new AccountValidator());
+            Validate(this, new UserAccountValidator());
         }
 
         public void UpdateTag(UserTag newTag)

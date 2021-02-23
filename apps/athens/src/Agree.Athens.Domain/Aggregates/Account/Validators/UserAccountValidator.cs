@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace Agree.Athens.Domain.Aggregates.Account.Validators
 {
-    public class AccountValidator : AbstractValidator<Account>
+    public class UserAccountValidator : AbstractValidator<UserAccount>
     {
-        public AccountValidator()
+        public UserAccountValidator()
         {
             RuleFor(account => account.UserName)
                 .MinimumLength(1).WithMessage("UserName must have at least 1 character")
