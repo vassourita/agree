@@ -1,13 +1,18 @@
+using System.Linq;
+using System.Collections.Generic;
 using Agree.Athens.Domain.Aggregates.Account;
+using Agree.Athens.SharedKernel;
+using Agree.Athens.Domain.Aggregates.Account.Factories;
 
 namespace Agree.Athens.Domain.Aggregates.Servers.Factories
 {
-    public class UserBuilder
+    public class UserBuilder : IBuilder<User>
     {
-        private string _userName { get; set; }
-        private string _email { get; set; }
-        private UserTag _tag { get; set; }
+        private string _userName { get; set; } = "";
+        private string _email { get; set; } = "";
+        private UserTag _tag { get; set; } = UserTagFactory.CreateRandomUserTag();
         private Server _server { get; set; }
+        public IEnumerable<Role> _roles { get; private set; } = new List<Role>();
 
         public UserBuilder FromUserAccount(UserAccount account)
         {
@@ -23,9 +28,24 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Factories
             return this;
         }
 
+        public UserBuilder HasRole(Role role)
+        {
+            _roles.Append(role);
+            return this;
+        }
+
+        public UserBuilder HasRoles(IEnumerable<Role> roles)
+        {
+            foreach (var role in roles)
+            {
+                _roles.Append(role);
+            }
+            return this;
+        }
+
         public User Build()
         {
-            return new User(_userName, _email, _tag, _server);
+            return new User(_userName, _email, _tag, _server, _roles);
         }
     }
 }

@@ -40,10 +40,42 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Users.Add(user);
         }
 
+        public void RemoveUser(User user)
+        {
+            if (!Users.Contains(user))
+            {
+                AddError(nameof(Users), $"{user} is not member of {this}", user);
+            }
+
+            Users.Remove(user);
+        }
+
+        public void AddTextChannel(TextChannel channel)
+        {
+            if (TextChannels.Contains(channel))
+            {
+                AddError(nameof(TextChannels), $"{channel} already exists {this}", channel);
+            }
+
+            TextChannels.Add(channel);
+        }
+
+        public void RemoveTextChannel(TextChannel channel)
+        {
+            if (!TextChannels.Contains(channel))
+            {
+                AddError(nameof(TextChannels), $"{channel} does not exists on {this}", channel);
+            }
+
+            TextChannels.Remove(channel);
+        }
+
         public string Name { get; private set; }
 
         public ICollection<TextChannel> TextChannels { get; private set; }
 
         public ICollection<User> Users { get; private set; }
+
+        public ICollection<Role> Roles { get; private set; }
     }
 }

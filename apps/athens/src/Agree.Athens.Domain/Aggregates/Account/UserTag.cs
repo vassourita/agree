@@ -5,7 +5,7 @@ namespace Agree.Athens.Domain.Aggregates.Account
 {
     public class UserTag : Validatable
     {
-        public string Value { get; set; }
+        public string Value { get; private set; }
 
         public UserTag(string tag)
         {
