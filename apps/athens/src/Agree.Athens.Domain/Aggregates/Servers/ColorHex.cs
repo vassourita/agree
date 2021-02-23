@@ -16,7 +16,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public override string ToString()
         {
-            return $"ColorHex [Value={Value}]";
+            return $"ColorHex [Value=#{Value}]";
         }
     }
 }
