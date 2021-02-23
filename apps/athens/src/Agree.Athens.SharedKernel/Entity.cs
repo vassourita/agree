@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System;
 
 namespace Agree.Athens.SharedKernel
@@ -11,6 +12,7 @@ namespace Agree.Athens.SharedKernel
             UpdatedAt = DateTime.UtcNow;
         }
 
+        [Key]
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

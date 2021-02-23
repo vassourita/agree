@@ -11,6 +11,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         {
             TextChannels = new Collection<TextChannel>();
             Users = new Collection<User>();
+            Roles = new Collection<Role>();
             Name = name;
 
             Validate(this, new ServerValidator());
@@ -21,6 +22,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         {
             TextChannels = new Collection<TextChannel>();
             Users = new Collection<User>();
+            Roles = new Collection<Role>();
         }
 
         public void UpdateName(string newName)
@@ -68,6 +70,26 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             }
 
             TextChannels.Remove(channel);
+        }
+
+        public void AddRole(Role role)
+        {
+            if (Roles.Contains(role))
+            {
+                AddError(nameof(Roles), $"{role} already exists on {this}", role);
+            }
+
+            Roles.Add(role);
+        }
+
+        public void RemoveRole(Role role)
+        {
+            if (!Roles.Contains(role))
+            {
+                AddError(nameof(Roles), $"{role} does not exists of {this}", role);
+            }
+
+            Roles.Remove(role);
         }
 
         public string Name { get; private set; }

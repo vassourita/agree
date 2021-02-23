@@ -5,7 +5,7 @@ using Agree.Athens.SharedKernel;
 
 namespace Agree.Athens.Domain.Aggregates.Servers
 {
-    public class User : Entity, IAggregateRoot
+    public class User : Entity
     {
         public User(string userName, string email, UserTag tag, Server server, IEnumerable<Role> roles)
         {
@@ -26,6 +26,30 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         protected User()
         {
             Roles = new Collection<Role>();
+        }
+
+        public void AddRole(Role role)
+        {
+            if (!Server.Roles.Contains(role))
+            {
+                AddError(nameof(Roles), $"{role} does not exists in {Server}", role);
+            }
+            if (Roles.Contains(role))
+            {
+                AddError(nameof(Roles), $"{this} already has {role}", role);
+            }
+
+            Roles.Add(role);
+        }
+
+        public void RemoveRole(Role role)
+        {
+            if (!Roles.Contains(role))
+            {
+                AddError(nameof(Roles), $"{this} does not have {role}", role);
+            }
+
+            Roles.Remove(role);
         }
 
         public string UserName { get; private set; }

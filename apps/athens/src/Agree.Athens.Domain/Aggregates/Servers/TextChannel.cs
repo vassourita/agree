@@ -3,7 +3,7 @@ using Agree.Athens.SharedKernel;
 
 namespace Agree.Athens.Domain.Aggregates.Servers
 {
-    public class TextChannel : Entity, IAggregateRoot
+    public class TextChannel : Entity
     {
         public TextChannel(string name, Server server)
         {
