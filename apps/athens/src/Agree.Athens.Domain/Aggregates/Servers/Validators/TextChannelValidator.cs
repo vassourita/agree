@@ -8,8 +8,8 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Validators
         public TextChannelValidator()
         {
             RuleFor(channel => channel.Name)
-                .MinimumLength(1).WithMessage("Channel name must have at least 1 character")
-                .MaximumLength(20).WithMessage("Channel name must not have more than 20 characters");
+                .MinimumLength(1).WithMessage(c => "{c} name must have at least 1 character")
+                .MaximumLength(20).WithMessage(c => "{c} name must not have more than 20 characters");
         }
     }
 }
