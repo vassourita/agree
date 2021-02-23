@@ -1,15 +1,17 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using Agree.Athens.Domain.Aggregates.Messages;
 using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Domain.Aggregates.Servers.Factories;
 using Agree.Athens.Infrastructure.Data.EntityFramework.DataModels;
+using Agree.Athens.SharedKernel.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IUnitOfWork
     {
         public DataContext([NotNull] DbContextOptions options) : base(options)
         {
@@ -22,6 +24,17 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         public DbSet<ServerDbModel> Servers { get; set; }
         public DbSet<MessageDbModel> Messages { get; set; }
         public DbSet<TextChannelDbModel> TextChannels { get; set; }
+
+        public async Task<bool> Commit()
+        {
+            var entriesWritten = await SaveChangesAsync();
+            return entriesWritten > 0;
+        }
+
+        public Task<bool> Rollback()
+        {
+            return Task.FromResult(true);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
