@@ -5,7 +5,7 @@ using Agree.Athens.SharedKernel;
 
 namespace Agree.Athens.Domain.Aggregates.Account
 {
-    public class UserAccount : Entity, IAggregateRoot
+    public class UserAccount : Entity, IAggregateRoot, ISoftDeletable
     {
         public UserAccount(string userName, string email, string passwordHash)
         {

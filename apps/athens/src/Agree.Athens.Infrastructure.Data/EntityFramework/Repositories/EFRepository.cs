@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agree.Athens.Domain.Interfaces;
+using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Agree.Athens.SharedKernel;
 using Agree.Athens.SharedKernel.Data;

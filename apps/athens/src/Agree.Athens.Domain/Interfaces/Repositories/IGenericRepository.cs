@@ -5,7 +5,7 @@ using Agree.Athens.SharedKernel;
 using Agree.Athens.SharedKernel.Data;
 using Agree.Athens.SharedKernel.Specification;
 
-namespace Agree.Athens.Domain.Interfaces
+namespace Agree.Athens.Domain.Interfaces.Repositories
 {
     public interface IGenericRepository<T> : IRepository<T>
         where T : Entity, IAggregateRoot
