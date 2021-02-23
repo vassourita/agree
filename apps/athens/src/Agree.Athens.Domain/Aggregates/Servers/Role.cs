@@ -21,6 +21,20 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Permissions = new RolePermissions();
         }
 
+        public void UpdateName(string newName)
+        {
+            Name = newName;
+
+            Validate(this, new RoleValidator());
+        }
+
+        public void UpdateColorHex(ColorHex newColorHex)
+        {
+            ColorHex = newColorHex;
+
+            Validate(this, new RoleValidator());
+        }
+
         public string Name { get; private set; }
 
         public ColorHex ColorHex { get; private set; }
