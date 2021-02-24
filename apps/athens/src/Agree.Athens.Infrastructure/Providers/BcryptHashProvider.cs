@@ -1,6 +1,6 @@
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Infrastructure.Configuration;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Agree.Athens.Infrastructure.Providers
 {
@@ -10,7 +10,7 @@ namespace Agree.Athens.Infrastructure.Providers
 
         public BcryptHashProvider(IOptions<HashConfiguration> hashConfiguration)
         {
-            _hashConfiguration = hashConfiguration;
+            _hashConfiguration = hashConfiguration.Value;
         }
 
         public bool Compare(string s, string hashed)

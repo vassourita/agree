@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Infrastructure.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Agree.Athens.Infrastructure.Providers
 {
@@ -10,12 +11,12 @@ namespace Agree.Athens.Infrastructure.Providers
     {
         private readonly SmtpClient client;
 
-        public NativeMailProvider(MailConfiguration mailConfiguration)
+        public NativeMailProvider(IOptions<MailConfiguration> mailConfiguration)
         {
-            client = new SmtpClient(mailConfiguration.Host, mailConfiguration.Port)
+            client = new SmtpClient(mailConfiguration.Value.Host, mailConfiguration.Value.Port)
             {
-                Credentials = new NetworkCredential(mailConfiguration.Username, mailConfiguration.Password),
-                EnableSsl = mailConfiguration.EnableSsl
+                Credentials = new NetworkCredential(mailConfiguration.Value.Username, mailConfiguration.Value.Password),
+                EnableSsl = mailConfiguration.Value.EnableSsl
             };
         }
 
