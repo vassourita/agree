@@ -5,6 +5,7 @@ using Agree.Athens.Domain.Interfaces.Services;
 using Agree.Athens.Domain.Services;
 using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
+using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Repositories;
 using Agree.Athens.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,11 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
     {
         public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new DbModelToDomainEntityProfile());
+            });
+
             // Infrastructure - Data - EntityFramework
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -29,6 +35,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();
             services.AddScoped<IMailProvider, NativeMailProvider>();
+            services.AddScoped<IMailTemplateProvider, NativeMailTemplateProvider>();
 
             // Domain - Services
             services.AddScoped<AccountService>();

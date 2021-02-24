@@ -4,11 +4,11 @@ using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Infrastructure.Data.EntityFramework.DataModels;
 using AutoMapper;
 
-namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
+namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
 {
-    public class DbModelToDomainEntityMap : Profile
+    public class DbModelToDomainEntityProfile : Profile
     {
-        public DbModelToDomainEntityMap()
+        public DbModelToDomainEntityProfile()
         {
             CreateMap<UserDbModel, UserAccount>()
                 .ReverseMap();
