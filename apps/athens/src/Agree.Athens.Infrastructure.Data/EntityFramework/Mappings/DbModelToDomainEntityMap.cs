@@ -24,6 +24,18 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                     user => user.Active,
                     config => config.MapFrom(dbModel => dbModel.DeletedAt != null)
                 ).ReverseMap();
+
+            CreateMap<RoleDbModel, Role>()
+                .ReverseMap();
+
+            CreateMap<ServerDbModel, Server>()
+                .ReverseMap();
+
+            CreateMap<MessageDbModel, Message>()
+                .ReverseMap();
+
+            CreateMap<TextChannelDbModel, TextChannel>()
+                .ReverseMap();
         }
     }
 }
