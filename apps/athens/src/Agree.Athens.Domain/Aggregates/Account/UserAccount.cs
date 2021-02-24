@@ -25,11 +25,13 @@ namespace Agree.Athens.Domain.Aggregates.Account
         public void VerifyEmail()
         {
             EmailVerified = true;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public void UpdateUserName(string newUserName)
         {
             UserName = newUserName;
+            UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new UserAccountValidator());
         }
@@ -37,6 +39,7 @@ namespace Agree.Athens.Domain.Aggregates.Account
         public void UpdateEmail(string newEmail)
         {
             Email = newEmail;
+            UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new UserAccountValidator());
         }
@@ -44,6 +47,7 @@ namespace Agree.Athens.Domain.Aggregates.Account
         public void UpdateTag(UserTag newTag)
         {
             Tag = newTag;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public string UserName { get; protected set; }

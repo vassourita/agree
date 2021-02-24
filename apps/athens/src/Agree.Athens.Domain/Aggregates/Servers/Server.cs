@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Aggregates.Servers.Validators;
 using Agree.Athens.SharedKernel;
+using System;
 
 namespace Agree.Athens.Domain.Aggregates.Servers
 {
@@ -28,6 +29,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public void UpdateName(string newName)
         {
             Name = newName;
+            UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new ServerValidator());
         }
@@ -37,6 +39,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (Users.Contains(user))
             {
                 AddError(nameof(Users), $"{user} is already member of {this}", user);
+                return;
             }
 
             Users.Add(user);
@@ -47,6 +50,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (!Users.Contains(user))
             {
                 AddError(nameof(Users), $"{user} is not member of {this}", user);
+                return;
             }
 
             Users.Remove(user);
@@ -57,6 +61,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (TextChannels.Contains(channel))
             {
                 AddError(nameof(TextChannels), $"{channel} already exists {this}", channel);
+                return;
             }
 
             TextChannels.Add(channel);
@@ -67,6 +72,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (!TextChannels.Contains(channel))
             {
                 AddError(nameof(TextChannels), $"{channel} does not exists on {this}", channel);
+                return;
             }
 
             TextChannels.Remove(channel);
@@ -77,6 +83,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (Roles.Contains(role))
             {
                 AddError(nameof(Roles), $"{role} already exists on {this}", role);
+                return;
             }
 
             Roles.Add(role);
@@ -87,6 +94,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             if (!Roles.Contains(role))
             {
                 AddError(nameof(Roles), $"{role} does not exists of {this}", role);
+                return;
             }
 
             Roles.Remove(role);

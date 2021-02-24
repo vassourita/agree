@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Agree.Athens.Domain.Aggregates.Servers.Validators;
 using Agree.Athens.SharedKernel;
+using System;
 
 namespace Agree.Athens.Domain.Aggregates.Servers
 {
@@ -12,7 +13,10 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Users = new Collection<User>();
             Name = name;
             ColorHex = colorHex;
-            Permissions = permissions;
+            CanUpdateServerName = permissions.CanUpdateServerName;
+            CanDeleteServer = permissions.CanDeleteServer;
+            CanAddUsers = permissions.CanAddUsers;
+            CanRemoveUsers = permissions.CanRemoveUsers;
             Server = server;
 
             Validate(this, new RoleValidator());
@@ -22,12 +26,12 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         protected Role()
         {
             Users = new Collection<User>();
-            Permissions = new RolePermissions();
         }
 
         public void UpdateName(string newName)
         {
             Name = newName;
+            UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new RoleValidator());
         }
@@ -35,6 +39,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public void UpdateColorHex(ColorHex newColorHex)
         {
             ColorHex = newColorHex;
+            UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new RoleValidator());
         }
@@ -43,9 +48,13 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public ColorHex ColorHex { get; protected set; }
 
-        public RolePermissions Permissions { get; protected set; }
+        public bool CanUpdateServerName { get; set; } = false;
+        public bool CanDeleteServer { get; set; } = false;
+        public bool CanAddUsers { get; set; } = false;
+        public bool CanRemoveUsers { get; set; } = false;
 
         public Server Server { get; protected set; }
+        public Guid ServerId { get; protected set; }
 
         public ICollection<User> Users { get; protected set; }
     }
