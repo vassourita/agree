@@ -10,7 +10,7 @@ using Agree.Athens.Domain.Interfaces.Services;
 
 namespace Agree.Athens.Domain.Services
 {
-    public class AccountService : IDomainService
+    public class AccountService
     {
         private readonly IHashProvider _hashProvider;
         private readonly IMailService _mailService;

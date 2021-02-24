@@ -1,5 +1,7 @@
+using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
+using Agree.Athens.Domain.Interfaces.Services;
 using Agree.Athens.Domain.Services;
 using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
@@ -30,6 +32,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
 
             // Domain - Services
             services.AddScoped<AccountService>();
+            services.AddScoped<IMailService, MailService>();
         }
     }
 }
