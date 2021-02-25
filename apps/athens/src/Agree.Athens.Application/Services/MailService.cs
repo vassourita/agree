@@ -5,28 +5,30 @@ using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Services;
-using System;
-using Agree.Athens.Application.ViewModels.Mail;
 
 namespace Agree.Athens.Application.Services
 {
     public class MailService : IMailService
     {
         private readonly IMailProvider _mailProvider;
-        private readonly IMailTemplateProvider _mailTemplateProvider;
 
-        public MailService(IMailProvider mailProvider, IMailTemplateProvider mailTemplateProvider)
+        public MailService(IMailProvider mailProvider)
         {
             _mailProvider = mailProvider;
-            _mailTemplateProvider = mailTemplateProvider;
         }
 
         public async Task SendAccountConfirmationMailAsync(UserAccount newAccount, string confirmationUrl)
         {
-            var model = new MailConfirmationModel(newAccount, confirmationUrl);
+            var dict = new Dictionary<string, string>
+            {
+                ["Tag"] = newAccount.Tag.Value,
+                ["UserName"] = newAccount.UserName,
+                ["ConfirmationUrl"] = "",
+            };
             var templatePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Agree.Athens.Application", "Views", "Mail", "ConfirmationMail.html");
 
-            var body = _mailTemplateProvider.Parse(templatePath, model);
+            var body =
+                $@"<html><body><p>Welcome to Agree, {newAccount.UserName}! <a href='{confirmationUrl}'>Click here</a> to confirm your account</p></body></html>";
 
             var message = new MailMessage("noreply@agree.com.br", newAccount.Email)
             {

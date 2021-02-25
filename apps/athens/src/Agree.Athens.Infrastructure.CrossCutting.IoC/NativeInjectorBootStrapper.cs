@@ -35,7 +35,6 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();
             services.AddScoped<IMailProvider, NativeMailProvider>();
-            services.AddScoped<IMailTemplateProvider, NativeMailTemplateProvider>();
 
             // Domain - Services
             services.AddScoped<AccountService>();
