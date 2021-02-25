@@ -16,7 +16,7 @@ namespace Agree.Athens.Infrastructure.Providers
             }
             foreach (var param in parameters)
             {
-                body.Replace($"{{Model.{param.Key}}}", param.Value);
+                body.Replace($"@Model.{param.Key}", param.Value);
             }
             return body;
         }

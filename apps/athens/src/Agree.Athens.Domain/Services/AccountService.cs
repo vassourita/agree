@@ -7,6 +7,7 @@ using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Interfaces.Services;
+using Agree.Athens.Domain.Aggregates.Account.Factories;
 
 namespace Agree.Athens.Domain.Services
 {
@@ -31,6 +32,16 @@ namespace Agree.Athens.Domain.Services
             {
                 var passwordHash = _hashProvider.Hash(password);
                 var account = new UserAccount(userName, email, passwordHash);
+
+                if (await _accountRepository.EmailIsInUse(email))
+                {
+                    account.AddError(email, $"{account} Email is already in use", email);
+                }
+
+                while (await _accountRepository.TagIsInUse(account.Tag, account.UserName))
+                {
+                    account.UpdateTag(UserTagFactory.CreateRandomUserTag());
+                }
 
                 if (account.IsInvalid)
                 {

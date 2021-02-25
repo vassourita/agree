@@ -16,6 +16,18 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
         {
         }
 
+        public async Task<bool> EmailIsInUse(string email)
+        {
+            var item = await _dataSet.SingleOrDefaultAsync(x => x.Email.Equals(email));
+            return item != null;
+        }
+
+        public async Task<bool> TagIsInUse(UserTag tag, string userName)
+        {
+            var item = await _dataSet.SingleOrDefaultAsync(x => x.Tag.Equals(tag) && x.UserName == userName);
+            return item != null;
+        }
+
         public async Task<UserAccount> SoftDeleteAsync(Guid id)
         {
             var item = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(id));

@@ -333,7 +333,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">Welcome to Agree, {{Model.UserName}}!</span>
+    <span class="preheader">Welcome to Agree, @Model.UserName!</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -349,7 +349,7 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Hi there, {{Model.UserName}}</p>
+                        <p>Hi there, @Model.UserName</p>
                         <p>Welcome to Agree, a communication service by Vinicius Vassão</p>
                         <p>Click below to confirm your email and get a special prize on Agree</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
@@ -359,7 +359,7 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="{{Model.ConfirmationUrl}}" target="_blank">Confirm my Email!</a> </td>
+                                      <td> <a href="@Model.ConfirmationUrl" target="_blank">Confirm my Email!</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -367,7 +367,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>You are now known in Agree as {{Model.UserName}}#{{Model.Tag}}, but you can change your name or tag at any moment</p>
+                        <p>You are now known in Agree as @Model.UserName#@Model.Tag, but you can change your name or tag at any moment</p>
                         <p>&nbsp;</p>
                         <p>In case you find any problem, please report it to me as a issue <a href="https://github.com/vassourita/agree" target="_blank">here</a></p>
                         <p>Thank you for joining Agree. I hope you have a nice experience with us ♥️</p>

@@ -1,9 +1,12 @@
+using System.IO;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Services;
+using System;
+using Agree.Athens.Application.ViewModels.Mail;
 
 namespace Agree.Athens.Application.Services
 {
@@ -20,12 +23,11 @@ namespace Agree.Athens.Application.Services
 
         public async Task SendAccountConfirmationMailAsync(UserAccount newAccount, string confirmationUrl)
         {
-            var parameters = new Dictionary<string, string>();
-            parameters["UserName"] = newAccount.UserName;
-            parameters["Tag"] = newAccount.Tag.ToString();
-            parameters["ConfirmationUrl"] = confirmationUrl;
+            var model = new MailConfirmationModel(newAccount, confirmationUrl);
+            var templatePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Agree.Athens.Application", "Views", "Mail", "ConfirmationMail.html");
 
-            var body = _mailTemplateProvider.FromHtml("", parameters);
+            var body = _mailTemplateProvider.Parse(templatePath, model);
+
             var message = new MailMessage("noreply@agree.com.br", newAccount.Email)
             {
                 IsBodyHtml = true,

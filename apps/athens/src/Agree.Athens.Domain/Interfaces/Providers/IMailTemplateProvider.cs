@@ -4,6 +4,6 @@ namespace Agree.Athens.Domain.Interfaces.Providers
 {
     public interface IMailTemplateProvider
     {
-        string FromHtml(string filePath, IDictionary<string, string> parameters);
+        string Parse(string filePath, object model);
     }
 }

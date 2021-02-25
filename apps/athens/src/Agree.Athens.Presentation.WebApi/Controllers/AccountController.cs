@@ -29,7 +29,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var confirmationUrl = Url.Link("ConfirmEmail", new { });
+                var confirmationUrl = Url.Link("ConfirmEmail", new { }) ?? "";
                 await _accountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password, confirmationUrl);
                 return Ok();
             }
