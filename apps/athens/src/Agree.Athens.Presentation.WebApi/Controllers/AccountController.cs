@@ -5,6 +5,7 @@ using Agree.Athens.Application.Dtos;
 using Agree.Athens.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Agree.Athens.Application.Services;
+using Agree.Athens.Presentation.WebApi.Models;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
@@ -31,19 +32,19 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             {
                 var confirmationUrl = Url.Link("ConfirmEmail", new { token = "" });
                 await _accountService.Register(createAccountDto, confirmationUrl);
-                return Ok(new { Message = "Account succesfully created" });
+                return Ok(new Response("Account succesfully created"));
             }
             catch (BaseDomainException ex)
             {
                 if (ex is DomainValidationException validationException)
                 {
-                    return BadRequest(new { Message = validationException.Message, Errors = validationException.GetErrors() });
+                    return BadRequest(ErrorResponse.FromException(validationException));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
         }
 
@@ -59,19 +60,19 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 await _accountService.ConfirmEmail(token);
-                return Ok(new { Message = "Account succesfully verified" });
+                return Ok(new Response("Account succesfully verified"));
             }
             catch (BaseDomainException ex)
             {
                 if (ex is EntityNotFoundException notFoundException)
                 {
-                    return NotFound(new { Message = notFoundException.Message });
+                    return NotFound(new Response(notFoundException.Message));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
         }
     }

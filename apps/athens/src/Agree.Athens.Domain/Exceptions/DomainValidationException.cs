@@ -8,10 +8,12 @@ namespace Agree.Athens.Domain.Exceptions
     public class DomainValidationException : BaseDomainException
     {
         private readonly IEnumerable<ValidationError> Errors;
+        private readonly Validatable Item;
 
-        public DomainValidationException(Validatable item) : base($"Validation for {item} failed")
+        public DomainValidationException(Validatable item) : base($"Validation failed")
         {
             Errors = item.ValidationResult.Errors.Select(e => new ValidationError(e));
+            Item = item;
         }
 
         public IEnumerable<ValidationError> GetErrors() => Errors.ToList().AsReadOnly();
