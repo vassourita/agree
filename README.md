@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="./.github/assets/agree.svg" alt="Agree Logo" width="300"/>
+   <img src="./assets/agree.svg" alt="Agree Logo" width="300"/>
 </p>
 
 <h1 align="center">
@@ -12,5 +12,19 @@
 
 <br/>
 <h2 align="center">
-Better docs soon
+:construction: ----- Better docs soon ----- :construction:
 </h2>
+<br/>
+
+
+<h3 align="center">
+Project scope
+</h3>
+
+<p align="center">
+   <img src="./docs/initial_scope.png" alt="Initial scope" width="300"/>
+</p>
+
+<p align="center">
+   <img src="./docs/final_scope.png" alt="Final scope" width="300"/>
+</p>
