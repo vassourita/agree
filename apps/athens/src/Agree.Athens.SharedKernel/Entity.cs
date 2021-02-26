@@ -49,9 +49,16 @@ namespace Agree.Athens.SharedKernel
             return (GetType().GetHashCode() ^ 93) + Id.GetHashCode();
         }
 
+#if DEBUG
         public override string ToString()
         {
             return $"{GetType().Name} [Id={Id}]";
         }
+#else
+        public override string ToString()
+        {
+            return $"{GetType().Name}";
+        }
+#endif
     }
 }

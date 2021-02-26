@@ -38,9 +38,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            var entity = await GetByIdAsync(id);
-
-            var item = _mapper.Map<TModel>(entity);
+            var item = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(id));
 
             _dataSet.Remove(item);
         }
@@ -63,7 +61,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            var dbItem = await GetByIdAsync(entity.Id);
+            var dbItem = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(entity.Id));
 
             var item = _mapper.Map<TModel>(entity);
 

@@ -8,6 +8,7 @@ using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Interfaces.Services;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
+using System.Web;
 
 namespace Agree.Athens.Domain.Services
 {
@@ -51,9 +52,43 @@ namespace Agree.Athens.Domain.Services
                 await _accountRepository.AddAsync(account);
                 await _accountRepository.UnitOfWork.Commit();
 
-                await _mailService.SendAccountConfirmationMailAsync(account, confirmationUrl);
+                var confirmationUrlWithToken = AddTokenToMailConfirmationUrl(confirmationUrl, account.Id);
+
+                await _mailService.SendAccountConfirmationMailAsync(account, confirmationUrlWithToken);
 
                 return account;
+            }
+            catch (Exception ex)
+            {
+                await _accountRepository.UnitOfWork.Rollback();
+                throw ex;
+            }
+        }
+
+        private string AddTokenToMailConfirmationUrl(string confirmationUrl, Guid accountId)
+        {
+            var uriBuilder = new UriBuilder(confirmationUrl);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["token"] = accountId.ToString();
+            uriBuilder.Query = query.ToString();
+            var confirmationUrlWithToken = uriBuilder.ToString();
+            return confirmationUrlWithToken;
+        }
+
+        public async Task ConfirmEmail(Guid id)
+        {
+            try
+            {
+                var account = await _accountRepository.GetByIdAsync(id);
+                if (account is null)
+                {
+                    throw new EntityNotFoundException(account);
+                }
+
+                account.VerifyEmail();
+
+                await _accountRepository.UpdateAsync(account);
+                await _accountRepository.UnitOfWork.Commit();
             }
             catch (Exception ex)
             {

@@ -1,5 +1,3 @@
-using System.IO;
-using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
@@ -19,14 +17,6 @@ namespace Agree.Athens.Application.Services
 
         public async Task SendAccountConfirmationMailAsync(UserAccount newAccount, string confirmationUrl)
         {
-            var dict = new Dictionary<string, string>
-            {
-                ["Tag"] = newAccount.Tag.Value,
-                ["UserName"] = newAccount.UserName,
-                ["ConfirmationUrl"] = "",
-            };
-            var templatePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Agree.Athens.Application", "Views", "Mail", "ConfirmationMail.html");
-
             var body =
                 $@"<html><body><p>Welcome to Agree, {newAccount.UserName}! <a href='{confirmationUrl}'>Click here</a> to confirm your account</p></body></html>";
 

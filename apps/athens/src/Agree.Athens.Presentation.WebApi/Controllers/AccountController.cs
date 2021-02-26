@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,15 +30,43 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var confirmationUrl = Url.Link("ConfirmEmail", new { }) ?? "";
+                var confirmationUrl = Url.Link("ConfirmEmail", new { token = "" });
                 await _accountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password, confirmationUrl);
-                return Ok();
+                return Ok(new { Message = "Account succesfully created" });
             }
             catch (BaseDomainException ex)
             {
                 if (ex is ValidationException validationException)
                 {
                     return BadRequest(new { Message = validationException.Message, Errors = validationException.GetErrors() });
+                }
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail", Name = "ConfirmEmail")]
+        public async Task<ActionResult> ConfirmEmail([FromQuery] Guid token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _accountService.ConfirmEmail(token);
+                return Ok(new { Message = "Account succesfully verified" });
+            }
+            catch (BaseDomainException ex)
+            {
+                if (ex is EntityNotFoundException notFoundException)
+                {
+                    return NotFound(new { Message = notFoundException.Message });
                 }
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { Message = ex.Message });
             }
