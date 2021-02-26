@@ -31,7 +31,7 @@ namespace Agree.Athens.Domain.Services
 
                 if (await _accountRepository.EmailIsInUse(email))
                 {
-                    account.AddError(email, $"{account} Email is already in use", email);
+                    account.AddError("Email", "Email is already in use by another account", email);
                 }
 
                 while (await _accountRepository.TagIsInUse(account.Tag, account.UserName))
