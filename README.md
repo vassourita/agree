@@ -16,7 +16,14 @@
 </h2>
 <br/>
 
+I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation.
 
+## Applications
+
+- [Athens, the main WebApi](apps/athens)
+- More soon...
+
+<br/>
 <h3 align="center">
 Project scope
 </h3>
