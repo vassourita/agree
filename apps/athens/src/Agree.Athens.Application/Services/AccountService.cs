@@ -31,7 +31,6 @@ namespace Agree.Athens.Application.Services
             var account = await _userAccountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password);
 
             var confirmationUrlWithToken = AddTokenToMailConfirmationUrl(confirmationUrl, account.Id);
-
             await _mailService.SendAccountConfirmationMailAsync(account, confirmationUrlWithToken);
         }
 
