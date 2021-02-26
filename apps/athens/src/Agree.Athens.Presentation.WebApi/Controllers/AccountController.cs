@@ -35,7 +35,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is ValidationException validationException)
+                if (ex is DomainValidationException validationException)
                 {
                     return BadRequest(new { Message = validationException.Message, Errors = validationException.GetErrors() });
                 }

@@ -41,7 +41,7 @@ namespace Agree.Athens.Domain.Services
 
                 if (account.IsInvalid)
                 {
-                    throw new ValidationException(account);
+                    throw new DomainValidationException(account);
                 }
 
                 await _accountRepository.AddAsync(account);

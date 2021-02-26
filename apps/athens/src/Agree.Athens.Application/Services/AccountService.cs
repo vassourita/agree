@@ -1,8 +1,10 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web;
 using Agree.Athens.Application.Dtos;
 using Agree.Athens.Application.Dtos.Validators;
+using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
 
 namespace Agree.Athens.Application.Services
@@ -20,10 +22,10 @@ namespace Agree.Athens.Application.Services
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
         {
-            var validationResult = new CreateAccountDtoValidator().Validate(createAccountDto);
-            if (!validationResult.IsValid)
+            createAccountDto.Validate(createAccountDto, new CreateAccountDtoValidator());
+            if (createAccountDto.IsInvalid)
             {
-
+                throw new DomainValidationException(createAccountDto);
             }
 
             var account = await _userAccountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password);
