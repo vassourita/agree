@@ -2,11 +2,10 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Interfaces.Providers;
-using Agree.Athens.Domain.Interfaces.Services;
 
 namespace Agree.Athens.Application.Services
 {
-    public class MailService : IMailService
+    public class MailService
     {
         private readonly IMailProvider _mailProvider;
 

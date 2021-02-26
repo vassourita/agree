@@ -6,28 +6,23 @@ using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
-using Agree.Athens.Domain.Interfaces.Services;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using System.Web;
 
 namespace Agree.Athens.Domain.Services
 {
-    public class AccountService
+    public class UserAccountService
     {
         private readonly IHashProvider _hashProvider;
-        private readonly IMailService _mailService;
         private readonly IAccountRepository _accountRepository;
 
-        public AccountService(IHashProvider hashProvider,
-                              IMailService mailService,
-                              IAccountRepository accountRepository)
+        public UserAccountService(IHashProvider hashProvider, IAccountRepository accountRepository)
         {
             _hashProvider = hashProvider;
-            _mailService = mailService;
             _accountRepository = accountRepository;
         }
 
-        public async Task<UserAccount> Register(string userName, string email, string password, string confirmationUrl)
+        public async Task<UserAccount> Register(string userName, string email, string password)
         {
             try
             {
@@ -52,10 +47,6 @@ namespace Agree.Athens.Domain.Services
                 await _accountRepository.AddAsync(account);
                 await _accountRepository.UnitOfWork.Commit();
 
-                var confirmationUrlWithToken = AddTokenToMailConfirmationUrl(confirmationUrl, account.Id);
-
-                await _mailService.SendAccountConfirmationMailAsync(account, confirmationUrlWithToken);
-
                 return account;
             }
             catch (Exception ex)
@@ -63,16 +54,6 @@ namespace Agree.Athens.Domain.Services
                 await _accountRepository.UnitOfWork.Rollback();
                 throw ex;
             }
-        }
-
-        private string AddTokenToMailConfirmationUrl(string confirmationUrl, Guid accountId)
-        {
-            var uriBuilder = new UriBuilder(confirmationUrl);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["token"] = accountId.ToString();
-            uriBuilder.Query = query.ToString();
-            var confirmationUrlWithToken = uriBuilder.ToString();
-            return confirmationUrlWithToken;
         }
 
         public async Task ConfirmEmail(Guid id)

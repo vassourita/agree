@@ -1,11 +1,10 @@
-using System.Linq.Expressions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 using Agree.Athens.Application.Dtos;
 using Agree.Athens.Domain.Exceptions;
-using Agree.Athens.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Agree.Athens.Application.Services;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
@@ -31,7 +30,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 var confirmationUrl = Url.Link("ConfirmEmail", new { token = "" });
-                await _accountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password, confirmationUrl);
+                await _accountService.Register(createAccountDto, confirmationUrl);
                 return Ok(new { Message = "Account succesfully created" });
             }
             catch (BaseDomainException ex)
