@@ -15,8 +15,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
     {
         public DataContext([NotNull] DbContextOptions options) : base(options)
         {
-            Database.Migrate();
-            Database.EnsureCreated();
         }
 
         public DbSet<UserDbModel> Users { get; set; }
@@ -39,6 +37,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
