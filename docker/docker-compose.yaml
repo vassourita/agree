@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=docker
       - POSTGRES_DB=athens
     volumes:
-      - './volume-data/athens-postgres:/var/lib/postgresql/data'
+      - '/var/lib/postgresql/data'
     networks:
       - athens-network
 
@@ -24,7 +24,7 @@ services:
     ports:
       - 4002:6379
     volumes:
-      - './volume-data/athens-redis:/data'
+      - '/data'
     networks:
       - athens-network
 
