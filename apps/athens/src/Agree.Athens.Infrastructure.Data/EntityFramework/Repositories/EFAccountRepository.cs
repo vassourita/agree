@@ -16,13 +16,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
         {
         }
 
-        public async Task<bool> EmailIsInUse(string email)
+        public async Task<bool> EmailIsInUseAsync(string email)
         {
             var item = await _dataSet.SingleOrDefaultAsync(x => x.Email.Equals(email));
             return item != null;
         }
 
-        public async Task<bool> TagIsInUse(UserTag tag, string userName)
+        public async Task<bool> TagIsInUseAsync(UserTag tag, string userName)
         {
             var item = await _dataSet.SingleOrDefaultAsync(x => x.Tag.Equals(tag) && x.UserName == userName);
             return item != null;
@@ -51,6 +51,12 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             _context.Entry(item).CurrentValues.SetValues(updatedItem);
 
             return entity;
+        }
+
+        public async Task<UserAccount> GetByEmailAsync(string email)
+        {
+            var item = await _dataSet.SingleOrDefaultAsync(x => x.Email.Equals(email));
+            return _mapper.Map<UserAccount>(item);
         }
     }
 }

@@ -75,5 +75,32 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
         }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                return Ok();
+            }
+            catch (BaseDomainException ex)
+            {
+                if (ex is EntityNotFoundException notFoundException)
+                {
+                    return NotFound(new Response(notFoundException.Message));
+                }
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+            }
+        }
     }
 }

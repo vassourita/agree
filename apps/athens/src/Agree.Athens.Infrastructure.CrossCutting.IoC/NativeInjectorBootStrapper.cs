@@ -30,6 +30,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             // Infrastructure - Configuration
             services.Configure<HashConfiguration>(configuration.GetSection("HashConfiguration"));
             services.Configure<MailConfiguration>(configuration.GetSection("MailConfiguration"));
+            services.Configure<JwtConfiguration>(configuration.GetSection("JwtConfiguration"));
 
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();

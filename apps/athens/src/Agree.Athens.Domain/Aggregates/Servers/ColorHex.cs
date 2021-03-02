@@ -5,18 +5,18 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 {
     public class ColorHex : Validatable
     {
-        public string Value { get; private set; }
+        public string _value { get; private set; }
 
         public ColorHex(string hex)
         {
-            Value = hex;
+            _value = hex;
 
             Validate(this, new ColorHexValidator());
         }
 
         public override string ToString()
         {
-            return $"ColorHex [Value=#{Value}]";
+            return _value;
         }
     }
 }

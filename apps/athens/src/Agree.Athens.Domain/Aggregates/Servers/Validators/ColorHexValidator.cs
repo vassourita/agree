@@ -7,7 +7,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Validators
     {
         public ColorHexValidator()
         {
-            RuleFor(colorHex => colorHex.Value)
+            RuleFor(colorHex => colorHex.ToString())
                 .Length(6).WithMessage("Color Hex must have 6 characters")
                 .Must(BeHexadecimalColor).WithMessage("Color Hex must be a valid hexadecimal color");
         }

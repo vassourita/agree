@@ -29,12 +29,12 @@ namespace Agree.Athens.Domain.Services
                 var passwordHash = _hashProvider.Hash(password);
                 var account = new UserAccount(userName, email, passwordHash);
 
-                if (await _accountRepository.EmailIsInUse(email))
+                if (await _accountRepository.EmailIsInUseAsync(email))
                 {
                     account.AddError("Email", "Email is already in use by another account", email);
                 }
 
-                while (await _accountRepository.TagIsInUse(account.Tag, account.UserName))
+                while (await _accountRepository.TagIsInUseAsync(account.Tag, account.UserName))
                 {
                     account.UpdateTag(UserTagFactory.CreateRandomUserTag());
                 }
@@ -76,6 +76,21 @@ namespace Agree.Athens.Domain.Services
                 await _accountRepository.UnitOfWork.Rollback();
                 throw ex;
             }
+        }
+
+        public async Task<UserAccount> Login(string email, string password)
+        {
+            var account = await _accountRepository.GetByEmailAsync(email);
+            if (account is null)
+            {
+                throw new EntityNotFoundException(account);
+            }
+            var passwordsMatch = _hashProvider.Compare(password, account.PasswordHash);
+            if (!passwordsMatch)
+            {
+                throw DomainUnauthorizedException.InvalidLogin();
+            }
+            return account;
         }
     }
 }

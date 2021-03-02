@@ -5,18 +5,18 @@ namespace Agree.Athens.Domain.Aggregates.Account
 {
     public class UserTag : Validatable
     {
-        public string Value { get; private set; }
+        public string _value { get; private set; }
 
         public UserTag(string tag)
         {
-            Value = tag;
+            _value = tag;
 
             Validate(this, new UserTagValidator());
         }
 
         public override string ToString()
         {
-            return $"UserTag [Value={Value}]";
+            return _value;
         }
     }
 }

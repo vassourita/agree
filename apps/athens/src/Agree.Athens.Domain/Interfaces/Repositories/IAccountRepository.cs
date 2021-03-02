@@ -5,7 +5,8 @@ namespace Agree.Athens.Domain.Interfaces.Repositories
 {
     public interface IAccountRepository : ISoftDeleteRepository<UserAccount>
     {
-        Task<bool> EmailIsInUse(string email);
-        Task<bool> TagIsInUse(UserTag tag, string userName);
+        Task<bool> EmailIsInUseAsync(string email);
+        Task<UserAccount> GetByEmailAsync(string email);
+        Task<bool> TagIsInUseAsync(UserTag tag, string userName);
     }
 }

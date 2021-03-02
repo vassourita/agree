@@ -7,7 +7,7 @@ namespace Agree.Athens.Domain.Aggregates.Account.Validators
     {
         public UserTagValidator()
         {
-            RuleFor(tag => tag.Value)
+            RuleFor(tag => tag.ToString())
                 .Length(4).WithMessage("UserTag must have 4 numbers")
                 .Must(BeNumeric).WithMessage("UserTag must be numeric")
                 .Must(NotBeAllZeros).WithMessage("UserTag must not be all zeros");

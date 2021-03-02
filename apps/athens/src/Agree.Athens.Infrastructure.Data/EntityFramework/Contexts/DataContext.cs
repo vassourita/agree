@@ -49,7 +49,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
                 builder.Property(u => u.Tag)
                     .IsFixedLength()
                     .HasConversion(
-                        v => v.Value,
+                        v => v.ToString(),
                         v => UserTagFactory.FromString(v)
                     );
 
@@ -76,7 +76,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
                 builder.Property(u => u.ColorHex)
                     .IsFixedLength()
                     .HasConversion(
-                        v => v.Value,
+                        v => v.ToString(),
                         v => ColorHexFactory.FromString(v)
                     );
 
