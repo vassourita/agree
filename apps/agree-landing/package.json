@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "autoprefixer": "^10.0.4",
+    "framer-motion": "^3.9.0",
     "next": "latest",
     "postcss": "^8.1.10",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
+    "react-scroll": "^1.8.1",
+    "react-use": "^17.1.1",
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
