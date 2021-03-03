@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : CustomBaseController
     {
         private readonly AccountService _accountService;
         public AccountController(AccountService accountService)
@@ -105,6 +106,22 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                     return NotFound(new Response(unauthorizedException.Message));
                 }
                 return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Me")]
+        public ActionResult Me()
+        {
+            try
+            {
+                var user = CurrentlyLoggedUser;
+                return Ok(new UserResponse(CurrentlyLoggedUser));
             }
             catch (Exception ex)
             {

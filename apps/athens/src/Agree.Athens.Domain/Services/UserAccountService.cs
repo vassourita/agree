@@ -83,7 +83,7 @@ namespace Agree.Athens.Domain.Services
             var account = await _accountRepository.GetByEmailAsync(email);
             if (account is null)
             {
-                throw new EntityNotFoundException(account);
+                throw DomainUnauthorizedException.InvalidLogin();
             }
             var passwordsMatch = _hashProvider.Compare(password, account.PasswordHash);
             if (!passwordsMatch)
