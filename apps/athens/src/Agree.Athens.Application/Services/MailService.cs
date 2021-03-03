@@ -45,7 +45,8 @@ namespace Agree.Athens.Application.Services
             var message = new MailMessage("noreply@agree.com.br", newAccount.Email)
             {
                 IsBodyHtml = true,
-                Body = body
+                Body = body,
+                Subject = "Bem-vindx ao Agree! :3"
             };
             await _mailProvider.SendMailAsync(message);
         }
