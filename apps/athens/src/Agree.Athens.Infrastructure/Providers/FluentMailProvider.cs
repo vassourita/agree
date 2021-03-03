@@ -10,6 +10,7 @@ namespace Agree.Athens.Infrastructure.Providers
     public class FluentMailProvider : IMailProvider
     {
         private readonly IFluentEmailFactory _fluentEmailFactory;
+
         public FluentMailProvider(IFluentEmailFactory fluentEmailFactory)
         {
             _fluentEmailFactory = fluentEmailFactory;

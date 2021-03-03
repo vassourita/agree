@@ -4,6 +4,6 @@ namespace Agree.Athens.Domain.Interfaces.Providers
 {
     public interface IMailTemplateProvider
     {
-        Task<string> Compile<T>(string template, T model);
+        Task<string> CompileAsync<T>(string template, T model);
     }
 }
