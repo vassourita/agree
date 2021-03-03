@@ -90,6 +90,10 @@ namespace Agree.Athens.Domain.Services
             {
                 throw DomainUnauthorizedException.InvalidLogin();
             }
+            if (!account.EmailVerified)
+            {
+                throw DomainUnauthorizedException.AccountNotVerified();
+            }
             return account;
         }
     }

@@ -50,6 +50,12 @@ namespace Agree.Athens.Presentation.WebApi
 
             app.UseRouting();
 
+            app.UseCors(options =>
+                options.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
