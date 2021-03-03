@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using Agree.Athens.Application.Security;
 using Agree.Athens.Application.Services;
@@ -56,19 +58,38 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddScoped<ITokenRepository, EFTokenRepository>();
 
             // Infrastructure - Configuration
+            var mailConfiguration = configuration.GetSection("MailConfiguration");
+            services.Configure<MailConfiguration>(mailConfiguration);
             services.Configure<HashConfiguration>(configuration.GetSection("HashConfiguration"));
-            services.Configure<MailConfiguration>(configuration.GetSection("MailConfiguration"));
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtConfiguration"));
 
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();
-            services.AddScoped<IMailProvider, NativeMailProvider>();
+            services.AddScoped<IMailProvider, FluentMailProvider>();
 
             // Domain/Application Services
             services.AddScoped<MailService>();
             services.AddScoped<AccountService>();
             services.AddScoped<UserAccountService>();
             services.AddScoped<TokenService>();
+
+            // Libs
+            services.AddFluentEmail("agree@vassourita.com", "Vinicius Vassão")
+                .AddSmtpSender(() =>
+                {
+                    var host = mailConfiguration.GetValue<string>("Host");
+                    var port = mailConfiguration.GetValue<int>("Port");
+                    var userName = mailConfiguration.GetValue<string>("UserName");
+                    var password = mailConfiguration.GetValue<string>("Password");
+                    var enableSsl = mailConfiguration.GetValue<bool>("EnableSsl");
+
+                    return new SmtpClient(host, port)
+                    {
+                        Credentials = new NetworkCredential(userName, password),
+                        EnableSsl = enableSsl
+                    };
+                })
+                .AddRazorRenderer();
         }
     }
 }

@@ -16,15 +16,6 @@ namespace Agree.Athens.Application.Services
 
         public async Task SendAccountConfirmationMailAsync(UserAccount newAccount, string confirmationUrl)
         {
-            var body =
-                $@"<html><body><p>Welcome to Agree, {newAccount.UserName}! <a href='{confirmationUrl}'>Click here</a> to confirm your account</p></body></html>";
-
-            var message = new MailMessage("noreply@agree.com.br", newAccount.Email)
-            {
-                IsBodyHtml = true,
-                Body = body
-            };
-            await _mailProvider.SendMailAsync(message);
         }
 
         public Task SendChangePasswordMailAsync(UserAccount account, string changePasswordUrl)
