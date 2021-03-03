@@ -7,6 +7,7 @@ using Agree.Athens.Domain.Aggregates.Account;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Agree.Athens.Application.Security;
+using System.Security.Cryptography;
 
 namespace Agree.Athens.Application.Services
 {
@@ -48,6 +49,23 @@ namespace Agree.Athens.Application.Services
                 Token = tokenHandler.WriteToken(token),
                 ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks
             };
+        }
+
+        public RefreshToken GenerateRefreshToken(string ipAddress, Guid userId)
+        {
+            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[64];
+                rngCryptoServiceProvider.GetBytes(randomBytes);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomBytes),
+                    ExpiryOn = DateTime.UtcNow.AddDays(30),
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedByIp = ipAddress,
+                    UserId = userId
+                };
+            }
         }
     }
 }
