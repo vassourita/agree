@@ -36,8 +36,8 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.ASCII.GetBytes(configuration.GetValue<string>("JwtConfiguration:Key"))
                     ),
-                    ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateIssuer = true,
                     ValidIssuer = configuration.GetValue<string>("JwtConfiguration:Issuer")
                 };
             });

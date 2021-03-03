@@ -5,11 +5,11 @@ namespace Agree.Athens.Presentation.WebApi.Models
     {
         public TokenData Token { get; private set; }
 
-        public TokenResponse(string token, int expiresIn) : base("Succesfully authenticated")
+        public TokenResponse(string token, long expiresIn) : base("Succesfully authenticated")
         {
             Token = new TokenData(token, expiresIn);
         }
 
-        public record TokenData(string AccessToken, int ExpiresIn, string Type = "Bearer");
+        public record TokenData(string AccessToken, long ExpiresIn, string Type = "Bearer");
     }
 }

@@ -18,7 +18,7 @@ namespace Agree.Athens.Application.Services
             _jwtConfiguration = jwtConfiguration.Value;
         }
 
-        public string GenerateAccessToken(UserAccount account)
+        public (string, long) GenerateAccessToken(UserAccount account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfiguration.Key);
@@ -41,7 +41,7 @@ namespace Agree.Athens.Application.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return (tokenHandler.WriteToken(token), token.ValidTo.Ticks);
         }
     }
 }

@@ -51,11 +51,10 @@ namespace Agree.Athens.Application.Services
             return _userAccountService.ConfirmEmail(id);
         }
 
-        public async Task<(string, int)> Login(LoginDto loginDto)
+        public async Task<(string, long)> Login(LoginDto loginDto)
         {
             var account = await _userAccountService.Login(loginDto.Email, loginDto.Password);
-            var token = _tokenService.GenerateAccessToken(account);
-            return (token, 0);
+            return _tokenService.GenerateAccessToken(account);
         }
     }
 }

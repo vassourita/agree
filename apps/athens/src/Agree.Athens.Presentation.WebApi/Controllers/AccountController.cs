@@ -6,6 +6,7 @@ using Agree.Athens.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Presentation.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
@@ -20,6 +21,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Register")]
         public async Task<ActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
@@ -49,6 +51,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("ConfirmEmail", Name = "ConfirmEmail")]
         public async Task<ActionResult> ConfirmEmail([FromQuery] Guid token)
         {
@@ -77,6 +80,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Login")]
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
@@ -95,6 +99,10 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 if (ex is EntityNotFoundException notFoundException)
                 {
                     return NotFound(new Response(notFoundException.Message));
+                }
+                if (ex is DomainUnauthorizedException unauthorizedException)
+                {
+                    return NotFound(new Response(unauthorizedException.Message));
                 }
                 return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
