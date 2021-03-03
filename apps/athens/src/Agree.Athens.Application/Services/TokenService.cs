@@ -41,7 +41,8 @@ namespace Agree.Athens.Application.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return (tokenHandler.WriteToken(token), token.ValidTo.Ticks);
+            var expiresIn = token.ValidTo.Subtract(DateTime.UtcNow).Ticks;
+            return (tokenHandler.WriteToken(token), expiresIn);
         }
     }
 }
