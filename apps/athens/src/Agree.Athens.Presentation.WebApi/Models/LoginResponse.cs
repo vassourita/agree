@@ -5,7 +5,7 @@ namespace Agree.Athens.Presentation.WebApi.Models
     public class LoginResponse : Response
     {
         public LoginResponse(AccessToken accessToken, RefreshToken refreshToken)
-            : base("")
+            : base("Succesfully authenticated")
         {
             IsAuthenticated = accessToken.Token != null;
             AccessToken = accessToken.Token;

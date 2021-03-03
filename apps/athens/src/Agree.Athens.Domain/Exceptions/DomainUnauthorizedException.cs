@@ -11,7 +11,16 @@ namespace Agree.Athens.Domain.Exceptions
         public static DomainUnauthorizedException InvalidLogin()
             => new("Email or password are incorrect");
 
-        public static Exception AccountNotVerified()
+        public static DomainUnauthorizedException AccountNotVerified()
             => new("Account is not verified yet");
+
+        public static DomainUnauthorizedException InvalidRefreshToken()
+            => new("Refresh token is invalid");
+
+        public static DomainUnauthorizedException ExpiredRefreshToken()
+            => new("Refresh token is expired");
+
+        public static DomainUnauthorizedException AccountDisabled()
+            => new("This account disabled");
     }
 }

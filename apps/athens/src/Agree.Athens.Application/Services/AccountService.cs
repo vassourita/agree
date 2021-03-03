@@ -63,5 +63,10 @@ namespace Agree.Athens.Application.Services
             await _tokenRepository.AddAsync(refreshToken);
             return (accessToken, refreshToken);
         }
+
+        public async Task<(AccessToken, RefreshToken)> RefreshTokens(LoginDto loginDto)
+        {
+            return await _tokenService.RefreshTokens(loginDto.RefreshToken, loginDto.IpAddress);
+        }
     }
 }

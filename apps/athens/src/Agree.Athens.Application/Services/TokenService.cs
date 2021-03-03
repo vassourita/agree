@@ -8,16 +8,25 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Agree.Athens.Application.Security;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Agree.Athens.Domain.Interfaces.Repositories;
+using Agree.Athens.Domain.Exceptions;
 
 namespace Agree.Athens.Application.Services
 {
     public class TokenService
     {
         public readonly JwtConfiguration _jwtConfiguration;
+        public readonly ITokenRepository _tokenRepository;
+        public readonly IAccountRepository _accountRepository;
 
-        public TokenService(IOptions<JwtConfiguration> jwtConfiguration)
+        public TokenService(IOptions<JwtConfiguration> jwtConfiguration,
+                            ITokenRepository tokenRepository,
+                            IAccountRepository accountRepository)
         {
             _jwtConfiguration = jwtConfiguration.Value;
+            _tokenRepository = tokenRepository;
+            _accountRepository = accountRepository;
         }
 
         public AccessToken GenerateAccessToken(UserAccount account)
@@ -25,7 +34,7 @@ namespace Agree.Athens.Application.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfiguration.Key);
 
-            var expiresIn = DateTime.UtcNow.AddHours(2);
+            var expiresIn = DateTime.UtcNow.AddHours(1);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -67,6 +76,27 @@ namespace Agree.Athens.Application.Services
                     UserId = userId
                 };
             }
+        }
+
+        public async Task<(AccessToken, RefreshToken)> RefreshTokens(string refreshToken, string ipAddress)
+        {
+            var token = await _tokenRepository.GetAsync(refreshToken);
+            if (token == null)
+            {
+                throw DomainUnauthorizedException.InvalidRefreshToken();
+            }
+            else if (token.ExpiryOn < DateTime.UtcNow)
+            {
+                throw DomainUnauthorizedException.ExpiredRefreshToken();
+            }
+
+            var account = await _accountRepository.GetByIdAsync(token.UserId);
+            if (account == null)
+            {
+                throw DomainUnauthorizedException.AccountDisabled();
+            }
+
+            return (GenerateAccessToken(account), GenerateRefreshToken(ipAddress, account.Id));
         }
     }
 }

@@ -25,9 +25,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return token;
         }
 
-        public async Task<RefreshToken> GetAsync(string tokenValue, Guid userId)
+        public async Task<RefreshToken> GetAsync(string tokenValue)
         {
-            var token = await _dataSet.FirstOrDefaultAsync(t => t.Token == tokenValue && t.UserId == userId);
+            var token = await _dataSet.FirstOrDefaultAsync(t => t.Token == tokenValue);
             return token;
         }
     }

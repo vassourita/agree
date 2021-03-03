@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Presentation.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Agree.Athens.Application.Security;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
@@ -92,9 +93,23 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
-                var (accessToken, refreshToken) = await _accountService.Login(loginDto);
-                return Ok(new LoginResponse(accessToken, refreshToken));
+                if (loginDto.GrantType == GrantTypes.Password)
+                {
+                    loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                    var (accessToken, refreshToken) = await _accountService.Login(loginDto);
+                    return Ok(new LoginResponse(accessToken, refreshToken));
+                }
+                if (loginDto.GrantType == GrantTypes.RefreshToken)
+                {
+                    loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                    if (loginDto.RefreshToken is null)
+                    {
+                        loginDto.RefreshToken = Request.Headers["x-refresh-token"];
+                    }
+                    var (accessToken, refreshToken) = await _accountService.RefreshTokens(loginDto);
+                    return Ok(new LoginResponse(accessToken, refreshToken));
+                }
+                return BadRequest(new Response("Invalid login grant type. Must be one of ('password'/'refresh_token')"));
             }
             catch (BaseDomainException ex)
             {
