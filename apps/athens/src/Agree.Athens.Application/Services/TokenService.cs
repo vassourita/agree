@@ -6,7 +6,7 @@ using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Domain.Aggregates.Account;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using Agree.Athens.Application.ViewModels;
+using Agree.Athens.Application.Security;
 
 namespace Agree.Athens.Application.Services
 {
@@ -19,7 +19,7 @@ namespace Agree.Athens.Application.Services
             _jwtConfiguration = jwtConfiguration.Value;
         }
 
-        public JwtToken GenerateAccessToken(UserAccount account)
+        public AccessToken GenerateAccessToken(UserAccount account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfiguration.Key);
@@ -43,9 +43,9 @@ namespace Agree.Athens.Application.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new JwtToken
+            return new AccessToken
             {
-                AccessToken = tokenHandler.WriteToken(token),
+                Token = tokenHandler.WriteToken(token),
                 ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks
             };
         }

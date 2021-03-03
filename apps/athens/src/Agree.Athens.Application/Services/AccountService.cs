@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Agree.Athens.Application.Dtos;
 using Agree.Athens.Application.Dtos.Validators;
+using Agree.Athens.Application.Security;
 using Agree.Athens.Application.ViewModels;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
@@ -52,7 +53,7 @@ namespace Agree.Athens.Application.Services
             return _userAccountService.ConfirmEmail(id);
         }
 
-        public async Task<JwtToken> Login(LoginDto loginDto)
+        public async Task<AccessToken> Login(LoginDto loginDto)
         {
             var account = await _userAccountService.Login(loginDto.Email, loginDto.Password);
             return _tokenService.GenerateAccessToken(account);

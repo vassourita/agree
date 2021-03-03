@@ -93,7 +93,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 var token = await _accountService.Login(loginDto);
-                return Ok(new TokenResponse(token.AccessToken, token.ExpiresIn));
+                return Ok(new TokenResponse(token.Token, token.ExpiresIn));
             }
             catch (BaseDomainException ex)
             {
