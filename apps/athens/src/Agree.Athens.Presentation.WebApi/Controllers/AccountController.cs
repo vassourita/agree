@@ -36,7 +36,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             {
                 var confirmationUrl = Url.Link("ConfirmEmail", new { token = "" });
                 await _accountService.Register(createAccountDto, confirmationUrl);
-                return Ok(new Response("Account succesfully created"));
+                return Ok(new Response("Account successfully created"));
             }
             catch (BaseDomainException ex)
             {
@@ -65,7 +65,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 await _accountService.ConfirmEmail(token);
-                return Ok(new Response("Account succesfully verified"));
+                return Ok(new Response("Account successfully verified"));
             }
             catch (BaseDomainException ex)
             {
