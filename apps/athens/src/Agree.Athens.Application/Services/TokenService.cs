@@ -47,7 +47,8 @@ namespace Agree.Athens.Application.Services
             return new AccessToken
             {
                 Token = tokenHandler.WriteToken(token),
-                ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks
+                ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks,
+                Type = "Bearer"
             };
         }
 

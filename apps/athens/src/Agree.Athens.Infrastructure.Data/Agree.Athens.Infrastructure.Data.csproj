@@ -3,13 +3,14 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2"/>
-    <PackageReference Include="AutoMapper" Version="10.1.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Agree.Athens.Domain\Agree.Athens.Domain.csproj"/>
-    <ProjectReference Include="..\Agree.Athens.SharedKernel\Agree.Athens.SharedKernel.csproj"/>
+    <ProjectReference Include="..\Agree.Athens.Domain\Agree.Athens.Domain.csproj" />
+    <ProjectReference Include="..\Agree.Athens.SharedKernel\Agree.Athens.SharedKernel.csproj" />
+    <ProjectReference Include="..\Agree.Athens.Application\Agree.Athens.Application.csproj" />
   </ItemGroup>
 </Project>

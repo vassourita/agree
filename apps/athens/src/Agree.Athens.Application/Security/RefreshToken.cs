@@ -12,7 +12,7 @@ namespace Agree.Athens.Application.Security
         public DateTime ExpiryOn { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedByIp { get; set; }
-        public DateTime RevokedOn { get; set; }
+        public DateTime? RevokedOn { get; set; }
         public string RevokedByIp { get; set; }
     }
 }

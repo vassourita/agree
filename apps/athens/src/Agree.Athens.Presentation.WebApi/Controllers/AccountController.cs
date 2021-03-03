@@ -92,8 +92,9 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var token = await _accountService.Login(loginDto);
-                return Ok(new TokenResponse(token.Token, token.ExpiresIn));
+                loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                var (accessToken, refreshToken) = await _accountService.Login(loginDto);
+                return Ok(new LoginResponse(accessToken, refreshToken));
             }
             catch (BaseDomainException ex)
             {

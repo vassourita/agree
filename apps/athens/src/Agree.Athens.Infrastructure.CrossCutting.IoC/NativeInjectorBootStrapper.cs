@@ -1,4 +1,5 @@
 using System.Text;
+using Agree.Athens.Application.Security;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
@@ -52,6 +53,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAccountRepository, EFAccountRepository>();
+            services.AddScoped<ITokenRepository, EFTokenRepository>();
 
             // Infrastructure - Configuration
             services.Configure<HashConfiguration>(configuration.GetSection("HashConfiguration"));

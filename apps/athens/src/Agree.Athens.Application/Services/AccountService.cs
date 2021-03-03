@@ -16,12 +16,14 @@ namespace Agree.Athens.Application.Services
         private readonly UserAccountService _userAccountService;
         private readonly MailService _mailService;
         private readonly TokenService _tokenService;
+        private readonly ITokenRepository _tokenRepository;
 
-        public AccountService(UserAccountService userAccountService, MailService mailService, TokenService tokenService)
+        public AccountService(UserAccountService userAccountService, MailService mailService, TokenService tokenService, ITokenRepository tokenRepository)
         {
             _userAccountService = userAccountService;
             _mailService = mailService;
             _tokenService = tokenService;
+            _tokenRepository = tokenRepository;
         }
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
@@ -53,10 +55,13 @@ namespace Agree.Athens.Application.Services
             return _userAccountService.ConfirmEmail(id);
         }
 
-        public async Task<AccessToken> Login(LoginDto loginDto)
+        public async Task<(AccessToken, RefreshToken)> Login(LoginDto loginDto)
         {
             var account = await _userAccountService.Login(loginDto.Email, loginDto.Password);
-            return _tokenService.GenerateAccessToken(account);
+            var accessToken = _tokenService.GenerateAccessToken(account);
+            var refreshToken = _tokenService.GenerateRefreshToken(loginDto.IpAddress, account.Id);
+            await _tokenRepository.AddAsync(refreshToken);
+            return (accessToken, refreshToken);
         }
     }
 }

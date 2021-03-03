@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Agree.Athens.Application.Security;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using Agree.Athens.Domain.Aggregates.Messages;
@@ -16,6 +17,8 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         public DataContext([NotNull] DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DbSet<UserDbModel> Users { get; set; }
         public DbSet<RoleDbModel> Roles { get; set; }
@@ -42,6 +45,40 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RefreshToken>(builder =>
+            {
+                builder.ToTable("RefreshTokens");
+
+                builder.HasKey(rt => rt.Id);
+
+                builder.Property(rt => rt.Id)
+                    .IsRequired();
+
+                builder.Property(rt => rt.Token)
+                    .IsRequired()
+                    .HasColumnType("varchar(128)");
+
+                builder.Property(rt => rt.UserId)
+                    .IsRequired();
+
+                builder.Property(rt => rt.ExpiryOn)
+                    .IsRequired();
+
+                builder.Property(rt => rt.CreatedOn)
+                    .IsRequired();
+
+                builder.Property(rt => rt.CreatedByIp)
+                    .IsRequired()
+                    .HasColumnType("varchar(16)");
+
+                builder.Property(rt => rt.RevokedOn)
+                    .IsRequired(false);
+
+                builder.Property(rt => rt.RevokedByIp)
+                    .IsRequired(false)
+                    .HasColumnType("varchar(16)");
+            });
 
             // User mapping
             modelBuilder.Entity<UserDbModel>(builder =>
