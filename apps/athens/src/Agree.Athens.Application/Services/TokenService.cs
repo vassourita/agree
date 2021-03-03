@@ -6,6 +6,7 @@ using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Domain.Aggregates.Account;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Agree.Athens.Application.ViewModels;
 
 namespace Agree.Athens.Application.Services
 {
@@ -18,21 +19,22 @@ namespace Agree.Athens.Application.Services
             _jwtConfiguration = jwtConfiguration.Value;
         }
 
-        public (string, long) GenerateAccessToken(UserAccount account)
+        public JwtToken GenerateAccessToken(UserAccount account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfiguration.Key);
 
+            var expiresIn = DateTime.UtcNow.AddHours(2);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, account.UserName),
+                    new Claim(ClaimTypes.Name, account.UserNameWithTag),
                     new Claim(ClaimTypes.Email, account.Email),
                     new Claim(ClaimTypes.Role, "user"),
-                    new Claim("Id", account.Id.ToString())
+                    new Claim("id", account.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(4),
+                Expires = expiresIn,
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature
@@ -41,8 +43,11 @@ namespace Agree.Athens.Application.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var expiresIn = token.ValidTo.Subtract(DateTime.UtcNow).Ticks;
-            return (tokenHandler.WriteToken(token), expiresIn);
+            return new JwtToken
+            {
+                AccessToken = tokenHandler.WriteToken(token),
+                ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks
+            };
         }
     }
 }
