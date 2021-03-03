@@ -1,0 +1,29 @@
+@using Agree.Athens.Application.Views.Mail
+@model ConfirmAccountMailModel
+
+@{
+    ViewData["EmailTitle"] = "Welcome to Agree!";
+}
+
+<p>
+    Seja bem-vindo ao Agree! Primeiro, precisamos que você confirme sua conta. Basta clicar
+    <a href="@Model.ConfirmationUrl"">aqui</a>.
+</p>
+
+<br />
+
+<p>
+    A partir de hoje, você será conhecido como o/a @Model.Title @Model.UserName#@Model.Tag
+</p>
+
+<br />
+
+<p>
+    Espero que sua experiência  seja boa. Erros podem ser reportados aqui
+</p>
+
+<br />
+
+<p>
+    - Vinicius Vassão, criador do Agree
+</p>
