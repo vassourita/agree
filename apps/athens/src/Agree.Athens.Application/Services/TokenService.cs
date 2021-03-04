@@ -42,21 +42,21 @@ namespace Agree.Athens.Application.Services
                     new Claim(ClaimTypes.Name, account.UserNameWithTag),
                     new Claim(ClaimTypes.Email, account.Email),
                     new Claim(ClaimTypes.Role, "user"),
-                    new Claim("id", account.Id.ToString())
+                    new Claim("id", account.Id.ToString()),
                 }),
                 Expires = expiresIn,
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature
                 ),
-                Issuer = _jwtConfiguration.Issuer
+                Issuer = _jwtConfiguration.Issuer,
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return new AccessToken
             {
                 Token = tokenHandler.WriteToken(token),
-                ExpiresIn = expiresIn.Subtract(DateTime.UtcNow).Ticks,
+                ExpiresIn = ((DateTimeOffset)expiresIn).ToUnixTimeSeconds(),
                 Type = "Bearer"
             };
         }
