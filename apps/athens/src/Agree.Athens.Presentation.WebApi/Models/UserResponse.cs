@@ -9,7 +9,7 @@ namespace Agree.Athens.Presentation.WebApi.Models
 
         public LoggedUserInfo User { get; private set; }
 
-        public UserResponse(LoggedUser user)
+        public UserResponse(AccountViewModel user)
             : base(user == null
                    ? ("You are not logged in")
                    : ($"You are currently logged in as {user.UserName}#{user.Tag}"))

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using Agree.Athens.Application.Mappings;
 using Agree.Athens.Application.Security;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Interfaces.Providers;
@@ -49,6 +50,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddAutoMapper(config =>
             {
                 config.AddProfile(new DbModelToDomainEntityProfile());
+                config.AddProfile(new DomainEntityToViewModelProfile());
             });
 
             // Infrastructure - Data - EntityFramework

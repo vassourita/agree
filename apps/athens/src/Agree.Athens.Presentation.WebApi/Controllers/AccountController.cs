@@ -119,7 +119,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 }
                 if (ex is DomainUnauthorizedException unauthorizedException)
                 {
-                    return NotFound(new Response(unauthorizedException.Message));
+                    return Unauthorized(new Response(unauthorizedException.Message));
                 }
                 return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
@@ -138,6 +138,33 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             {
                 var user = CurrentlyLoggedUser;
                 return Ok(new UserResponse(CurrentlyLoggedUser));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("")]
+        public async Task<ActionResult> Update([FromBody] UpdateAccountDto updateAccountDto)
+        {
+            try
+            {
+                return Ok(await _accountService.UpdateAccount(updateAccountDto));
+            }
+            catch (BaseDomainException ex)
+            {
+                if (ex is EntityNotFoundException notFoundException)
+                {
+                    return NotFound(new Response(notFoundException.Message));
+                }
+                if (ex is DomainUnauthorizedException unauthorizedException)
+                {
+                    return Unauthorized(new Response(unauthorizedException.Message));
+                }
+                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
             catch (Exception ex)
             {

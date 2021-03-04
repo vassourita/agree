@@ -8,6 +8,7 @@ using Agree.Athens.Application.Security;
 using Agree.Athens.Application.ViewModels;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
+using AutoMapper;
 
 namespace Agree.Athens.Application.Services
 {
@@ -17,13 +18,19 @@ namespace Agree.Athens.Application.Services
         private readonly MailService _mailService;
         private readonly TokenService _tokenService;
         private readonly ITokenRepository _tokenRepository;
+        private readonly IMapper _mapper;
 
-        public AccountService(UserAccountService userAccountService, MailService mailService, TokenService tokenService, ITokenRepository tokenRepository)
+        public AccountService(UserAccountService userAccountService,
+                              MailService mailService,
+                              TokenService tokenService,
+                              ITokenRepository tokenRepository,
+                              IMapper mapper)
         {
             _userAccountService = userAccountService;
             _mailService = mailService;
             _tokenService = tokenService;
             _tokenRepository = tokenRepository;
+            _mapper = mapper;
         }
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
@@ -67,6 +74,19 @@ namespace Agree.Athens.Application.Services
         public async Task<(AccessToken, RefreshToken)> RefreshTokens(LoginDto loginDto)
         {
             return await _tokenService.RefreshTokens(loginDto.RefreshToken, loginDto.IpAddress);
+        }
+
+        public async Task<AccountViewModel> UpdateAccount(UpdateAccountDto updateAccountDto)
+        {
+            var account = await _userAccountService.Update(updateAccountDto.UserId,
+                                                    updateAccountDto.Email,
+                                                    updateAccountDto.UserName,
+                                                    updateAccountDto.Tag,
+                                                    updateAccountDto.PasswordConfirmation);
+
+            var accountModel = _mapper.Map<AccountViewModel>(account);
+
+            return accountModel;
         }
     }
 }

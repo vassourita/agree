@@ -10,9 +10,9 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 {
     public abstract class CustomBaseController : ControllerBase
     {
-        protected LoggedUser CurrentlyLoggedUser =>
+        protected AccountViewModel CurrentlyLoggedUser =>
             HttpContext.User.Identity.IsAuthenticated
-            ? new LoggedUser
+            ? new AccountViewModel
             {
                 Id = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == "id").Value),
                 UserName = HttpContext.User.Identity.Name.Split('#').First(),

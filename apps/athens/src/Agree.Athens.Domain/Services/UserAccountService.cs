@@ -96,5 +96,69 @@ namespace Agree.Athens.Domain.Services
             }
             return account;
         }
+
+        public async Task<UserAccount> Update(Guid userId, string newEmail, string newUserName, UserTag newTag, string passwordConfirm)
+        {
+            try
+            {
+                var account = await _accountRepository.GetByIdAsync(userId);
+                if (account is null)
+                {
+                    throw new EntityNotFoundException(account);
+                }
+
+                var passwordsMatch = _hashProvider.Compare(passwordConfirm, account.PasswordHash);
+                if (!passwordsMatch)
+                {
+                    throw DomainUnauthorizedException.InvalidPassword();
+                }
+
+                if (!string.IsNullOrEmpty(newEmail))
+                {
+                    if (account.Email == newEmail)
+                    {
+                        account.AddError("Email", "New account email is the same as the old one");
+                    }
+                    account.UpdateEmail(newEmail);
+                }
+
+                if (!string.IsNullOrEmpty(newUserName))
+                {
+                    if (account.UserName == newUserName)
+                    {
+                        account.AddError("UserName", "New account userName is the same as the old one");
+                    }
+                    account.UpdateUserName(newUserName);
+                }
+
+                if (newTag != null && newTag.IsValid)
+                {
+                    if (account.Tag == newTag)
+                    {
+                        account.AddError("Tag", "New account tag is the same as the old one", newTag);
+                    }
+                    if (await _accountRepository.TagIsInUseAsync(newTag, account.UserName))
+                    {
+                        account.AddError("Tag", "Tag is already in use by another account with same userName", newTag);
+                    }
+                    account.UpdateTag(newTag);
+                }
+
+                if (account.IsInvalid)
+                {
+                    throw new DomainValidationException(account);
+                }
+
+                await _accountRepository.UpdateAsync(account);
+                await _accountRepository.UnitOfWork.Commit();
+
+                return account;
+            }
+            catch (Exception ex)
+            {
+                await _accountRepository.UnitOfWork.Rollback();
+                throw ex;
+            }
+        }
     }
 }
