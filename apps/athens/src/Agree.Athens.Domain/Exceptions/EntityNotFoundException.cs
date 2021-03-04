@@ -4,9 +4,8 @@ namespace Agree.Athens.Domain.Exceptions
 {
     public class EntityNotFoundException : BaseDomainException
     {
-        public EntityNotFoundException(Entity entity) : base($"{entity} not found")
+        public EntityNotFoundException(Entity entity) : base($"{entity.ToString()} not found")
         {
-
         }
     }
 }

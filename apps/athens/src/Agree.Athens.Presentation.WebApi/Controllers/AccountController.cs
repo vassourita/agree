@@ -121,6 +121,10 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return Unauthorized(new Response(unauthorizedException.Message));
                 }
+                if (ex is DomainValidationException validationException)
+                {
+                    return BadRequest(ErrorResponse.FromException(validationException));
+                }
                 return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
             }
             catch (Exception ex)
@@ -152,10 +156,15 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         {
             try
             {
+                updateAccountDto.UserId = CurrentlyLoggedUser.Id;
                 return Ok(await _accountService.UpdateAccount(updateAccountDto));
             }
             catch (BaseDomainException ex)
             {
+                if (ex is DomainValidationException validationException)
+                {
+                    return BadRequest(ErrorResponse.FromException(validationException));
+                }
                 if (ex is EntityNotFoundException notFoundException)
                 {
                     return NotFound(new Response(notFoundException.Message));

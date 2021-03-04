@@ -35,7 +35,7 @@ namespace Agree.Athens.Application.Services
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
         {
-            createAccountDto.Validate(createAccountDto, new CreateAccountDtoValidator());
+            createAccountDto.Validate(new CreateAccountDtoValidator());
             if (createAccountDto.IsInvalid)
             {
                 throw new DomainValidationException(createAccountDto);
@@ -78,6 +78,12 @@ namespace Agree.Athens.Application.Services
 
         public async Task<AccountViewModel> UpdateAccount(UpdateAccountDto updateAccountDto)
         {
+            updateAccountDto.Validate(new UpdateAccountDtoValidator());
+            if (updateAccountDto.IsInvalid)
+            {
+                throw new DomainValidationException(updateAccountDto);
+            }
+
             var account = await _userAccountService.Update(updateAccountDto.UserId,
                                                     updateAccountDto.Email,
                                                     updateAccountDto.UserName,

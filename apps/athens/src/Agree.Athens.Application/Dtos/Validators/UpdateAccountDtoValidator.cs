@@ -1,3 +1,4 @@
+using System;
 using FluentValidation;
 
 namespace Agree.Athens.Application.Dtos.Validators
@@ -13,6 +14,10 @@ namespace Agree.Athens.Application.Dtos.Validators
             RuleFor(account => account.Email)
                 .EmailAddress().WithMessage("Email must be a valid email address")
                 .MaximumLength(255).WithMessage("Email must not have more than 255 characters");
+
+            RuleFor(account => account.UserId)
+                .NotNull().WithMessage("UserId must not be null")
+                .Must(id => id != Guid.Empty).WithMessage("UserId must not be an empty Guid");
         }
     }
 }

@@ -16,6 +16,14 @@ namespace Agree.Athens.SharedKernel
             return IsValid;
         }
 
+        public bool Validate<TModel>(AbstractValidator<TModel> validator)
+            where TModel : Validatable
+        {
+            ValidationResult = validator.Validate(this as TModel);
+            IsValid = ValidationResult.IsValid;
+            return IsValid;
+        }
+
         public void AddError(string propertyName, string message)
         {
             ValidationResult.Errors.Add(new ValidationFailure(propertyName, message));
