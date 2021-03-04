@@ -18,10 +18,10 @@
 
 I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation. You can check on development status [here](https://trello.com/agree15/home).
 
-## Applications
-
-- [Athens, the main WebApi](apps/athens)
-- More soon...
+| App name                            |  Description  |
+| ----------------------------------- | ------------- |
+| [Athens](apps/athens)               | Main webapi   |
+| [Agree Landing](apps/agree-landing) | Landing page  |
 
 <br/>
 <h3 align="center">
