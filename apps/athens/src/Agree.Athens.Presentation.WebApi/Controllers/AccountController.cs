@@ -25,7 +25,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<ActionResult> Register([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
             if (!ModelState.IsValid)
             {
@@ -44,18 +44,18 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return BadRequest(ErrorResponse.FromException(validationException));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
         }
 
         [HttpGet]
         [AllowAnonymous]
         [Route("ConfirmEmail", Name = "ConfirmEmail")]
-        public async Task<ActionResult> ConfirmEmail([FromQuery] Guid token)
+        public async Task<IActionResult> ConfirmEmail([FromQuery] Guid token)
         {
             if (!ModelState.IsValid)
             {
@@ -73,18 +73,18 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return NotFound(new Response(notFoundException.Message));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("Login")]
-        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             if (!ModelState.IsValid)
             {
@@ -125,18 +125,18 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return BadRequest(ErrorResponse.FromException(validationException));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
         }
 
         [HttpGet]
         [Authorize]
         [Route("Me")]
-        public ActionResult Me()
+        public IActionResult Me()
         {
             try
             {
@@ -145,14 +145,14 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
         }
 
         [HttpPut]
         [Authorize]
         [Route("")]
-        public async Task<ActionResult> Update([FromBody] UpdateAccountDto updateAccountDto)
+        public async Task<IActionResult> Update([FromBody] UpdateAccountDto updateAccountDto)
         {
             if (!ModelState.IsValid)
             {
@@ -178,11 +178,11 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return Unauthorized(new Response(unauthorizedException.Message));
                 }
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new Response(ex.Message));
+                return InternalServerError(new Response(ex.Message));
             }
         }
     }

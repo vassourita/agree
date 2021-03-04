@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Claims;
 using System.Linq;
 using System;
@@ -21,5 +22,14 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             : null;
 
+        protected IActionResult InternalServerError()
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError);
+        }
+
+        protected IActionResult InternalServerError(object obj)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, obj);
+        }
     }
 }
