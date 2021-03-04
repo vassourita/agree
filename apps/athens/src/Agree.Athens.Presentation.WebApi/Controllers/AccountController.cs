@@ -162,7 +162,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 updateAccountDto.UserId = CurrentlyLoggedUser.Id;
-                return Ok(await _accountService.UpdateAccount(updateAccountDto));
+                return Ok(new UserResponse(await _accountService.UpdateAccount(updateAccountDto), "Account updated successfully"));
             }
             catch (BaseDomainException ex)
             {

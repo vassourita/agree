@@ -16,5 +16,11 @@ namespace Agree.Athens.Presentation.WebApi.Models
         {
             User = new LoggedUserInfo(user.Id, user.UserName, user.Tag.ToString(), user.Email);
         }
+
+        public UserResponse(AccountViewModel user, string message)
+            : base(message)
+        {
+            User = new LoggedUserInfo(user.Id, user.UserName, user.Tag.ToString(), user.Email);
+        }
     }
 }
