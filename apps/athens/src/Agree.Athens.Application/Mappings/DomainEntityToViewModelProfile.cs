@@ -8,7 +8,8 @@ namespace Agree.Athens.Application.Mappings
     {
         public DomainEntityToViewModelProfile()
         {
-            CreateMap<UserAccount, AccountViewModel>();
+            CreateMap<UserAccount, AccountViewModel>()
+                .ForMember(model => model.Tag, config => config.MapFrom(entity => entity.Tag.ToString()));
         }
     }
 }

@@ -27,13 +27,13 @@ namespace Agree.Athens.SharedKernel
         public void AddError(string propertyName, string message)
         {
             ValidationResult.Errors.Add(new ValidationFailure(propertyName, message));
-            IsValid = ValidationResult.IsValid;
+            IsValid = false;
         }
 
         public void AddError(string propertyName, string message, object attemptedValue)
         {
             ValidationResult.Errors.Add(new ValidationFailure(propertyName, message, attemptedValue));
-            IsValid = ValidationResult.IsValid;
+            IsValid = false;
         }
     }
 }

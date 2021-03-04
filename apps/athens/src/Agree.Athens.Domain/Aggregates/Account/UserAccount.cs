@@ -32,16 +32,12 @@ namespace Agree.Athens.Domain.Aggregates.Account
         {
             UserName = newUserName;
             UpdatedAt = DateTime.UtcNow;
-
-            Validate(this, new UserAccountValidator());
         }
 
         public void UpdateEmail(string newEmail)
         {
             Email = newEmail;
             UpdatedAt = DateTime.UtcNow;
-
-            Validate(this, new UserAccountValidator());
         }
 
         public void UpdateTag(UserTag newTag)

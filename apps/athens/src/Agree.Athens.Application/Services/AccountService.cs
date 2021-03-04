@@ -6,6 +6,8 @@ using Agree.Athens.Application.Dtos;
 using Agree.Athens.Application.Dtos.Validators;
 using Agree.Athens.Application.Security;
 using Agree.Athens.Application.ViewModels;
+using Agree.Athens.Domain.Aggregates.Account;
+using Agree.Athens.Domain.Aggregates.Account.Factories;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
 using AutoMapper;
@@ -84,11 +86,21 @@ namespace Agree.Athens.Application.Services
                 throw new DomainValidationException(updateAccountDto);
             }
 
+            UserTag tag = null;
+            if (!string.IsNullOrEmpty(updateAccountDto.Tag))
+            {
+                tag = UserTagFactory.FromString(updateAccountDto.Tag);
+                if (tag.IsInvalid)
+                {
+                    throw new DomainValidationException(tag);
+                }
+            }
+
             var account = await _userAccountService.Update(updateAccountDto.UserId,
-                                                    updateAccountDto.Email,
-                                                    updateAccountDto.UserName,
-                                                    updateAccountDto.Tag,
-                                                    updateAccountDto.PasswordConfirmation);
+                                                        updateAccountDto.Email,
+                                                        updateAccountDto.UserName,
+                                                        tag,
+                                                        updateAccountDto.PasswordConfirmation);
 
             var accountModel = _mapper.Map<AccountViewModel>(account);
 

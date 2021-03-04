@@ -154,6 +154,11 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         [Route("")]
         public async Task<ActionResult> Update([FromBody] UpdateAccountDto updateAccountDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 updateAccountDto.UserId = CurrentlyLoggedUser.Id;

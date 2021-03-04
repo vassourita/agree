@@ -11,7 +11,7 @@ namespace Agree.Athens.Application.ViewModels
 
         public string Email { get; set; }
 
-        public UserTag Tag { get; set; }
+        public string Tag { get; set; }
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
     }

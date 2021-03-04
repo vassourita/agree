@@ -16,7 +16,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             {
                 Id = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == "id").Value),
                 UserName = HttpContext.User.Identity.Name.Split('#').First(),
-                Tag = UserTagFactory.FromString(HttpContext.User.Identity.Name.Split('#').Last()),
+                Tag = HttpContext.User.Identity.Name.Split('#').Last(),
                 Email = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Email).Value
             }
             : null;

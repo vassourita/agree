@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentValidation;
 
 namespace Agree.Athens.Application.Dtos.Validators
@@ -7,17 +8,9 @@ namespace Agree.Athens.Application.Dtos.Validators
     {
         public UpdateAccountDtoValidator()
         {
-            RuleFor(account => account.UserName)
-                .MinimumLength(1).WithMessage("UserName must have at least 1 character")
-                .MaximumLength(20).WithMessage("UserName must not have more than 20 characters");
-
-            RuleFor(account => account.Email)
-                .EmailAddress().WithMessage("Email must be a valid email address")
-                .MaximumLength(255).WithMessage("Email must not have more than 255 characters");
-
-            RuleFor(account => account.UserId)
-                .NotNull().WithMessage("UserId must not be null")
-                .Must(id => id != Guid.Empty).WithMessage("UserId must not be an empty Guid");
+            RuleFor(account => account.PasswordConfirmation)
+                .NotNull().WithMessage("Password must not be null")
+                .NotEmpty().WithMessage("Password must not be empty");
         }
     }
 }

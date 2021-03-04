@@ -119,6 +119,11 @@ namespace Agree.Athens.Domain.Services
                     {
                         account.AddError("Email", "New account email is the same as the old one");
                     }
+                    var userWithSameMail = await _accountRepository.GetByEmailAsync(newEmail);
+                    if (userWithSameMail != null && userWithSameMail.Id != account.Id)
+                    {
+                        account.AddError("Email", "Email is already in use by another account", newEmail);
+                    }
                     account.UpdateEmail(newEmail);
                 }
 
@@ -133,11 +138,12 @@ namespace Agree.Athens.Domain.Services
 
                 if (newTag != null && newTag.IsValid)
                 {
-                    if (account.Tag == newTag)
+                    var tagIsInUse = await _accountRepository.TagIsInUseAsync(newTag, account.UserName);
+                    if (account.Tag.ToString() == newTag.ToString() && tagIsInUse)
                     {
                         account.AddError("Tag", "New account tag is the same as the old one", newTag);
                     }
-                    if (await _accountRepository.TagIsInUseAsync(newTag, account.UserName))
+                    else if (tagIsInUse)
                     {
                         account.AddError("Tag", "Tag is already in use by another account with same userName", newTag);
                     }
