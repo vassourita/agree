@@ -41,7 +41,7 @@ namespace Agree.Athens.Domain.Services
                     "image/jpg" => "jpg",
                     "image/png" => "png",
                     "image/gif" => "gif",
-                    _ => "image/jpg"
+                    _ => "jpg"
                 };
 
                 var avatarFileName = $"avatar-{account.Id}-{DateTime.UtcNow.ToString("ddMMyyyyHHmmss")}.{fileExtension}";
