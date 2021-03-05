@@ -64,6 +64,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.Configure<MailConfiguration>(mailConfiguration);
             services.Configure<HashConfiguration>(configuration.GetSection("HashConfiguration"));
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtConfiguration"));
+            services.Configure<AzuriteStorageConfiguration>(configuration.GetSection("AzuriteStorageConfiguration"));
 
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();
@@ -76,6 +77,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddScoped<AccountService>();
             services.AddScoped<UserAccountService>();
             services.AddScoped<TokenService>();
+            services.AddScoped<AvatarService>();
 
             // Libs
             services.AddFluentEmail("agree@vassourita.com", "Vinicius Vassão")

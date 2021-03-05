@@ -44,6 +44,14 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 {
                     return BadRequest(ErrorResponse.FromException(validationException));
                 }
+                if (ex is EntityNotFoundException notFoundException)
+                {
+                    return NotFound(new Response(notFoundException.Message));
+                }
+                if (ex is DomainUnauthorizedException unauthorizedException)
+                {
+                    return Unauthorized(new Response(unauthorizedException.Message));
+                }
                 return InternalServerError(new Response(ex.Message));
             }
             catch (Exception ex)
@@ -72,6 +80,14 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 if (ex is EntityNotFoundException notFoundException)
                 {
                     return NotFound(new Response(notFoundException.Message));
+                }
+                if (ex is DomainUnauthorizedException unauthorizedException)
+                {
+                    return Unauthorized(new Response(unauthorizedException.Message));
+                }
+                if (ex is DomainValidationException validationException)
+                {
+                    return BadRequest(ErrorResponse.FromException(validationException));
                 }
                 return InternalServerError(new Response(ex.Message));
             }

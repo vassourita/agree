@@ -1,10 +1,10 @@
 using System.IO;
-using System;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Microsoft.Extensions.Options;
 using Agree.Athens.Infrastructure.Configuration;
+using Azure.Storage.Blobs.Models;
 
 namespace Agree.Athens.Infrastructure.Providers
 {
@@ -18,19 +18,18 @@ namespace Agree.Athens.Infrastructure.Providers
             _container.CreateIfNotExists();
         }
 
-        private async Task<string> UploadFileAsync(byte[] content, string blobName)
+        private async Task<string> UploadFileAsync(Stream fileStream, string blobName, string mimetype)
         {
             var blob = _container.GetBlobClient(blobName);
-            using (var stream = new MemoryStream(content, writable: false))
-            {
-                await blob.UploadAsync(stream);
-            }
+            var blobHttpHeader = new BlobHttpHeaders();
+            blobHttpHeader.ContentType = mimetype;
+            await blob.UploadAsync(fileStream, blobHttpHeader);
             return blob.Uri.AbsolutePath;
         }
 
-        public async Task<string> UploadImageAsync(byte[] content, string blobName)
+        public async Task<string> UploadImageAsync(Stream fileStream, string blobName, string mimetype)
         {
-            return await UploadFileAsync(content, blobName);
+            return await UploadFileAsync(fileStream, blobName, mimetype);
         }
     }
 }
