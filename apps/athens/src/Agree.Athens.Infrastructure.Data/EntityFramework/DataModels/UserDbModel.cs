@@ -42,6 +42,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
         [Required]
         public bool EmailVerified { get; set; }
 
+        [MaxLength(80)]
+        public string AvatarUrl { get; set; }
+
         public DateTime? DeletedAt { get; set; }
 
         public ICollection<MessageDbModel> Messages { get; set; }

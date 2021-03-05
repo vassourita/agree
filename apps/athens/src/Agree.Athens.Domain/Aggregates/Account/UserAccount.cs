@@ -58,6 +58,8 @@ namespace Agree.Athens.Domain.Aggregates.Account
 
         public string PasswordHash { get; protected set; }
 
+        public string AvatarUrl { get; protected set; }
+
         public void SoftDelete()
         {
             DeletedAt = DateTime.UtcNow;

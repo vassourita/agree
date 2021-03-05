@@ -61,6 +61,8 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
 
+        public string AvatarUrl { get; protected set; }
+
         public bool Active { get; set; }
 
         public Server Server { get; protected set; }

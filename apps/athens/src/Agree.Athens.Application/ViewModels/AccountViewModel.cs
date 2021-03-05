@@ -13,6 +13,8 @@ namespace Agree.Athens.Application.ViewModels
 
         public string Tag { get; set; }
 
+        public string AvatarUrl { get; set; }
+
         public string UserNameWithTag { get => $"{UserName}#{Tag}"; }
     }
 }
