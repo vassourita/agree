@@ -18,10 +18,10 @@
 
 I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation. You can check on development status [here](https://trello.com/agree15/home).
 
-| App name                            |  Description  |
-| ----------------------------------- | ------------- |
-| [Athens](apps/athens)               | Main webapi   |
-| [Agree Landing](apps/agree-landing) | Landing page  |
+| App name                            |  Description          |
+| ----------------------------------- | --------------------- |
+| [Athens](apps/athens)               | .NET Main webapi      |
+| [Agree Landing](apps/agree-landing) | Next.js Landing page  |
 
 <br/>
 <h3 align="center">
@@ -29,9 +29,6 @@ Project scope
 </h3>
 
 <p align="center">
-   <img src="./docs/initial_scope.png" alt="Initial scope" width="300"/>
-</p>
-
-<p align="center">
+   <img src="./docs/initial_scope.png" alt="Initial scope" width="450"/>
    <img src="./docs/final_scope.png" alt="Final scope" width="300"/>
 </p>

@@ -9,5 +9,5 @@ The name "Athens" is a direct reference to the capital of Greece because of all 
 </h3>
 
 <p align="center">
-   <img src="../../docs/athens_architecture.png" alt="Agree Logo" width="400"/>
+   <img src="../../docs/athens_architecture.png" alt="Agree Logo" width="600"/>
 </p>
