@@ -32,5 +32,11 @@ namespace Agree.Athens.Infrastructure.Providers
         {
             return await UploadFileAsync(fileStream, blobName, mimetype);
         }
+
+        public async Task DeleteBlobAsync(string blobName)
+        {
+            var blob = _container.GetBlobClient(blobName);
+            await blob.DeleteIfExistsAsync();
+        }
     }
 }

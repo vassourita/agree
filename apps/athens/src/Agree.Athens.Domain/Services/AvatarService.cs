@@ -1,3 +1,4 @@
+using System.Linq;
 using System.IO;
 using System;
 using System.Threading.Tasks;
@@ -29,6 +30,12 @@ namespace Agree.Athens.Domain.Services
                     throw new EntityNotFoundException(account);
                 }
 
+                if (account.AvatarUrl != null)
+                {
+                    var fileName = account.AvatarUrl.Split('/').Last();
+                    await _fileStorageProvider.DeleteBlobAsync(fileName);
+                }
+
                 var fileExtension = contentType.ToLower() switch
                 {
                     "image/jpg" => "jpg",
@@ -37,7 +44,7 @@ namespace Agree.Athens.Domain.Services
                     _ => "image/jpg"
                 };
 
-                var avatarFileName = $"avatar-{account.Id}-{DateTime.UtcNow.ToString("dd-MM-yyyy")}.{fileExtension}";
+                var avatarFileName = $"avatar-{account.Id}-{DateTime.UtcNow.ToString("ddMMyyyyHHmmss")}.{fileExtension}";
 
                 var filePath = await _fileStorageProvider.UploadImageAsync(fileStream, avatarFileName, contentType);
 
