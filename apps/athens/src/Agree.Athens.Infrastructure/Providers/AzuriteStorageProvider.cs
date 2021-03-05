@@ -16,6 +16,7 @@ namespace Agree.Athens.Infrastructure.Providers
         {
             _container = new BlobContainerClient(options.Value.ConnectionString, options.Value.AvatarBlobContainerName);
             _container.CreateIfNotExists();
+            _container.SetAccessPolicy(PublicAccessType.Blob);
         }
 
         private async Task<string> UploadFileAsync(Stream fileStream, string blobName, string mimetype)
