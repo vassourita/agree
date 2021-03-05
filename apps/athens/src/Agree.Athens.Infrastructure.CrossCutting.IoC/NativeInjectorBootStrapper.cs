@@ -69,6 +69,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddScoped<IHashProvider, BcryptHashProvider>();
             services.AddScoped<IMailProvider, FluentMailProvider>();
             services.AddScoped<IMailTemplateProvider, FluentMailTemplateProvider>();
+            services.AddScoped<IFileStorageProvider, AzuriteStorageProvider>();
 
             // Domain/Application Services
             services.AddScoped<MailService>();
