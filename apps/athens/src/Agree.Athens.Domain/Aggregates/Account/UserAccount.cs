@@ -46,6 +46,12 @@ namespace Agree.Athens.Domain.Aggregates.Account
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void UpdateAvatar(string avatarUrl)
+        {
+            AvatarUrl = avatarUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public string UserName { get; protected set; }
 
         public string Email { get; protected set; }
