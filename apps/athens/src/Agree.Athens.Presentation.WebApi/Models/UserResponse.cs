@@ -6,28 +6,32 @@ namespace Agree.Athens.Presentation.WebApi.Models
 {
     public class UserResponse : Response
     {
-        public record LoggedUserInfo(Guid Id, string UserName, string Tag, string Email, string avatarUrl);
+        public AccountViewModel User { get; private set; }
 
-        public LoggedUserInfo User { get; private set; }
-
-        public UserResponse(AccountViewModel user)
-            : base(user == null
-                   ? ("You are not logged in")
-                   : ($"You are currently logged in as {user.UserName}#{user.Tag}"))
+        public UserResponse(AccountViewModel user, string message = null)
+            : base(message is null ? "You are currently logged in as {user.UserName}#{user.Tag}" : message)
         {
-            User = new LoggedUserInfo(user.Id, user.UserName, user.Tag.ToString(), user.Email, user.AvatarUrl);
+            User = new AccountViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Tag = user.Tag.ToString(),
+                Email = user.Email,
+                AvatarUrl = user.AvatarUrl
+            };
         }
 
-        public UserResponse(AccountViewModel user, string message)
-            : base(message)
+        public UserResponse(UserAccount user, string message = null)
+            : base(message is null ? "You are currently logged in as {user.UserName}#{user.Tag}" : message)
         {
-            User = new LoggedUserInfo(user.Id, user.UserName, user.Tag.ToString(), user.Email, user.AvatarUrl);
-        }
-
-        public UserResponse(UserAccount user, string message)
-            : base(message)
-        {
-            User = new LoggedUserInfo(user.Id, user.UserName, user.Tag.ToString(), user.Email, user.AvatarUrl);
+            User = new AccountViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Tag = user.Tag.ToString(),
+                Email = user.Email,
+                AvatarUrl = user.AvatarUrl
+            };
         }
     }
 }

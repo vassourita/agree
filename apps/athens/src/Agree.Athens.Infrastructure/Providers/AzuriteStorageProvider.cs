@@ -24,7 +24,7 @@ namespace Agree.Athens.Infrastructure.Providers
             var blobHttpHeader = new BlobHttpHeaders();
             blobHttpHeader.ContentType = mimetype;
             await blob.UploadAsync(fileStream, blobHttpHeader);
-            return blob.Uri.AbsolutePath;
+            return blob.Uri.AbsoluteUri;
         }
 
         public async Task<string> UploadImageAsync(Stream fileStream, string blobName, string mimetype)
