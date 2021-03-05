@@ -28,6 +28,17 @@ services:
     networks:
       - athens-network
 
+  azurite:
+    image: 'mcr.microsoft.com/azure-storage/azurite'
+    container_name: 'azurite'
+    restart: always
+    command: 'azurite-blob --blobHost 0.0.0.0'
+    ports:
+      - 4003:10000
+      - 4004:10001
+    volumes:
+      - '/data'
+
 networks:
   athens-network:
     driver: bridge
