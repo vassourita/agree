@@ -20,30 +20,30 @@ export default function Home () {
         </nav>
       </header>
 
-      <div className="container mx-auto mt-16 flex justify-between">
-        <aside className="w-44">
-          <ul className="flex flex-col gap-y-12">
-            <AsideLink disabled={false} icon={FiGlobe} iconSize={isSmallScreen ? 20 : 20} href="/login">
+      <div className="container mx-auto mt-16 flex flex-col lg:flex-row justify-between">
+        <aside className="mb-8 lg:mb-0 lg:w-44">
+          <ul className="flex lg:flex-col gap-x-5 sm:gap-x-7 md:gap-x-9 lg:gap-y-12">
+            <AsideLink disabled={false} icon={FiGlobe} iconSize={isSmallScreen ? 19 : 20} href="/login">
               Abrir no <br/>
               navegador
             </AsideLink>
-            <AsideLink disabled={true} icon={FiDownload} iconSize={isSmallScreen ? 20 : 20} href="/download">
+            <AsideLink disabled={true} icon={FiDownload} iconSize={isSmallScreen ? 19 : 20} href="/download">
               Download <br/>
               para Linux
             </AsideLink>
-            <AsideLink disabled={true} icon={FiSmartphone} iconSize={isSmallScreen ? 20 : 20} href="/mobile">
+            <AsideLink disabled={true} icon={FiSmartphone} iconSize={isSmallScreen ? 19 : 20} href="/mobile">
               Download <br/>
               para celular
             </AsideLink>
           </ul>
         </aside>
 
-        <div className="flex items-center justify-center">
-          <h1 className="text-right text-text-dark text-7xl font-bold">
+        <div className="flex items-center lg:justify-center">
+          <h1 className="lg:text-right text-text-dark text-5xl md:text-6xl lg:text-7xl font-bold">
             Isso aqui <br/>
             definitivamente, <br/>
-            absolutamente <br/>
-            e indiscutivelmente <br/>
+            absolutamente e <br/>
+            indiscutivelmente <br/>
             (não) é um clone do <br/>
             Discord.
           </h1>
