@@ -16,7 +16,8 @@
 </h2>
 <br/>
 
-I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation. You can check on development status [here](https://trello.com/agree15/home).
+I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation.
+You can check on development status [here](https://trello.com/agree15/home) and on Figma designs [here](https://www.figma.com/file/JIcmhV3KQXXCJmZJNB8KXx/Desktop?node-id=27%3A257).
 
 | App name                            |  Description          |
 | ----------------------------------- | --------------------- |
