@@ -13,7 +13,11 @@ module.exports = {
       button: '#FFFFFF',
       border: '#BDBDBD'
     },
-    extend: {}
+    extend: {
+      fontSize: {
+        '4.5xl': '2.8rem'
+      }
+    }
   },
   variants: {
     extend: {}

@@ -15,9 +15,9 @@ export function AsideLink ({ children, iconSize, disabled, icon: Icon, href }: A
   return (
     <motion.li whileHover={{ scale: 1.03 }} className={disabled ? 'opacity-75 cursor-not-allowed w-full' : 'opacity-100 cursor-pointer w-full'}>
       <Link href={disabled ? '' : href}>
-        <div className="bg-background p-3 sm:p-5 rounded-md text-primary max-w-full w-full">
+        <div className="bg-background p-3 sm:p-5 xl:p-6 rounded-md text-primary max-w-full w-full min-h-full flex flex-col justify-between">
           <Icon size={iconSize} className="mb-5" />
-          <span className="text-lg sm:text-xl font-bold" >
+          <span className="text-lg sm:text-xl xl:text-2xl font-bold" >
             {children}
           </span>
         </div>
