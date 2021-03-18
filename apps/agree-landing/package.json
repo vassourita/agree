@@ -15,7 +15,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-scroll": "^1.8.1",
+    "react-tooltip": "^4.2.15",
     "react-use": "^17.1.1",
     "tailwindcss": "^2.0.2"
   },

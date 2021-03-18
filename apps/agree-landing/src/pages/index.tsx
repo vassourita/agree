@@ -9,7 +9,7 @@ export default function Home () {
   const isExtraSmallScreen = useMedia('(max-width: 639px)')
 
   return (
-    <main className="px-4 md:px-20 min-h-screen h-full bg-fixed bg-cover bg-center transition-all overflow-hidden flex flex-col justify-between" style={{ backgroundImage: 'url(./assets/images/bg_home.png)' }}>
+    <main className="px-4 md:px-20 min-h-screen h-full bg-fixed bg-cover bg-center transition-all overflow-hidden flex flex-col justify-between lg:justify-start" style={{ backgroundImage: 'url(./assets/images/bg_home.png)' }}>
       <header className="container pt-7 md:pt-16 mx-auto flex items-center justify-between">
         <motion.img whileHover={{ scale: 1.03 }} src="/agreew.svg" className="h-12 md:h-16 xl:h-20 cursor-pointer" />
         <nav>
@@ -21,7 +21,7 @@ export default function Home () {
         </nav>
       </header>
 
-      <div className="h-full container mx-auto lg:mt-16 flex flex-col lg:flex-row justify-between lg:items-center">
+      <div className="h-full container mx-auto mt-8 lg:mt-16 flex flex-col lg:flex-row justify-between lg:items-center">
         <aside className="lg:w-44 xl:w-52">
           <ul className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-1 gap-x-4 sm:gap-x-8 md:gap-x-9 lg:gap-y-12">
             <AsideLink disabled={false} icon={FiGlobe} iconSize={isSmallScreen ? 19 : 20} href="/login">
