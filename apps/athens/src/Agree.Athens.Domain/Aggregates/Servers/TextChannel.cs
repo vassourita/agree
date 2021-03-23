@@ -9,11 +9,11 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 {
     public class TextChannel : Entity
     {
-        public TextChannel(string name, Server server)
+        public TextChannel(string name, Category category)
         {
             Messages = new Collection<Message>();
             Name = name;
-            Server = server;
+            Category = category;
 
             Validate(this, new TextChannelValidator());
         }
@@ -34,7 +34,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public string Name { get; protected set; }
 
-        public Server Server { get; protected set; }
+        public Category Category { get; protected set; }
 
         public ICollection<Message> Messages { get; protected set; }
     }

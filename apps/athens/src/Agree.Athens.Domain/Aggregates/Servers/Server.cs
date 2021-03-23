@@ -8,12 +8,13 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 {
     public class Server : Entity, IAggregateRoot
     {
-        public Server(string name)
+        public Server(string name, string description)
         {
-            TextChannels = new Collection<TextChannel>();
+            Categories = new Collection<Category>();
             Users = new Collection<User>();
             Roles = new Collection<Role>();
             Name = name;
+            Description = description;
 
             Validate(this, new ServerValidator());
         }
@@ -21,7 +22,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         // Empty constructor for EF Core
         protected Server()
         {
-            TextChannels = new Collection<TextChannel>();
+            Categories = new Collection<Category>();
             Users = new Collection<User>();
             Roles = new Collection<Role>();
         }
@@ -29,6 +30,14 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public void UpdateName(string newName)
         {
             Name = newName;
+            UpdatedAt = DateTime.UtcNow;
+
+            Validate(this, new ServerValidator());
+        }
+
+        public void UpdateDescription(string newDescription)
+        {
+            Description = newDescription;
             UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new ServerValidator());
@@ -56,26 +65,26 @@ namespace Agree.Athens.Domain.Aggregates.Servers
             Users.Remove(user);
         }
 
-        public void AddTextChannel(TextChannel channel)
+        public void AddCategory(Category channel)
         {
-            if (TextChannels.Contains(channel))
+            if (Categories.Contains(channel))
             {
-                AddError(nameof(TextChannels), $"{channel} already exists {this}", channel);
+                AddError(nameof(Categories), $"{channel} already exists {this}", channel);
                 return;
             }
 
-            TextChannels.Add(channel);
+            Categories.Add(channel);
         }
 
-        public void RemoveTextChannel(TextChannel channel)
+        public void RemoveCategory(Category channel)
         {
-            if (!TextChannels.Contains(channel))
+            if (!Categories.Contains(channel))
             {
-                AddError(nameof(TextChannels), $"{channel} does not exists on {this}", channel);
+                AddError(nameof(Categories), $"{channel} does not exists on {this}", channel);
                 return;
             }
 
-            TextChannels.Remove(channel);
+            Categories.Remove(channel);
         }
 
         public void AddRole(Role role)
@@ -102,7 +111,9 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 
         public string Name { get; protected set; }
 
-        public ICollection<TextChannel> TextChannels { get; protected set; }
+        public string Description { get; protected set; }
+
+        public ICollection<Category> Categories { get; protected set; }
 
         public ICollection<User> Users { get; protected set; }
 
