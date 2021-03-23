@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210323002512_AddCategoryTable")]
+    partial class AddCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ServerId")
                         .HasColumnType("uuid");
@@ -78,7 +78,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("CategoryDbModel");
                 });
 
             modelBuilder.Entity("Agree.Athens.Infrastructure.Data.EntityFramework.DataModels.MessageDbModel", b =>

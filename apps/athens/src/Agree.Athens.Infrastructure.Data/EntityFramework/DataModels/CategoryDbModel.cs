@@ -6,24 +6,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
 {
-    [Table("TextChannels")]
-    public class TextChannelDbModel : DbModel
+    [Table("Categories")]
+    public class CategoryDbModel : DbModel
     {
-        public TextChannelDbModel()
+        public CategoryDbModel()
         {
-            Messages = new Collection<MessageDbModel>();
+            TextChannels = new Collection<TextChannelDbModel>();
         }
 
         [Required]
         [MinLength(1)]
-        [MaxLength(20)]
+        [MaxLength(30)]
         public string Name { get; set; }
 
-        public CategoryDbModel Category { get; set; }
-
         [Required]
-        public Guid CategoryId { get; set; }
+        public Guid ServerId { get; set; }
+        public ServerDbModel Server { get; set; }
 
-        public ICollection<MessageDbModel> Messages { get; set; }
+        public ICollection<TextChannelDbModel> TextChannels { get; set; }
     }
 }

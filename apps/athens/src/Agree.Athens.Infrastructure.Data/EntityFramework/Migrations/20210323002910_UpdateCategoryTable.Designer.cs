@@ -3,15 +3,17 @@ using System;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210323002910_UpdateCategoryTable")]
+    partial class UpdateCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Agree.Athens.Infrastructure.Data.EntityFramework.DataModels.MessageDbModel", b =>

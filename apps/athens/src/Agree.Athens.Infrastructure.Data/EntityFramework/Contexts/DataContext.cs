@@ -131,9 +131,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             // Server mapping
             modelBuilder.Entity<ServerDbModel>(builder =>
             {
-                builder.HasMany(s => s.TextChannels)
-                    .WithOne(tc => tc.Server)
-                    .HasForeignKey(tc => tc.ServerId);
+                builder.HasMany(s => s.Categories)
+                    .WithOne(c => c.Server)
+                    .HasForeignKey(c => c.ServerId);
 
                 builder.HasMany(s => s.Users)
                     .WithMany(u => u.Servers)
@@ -165,9 +165,21 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
                     .WithOne(m => m.Channel)
                     .HasForeignKey(m => m.TextChannelId);
 
-                builder.HasOne(tc => tc.Server)
-                    .WithMany(s => s.TextChannels)
-                    .HasForeignKey(tc => tc.ServerId);
+                builder.HasOne(tc => tc.Category)
+                    .WithMany(c => c.TextChannels)
+                    .HasForeignKey(tc => tc.CategoryId);
+            });
+
+            // Category mapping
+            modelBuilder.Entity<CategoryDbModel>(builder =>
+            {
+                builder.HasMany(c => c.TextChannels)
+                    .WithOne(tc => tc.Category)
+                    .HasForeignKey(tc => tc.CategoryId);
+
+                builder.HasOne(c => c.Server)
+                    .WithMany(s => s.Categories)
+                    .HasForeignKey(c => c.ServerId);
             });
         }
     }

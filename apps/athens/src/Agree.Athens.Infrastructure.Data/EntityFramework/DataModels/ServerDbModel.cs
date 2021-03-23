@@ -10,7 +10,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
     {
         public ServerDbModel()
         {
-            TextChannels = new Collection<TextChannelDbModel>();
+            Categories = new Collection<CategoryDbModel>();
             Users = new Collection<UserDbModel>();
             Roles = new Collection<RoleDbModel>();
         }
@@ -20,7 +20,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
         [MaxLength(30)]
         public string Name { get; set; }
 
-        public ICollection<TextChannelDbModel> TextChannels { get; set; }
+        public ICollection<CategoryDbModel> Categories { get; set; }
 
         public ICollection<UserDbModel> Users { get; set; }
 
