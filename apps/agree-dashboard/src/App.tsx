@@ -1,9 +1,10 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Heading } from '@chakra-ui/react'
+import { theme } from './styles/theme'
 
 export function App (): JSX.Element {
   return (
-    <ChakraProvider>
-      <h1>Hello World</h1>
+    <ChakraProvider theme={theme} resetCSS>
+      <Heading size="4xl">Hello Agree!</Heading>
     </ChakraProvider>
   )
 }
