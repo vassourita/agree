@@ -1,9 +1,9 @@
-import { ChakraProvider } from "@chakra-ui/react"
+import { ChakraProvider } from '@chakra-ui/react'
 
-export function App() {
+export function App (): JSX.Element {
   return (
     <ChakraProvider>
-      <App />
+      <h1>Hello World</h1>
     </ChakraProvider>
   )
 }
