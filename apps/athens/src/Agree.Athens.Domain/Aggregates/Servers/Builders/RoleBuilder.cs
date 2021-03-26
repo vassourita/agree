@@ -33,13 +33,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
 
         public RoleBuilder HasName(string name)
         {
-            _permissions = new RolePermissions()
-            {
-                CanUpdateServerName = true,
-                CanDeleteServer = true,
-                CanAddUsers = true,
-                CanRemoveUsers = true
-            };
+            _name = name;
             return this;
         }
 

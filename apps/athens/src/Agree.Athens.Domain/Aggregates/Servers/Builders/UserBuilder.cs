@@ -4,7 +4,7 @@ using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.SharedKernel;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 
-namespace Agree.Athens.Domain.Aggregates.Servers.Factories
+namespace Agree.Athens.Domain.Aggregates.Servers.Builders
 {
     public class UserBuilder : IBuilder<User>
     {
@@ -13,7 +13,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Factories
         private bool _active { get; set; } = true;
         private UserTag _tag { get; set; } = UserTagFactory.CreateRandomUserTag();
         private Server _server { get; set; }
-        public IEnumerable<Role> _roles { get; private set; } = new List<Role>();
+        private IEnumerable<Role> _roles { get; set; } = new List<Role>();
 
         public UserBuilder FromUserAccount(UserAccount account)
         {
