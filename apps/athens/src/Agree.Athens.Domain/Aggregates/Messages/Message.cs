@@ -6,7 +6,7 @@ namespace Agree.Athens.Domain.Aggregates.Messages
 {
     public class Message : Entity, IAggregateRoot
     {
-        public Message(string content, Author author, TextChannel channel)
+        public Message(string content, User author, TextChannel channel)
         {
             Content = content;
             Author = author;
@@ -20,7 +20,7 @@ namespace Agree.Athens.Domain.Aggregates.Messages
 
         public string Content { get; protected set; }
 
-        public Author Author { get; protected set; }
+        public User Author { get; protected set; }
 
         public Guid AuthorId { get; protected set; }
 

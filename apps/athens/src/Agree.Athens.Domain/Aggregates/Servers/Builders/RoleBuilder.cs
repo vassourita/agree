@@ -7,11 +7,17 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
     {
         private string _name { get; set; } = "";
 
-        private ColorHex _colorHex { get; set; } = ColorHexFactory.CreateRandomColorHex();
+        private ColorHex _colorHex { get; set; }
 
         private RolePermissions _permissions { get; set; } = new RolePermissions();
 
         private Server _server { get; set; }
+
+        public RoleBuilder HasRandomColorHex()
+        {
+            _colorHex = ColorHexFactory.CreateRandomColorHex();
+            return this;
+        }
 
         public RoleBuilder HasPermissions(RolePermissions permissions)
         {

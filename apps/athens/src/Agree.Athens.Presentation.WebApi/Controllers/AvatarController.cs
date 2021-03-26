@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
 using Agree.Athens.Presentation.WebApi.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
     {
         private readonly AvatarService _avatarService;
 
-        public AvatarController(AvatarService avatarService)
+        public AvatarController(AvatarService avatarService, AccountService accountService) : base(accountService)
         {
             _avatarService = avatarService;
         }
@@ -36,19 +36,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is EntityNotFoundException notFoundException)
-                {
-                    return NotFound(new Response(notFoundException.Message));
-                }
-                if (ex is DomainValidationException validationException)
-                {
-                    return BadRequest(ErrorResponse.FromException(validationException));
-                }
-                if (ex is DomainUnauthorizedException unauthorizedException)
-                {
-                    return Unauthorized(new Response(unauthorizedException.Message));
-                }
-                return InternalServerError(new Response(ex.Message));
+                return HandleDomainException(ex);
             }
             catch (Exception ex)
             {

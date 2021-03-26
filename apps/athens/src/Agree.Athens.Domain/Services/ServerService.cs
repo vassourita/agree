@@ -25,6 +25,7 @@ namespace Agree.Athens.Domain.Services
                 var roleBuilder = new RoleBuilder();
                 roleBuilder
                     .HasName("Admin")
+                    .HasRandomColorHex()
                     .BelongsToServer(server)
                     .HasDefaultOwnerPermissions();
 

@@ -9,6 +9,7 @@ using Agree.Athens.Application.ViewModels;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using Agree.Athens.Domain.Exceptions;
+using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Services;
 using AutoMapper;
 
@@ -20,19 +21,34 @@ namespace Agree.Athens.Application.Services
         private readonly MailService _mailService;
         private readonly TokenService _tokenService;
         private readonly ITokenRepository _tokenRepository;
+        private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
 
         public AccountService(UserAccountService userAccountService,
                               MailService mailService,
                               TokenService tokenService,
                               ITokenRepository tokenRepository,
+                              IAccountRepository accountRepository,
                               IMapper mapper)
         {
             _userAccountService = userAccountService;
             _mailService = mailService;
             _tokenService = tokenService;
             _tokenRepository = tokenRepository;
+            _accountRepository = accountRepository;
             _mapper = mapper;
+        }
+
+        public async Task<UserAccount> GetUserById(Guid id)
+        {
+            var account = await _accountRepository.GetByIdAsync(id);
+
+            if (account.DeletedAt is not null)
+            {
+                return null;
+            }
+
+            return account;
         }
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)

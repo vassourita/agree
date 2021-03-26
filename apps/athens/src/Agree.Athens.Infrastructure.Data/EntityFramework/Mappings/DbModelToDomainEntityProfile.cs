@@ -13,12 +13,6 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
             CreateMap<UserDbModel, UserAccount>()
                 .ReverseMap();
 
-            CreateMap<UserDbModel, Author>()
-                .ForMember(
-                    author => author.Active,
-                    config => config.MapFrom(dbModel => dbModel.DeletedAt != null)
-                ).ReverseMap();
-
             CreateMap<UserDbModel, User>()
                 .ForMember(
                     user => user.Active,
@@ -29,6 +23,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Mappings
                 .ReverseMap();
 
             CreateMap<ServerDbModel, Server>()
+                .ReverseMap();
+
+            CreateMap<CategoryDbModel, Category>()
                 .ReverseMap();
 
             CreateMap<MessageDbModel, Message>()

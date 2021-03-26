@@ -1,6 +1,4 @@
-using System.Linq;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using Agree.Athens.Application.Dtos;
 using Agree.Athens.Domain.Exceptions;
@@ -17,7 +15,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
     public class AccountController : CustomBaseController
     {
         private readonly AccountService _accountService;
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService) : base(accountService)
         {
             _accountService = accountService;
         }
@@ -40,19 +38,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is DomainValidationException validationException)
-                {
-                    return BadRequest(ErrorResponse.FromException(validationException));
-                }
-                if (ex is EntityNotFoundException notFoundException)
-                {
-                    return NotFound(new Response(notFoundException.Message));
-                }
-                if (ex is DomainUnauthorizedException unauthorizedException)
-                {
-                    return Unauthorized(new Response(unauthorizedException.Message));
-                }
-                return InternalServerError(new Response(ex.Message));
+                return HandleDomainException(ex);
             }
             catch (Exception ex)
             {
@@ -77,19 +63,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is EntityNotFoundException notFoundException)
-                {
-                    return NotFound(new Response(notFoundException.Message));
-                }
-                if (ex is DomainUnauthorizedException unauthorizedException)
-                {
-                    return Unauthorized(new Response(unauthorizedException.Message));
-                }
-                if (ex is DomainValidationException validationException)
-                {
-                    return BadRequest(ErrorResponse.FromException(validationException));
-                }
-                return InternalServerError(new Response(ex.Message));
+                return HandleDomainException(ex);
             }
             catch (Exception ex)
             {
@@ -129,19 +103,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is EntityNotFoundException notFoundException)
-                {
-                    return NotFound(new Response(notFoundException.Message));
-                }
-                if (ex is DomainUnauthorizedException unauthorizedException)
-                {
-                    return Unauthorized(new Response(unauthorizedException.Message));
-                }
-                if (ex is DomainValidationException validationException)
-                {
-                    return BadRequest(ErrorResponse.FromException(validationException));
-                }
-                return InternalServerError(new Response(ex.Message));
+                return HandleDomainException(ex);
             }
             catch (Exception ex)
             {
@@ -182,19 +144,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             }
             catch (BaseDomainException ex)
             {
-                if (ex is DomainValidationException validationException)
-                {
-                    return BadRequest(ErrorResponse.FromException(validationException));
-                }
-                if (ex is EntityNotFoundException notFoundException)
-                {
-                    return NotFound(new Response(notFoundException.Message));
-                }
-                if (ex is DomainUnauthorizedException unauthorizedException)
-                {
-                    return Unauthorized(new Response(unauthorizedException.Message));
-                }
-                return InternalServerError(new Response(ex.Message));
+                return HandleDomainException(ex);
             }
             catch (Exception ex)
             {

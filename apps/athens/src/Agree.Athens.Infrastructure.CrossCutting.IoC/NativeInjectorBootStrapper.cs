@@ -81,6 +81,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddScoped<UserAccountService>();
             services.AddScoped<TokenService>();
             services.AddScoped<AvatarService>();
+            services.AddScoped<ServerService>();
 
             // Libs
             services.AddFluentEmail("agree@vassourita.com", "Vinicius Vassão")
