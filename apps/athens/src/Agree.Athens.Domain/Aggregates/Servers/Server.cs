@@ -102,7 +102,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         {
             if (!Roles.Contains(role))
             {
-                AddError(nameof(Roles), $"{role} does not exists of {this}", role);
+                AddError(nameof(Roles), $"{role} does not exists on {this}", role);
                 return;
             }
 
