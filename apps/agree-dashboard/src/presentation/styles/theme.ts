@@ -14,5 +14,8 @@ export const theme = extendTheme({
   fonts: {
     heading: 'Sarabun',
     body: 'Sarabun'
+  },
+  config: {
+    initialColorMode: 'dark'
   }
 })
