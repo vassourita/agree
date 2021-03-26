@@ -10,16 +10,19 @@ namespace Agree.Athens.Domain.Services
     public class ServerService
     {
         private readonly IServerRepository _serverRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public ServerService(IServerRepository serverRepository)
+        public ServerService(IServerRepository serverRepository, IAccountRepository accountRepository)
         {
             _serverRepository = serverRepository;
+            _accountRepository = accountRepository;
         }
 
-        public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription)
+        public async Task<Server> CreateServer(Guid accountId, string serverName, string serverDescription)
         {
             try
             {
+                var account = await _accountRepository.GetByIdAsync(accountId);
                 var server = new Server(serverName, serverDescription);
 
                 var roleBuilder = new RoleBuilder();

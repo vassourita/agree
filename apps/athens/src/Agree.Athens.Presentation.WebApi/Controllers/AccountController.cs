@@ -15,7 +15,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
     public class AccountController : CustomBaseController
     {
         private readonly AccountService _accountService;
-        public AccountController(AccountService accountService) : base(accountService)
+        public AccountController(AccountService accountService)
         {
             _accountService = accountService;
         }
