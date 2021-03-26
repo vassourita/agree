@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.SharedKernel;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
+using System;
 
 namespace Agree.Athens.Domain.Aggregates.Servers.Builders
 {
     public class UserBuilder : IBuilder<User>
     {
+        private Guid _id { get; set; } = Guid.NewGuid();
         private string _userName { get; set; } = "";
         private string _email { get; set; } = "";
         private bool _active { get; set; } = true;
@@ -21,6 +23,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
             _email = account.Email;
             _tag = account.Tag;
             _active = account.DeletedAt is not null;
+            _id = account.Id;
             return this;
         }
 
@@ -47,7 +50,9 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
 
         public User Build()
         {
-            return new User(_userName, _email, _tag, _server, _roles, _active);
+            var user = new User(_userName, _email, _tag, _server, _roles, _active);
+            user.SetId(_id);
+            return user;
         }
     }
 }

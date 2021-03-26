@@ -15,6 +15,12 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 {
     public abstract class CustomBaseController : ControllerBase
     {
+        private readonly AccountService _accountService;
+        public CustomBaseController(AccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         protected AccountViewModel CurrentlyLoggedUser =>
             HttpContext.User.Identity.IsAuthenticated
             ? new AccountViewModel
@@ -25,6 +31,9 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
                 Email = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Email).Value
             }
             : null;
+
+        protected async Task<UserAccount> GetAuthenticatedUserAccount()
+            => await _accountService.GetUserById(CurrentlyLoggedUser.Id);
 
         protected IActionResult InternalServerError()
         {

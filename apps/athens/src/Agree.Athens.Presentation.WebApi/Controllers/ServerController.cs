@@ -19,7 +19,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         private readonly ServerService _serverService;
         private readonly IMapper _mapper;
 
-        public ServerController(ServerService serverService, AccountService accountService, IMapper mapper)
+        public ServerController(ServerService serverService, AccountService accountService, IMapper mapper) : base(accountService)
         {
             _serverService = serverService;
             _mapper = mapper;
@@ -37,7 +37,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var newServer = await _serverService.CreateServer(CurrentlyLoggedUser.Id, createServerDto.Name, createServerDto.Description);
+                var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(), createServerDto.Name, createServerDto.Description);
                 return Ok(new ServerResponse(_mapper.Map<ServerViewModel>(newServer), "Server successfully created"));
             }
             catch (BaseDomainException ex)

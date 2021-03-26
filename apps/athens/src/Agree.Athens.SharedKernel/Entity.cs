@@ -17,6 +17,10 @@ namespace Agree.Athens.SharedKernel
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
+        public void SetId(Guid id)
+        {
+            Id = id;
+        }
 
         public override bool Equals(object obj)
         {

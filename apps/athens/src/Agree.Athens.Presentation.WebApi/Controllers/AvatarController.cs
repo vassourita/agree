@@ -15,7 +15,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
     {
         private readonly AvatarService _avatarService;
 
-        public AvatarController(AvatarService avatarService, AccountService accountService)
+        public AvatarController(AvatarService avatarService, AccountService accountService) : base(accountService)
         {
             _avatarService = avatarService;
         }

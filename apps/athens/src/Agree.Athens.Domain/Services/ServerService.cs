@@ -18,11 +18,10 @@ namespace Agree.Athens.Domain.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<Server> CreateServer(Guid accountId, string serverName, string serverDescription)
+        public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription)
         {
             try
             {
-                var account = await _accountRepository.GetByIdAsync(accountId);
                 var server = new Server(serverName, serverDescription);
 
                 var roleBuilder = new RoleBuilder();

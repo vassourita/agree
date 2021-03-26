@@ -39,6 +39,18 @@ namespace Agree.Athens.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<UserAccount> GetUserById(Guid id)
+        {
+            var account = await _accountRepository.GetByIdAsync(id);
+
+            if (account.DeletedAt is not null)
+            {
+                return null;
+            }
+
+            return account;
+        }
+
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
         {
             createAccountDto.Validate(new CreateAccountDtoValidator());
