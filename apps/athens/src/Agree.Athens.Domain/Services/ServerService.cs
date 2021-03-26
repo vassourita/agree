@@ -3,11 +3,19 @@ using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Domain.Aggregates.Servers.Builders;
+using Agree.Athens.Domain.Interfaces.Repositories;
 
 namespace Agree.Athens.Domain.Services
 {
     public class ServerService
     {
+        private readonly IServerRepository _serverRepository;
+
+        public ServerService(IServerRepository serverRepository)
+        {
+            _serverRepository = serverRepository;
+        }
+
         public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription)
         {
             try
@@ -37,13 +45,14 @@ namespace Agree.Athens.Domain.Services
                 defaultCategory.AddTextChannel(defaultChannel);
                 server.AddCategory(defaultCategory);
 
-
+                await _serverRepository.AddAsync(server);
+                await _serverRepository.UnitOfWork.Commit();
 
                 return server;
             }
             catch (Exception ex)
             {
-
+                await _serverRepository.UnitOfWork.Rollback();
                 throw ex;
             }
         }

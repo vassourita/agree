@@ -4,11 +4,13 @@ using System.Text;
 using Agree.Athens.Application.Mappings;
 using Agree.Athens.Application.Security;
 using Agree.Athens.Application.Services;
+using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Services;
 using Agree.Athens.Infrastructure.Configuration;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
+using Agree.Athens.Infrastructure.Data.EntityFramework.DataModels;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Mappings;
 using Agree.Athens.Infrastructure.Data.EntityFramework.Repositories;
 using Agree.Athens.Infrastructure.Providers;
@@ -57,6 +59,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAccountRepository, EFAccountRepository>();
+            services.AddScoped<IServerRepository, EFServerRepository>();
             services.AddScoped<ITokenRepository, EFTokenRepository>();
 
             // Infrastructure - Configuration
