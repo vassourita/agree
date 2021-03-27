@@ -24,6 +24,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         public DbSet<RoleDbModel> Roles { get; set; }
         public DbSet<ServerDbModel> Servers { get; set; }
         public DbSet<MessageDbModel> Messages { get; set; }
+        public DbSet<CategoryDbModel> Categories { get; set; }
         public DbSet<TextChannelDbModel> TextChannels { get; set; }
 
         public async Task<bool> Commit()
@@ -40,6 +41,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

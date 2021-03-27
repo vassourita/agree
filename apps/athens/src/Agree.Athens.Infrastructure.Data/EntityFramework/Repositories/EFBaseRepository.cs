@@ -59,15 +59,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public Task<TEntity> UpdateAsync(TEntity entity)
         {
-            var dbItem = await _dataSet.SingleOrDefaultAsync(x => x.Id.Equals(entity.Id));
-
             var item = _mapper.Map<TModel>(entity);
 
-            _context.Entry(dbItem).CurrentValues.SetValues(item);
+            _dataSet.Update(item);
 
-            return entity;
+            return Task.FromResult<TEntity>(entity);
         }
 
         public void Dispose()

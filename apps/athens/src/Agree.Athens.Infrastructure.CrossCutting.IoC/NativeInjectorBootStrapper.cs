@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -57,7 +58,9 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
 
             // Infrastructure - Data - EntityFramework
             services.AddDbContext<DataContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                options
+                    .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+                    .LogTo(Console.WriteLine));
             services.AddScoped<IAccountRepository, EFAccountRepository>();
             services.AddScoped<IServerRepository, EFServerRepository>();
             services.AddScoped<ITokenRepository, EFTokenRepository>();

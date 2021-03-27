@@ -15,7 +15,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
         private bool _active { get; set; } = true;
         private UserTag _tag { get; set; } = UserTagFactory.CreateRandomUserTag();
         private Server _server { get; set; }
-        private IEnumerable<Role> _roles { get; set; } = new List<Role>();
+        private ICollection<Role> _roles { get; set; } = new List<Role>();
 
         public UserBuilder FromUserAccount(UserAccount account)
         {
@@ -35,7 +35,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
 
         public UserBuilder HasRole(Role role)
         {
-            _roles.Append(role);
+            _roles.Add(role);
             return this;
         }
 
@@ -43,7 +43,7 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Builders
         {
             foreach (var role in roles)
             {
-                _roles.Append(role);
+                _roles.Add(role);
             }
             return this;
         }

@@ -8,6 +8,6 @@ namespace Agree.Athens.Application.ViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<TextChannel> TextChannels { get; set; }
+        public IEnumerable<TextChannelViewModel> TextChannels { get; set; }
     }
 }
