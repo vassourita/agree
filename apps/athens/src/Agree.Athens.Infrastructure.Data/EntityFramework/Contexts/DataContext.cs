@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Agree.Athens.Application.Security;
@@ -133,6 +134,13 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Contexts
             // Server mapping
             modelBuilder.Entity<ServerDbModel>(builder =>
             {
+                builder.Property(s => s.Privacy)
+                    .HasColumnType("VARCHAR(10)")
+                    .HasConversion(
+                        sp => sp.ToString(),
+                        v => (ServerPrivacy)Enum.Parse(typeof(ServerPrivacy), v)
+                    );
+
                 builder.HasMany(s => s.Categories)
                     .WithOne(c => c.Server)
                     .HasForeignKey(c => c.ServerId);

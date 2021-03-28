@@ -8,13 +8,14 @@ namespace Agree.Athens.Domain.Aggregates.Servers
 {
     public class Server : Entity, IAggregateRoot
     {
-        public Server(string name, string description)
+        public Server(string name, string description, ServerPrivacy privacy)
         {
             Categories = new Collection<Category>();
             Users = new Collection<User>();
             Roles = new Collection<Role>();
             Name = name;
             Description = description;
+            Privacy = privacy;
 
             Validate(this, new ServerValidator());
         }
@@ -38,6 +39,14 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public void UpdateDescription(string newDescription)
         {
             Description = newDescription;
+            UpdatedAt = DateTime.UtcNow;
+
+            Validate(this, new ServerValidator());
+        }
+
+        public void UpdatePrivacy(ServerPrivacy newPrivacy)
+        {
+            Privacy = newPrivacy;
             UpdatedAt = DateTime.UtcNow;
 
             Validate(this, new ServerValidator());
@@ -112,6 +121,8 @@ namespace Agree.Athens.Domain.Aggregates.Servers
         public string Name { get; protected set; }
 
         public string Description { get; protected set; }
+
+        public ServerPrivacy Privacy { get; set; }
 
         public ICollection<Category> Categories { get; protected set; }
 

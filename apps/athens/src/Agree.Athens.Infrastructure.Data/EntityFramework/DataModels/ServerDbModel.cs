@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Agree.Athens.Domain.Aggregates.Servers;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
 {
@@ -22,6 +23,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.DataModels
 
         [MaxLength(300)]
         public string Description { get; set; }
+
+        [Required]
+        public ServerPrivacy Privacy { get; set; }
 
         public ICollection<CategoryDbModel> Categories { get; set; }
 

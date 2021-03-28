@@ -13,6 +13,9 @@ namespace Agree.Athens.Domain.Aggregates.Servers.Validators
             RuleFor(server => server.Description)
                 .MinimumLength(1).WithMessage("Server description must have at least 1 character")
                 .MaximumLength(300).WithMessage("Server description must not have more than 300 characters");
+
+            RuleFor(server => server.Privacy)
+                .NotNull().WithMessage("Privacy must not be null");
         }
     }
 }

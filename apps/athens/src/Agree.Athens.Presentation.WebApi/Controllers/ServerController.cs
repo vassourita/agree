@@ -10,6 +10,7 @@ using Agree.Athens.Presentation.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Agree.Athens.Domain.Aggregates.Servers;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
@@ -38,7 +39,10 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(), createServerDto.Name, createServerDto.Description);
+                var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(),
+                                                                  createServerDto.Name,
+                                                                  createServerDto.Description,
+                                                                  (ServerPrivacy)Enum.Parse(typeof(ServerPrivacy), createServerDto.Privacy));
                 var serverModel = _mapper.Map<ServerViewModel>(newServer);
                 return Ok(new ServerResponse(serverModel, "Server successfully created"));
             }

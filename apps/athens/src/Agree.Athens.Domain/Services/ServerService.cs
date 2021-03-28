@@ -31,11 +31,11 @@ namespace Agree.Athens.Domain.Services
             return _serverRepository.Search(query, orderBy, paginated);
         }
 
-        public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription)
+        public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription, ServerPrivacy privacy = ServerPrivacy.Public)
         {
             try
             {
-                var server = new Server(serverName, serverDescription);
+                var server = new Server(serverName, serverDescription, privacy);
 
                 var roleBuilder = new RoleBuilder();
                 roleBuilder

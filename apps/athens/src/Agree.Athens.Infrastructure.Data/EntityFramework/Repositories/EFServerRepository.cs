@@ -37,6 +37,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
                     || EF.Functions.ILike(server.Description, $"%{search}%")
                     || EF.Functions.ILike(server.Id.ToString(), $"%{search}%")
                 )
+                .Where(server => server.Privacy != ServerPrivacy.Private)
                 .Skip((paginated.Page - 1) * paginated.PageLimit)
                 .Take(paginated.PageLimit);
 
