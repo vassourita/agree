@@ -6,7 +6,7 @@ namespace Agree.Athens.Domain.Exceptions
         {
         }
 
-        public static DomainInvalidSearchException EmptyQuery(string query)
+        public static DomainInvalidSearchException EmptyQuery()
             => new($"Query must not be empty");
 
         public static DomainInvalidSearchException InvalidQuery(string query)

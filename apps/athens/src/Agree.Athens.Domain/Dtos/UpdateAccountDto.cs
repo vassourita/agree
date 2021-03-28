@@ -2,7 +2,7 @@ using System;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.SharedKernel;
 
-namespace Agree.Athens.Application.Dtos
+namespace Agree.Athens.Domain.Dtos
 {
     public class UpdateAccountDto : Validatable
     {

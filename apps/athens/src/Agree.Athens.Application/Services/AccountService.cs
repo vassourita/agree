@@ -2,8 +2,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web;
-using Agree.Athens.Application.Dtos;
-using Agree.Athens.Application.Dtos.Validators;
+using Agree.Athens.Domain.Dtos;
+using Agree.Athens.Domain.Dtos.Validators;
 using Agree.Athens.Application.Security;
 using Agree.Athens.Application.ViewModels;
 using Agree.Athens.Domain.Aggregates.Account;
@@ -53,13 +53,7 @@ namespace Agree.Athens.Application.Services
 
         public async Task Register(CreateAccountDto createAccountDto, string confirmationUrl)
         {
-            createAccountDto.Validate(new CreateAccountDtoValidator());
-            if (createAccountDto.IsInvalid)
-            {
-                throw new DomainValidationException(createAccountDto);
-            }
-
-            var account = await _userAccountService.Register(createAccountDto.UserName, createAccountDto.Email, createAccountDto.Password);
+            var account = await _userAccountService.Register(createAccountDto);
 
             var confirmationUrlWithToken = AddTokenToMailConfirmationUrl(confirmationUrl, account.Id);
             await _mailService.SendAccountConfirmationMailAsync(account, confirmationUrlWithToken);
@@ -82,11 +76,19 @@ namespace Agree.Athens.Application.Services
 
         public async Task<(AccessToken, RefreshToken)> Login(LoginDto loginDto)
         {
-            var account = await _userAccountService.Login(loginDto.Email, loginDto.Password);
-            var accessToken = _tokenService.GenerateAccessToken(account);
-            var refreshToken = _tokenService.GenerateRefreshToken(loginDto.IpAddress, account.Id);
-            await _tokenRepository.AddAsync(refreshToken);
-            return (accessToken, refreshToken);
+            if (loginDto.GrantType == "refresh_token")
+            {
+                var (accessToken, refreshToken) = await RefreshTokens(loginDto);
+                return (accessToken, refreshToken);
+            }
+            else
+            {
+                var account = await _userAccountService.Login(loginDto);
+                var accessToken = _tokenService.GenerateAccessToken(account);
+                var refreshToken = _tokenService.GenerateRefreshToken(loginDto.IpAddress, account.Id);
+                await _tokenRepository.AddAsync(refreshToken);
+                return (accessToken, refreshToken);
+            }
         }
 
         public async Task<(AccessToken, RefreshToken)> RefreshTokens(LoginDto loginDto)
@@ -112,11 +114,7 @@ namespace Agree.Athens.Application.Services
                 }
             }
 
-            var account = await _userAccountService.Update(updateAccountDto.UserId,
-                                                        updateAccountDto.Email,
-                                                        updateAccountDto.UserName,
-                                                        tag,
-                                                        updateAccountDto.PasswordConfirmation);
+            var account = await _userAccountService.Update(updateAccountDto);
 
             var accountModel = _mapper.Map<AccountViewModel>(account);
 

@@ -1,8 +1,8 @@
-using Agree.Athens.Application.Security;
+using Agree.Athens.SharedKernel;
 
-namespace Agree.Athens.Application.Dtos
+namespace Agree.Athens.Domain.Dtos
 {
-    public class LoginDto
+    public class LoginDto : Validatable
     {
         public string GrantType { get; set; }
         public string Email { get; set; } = "";

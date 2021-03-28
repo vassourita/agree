@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Agree.Athens.Application.Dtos;
+using Agree.Athens.Domain.Dtos;
 using Agree.Athens.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Agree.Athens.Application.Services;
@@ -83,23 +83,13 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                if (loginDto.GrantType == GrantTypes.Password)
+                loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                if (loginDto.GrantType == "refresh_token" && loginDto.RefreshToken is null)
                 {
-                    loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
-                    var (accessToken, refreshToken) = await _accountService.Login(loginDto);
-                    return Ok(new LoginResponse(accessToken, refreshToken));
+                    loginDto.RefreshToken = Request.Headers["x-refresh-token"];
                 }
-                if (loginDto.GrantType == GrantTypes.RefreshToken)
-                {
-                    loginDto.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
-                    if (loginDto.RefreshToken is null)
-                    {
-                        loginDto.RefreshToken = Request.Headers["x-refresh-token"];
-                    }
-                    var (accessToken, refreshToken) = await _accountService.RefreshTokens(loginDto);
-                    return Ok(new LoginResponse(accessToken, refreshToken));
-                }
-                return BadRequest(new Response("Invalid login grant type. Must be one of ('password'/'refresh_token')"));
+                var (accessToken, refreshToken) = await _accountService.Login(loginDto);
+                return Ok(new LoginResponse(accessToken, refreshToken));
             }
             catch (BaseDomainException ex)
             {

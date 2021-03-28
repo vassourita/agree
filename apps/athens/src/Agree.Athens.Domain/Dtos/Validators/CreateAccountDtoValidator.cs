@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
 
-namespace Agree.Athens.Application.Dtos.Validators
+namespace Agree.Athens.Domain.Dtos.Validators
 {
     public class CreateAccountDtoValidator : AbstractValidator<CreateAccountDto>
     {
@@ -12,11 +12,11 @@ namespace Agree.Athens.Application.Dtos.Validators
                 .MaximumLength(40).WithMessage("Password must not have more than 40 characters")
                 .Must(HaveValidPassword).WithMessage("Password must contain at least one digit, one lowercase letter and one uppercase letter");
 
-            RuleFor(account => account.UserName)
+            RuleFor(dto => dto.UserName)
                 .MinimumLength(1).WithMessage("UserName must have at least 1 character")
                 .MaximumLength(20).WithMessage("UserName must not have more than 20 characters");
 
-            RuleFor(account => account.Email)
+            RuleFor(dto => dto.Email)
                 .EmailAddress().WithMessage("Email must be a valid email address")
                 .MaximumLength(255).WithMessage("Email must not have more than 255 characters");
         }

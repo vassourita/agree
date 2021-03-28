@@ -5,8 +5,9 @@ using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Domain.Aggregates.Servers.Builders;
 using Agree.Athens.Domain.Interfaces.Repositories;
-using Agree.Athens.SharedKernel.Data;
 using Agree.Athens.Domain.Exceptions;
+using Agree.Athens.Domain.Dtos;
+using Agree.Athens.Domain.Dtos.Validators;
 
 namespace Agree.Athens.Domain.Services
 {
@@ -21,24 +22,31 @@ namespace Agree.Athens.Domain.Services
             _accountRepository = accountRepository;
         }
 
-        public Task<IEnumerable<Server>> Search(UserAccount searchedBy, string query, string orderBy, Paginated paginated)
+        public Task<IEnumerable<Server>> Search(UserAccount searchedBy, SearchServerDto searchServerDto)
         {
-            query = query.Trim();
-            if (string.IsNullOrEmpty(query))
+            searchServerDto.Validate(new SearchServerDtoValidator());
+            if (searchServerDto.IsInvalid)
             {
-                throw DomainInvalidSearchException.EmptyQuery(query);
+                throw new DomainValidationException(searchServerDto);
             }
-            return _serverRepository.Search(query, orderBy, paginated);
+
+            searchServerDto.Query = searchServerDto.Query.Trim();
+            if (string.IsNullOrEmpty(searchServerDto.Query))
+            {
+                throw DomainInvalidSearchException.EmptyQuery();
+            }
+            return _serverRepository.Search(searchServerDto);
         }
 
-        public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription, ServerPrivacy privacy = ServerPrivacy.Public)
+        public async Task<Server> CreateServer(UserAccount account, CreateServerDto createServerDto)
         {
             try
             {
-                var server = new Server(serverName, serverDescription, privacy);
+                var server = new Server(createServerDto.Name,
+                                        createServerDto.Description,
+                                        (ServerPrivacy)Enum.Parse(typeof(ServerPrivacy), createServerDto.Privacy));
 
-                var roleBuilder = new RoleBuilder();
-                roleBuilder
+                var roleBuilder = new RoleBuilder()
                     .HasName("Admin")
                     .HasRandomColorHex()
                     .BelongsToServer(server)
@@ -47,8 +55,7 @@ namespace Agree.Athens.Domain.Services
                 var adminRole = roleBuilder.Build();
                 server.AddRole(adminRole);
 
-                var userBuilder = new UserBuilder();
-                userBuilder
+                var userBuilder = new UserBuilder()
                     .FromUserAccount(account)
                     .IsMemberOfServer(server)
                     .HasRole(adminRole);

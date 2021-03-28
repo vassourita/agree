@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Collections.Generic;
 using Agree.Athens.SharedKernel.Data;
+using Agree.Athens.Domain.Dtos;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 {
@@ -29,20 +30,20 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return server;
         }
 
-        public async Task<IEnumerable<Server>> Search(string search, string orderBy, Paginated paginated)
+        public async Task<IEnumerable<Server>> Search(SearchServerDto searchServerDto)
         {
             var query = _dataSet
                 .Where(server =>
-                    EF.Functions.ILike(server.Name, $"%{search}%")
-                    || EF.Functions.ILike(server.Description, $"%{search}%")
-                    || EF.Functions.ILike(server.Id.ToString(), $"%{search}%")
+                    EF.Functions.ILike(server.Name, $"%{searchServerDto.Query}%")
+                    || EF.Functions.ILike(server.Description, $"%{searchServerDto.Query}%")
+                    || EF.Functions.ILike(server.Id.ToString(), $"%{searchServerDto.Query}%")
                 )
                 .Where(server => server.Privacy != ServerPrivacy.Private)
-                .Skip((paginated.Page - 1) * paginated.PageLimit)
-                .Take(paginated.PageLimit);
+                .Skip((searchServerDto.Page - 1) * searchServerDto.PageLimit)
+                .Take(searchServerDto.PageLimit);
 
 
-            query = orderBy.ToLower() switch
+            query = searchServerDto.OrderBy.ToLower() switch
             {
                 "popular" => query.OrderBy(server => server.Users.Count()),
                 "creationdate" => query.OrderBy(server => server.CreatedAt),

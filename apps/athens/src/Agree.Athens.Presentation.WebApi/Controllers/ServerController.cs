@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
-using Agree.Athens.Application.Dtos;
+using Agree.Athens.Domain.Dtos;
 using Agree.Athens.Application.Services;
 using Agree.Athens.Application.ViewModels;
 using Agree.Athens.Domain.Exceptions;
@@ -39,10 +39,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(),
-                                                                  createServerDto.Name,
-                                                                  createServerDto.Description,
-                                                                  (ServerPrivacy)Enum.Parse(typeof(ServerPrivacy), createServerDto.Privacy));
+                var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(), createServerDto);
                 var serverModel = _mapper.Map<ServerViewModel>(newServer);
                 return Ok(new ServerResponse(serverModel, "Server successfully created"));
             }
@@ -69,10 +66,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                var servers = await _serverService.Search(await GetAuthenticatedUserAccount(),
-                                                          searchServerDto.Query,
-                                                          searchServerDto.OrderBy,
-                                                          searchServerDto);
+                var servers = await _serverService.Search(await GetAuthenticatedUserAccount(), searchServerDto);
                 var serverModels = _mapper.Map<IEnumerable<ServerViewModel>>(servers);
                 return Ok(new ServerSearchResponse(serverModels));
             }

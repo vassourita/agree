@@ -8,6 +8,8 @@ using Agree.Athens.Domain.Interfaces.Providers;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Aggregates.Account.Factories;
 using System.Web;
+using Agree.Athens.Domain.Dtos;
+using Agree.Athens.Domain.Dtos.Validators;
 
 namespace Agree.Athens.Domain.Services
 {
@@ -22,16 +24,22 @@ namespace Agree.Athens.Domain.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<UserAccount> Register(string userName, string email, string password)
+        public async Task<UserAccount> Register(CreateAccountDto createAccountDto)
         {
+            createAccountDto.Validate(new CreateAccountDtoValidator());
+            if (createAccountDto.IsInvalid)
+            {
+                throw new DomainValidationException(createAccountDto);
+            }
+
             try
             {
-                var passwordHash = _hashProvider.Hash(password);
-                var account = new UserAccount(userName, email, passwordHash);
+                var passwordHash = _hashProvider.Hash(createAccountDto.Password);
+                var account = new UserAccount(createAccountDto.UserName, createAccountDto.Email, passwordHash);
 
-                if (await _accountRepository.EmailIsInUseAsync(email))
+                if (await _accountRepository.EmailIsInUseAsync(createAccountDto.Email))
                 {
-                    account.AddError("Email", "Email is already in use by another account", email);
+                    account.AddError("Email", "Email is already in use by another account", createAccountDto.Email);
                 }
 
                 while (await _accountRepository.TagIsInUseAsync(account.Tag, account.UserName))
@@ -78,14 +86,20 @@ namespace Agree.Athens.Domain.Services
             }
         }
 
-        public async Task<UserAccount> Login(string email, string password)
+        public async Task<UserAccount> Login(LoginDto loginDto)
         {
-            var account = await _accountRepository.GetByEmailAsync(email);
+            loginDto.Validate(new LoginDtoValidator());
+            if (loginDto.IsInvalid)
+            {
+                throw new DomainValidationException(loginDto);
+            }
+
+            var account = await _accountRepository.GetByEmailAsync(loginDto.Email);
             if (account is null)
             {
                 throw DomainUnauthorizedException.InvalidLogin();
             }
-            var passwordsMatch = _hashProvider.Compare(password, account.PasswordHash);
+            var passwordsMatch = _hashProvider.Compare(loginDto.Password, account.PasswordHash);
             if (!passwordsMatch)
             {
                 throw DomainUnauthorizedException.InvalidLogin();
@@ -97,45 +111,46 @@ namespace Agree.Athens.Domain.Services
             return account;
         }
 
-        public async Task<UserAccount> Update(Guid userId, string newEmail, string newUserName, UserTag newTag, string passwordConfirm)
+        public async Task<UserAccount> Update(UpdateAccountDto updateAccountDto)
         {
             try
             {
-                var account = await _accountRepository.GetByIdAsync(userId);
+                var account = await _accountRepository.GetByIdAsync(updateAccountDto.UserId);
                 if (account is null)
                 {
                     throw new EntityNotFoundException(account);
                 }
 
-                var passwordsMatch = _hashProvider.Compare(passwordConfirm, account.PasswordHash);
+                var passwordsMatch = _hashProvider.Compare(updateAccountDto.PasswordConfirmation, account.PasswordHash);
                 if (!passwordsMatch)
                 {
                     throw DomainUnauthorizedException.InvalidPassword();
                 }
 
-                if (!string.IsNullOrEmpty(newEmail))
+                if (!string.IsNullOrEmpty(updateAccountDto.Email))
                 {
-                    if (account.Email == newEmail)
+                    if (account.Email == updateAccountDto.Email)
                     {
                         account.AddError("Email", "New account email is the same as the old one");
                     }
-                    var userWithSameMail = await _accountRepository.GetByEmailAsync(newEmail);
+                    var userWithSameMail = await _accountRepository.GetByEmailAsync(updateAccountDto.Email);
                     if (userWithSameMail != null && userWithSameMail.Id != account.Id)
                     {
-                        account.AddError("Email", "Email is already in use by another account", newEmail);
+                        account.AddError("Email", "Email is already in use by another account", updateAccountDto.Email);
                     }
-                    account.UpdateEmail(newEmail);
+                    account.UpdateEmail(updateAccountDto.Email);
                 }
 
-                if (!string.IsNullOrEmpty(newUserName))
+                if (!string.IsNullOrEmpty(updateAccountDto.UserName))
                 {
-                    if (account.UserName == newUserName)
+                    if (account.UserName == updateAccountDto.UserName)
                     {
                         account.AddError("UserName", "New account userName is the same as the old one");
                     }
-                    account.UpdateUserName(newUserName);
+                    account.UpdateUserName(updateAccountDto.UserName);
                 }
 
+                var newTag = new UserTag(updateAccountDto.Tag);
                 if (newTag != null && newTag.IsValid)
                 {
                     var tagIsInUse = await _accountRepository.TagIsInUseAsync(newTag, account.UserName);
