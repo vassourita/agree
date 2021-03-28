@@ -13,7 +13,7 @@ namespace Agree.Athens.Domain.Dtos.Validators
                 .MaximumLength(30).WithMessage("Server name must not have more than 30 characters");
 
             RuleFor(dto => dto.Description)
-                .MaximumLength(300).WithMessage("Server description must not have more than 300 characters");
+                .MaximumLength(300).WithMessage("Server description must not have more than 300 characters").When(dto => dto.Description != null);
 
             RuleFor(dto => dto.Privacy)
                 .Must(BeValidPrivacy).WithMessage("Server privacy must be one of 'Private', 'Public' or 'Open'");

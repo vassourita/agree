@@ -8,6 +8,7 @@ namespace Agree.Athens.Application.ViewModels
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Privacy { get; set; }
         public DateTime CreatedAt { get; set; }
         public IEnumerable<ServerMemberViewModel> Members { get; set; }
         public IEnumerable<RoleViewModel> Roles { get; set; }

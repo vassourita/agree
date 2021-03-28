@@ -24,6 +24,7 @@ namespace Agree.Athens.Application.Mappings
                 .ForMember(model => model.Roles, config => config.MapFrom(entity => entity.Roles.Select(r => new ServerMemberViewModel.Role(r.Id))));
 
             CreateMap<Server, ServerViewModel>()
+                .ForMember(model => model.Privacy, config => config.MapFrom(entity => entity.Privacy.ToString()))
                 .ForMember(model => model.Members, config => config.MapFrom(entity => entity.Users));
 
             CreateMap<Category, CategoryViewModel>();

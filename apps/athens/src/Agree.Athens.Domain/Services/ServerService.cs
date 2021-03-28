@@ -40,7 +40,7 @@ namespace Agree.Athens.Domain.Services
 
         public async Task<Server> CreateServer(UserAccount account, CreateServerDto createServerDto)
         {
-            createServerDto.Validate(new CreateAccountDtoValidator());
+            createServerDto.Validate(new CreateServerDtoValidator());
             if (createServerDto.IsInvalid)
             {
                 throw new DomainValidationException(createServerDto);
