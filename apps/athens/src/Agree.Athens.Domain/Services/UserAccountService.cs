@@ -113,6 +113,12 @@ namespace Agree.Athens.Domain.Services
 
         public async Task<UserAccount> Update(UpdateAccountDto updateAccountDto)
         {
+            updateAccountDto.Validate(new UpdateAccountDtoValidator());
+            if (updateAccountDto.IsInvalid)
+            {
+                throw new DomainValidationException(updateAccountDto);
+            }
+
             try
             {
                 var account = await _accountRepository.GetByIdAsync(updateAccountDto.UserId);

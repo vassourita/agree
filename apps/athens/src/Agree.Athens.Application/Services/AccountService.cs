@@ -98,22 +98,6 @@ namespace Agree.Athens.Application.Services
 
         public async Task<AccountViewModel> UpdateAccount(UpdateAccountDto updateAccountDto)
         {
-            updateAccountDto.Validate(new UpdateAccountDtoValidator());
-            if (updateAccountDto.IsInvalid)
-            {
-                throw new DomainValidationException(updateAccountDto);
-            }
-
-            UserTag tag = null;
-            if (!string.IsNullOrEmpty(updateAccountDto.Tag))
-            {
-                tag = UserTagFactory.FromString(updateAccountDto.Tag);
-                if (tag.IsInvalid)
-                {
-                    throw new DomainValidationException(tag);
-                }
-            }
-
             var account = await _userAccountService.Update(updateAccountDto);
 
             var accountModel = _mapper.Map<AccountViewModel>(account);

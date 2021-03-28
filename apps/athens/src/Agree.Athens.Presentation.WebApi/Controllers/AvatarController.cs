@@ -21,6 +21,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         }
 
         [HttpPut]
+        [Route("")]
         public async Task<IActionResult> Update([FromForm] IFormFile avatar)
         {
             if (!ModelState.IsValid)
