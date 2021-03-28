@@ -22,7 +22,7 @@ namespace Agree.Athens.Presentation.WebApi.Models
         }
 
         public UserResponse(UserAccount user, string message = null)
-            : base(message is null ? "You are currently logged in as {user.UserName}#{user.Tag}" : message)
+            : base(message is null ? $"You are currently logged in as {user.UserName}#{user.Tag}" : message)
         {
             User = new AccountViewModel
             {

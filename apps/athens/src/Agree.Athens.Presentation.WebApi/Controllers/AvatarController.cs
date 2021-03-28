@@ -4,13 +4,14 @@ using Agree.Athens.Application.Services;
 using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Services;
 using Agree.Athens.Presentation.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Avatars")]
     public class AvatarController : CustomBaseController
     {
         private readonly AvatarService _avatarService;
@@ -21,6 +22,7 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("")]
         public async Task<IActionResult> Update([FromForm] IFormFile avatar)
         {

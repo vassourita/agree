@@ -7,17 +7,22 @@ using Agree.Athens.Application.Services;
 using Agree.Athens.Presentation.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Agree.Athens.Application.Security;
+using AutoMapper;
+using Agree.Athens.Application.ViewModels;
 
 namespace Agree.Athens.Presentation.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Accounts")]
     public class AccountController : CustomBaseController
     {
         private readonly AccountService _accountService;
-        public AccountController(AccountService accountService) : base(accountService)
+        private readonly IMapper _mapper;
+
+        public AccountController(AccountService accountService, IMapper mapper) : base(accountService)
         {
             _accountService = accountService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -103,13 +108,13 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("Me")]
-        public IActionResult Me()
+        [Route("@Me")]
+        public async Task<IActionResult> Me()
         {
             try
             {
-                var user = CurrentlyLoggedUser;
-                return Ok(new UserResponse(CurrentlyLoggedUser));
+                var user = _mapper.Map<AccountViewModel>(await GetAuthenticatedUserAccount());
+                return Ok(new UserResponse(user));
             }
             catch (Exception ex)
             {
