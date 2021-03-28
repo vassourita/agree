@@ -35,7 +35,7 @@ namespace Agree.Athens.Domain.Services
             {
                 throw DomainInvalidSearchException.EmptyQuery();
             }
-            return _serverRepository.Search(searchServerDto);
+            return _serverRepository.Search(searchServerDto, searchedBy);
         }
 
         public async Task<Server> CreateServer(UserAccount account, CreateServerDto createServerDto)

@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using Agree.Athens.SharedKernel.Data;
 using Agree.Athens.Domain.Dtos;
+using Agree.Athens.Domain.Aggregates.Account;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 {
@@ -30,7 +31,7 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             return server;
         }
 
-        public async Task<IEnumerable<Server>> Search(SearchServerDto searchServerDto)
+        public async Task<IEnumerable<Server>> Search(SearchServerDto searchServerDto, UserAccount searchedBy)
         {
             var query = _dataSet
                 .Where(server =>
@@ -38,7 +39,9 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
                     || EF.Functions.ILike(server.Description, $"%{searchServerDto.Query}%")
                     || EF.Functions.ILike(server.Id.ToString(), $"%{searchServerDto.Query}%")
                 )
-                .Where(server => server.Privacy != ServerPrivacy.Private)
+                .Where(server => !server.Users.Select(u => u.Id).Contains(searchedBy.Id)
+                                 ? server.Privacy != ServerPrivacy.Private
+                                 : true)
                 .Skip((searchServerDto.Page - 1) * searchServerDto.PageLimit)
                 .Take(searchServerDto.PageLimit);
 
