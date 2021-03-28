@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using Agree.Athens.Application.Dtos;
@@ -38,7 +39,38 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
             try
             {
                 var newServer = await _serverService.CreateServer(await GetAuthenticatedUserAccount(), createServerDto.Name, createServerDto.Description);
-                return Ok(new ServerResponse(_mapper.Map<ServerViewModel>(newServer), "Server successfully created"));
+                var serverModel = _mapper.Map<ServerViewModel>(newServer);
+                return Ok(new ServerResponse(serverModel, "Server successfully created"));
+            }
+            catch (BaseDomainException ex)
+            {
+                return HandleDomainException(ex);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Response(ex.Message));
+            }
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        [Route("")]
+        public async Task<IActionResult> Index([FromQuery] SearchServerDto searchServerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var servers = await _serverService.Search(await GetAuthenticatedUserAccount(),
+                                                          searchServerDto.Query,
+                                                          searchServerDto.OrderBy,
+                                                          searchServerDto);
+                var serverModels = _mapper.Map<IEnumerable<ServerViewModel>>(servers);
+                return Ok(new ServerSearchResponse(serverModels));
             }
             catch (BaseDomainException ex)
             {

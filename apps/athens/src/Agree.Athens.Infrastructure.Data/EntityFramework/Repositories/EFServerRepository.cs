@@ -7,6 +7,8 @@ using Agree.Athens.Infrastructure.Data.EntityFramework.Contexts;
 using Agree.Athens.Infrastructure.Data.EntityFramework.DataModels;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using System.Collections.Generic;
+using Agree.Athens.SharedKernel.Data;
 
 namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
 {
@@ -25,6 +27,31 @@ namespace Agree.Athens.Infrastructure.Data.EntityFramework.Repositories
             await _context.Servers.AddAsync(model);
 
             return server;
+        }
+
+        public async Task<IEnumerable<Server>> Search(string search, string orderBy, Paginated paginated)
+        {
+            var query = _dataSet
+                .Where(server =>
+                    EF.Functions.ILike(server.Name, $"%{search}%")
+                    || EF.Functions.ILike(server.Description, $"%{search}%")
+                    || EF.Functions.ILike(server.Id.ToString(), $"%{search}%")
+                )
+                .Skip((paginated.Page - 1) * paginated.PageLimit)
+                .Take(paginated.PageLimit);
+
+
+            query = orderBy.ToLower() switch
+            {
+                "popular" => query.OrderBy(server => server.Users.Count()),
+                "creationdate" => query.OrderBy(server => server.CreatedAt),
+                "creationdate_desc" => query.OrderByDescending(server => server.CreatedAt),
+                _ => query.OrderBy(server => server.Users.Count())
+            };
+
+            var results = await query.AsNoTracking().ToListAsync();
+
+            return _mapper.Map<IEnumerable<Server>>(results);
         }
     }
 }

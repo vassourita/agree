@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using Agree.Athens.Domain.Aggregates.Account;
 using Agree.Athens.Domain.Aggregates.Servers;
 using Agree.Athens.Domain.Aggregates.Servers.Builders;
 using Agree.Athens.Domain.Interfaces.Repositories;
+using Agree.Athens.SharedKernel.Data;
+using Agree.Athens.Domain.Exceptions;
 
 namespace Agree.Athens.Domain.Services
 {
@@ -16,6 +19,16 @@ namespace Agree.Athens.Domain.Services
         {
             _serverRepository = serverRepository;
             _accountRepository = accountRepository;
+        }
+
+        public Task<IEnumerable<Server>> Search(UserAccount searchedBy, string query, string orderBy, Paginated paginated)
+        {
+            query = query.Trim();
+            if (string.IsNullOrEmpty(query))
+            {
+                throw DomainInvalidSearchException.EmptyQuery(query);
+            }
+            return _serverRepository.Search(query, orderBy, paginated);
         }
 
         public async Task<Server> CreateServer(UserAccount account, string serverName, string serverDescription)
