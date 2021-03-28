@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using FluentValidation;
 
 namespace Agree.Athens.Domain.Dtos.Validators
@@ -12,6 +14,15 @@ namespace Agree.Athens.Domain.Dtos.Validators
 
             RuleFor(dto => dto.Description)
                 .MaximumLength(300).WithMessage("Server description must not have more than 300 characters");
+
+            RuleFor(dto => dto.Privacy)
+                .Must(BeValidPrivacy).WithMessage("Server privacy must be one of 'Private', 'Public' or 'Open'");
+        }
+
+        private bool BeValidPrivacy(string arg)
+        {
+            var options = new[] { "Private", "Public", "Open" };
+            return options.Any(opt => opt == arg);
         }
     }
 }
