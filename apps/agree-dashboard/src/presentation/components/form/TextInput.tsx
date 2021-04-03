@@ -21,7 +21,7 @@ export function TextInput ({ icon, placeholder, type = 'text' }: TextInputProps)
       >
         {icon}
       </InputLeftElement>
-      <Input type={type} fontSize="1.05rem" pl="55px" pb="3px" h="full" placeholder={placeholder} color="gray.600" />
+      <Input type={type} fontSize="1.05rem" pl="55px" pb="3px" h="full" _placeholder={{ color: 'gray.600' }} placeholder={placeholder} color="gray.600" />
     </InputGroup>
   )
 }

@@ -24,7 +24,7 @@ export function PasswordInput ({ icon, placeholder }: PasswordInputProps): JSX.E
       >
         {icon}
       </InputLeftElement>
-      <Input type={isOpen ? 'text' : 'password'} fontSize="1.05rem" pl="55px" pb="3px" h="full" _placeholder={{ color: 'brand.700' }} placeholder={placeholder} color="gray.600" />
+      <Input type={isOpen ? 'text' : 'password'} fontSize="1.05rem" pl="55px" pb="3px" h="full" _placeholder={{ color: 'gray.600' }} placeholder={placeholder} color="gray.600" />
       <InputRightElement
         h="full"
         mr="8px"

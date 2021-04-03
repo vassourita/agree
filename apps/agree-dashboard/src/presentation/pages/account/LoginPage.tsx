@@ -1,9 +1,7 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input'
-import { Box, Container, Flex, Grid, Heading, List, ListItem, Spacer, Text } from '@chakra-ui/layout'
+import { Container, Flex, Grid, List, ListItem, Spacer, Text } from '@chakra-ui/layout'
 import { useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
 import { FiChevronRight, FiLock, FiMail } from 'react-icons/fi'
-import { Button } from '@chakra-ui/button'
 import { TextInput } from '../../components/form/TextInput'
 import { PasswordInput } from '../../components/form/PasswordInput'
 import { SquareButton } from '../../components/form/SquareButton'
@@ -33,9 +31,8 @@ export function LoginPage (): JSX.Element {
 
       <Flex gridArea="text">
         <Container maxW="80rem">
-          <Text fontSize="1.1rem" color="gray.700" lineHeight="1.4">
-            Ainda não tem uma conta?<br />
-            <Link to="/register">Clique aqui</Link> para criar uma
+          <Text fontSize="1.1rem" color="gray.100" lineHeight="1.4">
+            Logo
           </Text>
         </Container>
       </Flex>
