@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Grid, Heading, List, ListItem, Text } from '@chakra-ui/layout'
 import { useHistory, useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
-import { FiArrowLeftCircle, FiChevronRight, FiLock, FiMail, FiUser } from 'react-icons/fi'
+import { FiArrowLeftCircle, FiChevronRight, FiLock, FiMail, FiMenu, FiUser } from 'react-icons/fi'
 import { TextInput } from '../../components/form/TextInput'
 import { PasswordInput } from '../../components/form/PasswordInput'
 import { SquareButton } from '../../components/form/SquareButton'
@@ -12,7 +12,7 @@ import { useBreakpoints } from '../../hooks/useBreakpoints'
 export function AuthPage (): JSX.Element {
   const location = useLocation()
   const history = useHistory()
-  const [_, _isSm, isMd, _isLg, _isXl] = useBreakpoints()
+  const [,, isMd] = useBreakpoints()
 
   const isRegisterPage = location.pathname === '/register'
 
@@ -20,32 +20,48 @@ export function AuthPage (): JSX.Element {
     <>
       <Grid
         filter={isRegisterPage ? 'brightness(0.5)' : ''}
-        templateAreas={[`
-          '. nav nav .'
-          'text text text text'
-          'form form form form'
-        `]}
-        templateRows={{ sm: '5rem 1fr auto', lg: '5rem 1fr 13rem' }}
+        templateAreas={{
+          base: `
+            'nav nav nav nav'
+            'text text text text'
+            'form form form form'
+          `,
+          lg: `
+            '. nav nav .'
+            'text text text text'
+            'form form form form'
+          `
+        }}
+        templateRows={{ base: 'auto 1fr auto', lg: '5rem 1fr 13rem' }}
         templateColumns="repeat(1fr, 4)"
         minH="100vh" w="full"
         bg="brand.700"
       >
         <Flex gridArea="nav" as="nav">
-          <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
-            <ListItem><Link to="/">Página inicial</Link></ListItem>
-            <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
-            <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
-          </List>
+          {isMd
+            ? (
+                <Flex w="full" p="2rem" align="center" justify="flex-end">
+                  <FiMenu size={32} />
+                </Flex>
+              )
+            : (
+                <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
+                  <ListItem><Link to="/">Página inicial</Link></ListItem>
+                  <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
+                  <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
+                </List>
+              )}
         </Flex>
 
         <Flex gridArea="text">
           <Container maxW="80rem">
             <Text fontSize="1.1rem" color="gray.100" lineHeight="1.4">
+              Logo
             </Text>
           </Container>
         </Flex>
 
-        <Flex gridArea="form" as="form" bg="gray.100" align="center" justify="center" py="0">
+        <Flex gridArea="form" as="form" bg="gray.100" align="center" justify="center" py={{ base: '3rem', lg: '0' }}>
           <Container maxW="80rem">
             <Flex direction={{ base: 'column-reverse', lg: 'row' }} justify="space-between" align="center">
               <Flex align="center" justify="center" mt={{ base: '2rem', lg: '0' }}>
@@ -89,7 +105,7 @@ export function AuthPage (): JSX.Element {
             <TextInput icon={<FiMail />} placeholder="EMAIL" />
             <PasswordInput icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
             <PasswordInput icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
-            <Button h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
+            <Button h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
           </Flex>
         </Box>
       </Slide>
