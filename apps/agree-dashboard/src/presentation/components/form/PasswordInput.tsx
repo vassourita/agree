@@ -8,7 +8,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'
 type PasswordInputProps = {
   icon: ReactNode
   placeholder: string
-  w?: string
+  w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
 }
 
 export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputProps): JSX.Element {

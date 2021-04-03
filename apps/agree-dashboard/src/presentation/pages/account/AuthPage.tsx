@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Grid, Heading, List, ListItem, Spacer, Text } from '@chakra-ui/layout'
+import { Box, Container, Flex, Grid, Heading, List, ListItem, Text } from '@chakra-ui/layout'
 import { useHistory, useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
 import { FiArrowLeftCircle, FiChevronRight, FiLock, FiMail, FiUser } from 'react-icons/fi'
@@ -6,11 +6,13 @@ import { TextInput } from '../../components/form/TextInput'
 import { PasswordInput } from '../../components/form/PasswordInput'
 import { SquareButton } from '../../components/form/SquareButton'
 import { Slide } from '@chakra-ui/transition'
-import { Button } from '@chakra-ui/button'
+import { Button } from '../../components/form/Button'
+import { useBreakpoints } from '../../hooks/useBreakpoints'
 
 export function AuthPage (): JSX.Element {
   const location = useLocation()
   const history = useHistory()
+  const [isBase, isSm, isMd, isLg, isXl] = useBreakpoints()
 
   const isRegisterPage = location.pathname === '/register'
 
@@ -18,21 +20,21 @@ export function AuthPage (): JSX.Element {
     <>
       <Grid
         filter={isRegisterPage ? 'brightness(0.5)' : ''}
-        templateAreas="
+        templateAreas={[`
           '. nav nav .'
           'text text text text'
           'form form form form'
-        "
-        templateRows="5rem 1fr 13rem"
-        templateColumns="1fr 1fr 1fr 1fr"
-        h="100vh" w="full"
+        `]}
+        templateRows={{ sm: '5rem 1fr auto', lg: '5rem 1fr 13rem' }}
+        templateColumns="repeat(1fr, 4)"
+        minH="100vh" w="full"
         bg="brand.700"
       >
         <Flex gridArea="nav" as="nav">
-          <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
+          <List fontSize="24" d="flex" hidden mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
             <ListItem><Link to="/">Página inicial</Link></ListItem>
-            <ListItem fontWeight={location.pathname === '/login' ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
-            <ListItem fontWeight={location.pathname === '/register' ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
+            <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
+            <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
           </List>
         </Flex>
 
@@ -43,19 +45,25 @@ export function AuthPage (): JSX.Element {
           </Container>
         </Flex>
 
-        <Flex gridArea="form" as="form" bg="gray.100" align="center" justify="center">
+        <Flex gridArea="form" as="form" bg="gray.100" align="center" justify="center" py="0">
           <Container maxW="80rem">
-            <Flex justify="space-between" align="center">
-              <Flex align="center" justify="center">
+            <Flex direction={{ base: 'column-reverse', lg: 'row' }} justify="space-between" align="center">
+              <Flex align="center" justify="center" mt={{ base: '2rem', lg: '0' }}>
                 <Text fontSize="1.1rem" color="gray.700" lineHeight="1.4">
                   Ainda não tem uma conta?<br />
                   <Link style={{ textDecoration: 'underline' }} to="/register">Clique aqui</Link> para criar uma
                 </Text>
               </Flex>
-              <Flex gridGap="50px">
-                <TextInput w="300px" icon={<FiMail />} placeholder="EMAIL" />
-                <PasswordInput w="300px" icon={<FiLock />} placeholder="SENHA" />
-                <SquareButton w="3.9rem" icon={<FiChevronRight size={20} />} />
+              <Flex direction={{ base: 'column', lg: 'row' }} gridGap={{ base: '1rem', lg: '50px' }}>
+                <TextInput w={{ base: 'auto', lg: '300px' }} icon={<FiMail />} placeholder="EMAIL" />
+                <PasswordInput w={{ base: 'auto', lg: '300px' }} icon={<FiLock />} placeholder="SENHA" />
+                {isMd
+                  ? (
+                      <Button h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
+                    )
+                  : (
+                      <SquareButton w="3.9rem" icon={<FiChevronRight size={20} />} />
+                    )}
               </Flex>
             </Flex>
           </Container>
@@ -81,7 +89,7 @@ export function AuthPage (): JSX.Element {
             <TextInput icon={<FiMail />} placeholder="EMAIL" />
             <PasswordInput icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
             <PasswordInput icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
-            <Button h="3.9rem" bg="brand.600" color="gray.100" _hover={{ filter: 'brightness(0.90)' }} rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
+            <Button h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
           </Flex>
         </Box>
       </Slide>

@@ -7,7 +7,7 @@ type TextInputProps = {
   icon: ReactNode
   placeholder: string
   type?: string
-  w?: string
+  w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
 }
 
 export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: TextInputProps): JSX.Element {
