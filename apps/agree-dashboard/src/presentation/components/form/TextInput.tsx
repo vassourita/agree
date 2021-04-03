@@ -7,11 +7,12 @@ type TextInputProps = {
   icon: ReactNode
   placeholder: string
   type?: string
+  w?: string
 }
 
-export function TextInput ({ icon, placeholder, type = 'text' }: TextInputProps): JSX.Element {
+export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: TextInputProps): JSX.Element {
   return (
-    <InputGroup border="1px" borderColor="gray.200" display="flex" w="300px" h="3.9rem" bg="white" rounded="md" align="center" justifyContent="center">
+    <InputGroup border="1px" borderColor="gray.200" display="flex" w={w} h="3.9rem" bg="white" rounded="md" align="center" justifyContent="center">
       <Box w="4px" bg="brand.700" borderLeftRadius="md" />
       <InputLeftElement
         h="full"

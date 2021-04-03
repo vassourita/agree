@@ -8,13 +8,14 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'
 type PasswordInputProps = {
   icon: ReactNode
   placeholder: string
+  w?: string
 }
 
-export function PasswordInput ({ icon, placeholder }: PasswordInputProps): JSX.Element {
+export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
-    <InputGroup border="1px" borderColor="gray.200" display="flex" w="300px" h="3.9rem" bg="white" rounded="md" align="center" justifyContent="center">
+    <InputGroup border="1px" borderColor="gray.200" display="flex" w={w} h="3.9rem" bg="white" rounded="md" align="center" justifyContent="center">
       <Box w="4px" bg="brand.700" borderLeftRadius="md" />
       <InputLeftElement
         h="full"

@@ -1,11 +1,11 @@
 import { Switch, Route } from 'react-router-dom'
-import { LoginPage } from './pages/account/LoginPage'
+import { AuthPage } from './pages/account/AuthPage'
 
 export function Routes (): JSX.Element {
   return (
     <Switch>
-      <Route path={['/login', '/register']}>
-        <LoginPage />
+      <Route exact path={['/login', '/register']}>
+        <AuthPage />
       </Route>
     </Switch>
   )
