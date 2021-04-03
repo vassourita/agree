@@ -83,12 +83,6 @@ export function AuthPage (): JSX.Element {
             <PasswordInput icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
             <Button h="3.9rem" bg="brand.600" color="gray.100" _hover={{ filter: 'brightness(0.90)' }} rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
           </Flex>
-
-          <Flex flexDir="column" marginTop="2.5rem">
-            <Text marginTop="0.5rem">
-
-            </Text>
-          </Flex>
         </Box>
       </Slide>
     </>
