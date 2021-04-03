@@ -8,6 +8,7 @@ import { SquareButton } from '../../components/form/SquareButton'
 import { Slide } from '@chakra-ui/transition'
 import { Button } from '../../components/form/Button'
 import { useBreakpoints } from '../../hooks/useBreakpoints'
+import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/menu'
 
 export function AuthPage (): JSX.Element {
   const location = useLocation()
@@ -40,8 +41,18 @@ export function AuthPage (): JSX.Element {
         <Flex gridArea="nav" as="nav">
           {isMd
             ? (
-                <Flex w="full" p="2rem" align="center" justify="flex-end">
-                  <FiMenu size={32} />
+                <Flex h="4rem" w="full" p="3rem" align="center" justify="flex-end">
+                  <Menu>
+                    <MenuButton>
+                      <FiMenu size={32} />
+                    </MenuButton>
+                    <MenuList bg="brand.600">
+                      <MenuItem bg="brand.600">Página inicial</MenuItem>
+                      <MenuDivider />
+                      <MenuItem bg="brand.600">Login</MenuItem>
+                      <MenuItem onClick={() => history.push('/register')} bg="brand.600">Criar uma conta</MenuItem>
+                    </MenuList>
+                  </Menu>
                 </Flex>
               )
             : (
