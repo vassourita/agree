@@ -12,7 +12,7 @@ import { useBreakpoints } from '../../hooks/useBreakpoints'
 export function AuthPage (): JSX.Element {
   const location = useLocation()
   const history = useHistory()
-  const [isBase, isSm, isMd, isLg, isXl] = useBreakpoints()
+  const [_, _isSm, isMd, _isLg, _isXl] = useBreakpoints()
 
   const isRegisterPage = location.pathname === '/register'
 
@@ -31,7 +31,7 @@ export function AuthPage (): JSX.Element {
         bg="brand.700"
       >
         <Flex gridArea="nav" as="nav">
-          <List fontSize="24" d="flex" hidden mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
+          <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
             <ListItem><Link to="/">Página inicial</Link></ListItem>
             <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
             <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
