@@ -9,6 +9,10 @@ import { Slide } from '@chakra-ui/transition'
 import { Button } from '../../components/form/Button'
 import { useBreakpoints } from '../../hooks/useBreakpoints'
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/menu'
+import { Image } from '@chakra-ui/image'
+
+import LogoImage from '../../assets/agreew.svg'
+import BgImage from '../../assets/bglogin.png'
 
 export function AuthPage (): JSX.Element {
   const location = useLocation()
@@ -36,24 +40,30 @@ export function AuthPage (): JSX.Element {
         templateRows={{ base: 'auto 1fr auto', lg: '5rem 1fr 13rem' }}
         templateColumns="repeat(1fr, 4)"
         minH="100vh" w="full"
-        bg="brand.700"
+        bg={isMd ? 'brand.700' : `url(${BgImage})`}
       >
         <Flex gridArea="nav" as="nav">
           {isMd
             ? (
-                <Flex h="4rem" w="full" p="3rem" align="center" justify="flex-end">
+              <Flex direction="column" px="3rem">
+                <Flex h="4rem" w="full" py="3rem" align="flex-start" justify="space-between">
+                  <Image alt="Agree logo" h="3rem" src={LogoImage} mb="1.1rem" />
                   <Menu>
                     <MenuButton>
                       <FiMenu size={32} />
                     </MenuButton>
-                    <MenuList bg="brand.600">
-                      <MenuItem bg="brand.600">Página inicial</MenuItem>
+                    <MenuList shadow="md" bg="gray.100" color="gray.800">
+                      <MenuItem bg="gray.100" color="gray.800">Página inicial</MenuItem>
                       <MenuDivider />
-                      <MenuItem bg="brand.600">Login</MenuItem>
-                      <MenuItem onClick={() => history.push('/register')} bg="brand.600">Criar uma conta</MenuItem>
+                      <MenuItem bg="gray.100" color="gray.800">Login</MenuItem>
+                      <MenuItem onClick={() => history.push('/register')} bg="gray.100" color="gray.800">Criar uma conta</MenuItem>
                     </MenuList>
                   </Menu>
                 </Flex>
+                <Text maxW="430px" mt="1.7rem" fontSize="1.4rem" color="gray.100" lineHeight="1.4">
+                  Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí.
+                </Text>
+              </Flex>
               )
             : (
                 <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
@@ -66,9 +76,12 @@ export function AuthPage (): JSX.Element {
 
         <Flex gridArea="text">
           <Container maxW="80rem">
-            <Text fontSize="1.1rem" color="gray.100" lineHeight="1.4">
-              Logo
-            </Text>
+            <Flex hidden={isMd} h="full" direction="column" justify="flex-end" align="start">
+              <Image alt="Agree logo" h="100px" src={LogoImage} mb="1.1rem" />
+              <Text maxW="430px" mb="4rem" fontSize="1.9rem" color="gray.100" lineHeight="1.4">
+                Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí.
+              </Text>
+            </Flex>
           </Container>
         </Flex>
 
@@ -98,7 +111,7 @@ export function AuthPage (): JSX.Element {
       </Grid>
 
       <Slide style={{ zIndex: 10, right: 0, width: 'full', maxWidth: '500px' }} direction="right" in={isRegisterPage}>
-        <Box shadow="md" maxW="500px" w="full" h="100vh" p="3rem" bg="gray.100" color="gray.800">
+        <Box overflowY="auto" shadow="md" maxW="500px" w="full" h="100vh" p="3rem" bg="gray.100" color="gray.800">
           <Flex w="auto" cursor="pointer" fontWeight="semibold" align="center" gridGap="1rem" onClick={() => history.push('/login')}>
             <FiArrowLeftCircle size={24} />
             VOLTAR
