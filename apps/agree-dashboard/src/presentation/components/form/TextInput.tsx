@@ -17,12 +17,22 @@ export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: Tex
       <InputLeftElement
         h="full"
         ml="12px"
-        color="gray.600"
         fontSize="1.2em"
+        color="gray.600"
       >
         {icon}
       </InputLeftElement>
-      <Input type={type} fontSize="1.05rem" pl="55px" pb="3px" h="full" _placeholder={{ color: 'gray.600' }} placeholder={placeholder} color="gray.600" />
+      <Input
+        h="full"
+        pl="55px" pb="3px"
+        type={type}
+        fontSize="1.05rem"
+        color="gray.600"
+        placeholder={placeholder}
+        _placeholder={{ color: 'gray.600' }}
+        _focus={{ borderColor: 'transparent' }}
+        _active={{ borderColor: 'transparent' }}
+      />
     </InputGroup>
   )
 }

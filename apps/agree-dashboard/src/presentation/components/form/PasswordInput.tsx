@@ -25,7 +25,18 @@ export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputP
       >
         {icon}
       </InputLeftElement>
-      <Input type={isOpen ? 'text' : 'password'} fontSize="1.05rem" pl="55px" pb="3px" h="full" _placeholder={{ color: 'gray.600' }} placeholder={placeholder} color="gray.600" />
+      <Input
+        h="full"
+        pl="55px" pb="3px"
+        type={isOpen ? 'text' : 'password'}
+        fontSize="1.05rem"
+        color="gray.600"
+        rounded="md"
+        placeholder={placeholder}
+        _placeholder={{ color: 'gray.600' }}
+        _focus={{ borderColor: 'transparent' }}
+        _active={{ borderColor: 'transparent' }}
+      />
       <InputRightElement
         h="full"
         mr="8px"
