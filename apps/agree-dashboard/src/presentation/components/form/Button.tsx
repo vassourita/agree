@@ -14,8 +14,9 @@ export function Button ({ rightIcon, leftIcon, children, w, h }: ButtonProps): J
     <ChakraButton
       w={w} h={h}
       bg="brand.600" color="gray.100"
-      _hover={{ filter: 'brightness(0.90)', borderColor: 'transparent' }}
-      _active={{ filter: 'brightness(1.1)', borderColor: 'transparent' }}
+      _hover={{ filter: 'brightness(0.90)', borderColor: 'gray.300' }}
+      _active={{ filter: 'brightness(1.1)', borderColor: 'gray.300' }}
+      _focus={{ filter: 'brightness(1.1)', borderColor: 'gray.300' }}
       rightIcon={rightIcon}
       leftIcon={leftIcon}
     >

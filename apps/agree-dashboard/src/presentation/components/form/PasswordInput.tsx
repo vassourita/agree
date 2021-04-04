@@ -15,7 +15,16 @@ export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputP
   const { isOpen, onToggle } = useDisclosure()
 
   return (
-    <InputGroup border="1px" borderColor="gray.200" display="flex" w={w} h="3.9rem" bg="white" rounded="md" align="center" justifyContent="center">
+    <InputGroup
+      w={w} h="3.9rem"
+      alignItems="center" justifyContent="center"
+      border="1px" borderColor="gray.200"
+      display="flex"
+      bg="white"
+      rounded="md"
+      _focusWithin={{ borderColor: 'gray.300' }}
+      _hover={{ borderColor: 'gray.300' }}
+    >
       <Box w="4px" bg="brand.700" borderLeftRadius="md" />
       <InputLeftElement
         h="full"
@@ -31,7 +40,7 @@ export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputP
         type={isOpen ? 'text' : 'password'}
         fontSize="1.05rem"
         color="gray.600"
-        rounded="md"
+        border="none"
         placeholder={placeholder}
         _placeholder={{ color: 'gray.600' }}
         _focus={{ borderColor: 'transparent' }}
