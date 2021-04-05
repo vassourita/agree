@@ -1,4 +1,4 @@
-import { InputLeftElement, Input, InputGroup } from '@chakra-ui/input'
+import { InputLeftElement, Input, InputGroup, InputProps } from '@chakra-ui/input'
 
 import { Box } from '@chakra-ui/layout'
 import { ReactNode } from 'react'
@@ -8,7 +8,7 @@ type TextInputProps = {
   placeholder: string
   type?: string
   w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
-}
+} & InputProps
 
 export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: TextInputProps): JSX.Element {
   return (

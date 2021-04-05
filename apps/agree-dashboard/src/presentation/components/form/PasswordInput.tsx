@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks'
-import { InputLeftElement, Input, InputGroup, InputRightElement } from '@chakra-ui/input'
+import { InputLeftElement, Input, InputGroup, InputRightElement, InputProps } from '@chakra-ui/input'
 
 import { Box } from '@chakra-ui/layout'
 import { ReactNode } from 'react'
@@ -9,7 +9,7 @@ type PasswordInputProps = {
   icon: ReactNode
   placeholder: string
   w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
-}
+} & InputProps
 
 export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure()

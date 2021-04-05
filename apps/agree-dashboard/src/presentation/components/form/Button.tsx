@@ -1,4 +1,4 @@
-import { Button as ChakraButton } from '@chakra-ui/button'
+import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from '@chakra-ui/button'
 import { ReactElement, ReactNode } from 'react'
 
 type ButtonProps = {
@@ -7,7 +7,7 @@ type ButtonProps = {
   children: ReactNode
   w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
   h?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
-}
+} & ChakraButtonProps
 
 export function Button ({ rightIcon, leftIcon, children, w, h }: ButtonProps): JSX.Element {
   return (
