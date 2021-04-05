@@ -6,9 +6,9 @@ import { IHttpClient } from '../services/IHttpClient'
 
 export type AuthContextProps = {
   isAuthenticated: boolean
-  account?: Account
-  accessToken?: string
-  refreshToken?: string
+  account: Account | null
+  accessToken: string | null
+  refreshToken: string | null
   login(email: string, password: string): void
   logout(): void
 }
@@ -25,18 +25,26 @@ const ACCESS_TOKEN_KEY = '@agree/access-token'
 const REFRESH_TOKEN_KEY = '@agree/refresh-token'
 
 export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps): JSX.Element {
-  const [account, setAccount] = useState<Account>()
-  const [accessToken, setAccessToken] = useState<string>(cache.get<string>(ACCESS_TOKEN_KEY) || '')
-  const [refreshToken, setRefreshToken] = useState<string>(cache.get<string>(REFRESH_TOKEN_KEY) || '')
+  const [account, setAccount] = useState<Account | null>(null)
+  const [accessToken, setAccessToken] = useState<string | null>(cache.get<string>(ACCESS_TOKEN_KEY))
+  const [refreshToken, setRefreshToken] = useState<string | null>(cache.get<string>(REFRESH_TOKEN_KEY))
 
   const history = useHistory()
 
   useEffect(() => {
-    cache.set(ACCESS_TOKEN_KEY, accessToken)
+    if (accessToken) {
+      cache.set(ACCESS_TOKEN_KEY, accessToken)
+    } else {
+      cache.delete(ACCESS_TOKEN_KEY)
+    }
   }, [accessToken])
 
   useEffect(() => {
-    cache.set(REFRESH_TOKEN_KEY, refreshToken)
+    if (refreshToken) {
+      cache.set(REFRESH_TOKEN_KEY, refreshToken)
+    } else {
+      cache.delete(REFRESH_TOKEN_KEY)
+    }
   }, [refreshToken])
 
   function login (email: string, password: string) {
@@ -54,13 +62,17 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
       setAccount(response.body.account)
       history.push('/')
     }).catch(error => {
+      setRefreshToken(null)
+      setAccessToken(null)
+      setAccount(null)
       console.log(error)
     })
   }
 
   function logout () {
-    cache.delete(ACCESS_TOKEN_KEY)
-    cache.delete(REFRESH_TOKEN_KEY)
+    setRefreshToken(null)
+    setAccessToken(null)
+    setAccount(null)
     history.push('/login')
   }
 
