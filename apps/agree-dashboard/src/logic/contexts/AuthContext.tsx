@@ -1,8 +1,9 @@
+import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Account } from '../models/Account'
 import { ICache } from '../services/ICache'
-import { IHttpClient } from '../services/IHttpClient'
+import { HttpStatusCode, IHttpClient } from '../services/IHttpClient'
 
 export type AuthContextProps = {
   isAuthenticated: boolean
@@ -26,9 +27,10 @@ const REFRESH_TOKEN_KEY = '@agree/refresh-token'
 
 export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps): JSX.Element {
   const [account, setAccount] = useState<Account | null>(null)
-  const [accessToken, setAccessToken] = useState<string | null>(cache.get<string>(ACCESS_TOKEN_KEY))
-  const [refreshToken, setRefreshToken] = useState<string | null>(cache.get<string>(REFRESH_TOKEN_KEY))
+  const [accessToken, setAccessToken] = useState<string | null>(cache.get<string>(ACCESS_TOKEN_KEY)?.replace('"', '') || null)
+  const [refreshToken, setRefreshToken] = useState<string | null>(cache.get<string>(REFRESH_TOKEN_KEY)?.replace('"', '') || null)
 
+  const toast = useToast()
   const history = useHistory()
 
   useEffect(() => {
@@ -47,6 +49,23 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
     }
   }, [refreshToken])
 
+  async function me (): Promise<Account | null> {
+    const response = await httpClient.request({
+      method: 'get',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      url: `${process.env.REACT_APP_API_URL}/accounts/@me`
+    })
+
+    if (response.statusCode !== HttpStatusCode.OK) {
+      setAccount(null)
+      return null
+    }
+    setAccount(response.body.user)
+    return response.body.user
+  }
+
   function login (email: string, password: string) {
     httpClient.request({
       method: 'post',
@@ -57,15 +76,27 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
       },
       url: `${process.env.REACT_APP_API_URL}/accounts/login`
     }).then(response => {
-      setRefreshToken(response.body.refreshToken)
-      setAccessToken(response.body.accessToken)
-      setAccount(response.body.account)
-      history.push('/')
-    }).catch(error => {
-      setRefreshToken(null)
-      setAccessToken(null)
-      setAccount(null)
-      console.log(error)
+      if (response.statusCode === HttpStatusCode.OK) {
+        setRefreshToken(response.body.refreshToken)
+        setAccessToken(response.body.accessToken)
+        me().then(acc => {
+          toast({
+            title: `Bem vindo, ${acc?.userName}#${acc?.tag}!`,
+            isClosable: true,
+            status: 'success'
+          })
+          history.push('/')
+        })
+      } else {
+        setRefreshToken(null)
+        setAccessToken(null)
+        console.log(response.body)
+        toast({
+          title: response.body.message,
+          isClosable: true,
+          status: 'error'
+        })
+      }
     })
   }
 
