@@ -1,4 +1,4 @@
-import { ChangeEventHandler, KeyboardEvent, useState } from 'react'
+import { ChangeEventHandler, useState } from 'react'
 
 export function useInputState (defaultValue?: string): [string, ChangeEventHandler<HTMLInputElement>] {
   const [state, setState] = useState<string>(defaultValue || '')

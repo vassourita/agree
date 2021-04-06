@@ -6,7 +6,7 @@ type SquareButtonProps = {
   w: string
 } & ChakraButtonProps
 
-export function SquareButton ({ icon, w }: SquareButtonProps): JSX.Element {
+export function SquareButton ({ icon, w, ...rest }: SquareButtonProps): JSX.Element {
   return (
     <Button
     h={w} w={w}
@@ -15,6 +15,7 @@ export function SquareButton ({ icon, w }: SquareButtonProps): JSX.Element {
       _active={{ filter: 'brightness(1.1)', borderColor: 'gray.300' }}
       _focus={{ borderColor: 'gray.300' }}
       _hover={{ borderColor: 'gray.300' }}
+      {...rest}
     >
       {icon}
     </Button>

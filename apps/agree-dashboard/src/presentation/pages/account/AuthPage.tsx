@@ -13,13 +13,26 @@ import { Image } from '@chakra-ui/image'
 
 import LogoImage from '../../assets/agreew.svg'
 import BgImage from '../../assets/bglogin.png'
+import { useAuth } from '../../../logic/hooks/useAuth'
+import { useInputState } from '../../hooks/useInputState'
+import { FormEvent } from 'react'
 
 export function AuthPage (): JSX.Element {
+  const [loginEmail, setLoginEmail] = useInputState()
+  const [loginPassword, setLoginPassword] = useInputState()
+
+  const auth = useAuth()
+
   const location = useLocation()
   const history = useHistory()
   const [,, isMd] = useBreakpoints()
 
   const isRegisterPage = location.pathname === '/register'
+
+  function submitLoginForm (e: FormEvent) {
+    e.preventDefault()
+    auth.login(loginEmail, loginPassword)
+  }
 
   return (
     <>
@@ -85,7 +98,7 @@ export function AuthPage (): JSX.Element {
           </Container>
         </Flex>
 
-        <Flex gridArea="form" as="form" bg="gray.100" align="center" justify="center" py={{ base: '3rem', lg: '0' }}>
+        <Flex onSubmit={submitLoginForm} gridArea="form" as="form" bg="gray.100" align="center" justify="center" py={{ base: '3rem', lg: '0' }}>
           <Container maxW="80rem">
             <Flex direction={{ base: 'column-reverse', lg: 'row' }} justify="space-between" align="center">
               <Flex align="center" justify="center" mt={{ base: '2rem', lg: '0' }}>
@@ -95,14 +108,14 @@ export function AuthPage (): JSX.Element {
                 </Text>
               </Flex>
               <Flex direction={{ base: 'column', lg: 'row' }} gridGap={{ base: '1rem', lg: '50px' }}>
-                <TextInput w={{ base: 'auto', lg: '300px' }} icon={<FiMail />} placeholder="EMAIL" />
-                <PasswordInput w={{ base: 'auto', lg: '300px' }} icon={<FiLock />} placeholder="SENHA" />
+                <TextInput value={loginEmail} onChange={setLoginEmail} w={{ base: 'auto', lg: '300px' }} icon={<FiMail />} placeholder="EMAIL" />
+                <PasswordInput value={loginPassword} onChange={setLoginPassword} w={{ base: 'auto', lg: '300px' }} icon={<FiLock />} placeholder="SENHA" />
                 {isMd
                   ? (
-                      <Button h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
+                      <Button type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
                     )
                   : (
-                      <SquareButton w="3.9rem" icon={<FiChevronRight size={20} />} />
+                      <SquareButton type="submit" w="3.9rem" icon={<FiChevronRight size={20} />} />
                     )}
               </Flex>
             </Flex>

@@ -10,7 +10,7 @@ type TextInputProps = {
   w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
 } & InputProps
 
-export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: TextInputProps): JSX.Element {
+export function TextInput ({ icon, placeholder, type = 'text', w = 'full', ...rest }: TextInputProps): JSX.Element {
   return (
     <InputGroup
       w={w} h="3.9rem"
@@ -42,6 +42,7 @@ export function TextInput ({ icon, placeholder, type = 'text', w = 'full' }: Tex
         _placeholder={{ color: 'gray.600' }}
         _focus={{ borderColor: 'transparent' }}
         _active={{ borderColor: 'transparent' }}
+        {...rest}
       />
     </InputGroup>
   )

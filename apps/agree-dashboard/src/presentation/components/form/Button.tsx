@@ -9,7 +9,7 @@ type ButtonProps = {
   h?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
 } & ChakraButtonProps
 
-export function Button ({ rightIcon, leftIcon, children, w, h }: ButtonProps): JSX.Element {
+export function Button ({ rightIcon, leftIcon, children, w, h, ...rest }: ButtonProps): JSX.Element {
   return (
     <ChakraButton
       w={w} h={h}
@@ -19,6 +19,7 @@ export function Button ({ rightIcon, leftIcon, children, w, h }: ButtonProps): J
       _focus={{ filter: 'brightness(1.1)', borderColor: 'gray.300' }}
       rightIcon={rightIcon}
       leftIcon={leftIcon}
+      {...rest}
     >
       {children}
     </ChakraButton>

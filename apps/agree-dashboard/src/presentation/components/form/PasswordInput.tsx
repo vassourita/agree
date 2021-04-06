@@ -11,7 +11,7 @@ type PasswordInputProps = {
   w?: string | string[] | { base?: string, sm?: string, md?: string, lg?: string, xl?: string }
 } & InputProps
 
-export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputProps): JSX.Element {
+export function PasswordInput ({ icon, placeholder, w = 'full', ...rest }: PasswordInputProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
@@ -45,6 +45,7 @@ export function PasswordInput ({ icon, placeholder, w = 'full' }: PasswordInputP
         _placeholder={{ color: 'gray.600' }}
         _focus={{ borderColor: 'transparent' }}
         _active={{ borderColor: 'transparent' }}
+        {...rest}
       />
       <InputRightElement
         h="full"
