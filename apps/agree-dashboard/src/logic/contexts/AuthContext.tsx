@@ -55,7 +55,7 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
         password,
         grantType: 'password'
       },
-      url: 'http://localhost:5000/api/accounts/login'
+      url: `${process.env.REACT_APP_API_URL}/accounts/login`
     }).then(response => {
       setRefreshToken(response.body.refreshToken)
       setAccessToken(response.body.accessToken)
