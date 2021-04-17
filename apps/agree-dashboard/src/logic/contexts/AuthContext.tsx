@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import { Account } from '../models/Account'
 import { ICache } from '../services/ICache'
 import { HttpStatusCode, IHttpClient } from '../services/IHttpClient'
+import { ILogger } from '../services/ILogger'
 
 export type AuthContextProps = {
   isAuthenticated: boolean
@@ -12,6 +13,7 @@ export type AuthContextProps = {
   refreshToken: string | null
   login(email: string, password: string): void
   logout(): void
+  register(userName: string, email: string, password: string): void
 }
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
@@ -19,35 +21,20 @@ export const AuthContext = createContext<AuthContextProps>({} as AuthContextProp
 export type AuthProviderProps = {
   httpClient: IHttpClient
   cache: ICache
+  logger: ILogger
   children: ReactNode
 }
 
 const ACCESS_TOKEN_KEY = '@agree/access-token'
 const REFRESH_TOKEN_KEY = '@agree/refresh-token'
 
-export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps): JSX.Element {
+export function AuthProvider ({ httpClient, cache, children, logger }: AuthProviderProps): JSX.Element {
   const [account, setAccount] = useState<Account | null>(null)
   const [accessToken, setAccessToken] = useState<string | null>(cache.get<string>(ACCESS_TOKEN_KEY)?.replace('"', '') || null)
   const [refreshToken, setRefreshToken] = useState<string | null>(cache.get<string>(REFRESH_TOKEN_KEY)?.replace('"', '') || null)
 
   const toast = useToast()
   const history = useHistory()
-
-  useEffect(() => {
-    if (accessToken) {
-      cache.set(ACCESS_TOKEN_KEY, accessToken)
-    } else {
-      cache.delete(ACCESS_TOKEN_KEY)
-    }
-  }, [accessToken])
-
-  useEffect(() => {
-    if (refreshToken) {
-      cache.set(REFRESH_TOKEN_KEY, refreshToken)
-    } else {
-      cache.delete(REFRESH_TOKEN_KEY)
-    }
-  }, [refreshToken])
 
   async function me (): Promise<Account | null> {
     const response = await httpClient.request({
@@ -66,8 +53,31 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
     return response.body.user
   }
 
-  function login (email: string, password: string) {
-    httpClient.request({
+  useEffect(() => {
+    if (accessToken) {
+      cache.set(ACCESS_TOKEN_KEY, accessToken)
+    } else {
+      cache.delete(ACCESS_TOKEN_KEY)
+    }
+    me().then(acc => {
+      toast({
+        title: `Bem vindo, ${acc?.userName}#${acc?.tag}!`,
+        isClosable: true,
+        status: 'success'
+      })
+    })
+  }, [accessToken])
+
+  useEffect(() => {
+    if (refreshToken) {
+      cache.set(REFRESH_TOKEN_KEY, refreshToken)
+    } else {
+      cache.delete(REFRESH_TOKEN_KEY)
+    }
+  }, [refreshToken])
+
+  async function login (email: string, password: string) {
+    const response = await httpClient.request({
       method: 'post',
       body: {
         email,
@@ -75,29 +85,52 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
         grantType: 'password'
       },
       url: `${process.env.REACT_APP_API_URL}/accounts/login`
-    }).then(response => {
-      if (response.statusCode === HttpStatusCode.OK) {
-        setRefreshToken(response.body.refreshToken)
-        setAccessToken(response.body.accessToken)
-        me().then(acc => {
-          toast({
-            title: `Bem vindo, ${acc?.userName}#${acc?.tag}!`,
-            isClosable: true,
-            status: 'success'
-          })
-          history.push('/')
-        })
-      } else {
-        setRefreshToken(null)
-        setAccessToken(null)
-        console.log(response.body)
-        toast({
-          title: response.body.message,
-          isClosable: true,
-          status: 'error'
-        })
-      }
     })
+
+    if (response.statusCode === HttpStatusCode.OK) {
+      setRefreshToken(response.body.refreshToken)
+      setAccessToken(response.body.accessToken)
+      logger.info(response.body)
+      history.push('/')
+    } else {
+      setRefreshToken(null)
+      setAccessToken(null)
+      logger.info(response.body)
+      toast({
+        title: response.body.message,
+        isClosable: true,
+        status: 'error'
+      })
+    }
+  }
+
+  async function register (userName: string, email: string, password: string) {
+    const response = await httpClient.request({
+      method: 'post',
+      body: {
+        email,
+        password,
+        userName
+      },
+      url: `${process.env.REACT_APP_API_URL}/accounts/register`
+    })
+
+    if (response.statusCode === HttpStatusCode.OK) {
+      logger.info(response.body)
+      toast({
+        title: response.body.message,
+        description: `Enviamos um email de confirmação para ${email}. Você precisa confirmar seu email antes de fazer login.`,
+        isClosable: true,
+        status: 'success'
+      })
+    } else {
+      logger.info(response.body)
+      toast({
+        title: response.body.message,
+        isClosable: true,
+        status: 'error'
+      })
+    }
   }
 
   function logout () {
@@ -108,7 +141,7 @@ export function AuthProvider ({ httpClient, cache, children }: AuthProviderProps
   }
 
   return (
-    <AuthContext.Provider value={{ account, isAuthenticated: !!account, login, logout, accessToken, refreshToken }}>
+    <AuthContext.Provider value={{ account, isAuthenticated: !!account, login, logout, accessToken, refreshToken, register }}>
       {children}
     </AuthContext.Provider>
   )

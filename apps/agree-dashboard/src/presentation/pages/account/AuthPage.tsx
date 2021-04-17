@@ -21,6 +21,11 @@ export function AuthPage (): JSX.Element {
   const [loginEmail, setLoginEmail] = useInputState()
   const [loginPassword, setLoginPassword] = useInputState()
 
+  const [registerEmail, setRegisterEmail] = useInputState()
+  const [registerUserName, setRegisterUserName] = useInputState()
+  const [registerPassword, setRegisterPassword] = useInputState()
+  const [registerPasswordConfirm, setRegisterPasswordConfirm] = useInputState()
+
   const auth = useAuth()
 
   const location = useLocation()
@@ -32,6 +37,12 @@ export function AuthPage (): JSX.Element {
   function submitLoginForm (e: FormEvent) {
     e.preventDefault()
     auth.login(loginEmail, loginPassword)
+  }
+
+  function submitRegisterForm (e: FormEvent) {
+    e.preventDefault()
+    auth.register(registerUserName, registerEmail, registerPassword)
+    history.push('/login')
   }
 
   return (
@@ -137,12 +148,12 @@ export function AuthPage (): JSX.Element {
             </Text>
           </Flex>
 
-          <Flex as="form" flexDir="column" marginTop="2.5rem" w="auto" gridRowGap="1.5rem">
-            <TextInput icon={<FiUser />} placeholder="NOME DE USUÁRIO" />
-            <TextInput icon={<FiMail />} placeholder="EMAIL" />
-            <PasswordInput icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
-            <PasswordInput icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
-            <Button h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
+          <Flex onSubmit={submitRegisterForm} as="form" flexDir="column" marginTop="2.5rem" w="auto" gridRowGap="1.5rem">
+            <TextInput value={registerUserName} onChange={setRegisterUserName} icon={<FiUser />} placeholder="NOME DE USUÁRIO" />
+            <TextInput value={registerEmail} onChange={setRegisterEmail} icon={<FiMail />} placeholder="EMAIL" />
+            <PasswordInput value={registerPassword} onChange={setRegisterPassword} icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
+            <PasswordInput value={registerPasswordConfirm} onChange={setRegisterPasswordConfirm} icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
+            <Button type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
           </Flex>
         </Box>
       </Slide>
