@@ -1,4 +1,6 @@
 import { PropsWithChildren } from 'react'
+import { I18nProvider } from '../../presentation/contexts/I18nContext'
+import { resource } from '../../presentation/resource'
 import { AxiosHttpClient } from '../services/implementations/AxiosHttpClient'
 import { ConsoleLogger } from '../services/implementations/ConsoleLogger'
 import { LocalStorageCache } from '../services/implementations/LocalStorageCache'
@@ -10,8 +12,10 @@ const consoleLogger = new ConsoleLogger()
 
 export function ContextContainer ({ children }: PropsWithChildren<any>): JSX.Element {
   return (
-    <AuthProvider cache={localStorageCache} httpClient={axiosHttpClient} logger={consoleLogger}>
-      {children}
-    </AuthProvider>
+    <I18nProvider logger={consoleLogger} resource={resource}>
+      <AuthProvider cache={localStorageCache} httpClient={axiosHttpClient} logger={consoleLogger}>
+        {children}
+      </AuthProvider>
+    </I18nProvider>
   )
 }

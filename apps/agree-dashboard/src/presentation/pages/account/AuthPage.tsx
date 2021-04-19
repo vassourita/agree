@@ -16,6 +16,7 @@ import BgImage from '../../assets/bglogin.png'
 import { useAuth } from '../../../logic/hooks/useAuth'
 import { useInputState } from '../../hooks/useInputState'
 import { FormEvent } from 'react'
+import { useI18n } from '../../hooks/useI18n'
 
 export function AuthPage (): JSX.Element {
   const [loginEmail, setLoginEmail] = useInputState()
@@ -27,6 +28,7 @@ export function AuthPage (): JSX.Element {
   const [registerPasswordConfirm, setRegisterPasswordConfirm] = useInputState()
 
   const auth = useAuth()
+  const { t } = useI18n()
 
   const location = useLocation()
   const history = useHistory()
@@ -77,10 +79,10 @@ export function AuthPage (): JSX.Element {
                       <FiMenu size={32} />
                     </MenuButton>
                     <MenuList shadow="md" bg="gray.100" color="gray.800">
-                      <MenuItem bg="gray.100" color="gray.800">Página inicial</MenuItem>
+                      <MenuItem bg="gray.100" color="gray.800">{t`Home`}</MenuItem>
                       <MenuDivider />
-                      <MenuItem bg="gray.100" color="gray.800">Login</MenuItem>
-                      <MenuItem onClick={() => history.push('/register')} bg="gray.100" color="gray.800">Criar uma conta</MenuItem>
+                      <MenuItem bg="gray.100" color="gray.800">{t`Login`}</MenuItem>
+                      <MenuItem onClick={() => history.push('/register')} bg="gray.100" color="gray.800">{t`Create an account`}</MenuItem>
                     </MenuList>
                   </Menu>
                 </Flex>
@@ -91,9 +93,9 @@ export function AuthPage (): JSX.Element {
               )
             : (
                 <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
-                  <ListItem><Link to="/">Página inicial</Link></ListItem>
-                  <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">Login</Link></ListItem>
-                  <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">Criar uma conta</Link></ListItem>
+                  <ListItem><Link to="/">{t`Home`}</Link></ListItem>
+                  <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">{t`Login`}</Link></ListItem>
+                  <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">{t`Create an account`}</Link></ListItem>
                 </List>
               )}
         </Flex>
