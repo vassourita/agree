@@ -87,7 +87,7 @@ export function AuthPage (): JSX.Element {
                   </Menu>
                 </Flex>
                 <Text maxW="430px" mt="1.7rem" fontSize="1.4rem" color="gray.100" lineHeight="1.4">
-                  Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí.
+                  {t`Log in and connect with 20 other people. Yes, just that. Call more people please.`}
                 </Text>
               </Flex>
               )
@@ -105,7 +105,7 @@ export function AuthPage (): JSX.Element {
             <Flex hidden={isMd} h="full" direction="column" justify="flex-end" align="start">
               <Image alt="Agree logo" h="100px" src={LogoImage} mb="1.1rem" />
               <Text maxW="430px" mb="4rem" fontSize="1.9rem" color="gray.100" lineHeight="1.4">
-                Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí.
+                  {t`Log in and connect with 20 other people. Yes, just that. Call more people please.`}
               </Text>
             </Flex>
           </Container>
