@@ -2,7 +2,15 @@ import axios, { AxiosResponse } from 'axios'
 import { HttpRequest, HttpResponse, IHttpClient } from '../IHttpClient'
 
 export class AxiosHttpClient implements IHttpClient {
-  async request <T = any> (data: HttpRequest): Promise<HttpResponse<T>> {
+  public constructor () {
+    axios.interceptors.response.use(response => {
+      return response
+    }, error => {
+      return error
+    })
+  }
+
+  public async request <T = any> (data: HttpRequest): Promise<HttpResponse<T>> {
     let axiosResponse: AxiosResponse
     try {
       axiosResponse = await axios.request<T>({

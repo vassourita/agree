@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
+import { resource } from '../../i18n'
 import { I18nProvider } from '../../presentation/contexts/I18nContext'
-import { resource } from '../../presentation/resource'
 import { AxiosHttpClient } from '../services/implementations/AxiosHttpClient'
 import { ConsoleLogger } from '../services/implementations/ConsoleLogger'
 import { LocalStorageCache } from '../services/implementations/LocalStorageCache'
