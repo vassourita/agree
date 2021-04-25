@@ -134,7 +134,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   useEffect(() => {
     if (account) {
       toast({
-        title: `Bem vindo, ${account?.userName}#${account?.tag}!`,
+        title: t`Welcome, ${account?.userName}#${account?.tag}!`,
         isClosable: true,
         status: 'success'
       })
