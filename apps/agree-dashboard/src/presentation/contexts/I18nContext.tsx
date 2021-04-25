@@ -39,13 +39,33 @@ export function I18nProvider ({ children, resource, logger }: I18nProviderProps)
     }
   }, [navigator.language])
 
-  function t (strings: TemplateStringsArray, ...values: string[]): string {
+  function t (strings: TemplateStringsArray, ...values: unknown[]): string {
     const currentLanguageResource = resource[language]
 
     const formattedText = strings.raw.join('')
-    logger.info({ formattedText, strings, values })
 
-    return currentLanguageResource[formattedText]
+    const text = currentLanguageResource[formattedText]
+    if (text) return text
+
+    let result = ''
+    // Receive **parts of the Template Literal in "strings"
+    // and iterate them
+    strings.map((value, index) => {
+      // Note: "...values" will hold ${A}, ${B}, and ${C} or
+      // list of values enumerating all Template Literals (${A},
+      // ${B}, ...) from the TL string.
+      // Get TL number at current index, but always avoid last
+      // one, which will always be 'undefined':
+      const n = (index <= values.length - 1) ? values[index] : ''
+      // Rewrite digits to strings -- this is one of the benefits
+      // of using Template Literal-based functions. That is...
+      // reformatting the input:
+      // Combine string and numbers and add to the tail of the
+      // running string:
+      result += value + n
+      return value
+    })
+    return result
   }
 
   return (

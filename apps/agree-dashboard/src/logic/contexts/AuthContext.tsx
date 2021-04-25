@@ -99,7 +99,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     return false
   }
 
-  async function me (): Promise<Account | null> {
+  async function me (): Promise<void> {
     const response = await httpClient.request({
       method: 'get',
       headers: {
@@ -108,13 +108,11 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
       url: `${process.env.REACT_APP_API_URL}/accounts/@me`
     })
 
-    logger.info(response)
-
     if (response.statusCode !== HttpStatusCode.OK && (await handleUnauthorized(response))) {
-      // return (await me())
+      return await me()
     }
+
     setAccount(response.body.user)
-    return response.body.user
   }
 
   useEffect(() => {
@@ -123,13 +121,6 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     } else {
       cache.delete(ACCESS_TOKEN_KEY)
     }
-    me().then(acc => {
-      toast({
-        title: `Bem vindo, ${acc?.userName}#${acc?.tag}!`,
-        isClosable: true,
-        status: 'success'
-      })
-    })
   }, [accessToken])
 
   useEffect(() => {
@@ -139,6 +130,16 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
       cache.delete(REFRESH_TOKEN_KEY)
     }
   }, [refreshToken])
+
+  useEffect(() => {
+    if (account) {
+      toast({
+        title: `Bem vindo, ${account?.userName}#${account?.tag}!`,
+        isClosable: true,
+        status: 'success'
+      })
+    }
+  }, [account])
 
   async function login (email: string, password: string) {
     const response = await httpClient.request({
@@ -154,14 +155,14 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     if (response.statusCode === HttpStatusCode.OK) {
       setRefreshToken(response.body.refreshToken)
       setAccessToken(response.body.accessToken)
-      logger.info(response.body)
+      await me()
       history.push('/')
     } else {
+      logger.info(response)
       setRefreshToken(null)
       setAccessToken(null)
-      logger.info(response.body)
       toast({
-        title: response.body.message,
+        title: t`${response.body.message}`,
         isClosable: true,
         status: 'error'
       })
@@ -180,17 +181,15 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     })
 
     if (response.statusCode === HttpStatusCode.OK) {
-      logger.info(response.body)
       toast({
-        title: response.body.message,
+        title: t`${response.body.message}`,
         description: `Enviamos um email de confirmação para ${email}. Você precisa confirmar seu email antes de fazer login.`,
         isClosable: true,
         status: 'success'
       })
     } else {
-      logger.info(response.body)
       toast({
-        title: response.body.message,
+        title: t`${response.body.message}`,
         isClosable: true,
         status: 'error'
       })

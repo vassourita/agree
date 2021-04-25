@@ -17,9 +17,11 @@ export class AxiosHttpClient implements IHttpClient {
         url: data.url,
         method: data.method,
         data: data.body,
-        headers: data.headers
+        headers: data.headers,
+        validateStatus: () => true
       })
     } catch (error) {
+      console.log(error)
       axiosResponse = error.response
     }
     return {

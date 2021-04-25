@@ -2,5 +2,8 @@
   "Home": "Página inicial",
   "Login": "Login",
   "Create an account": "Criar uma conta",
-  "Log in and connect with 20 other people. Yes, just that. Call more people please.": "Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí."
+  "Log in and connect with 20 other people. Yes, just that. Call more people please.": "Faça login e conecte-se com outras 20 pessoas. Sim, só isso mesmo. Chama mais gente aí.",
+  "Your session expired": "Sua sessão expirou",
+  "Please login again": "Por favor faça login novamente",
+  "An unexpected error occurred": "Um erro inesperado aconteceu"
 }
