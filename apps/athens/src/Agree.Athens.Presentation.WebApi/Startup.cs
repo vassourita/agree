@@ -56,7 +56,8 @@ namespace Agree.Athens.Presentation.WebApi
             app.UseCors(options =>
                 options.AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyOrigin());
+                .AllowAnyOrigin()
+                .WithExposedHeaders("WWW-Authenticate", "X-Total-Count"));
 
             app.UseAuthentication();
             app.UseAuthorization();
