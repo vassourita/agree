@@ -132,6 +132,14 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   }, [refreshToken])
 
   useEffect(() => {
+    if (refreshToken && accessToken) {
+      me()
+        .then()
+        .catch()
+    }
+  }, [])
+
+  useEffect(() => {
     if (account) {
       toast({
         title: t`Welcome, ${account?.userName}#${account?.tag}!`,
