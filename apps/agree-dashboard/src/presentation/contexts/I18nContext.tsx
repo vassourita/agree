@@ -45,7 +45,7 @@ export function I18nProvider ({ children, resource, logger }: I18nProviderProps)
     strings.map((str, index) => {
       let n = (index <= values.length - 1) ? values[index] : ''
 
-      if (replace) {
+      if (replace && n) {
         n = `{${index}}`
       }
 
@@ -59,18 +59,15 @@ export function I18nProvider ({ children, resource, logger }: I18nProviderProps)
   function t (strings: TemplateStringsArray, ...values: string[]): string {
     const currentLanguageResource = resource[language]
 
-    const formattedText = formatTaggedTemplate(true, strings, values)
+    const formattedText = formatTaggedTemplate(true, strings, ...values)
 
     const text = currentLanguageResource[formattedText]
 
     if (text) {
-      return text.replace(/({[0-9]})/g, (...groups) => {
-        logger.info({ groups, text })
-        return ''
-      })
+      return text.replace(/{([0-9])}/g, (replaced, group1) => values[Number(group1)])
     }
 
-    return formatTaggedTemplate(false, strings, values)
+    return formatTaggedTemplate(false, strings, ...values)
   }
 
   return (
