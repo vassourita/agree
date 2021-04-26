@@ -1,5 +1,6 @@
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { useAuth } from '../logic/hooks/useAuth'
+import { DashboardLayout } from './layouts/DashboardLayout'
 import { AuthPage } from './pages/account/AuthPage'
 import { HomePage } from './pages/dashboard/HomePage'
 import { NotFoundPage } from './pages/error/NotFoundPage'
@@ -12,7 +13,9 @@ export function Routes (): JSX.Element {
       <AuthenticatedTemplate>
         <Switch>
           <Route exact path="/">
-            <HomePage />
+            <DashboardLayout>
+              <HomePage />
+            </DashboardLayout>
           </Route>
           <Route path="*">
             <NotFoundPage />
