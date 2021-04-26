@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useI18n } from '../../presentation/hooks/useI18n'
+import { useSyncCacheState } from '../hooks/useSyncCacheState'
 import { Account } from '../models/Account'
 import { ICache } from '../services/ICache'
 import { HttpResponse, HttpStatusCode, IHttpClient } from '../services/IHttpClient'
@@ -32,8 +33,8 @@ const REFRESH_TOKEN_KEY = '@agree/refresh-token'
 
 export function AuthProvider ({ httpClient, cache, children, logger }: AuthProviderProps): JSX.Element {
   const [account, setAccount] = useState<Account | null>(null)
-  const [accessToken, setAccessToken] = useState<string | null>(cache.get<string>(ACCESS_TOKEN_KEY)?.replace('"', '') || null)
-  const [refreshToken, setRefreshToken] = useState<string | null>(cache.get<string>(REFRESH_TOKEN_KEY)?.replace('"', '') || null)
+  const [accessToken, setAccessToken] = useSyncCacheState<string>(cache, ACCESS_TOKEN_KEY)
+  const [refreshToken, setRefreshToken] = useSyncCacheState<string>(cache, REFRESH_TOKEN_KEY)
 
   const { t } = useI18n()
 
@@ -51,7 +52,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     const response = await httpClient.request({
       method: 'post',
       body: {
-        refreshToken,
+        refreshToken: refreshToken(),
         grantType: 'refresh_token'
       },
       url: `${process.env.REACT_APP_API_URL}/accounts/login`
@@ -60,11 +61,9 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     if (response.statusCode === HttpStatusCode.OK) {
       setRefreshToken(response.body.refreshToken)
       setAccessToken(response.body.accessToken)
-      logger.info(response.body)
     } else {
       setRefreshToken(null)
       setAccessToken(null)
-      logger.info(response.body)
       toast({
         title: response.body.message,
         isClosable: true,
@@ -74,9 +73,10 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   }
 
   async function handleUnauthorized (response: HttpResponse) : Promise<boolean> {
-    if (response.statusCode !== HttpStatusCode.UNAUTHORIZED) return true
+    if (response.statusCode !== HttpStatusCode.UNAUTHORIZED) return false
 
-    if (response.headers['WWW-Authenticate']) {
+    if (response.headers['www-authenticate']) {
+      logger.info('REFRESH')
       await refresh()
       return true
     } else if (response.body?.message === 'Refresh token is expired') {
@@ -103,7 +103,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     const response = await httpClient.request({
       method: 'get',
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       },
       url: `${process.env.REACT_APP_API_URL}/accounts/@me`
     })
@@ -116,26 +116,8 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   }
 
   useEffect(() => {
-    if (accessToken) {
-      cache.set(ACCESS_TOKEN_KEY, accessToken)
-    } else {
-      cache.delete(ACCESS_TOKEN_KEY)
-    }
-  }, [accessToken])
-
-  useEffect(() => {
-    if (refreshToken) {
-      cache.set(REFRESH_TOKEN_KEY, refreshToken)
-    } else {
-      cache.delete(REFRESH_TOKEN_KEY)
-    }
-  }, [refreshToken])
-
-  useEffect(() => {
-    if (refreshToken && accessToken) {
+    if (refreshToken() && accessToken()) {
       me()
-        .then()
-        .catch()
     }
   }, [])
 
@@ -166,7 +148,6 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
       await me()
       history.push('/')
     } else {
-      logger.info(response)
       setRefreshToken(null)
       setAccessToken(null)
       toast({
@@ -205,7 +186,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   }
 
   return (
-    <AuthContext.Provider value={{ account, isAuthenticated: !!account, login, logout, accessToken, refreshToken, register, refresh }}>
+    <AuthContext.Provider value={{ account, isAuthenticated: !!account, login, logout, accessToken: accessToken(), refreshToken: refreshToken(), register, refresh }}>
       {children}
     </AuthContext.Provider>
   )

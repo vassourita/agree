@@ -52,16 +52,23 @@ export function I18nProvider ({ children, resource, logger }: I18nProviderProps)
       result += str + n
       return str
     })
+
     return result
   }
 
   function t (strings: TemplateStringsArray, ...values: string[]): string {
     const currentLanguageResource = resource[language]
 
-    const formattedText = strings.raw.join('')
+    const formattedText = formatTaggedTemplate(true, strings, values)
 
     const text = currentLanguageResource[formattedText]
-    if (text) return text
+
+    if (text) {
+      return text.replace(/({[0-9]})/g, (...groups) => {
+        logger.info({ groups, text })
+        return ''
+      })
+    }
 
     return formatTaggedTemplate(false, strings, values)
   }

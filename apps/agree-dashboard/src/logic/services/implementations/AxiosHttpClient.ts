@@ -25,7 +25,7 @@ export class AxiosHttpClient implements IHttpClient {
       axiosResponse = error.response
     }
     return {
-      statusCode: axiosResponse.status,
+      statusCode: Number(axiosResponse.status),
       body: axiosResponse.data,
       headers: axiosResponse.headers
     }
