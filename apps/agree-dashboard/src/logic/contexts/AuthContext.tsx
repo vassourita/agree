@@ -64,8 +64,10 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     } else {
       setRefreshToken(null)
       setAccessToken(null)
+      setAccount(null)
       toast({
-        title: response.body.message,
+        title: t`Your session expired`,
+        description: t`Please login again`,
         isClosable: true,
         status: 'error'
       })
@@ -118,6 +120,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   useEffect(() => {
     if (refreshToken() && accessToken()) {
       me()
+        .then(() => history.push('/'))
     }
   }, [])
 
@@ -186,7 +189,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   }
 
   return (
-    <AuthContext.Provider value={{ account, isAuthenticated: !!account, login, logout, accessToken: accessToken(), refreshToken: refreshToken(), register, refresh }}>
+    <AuthContext.Provider value={{ account, isAuthenticated: !!(accessToken() && refreshToken()), login, logout, accessToken: accessToken(), refreshToken: refreshToken(), register, refresh }}>
       {children}
     </AuthContext.Provider>
   )
