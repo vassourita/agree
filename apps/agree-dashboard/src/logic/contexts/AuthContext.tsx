@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import { useI18n } from '../../presentation/hooks/useI18n'
 import { useSyncCacheState } from '../hooks/useSyncCacheState'
 import { Account } from '../models/Account'
@@ -40,6 +40,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
 
   const toast = useToast()
   const history = useHistory()
+  const location = useLocation()
 
   function logout () {
     setRefreshToken(null)
@@ -120,7 +121,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   useEffect(() => {
     if (refreshToken() && accessToken()) {
       me()
-        .then(() => history.push('/'))
+        .then(() => location.pathname === '/login' && history.push('/'))
     }
   }, [])
 
