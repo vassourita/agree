@@ -19,10 +19,9 @@ export const I18nContext = createContext<I18nContextProps>({} as I18nContextProp
 type I18nProviderProps = {
   children: ReactNode
   resource: Resource
-  logger: ILogger
 }
 
-export function I18nProvider ({ children, resource, logger }: I18nProviderProps): JSX.Element {
+export function I18nProvider ({ children, resource }: I18nProviderProps): JSX.Element {
   const [language, setLanguage] = useState<Language>(navigator.language as Language)
 
   useEffect(() => {

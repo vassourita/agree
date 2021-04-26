@@ -12,7 +12,7 @@ const consoleLogger = new ConsoleLogger()
 
 export function ContextContainer ({ children }: PropsWithChildren<any>): JSX.Element {
   return (
-    <I18nProvider logger={consoleLogger} resource={resource}>
+    <I18nProvider resource={resource}>
       <AuthProvider cache={localStorageCache} httpClient={axiosHttpClient} logger={consoleLogger}>
         {children}
       </AuthProvider>
