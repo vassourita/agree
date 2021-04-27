@@ -85,7 +85,7 @@ namespace Agree.Athens.Application.Services
             {
                 throw DomainUnauthorizedException.InvalidRefreshToken();
             }
-            else if (token.ExpiryOn < DateTime.UtcNow)
+            else if (DateTime.Compare(DateTime.UtcNow, token.ExpiryOn) >= 0)
             {
                 throw DomainUnauthorizedException.ExpiredRefreshToken();
             }
