@@ -1,19 +1,22 @@
 import { Image } from '@chakra-ui/image'
-import { Flex } from '@chakra-ui/layout'
-import { Link } from 'react-router-dom'
+import { Flex, ListItem } from '@chakra-ui/layout'
+import { NavLink } from 'react-router-dom'
+
+import './ServerAvatar.scss'
 
 type ServerAvatarProps = {
-  url: string
+  imgUrl: string
+  to: string
 }
 
-export function ServerAvatar ({ url }: ServerAvatarProps): JSX.Element {
+export function ServerAvatar ({ imgUrl, to }: ServerAvatarProps): JSX.Element {
   return (
-    <Flex>
-      <Link to="/">
-        <Flex bg="white" w="50px" h="50px" rounded="md">
-          <Image src={url} />
+    <ListItem className="ServerAvatarContainer" marginY="0.5rem">
+      <NavLink to={to} activeClassName="active">
+        <Flex bg="white" w="50px" h="50px" rounded="lg">
+          <Image src={imgUrl} />
         </Flex>
-      </Link>
-    </Flex>
+      </NavLink>
+    </ListItem>
   )
 }

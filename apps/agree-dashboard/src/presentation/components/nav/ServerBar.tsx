@@ -10,7 +10,7 @@ export function ServerBar (): JSX.Element {
   return (
     <Flex flexDirection="column" align="center" justify="space-between" position="relative" h="100vh" minW="100px" bg="brand.600" roundedRight="md">
 
-      <Flex flexDirection="column" align="center" justify="center" minW="100px" marginY="1.75rem">
+      <Flex flexDirection="column" align="center" justify="center" minW="100px" marginTop="1.75rem" marginBottom="1.25rem">
 
         <Flex marginBottom="1.75rem" >
           <Link to="/">
@@ -23,15 +23,13 @@ export function ServerBar (): JSX.Element {
         <Box border="1px solid white" width="75px" />
       </Flex>
 
-      <List h="full" className="hide-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
+      <List w="full" h="full" className="hide-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
-        {Array.from(Array(5).keys()).map(i => (
-          <ListItem key={i} marginBottom="1rem">
-            <ServerAvatar url={IconImg} />
-          </ListItem>
+        {Array.from(Array(20).keys()).map(i => (
+          <ServerAvatar key={i} imgUrl={IconImg} to="/"/>
         ))}
 
-        <ListItem marginBottom="1rem">
+        <ListItem marginY="0.5rem">
           <Link to="/">
             <Flex align="center" justify="center" bg="none" w="50px" h="50px" rounded="md" border="2px dashed white">
               <FiPlus size={24} color="white" />
@@ -39,7 +37,7 @@ export function ServerBar (): JSX.Element {
           </Link>
         </ListItem>
 
-        <ListItem>
+        <ListItem marginY="0.5rem">
           <Link to="/">
             <Flex align="center" justify="center" bg="none" w="50px" h="50px" rounded="md" border="2px dashed white">
               <FiCompass size={24} color="white" />
@@ -49,7 +47,7 @@ export function ServerBar (): JSX.Element {
 
       </List>
 
-      <Flex flexDirection="column" align="center" justify="center" minW="100px" marginY="1.75rem">
+      <Flex flexDirection="column" align="center" justify="center" minW="100px" marginBottom="1.75rem" marginTop="1.25rem">
 
         <Box border="1px solid white" width="75px" />
 
