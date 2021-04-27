@@ -176,7 +176,7 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
     if (response.statusCode === HttpStatusCode.OK) {
       toast({
         title: t`${response.body.message}`,
-        description: `Enviamos um email de confirmação para ${email}. Você precisa confirmar seu email antes de fazer login.`,
+        description: t`We sent a confirmation mail to ${email}. You must confirm your email before logging in.`,
         isClosable: true,
         status: 'success'
       })

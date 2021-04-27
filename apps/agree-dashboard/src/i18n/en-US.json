@@ -9,5 +9,6 @@
   "Congratulations! You found our little mascot secret page!": "Congratulations! You found our little mascot secret page!",
   "Just kidding. Actually this page doesn't exists...": "Just kidding. Actually this page doesn't exists...",
   "Kinda paradoxal don't you think?": "Kinda paradoxal don't you think?",
-  "Welcome, {0}#{1}!": "Welcome, {0}#{1}!"
+  "Welcome, {0}#{1}!": "Welcome, {0}#{1}!",
+  "We sent a confirmation mail to {0}. You must confirm your email before logging in.": "We sent a confirmation mail to {0}. You must confirm your email before logging in."
 }

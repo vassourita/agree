@@ -9,5 +9,6 @@
   "Congratulations! You found our little mascot secret page!": "Parabéns! Você achou a página secreta do nosso mascote!",
   "Just kidding. Actually this page doesn't exists...": "Só de zoas. Na verdade essa página nem existe",
   "Kinda paradoxal don't you think?": "Meio paradoxal você não acha?",
-  "Welcome, {0}#{1}!": "Bem vindo, {0}#{1}!"
+  "Welcome, {0}#{1}!": "Bem vindo, {0}#{1}!",
+  "We sent a confirmation mail to {0}. You must confirm your email before logging in.": "Enviamos um email de confirmação para {0}. Você precisa confirmar seu email antes de fazer login."
 }
