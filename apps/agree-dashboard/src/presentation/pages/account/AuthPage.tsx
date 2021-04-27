@@ -19,7 +19,9 @@ import { FormEvent } from 'react'
 import { useI18n } from '../../hooks/useI18n'
 
 export function AuthPage (): JSX.Element {
-  const [loginEmail, setLoginEmail] = useInputState()
+  const location = useLocation()
+
+  const [loginEmail, setLoginEmail] = useInputState(new URLSearchParams(location.search).get('email_verified') || '')
   const [loginPassword, setLoginPassword] = useInputState()
 
   const [registerEmail, setRegisterEmail] = useInputState()
@@ -29,8 +31,6 @@ export function AuthPage (): JSX.Element {
 
   const auth = useAuth()
   const { t } = useI18n()
-
-  const location = useLocation()
   const history = useHistory()
   const [,, isMd] = useBreakpoints()
 
@@ -43,8 +43,9 @@ export function AuthPage (): JSX.Element {
 
   function submitRegisterForm (e: FormEvent) {
     e.preventDefault()
-    auth.register(registerUserName, registerEmail, registerPassword)
-    history.push('/login')
+    auth.register(registerUserName, registerEmail, registerPassword).then(() => {
+      history.push('/login')
+    })
   }
 
   return (
