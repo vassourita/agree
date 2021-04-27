@@ -11,5 +11,7 @@
   "Kinda paradoxal don't you think?": "Meio paradoxal você não acha?",
   "Welcome, {0}#{1}!": "Bem vindo, {0}#{1}!",
   "Account succesfully created": "Conta criada com sucesso",
-  "We sent a confirmation mail to {0}. You must confirm your email before logging in.": "Enviamos um email de confirmação para {0}. Você precisa confirmar seu email antes de fazer login."
+  "We sent a confirmation mail to {0}. You must confirm your email before logging in.": "Enviamos um email de confirmação para {0}. Você precisa confirmar seu email antes de fazer login.",
+  "Email verified succesfully": "Email verificado com sucesso",
+  "Now you can login into Agree!": "Agora você pode fazer login no Agree!"
 }

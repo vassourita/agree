@@ -42,6 +42,18 @@ export function AuthProvider ({ httpClient, cache, children, logger }: AuthProvi
   const history = useHistory()
   const location = useLocation()
 
+  useEffect(() => {
+    const verifiedEmail = new URLSearchParams(location.search).get('email_verified')
+    if (verifiedEmail) {
+      toast({
+        title: t`Email verified succesfully`,
+        description: t`Now you can login into Agree!`,
+        isClosable: true,
+        status: 'info'
+      })
+    }
+  }, [])
+
   function logout () {
     setRefreshToken(null)
     setAccessToken(null)
