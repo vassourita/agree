@@ -64,7 +64,7 @@ namespace Agree.Athens.Domain.Services
             }
         }
 
-        public async Task ConfirmEmail(Guid id)
+        public async Task<string> ConfirmEmail(Guid id)
         {
             try
             {
@@ -78,6 +78,8 @@ namespace Agree.Athens.Domain.Services
 
                 await _accountRepository.UpdateAsync(account);
                 await _accountRepository.UnitOfWork.Commit();
+
+                return account.Email;
             }
             catch (Exception ex)
             {

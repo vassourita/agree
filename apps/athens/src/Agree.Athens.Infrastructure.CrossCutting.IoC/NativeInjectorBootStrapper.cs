@@ -71,6 +71,7 @@ namespace Agree.Athens.Infrastructure.CrossCutting.IoC
             services.Configure<HashConfiguration>(configuration.GetSection("HashConfiguration"));
             services.Configure<JwtConfiguration>(configuration.GetSection("JwtConfiguration"));
             services.Configure<AzuriteStorageConfiguration>(configuration.GetSection("AzuriteStorageConfiguration"));
+            services.Configure<UIConfiguration>(configuration.GetSection("UIConfiguration"));
 
             // Infrastructure - Providers
             services.AddScoped<IHashProvider, BcryptHashProvider>();

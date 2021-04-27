@@ -63,8 +63,8 @@ namespace Agree.Athens.Presentation.WebApi.Controllers
 
             try
             {
-                await _accountService.ConfirmEmail(token);
-                return Ok(new Response("Account successfully verified"));
+                var uiConfirmUrl = await _accountService.ConfirmEmail(token);
+                return Redirect(uiConfirmUrl);
             }
             catch (BaseDomainException ex)
             {

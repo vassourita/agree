@@ -12,6 +12,8 @@ using Agree.Athens.Domain.Exceptions;
 using Agree.Athens.Domain.Interfaces.Repositories;
 using Agree.Athens.Domain.Services;
 using AutoMapper;
+using Agree.Athens.Infrastructure.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Agree.Athens.Application.Services
 {
@@ -23,13 +25,15 @@ namespace Agree.Athens.Application.Services
         private readonly ITokenRepository _tokenRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
+        private readonly UIConfiguration _uiConfiguration;
 
         public AccountService(UserAccountService userAccountService,
                               MailService mailService,
                               TokenService tokenService,
                               ITokenRepository tokenRepository,
                               IAccountRepository accountRepository,
-                              IMapper mapper)
+                              IMapper mapper,
+                              IOptions<UIConfiguration> uiConfiguration)
         {
             _userAccountService = userAccountService;
             _mailService = mailService;
@@ -37,6 +41,7 @@ namespace Agree.Athens.Application.Services
             _tokenRepository = tokenRepository;
             _accountRepository = accountRepository;
             _mapper = mapper;
+            _uiConfiguration = uiConfiguration.Value;
         }
 
         public async Task<UserAccount> GetUserById(Guid id)
@@ -69,9 +74,11 @@ namespace Agree.Athens.Application.Services
             return confirmationUrlWithToken;
         }
 
-        public Task ConfirmEmail(Guid id)
+        public async Task<string> ConfirmEmail(Guid id)
         {
-            return _userAccountService.ConfirmEmail(id);
+            var email = await _userAccountService.ConfirmEmail(id);
+
+            return $"{_uiConfiguration.EmailConfirmRedirectURL}?email_verified={email}";
         }
 
         public async Task<(AccessToken, RefreshToken)> Login(LoginDto loginDto)
