@@ -1,13 +1,14 @@
-import { Flex, Heading } from '@chakra-ui/layout'
+import { Flex } from '@chakra-ui/layout'
 import { PropsWithChildren } from 'react'
+import { ServerBar } from '../components/nav/ServerBar'
+import { SideBar } from '../components/nav/SideBar'
 
 export function DashboardLayout ({ children }: PropsWithChildren<unknown>): JSX.Element {
   return (
-    <Flex flex="1">
-      <Flex w="300px">
-        <Heading>Sidebar</Heading>
-      </Flex>
-      <Flex w="100%">
+    <Flex minH="100vh">
+      <ServerBar />
+      <SideBar />
+      <Flex minH="100vh" w="100%" bg="brand.900">
         {children}
       </Flex>
     </Flex>
