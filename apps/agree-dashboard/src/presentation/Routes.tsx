@@ -17,6 +17,26 @@ export function Routes (): JSX.Element {
               <HomePage />
             </DashboardLayout>
           </Route>
+          <Route exact path="/settings">
+            <DashboardLayout>
+              <HomePage />
+            </DashboardLayout>
+          </Route>
+          <Route exact path="/s/new">
+            <DashboardLayout>
+              <HomePage />
+            </DashboardLayout>
+          </Route>
+          <Route exact path="/s/search">
+            <DashboardLayout>
+              <HomePage />
+            </DashboardLayout>
+          </Route>
+          <Route exact path="/s/:id">
+            <DashboardLayout>
+              <HomePage />
+            </DashboardLayout>
+          </Route>
           <Route path="*">
             <NotFoundPage />
           </Route>

@@ -1,7 +1,5 @@
-import { Image } from '@chakra-ui/image'
-import { Box, Flex, List, ListItem } from '@chakra-ui/layout'
+import { Box, Flex, List } from '@chakra-ui/layout'
 import { FiCompass, FiPlus, FiSettings } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
 
 import IconImg from '../../assets/iconw.svg'
 import { ServerAvatar } from '../avatar/ServerAvatar'
@@ -12,38 +10,21 @@ export function ServerBar (): JSX.Element {
 
       <Flex flexDirection="column" align="center" justify="center" minW="100px" marginTop="1.75rem" marginBottom="1.25rem">
 
-        <Flex marginBottom="1.75rem" >
-          <Link to="/">
-            <Flex bg="white" w="50px" h="50px" rounded="md">
-              <Image src={IconImg} />
-            </Flex>
-          </Link>
-        </Flex>
+        <ServerAvatar to="/" variant="fill" icon={IconImg} marginBottom="1.75rem" />
 
         <Box border="1px solid white" width="75px" />
+
       </Flex>
 
       <List w="full" h="full" className="hide-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
         {Array.from(Array(20).keys()).map(i => (
-          <ServerAvatar key={i} imgUrl={IconImg} to="/"/>
+          <ServerAvatar key={i} variant="solid" icon="https://source.unsplash.com/random" to={`/s/${i}`}/>
         ))}
 
-        <ListItem marginY="0.5rem">
-          <Link to="/">
-            <Flex align="center" justify="center" bg="none" w="50px" h="50px" rounded="md" border="2px dashed white">
-              <FiPlus size={24} color="white" />
-            </Flex>
-          </Link>
-        </ListItem>
+        <ServerAvatar to="/s/new" variant="dashed" icon={<FiPlus color="white" size={24} />} marginY="0.5rem" />
 
-        <ListItem marginY="0.5rem">
-          <Link to="/">
-            <Flex align="center" justify="center" bg="none" w="50px" h="50px" rounded="md" border="2px dashed white">
-              <FiCompass size={24} color="white" />
-            </Flex>
-          </Link>
-        </ListItem>
+        <ServerAvatar to="/s/search" variant="dashed" icon={<FiCompass color="white" size={24} />} marginY="0.5rem" />
 
       </List>
 
@@ -51,13 +32,7 @@ export function ServerBar (): JSX.Element {
 
         <Box border="1px solid white" width="75px" />
 
-        <Flex marginTop="1.75rem">
-          <Link to="/">
-            <Flex align="center" justify="center" bg="none" w="50px" h="50px" rounded="md" border="2px solid white">
-              <FiSettings size={24} color="white" />
-            </Flex>
-          </Link>
-        </Flex>
+        <ServerAvatar to="/settings" variant="solid" icon={<FiSettings color="white" size={24} />} marginTop="1.75rem" />
 
       </Flex>
 
