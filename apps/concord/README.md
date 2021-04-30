@@ -1,6 +1,6 @@
-# Agree Dashboard :tv:
+# Concord :tv:
 
-This is the Agree main dashboard, built with CRA and Chakra UI.
+Concord is the Agree main dashboard, built with CRA and Chakra UI.
 
 I decided to divide it into three layers:
 - The presentation layer, where is located most of the jsx and styling
