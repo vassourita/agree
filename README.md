@@ -19,11 +19,11 @@
 I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation.
 You can check on development status [here](https://trello.com/agree15) and on Figma designs [here](https://www.figma.com/file/JIcmhV3KQXXCJmZJNB8KXx/Desktop?node-id=27%3A257).
 
-| App name                                |  Description          |
-| --------------------------------------- | --------------------- |
-| [Athens](apps/athens)                   | .NET Main webapi      |
-| [Agree Landing](apps/agree-landing)     | Next.js Landing page  |
-| [Agree Dashboard](apps/agree-dashboard) | CRA dashboard         |
+| App name                            |  Description          |
+| ----------------------------------- | --------------------- |
+| [Athens](apps/athens)               | .NET Main webapi      |
+| [Agree Landing](apps/agree-landing) | Next.js Landing page  |
+| [Concord](apps/concord)             | CRA dashboard         |
 
 <br/>
 <h3 align="center">
