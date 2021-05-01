@@ -1,4 +1,4 @@
-defmodule Accord.User do
+defmodule Accord.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
@@ -10,21 +10,23 @@ defmodule Accord.User do
 
   @required_params [:user_name, :email, :password]
 
+  @foreign_key_type :binary_id
+
   schema "users" do
+    field :avatar_url, :string
     field :email, :string
-    field :email_verified, :boolean
-    field :user_name, :string
-    field :tag, :integer
+    field :email_verified, :boolean, default: false
     field :password, :string, virtual: true
     field :password_hash, :string
-    field :avatar_url, :string
+    field :tag, :integer
+    field :user_name, :string
 
     timestamps()
   end
 
-  def changeset(params) do
-    %__MODULE__{}
-    |> cast(params, @required_params)
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_params)
     |> validate_required(@required_params)
     |> validate_length(:password, min: 5)
     |> validate_length(:user_name, min: 1, max: 40)

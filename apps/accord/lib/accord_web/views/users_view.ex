@@ -1,6 +1,6 @@
 defmodule AccordWeb.UsersView do
   use AccordWeb, :view
-  alias Accord.User
+  alias Accord.Account.User
 
   def render("create.json", %{user: %User{} = user}) do
     %{
