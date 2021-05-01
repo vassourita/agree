@@ -1,24 +1,24 @@
 version: '3'
 
 services:
-  athens-postgres:
+  accord-postgres:
     image: postgres
-    container_name: 'athens-postgres'
+    container_name: 'accord-postgres'
     restart: always
     ports:
       - 4001:5432
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
-      - POSTGRES_DB=athens
+      - POSTGRES_DB=accord_db
     volumes:
       - '/var/lib/postgresql/data'
     networks:
-      - athens-network
+      - accord-network
 
-  athens-redis:
+  accord-redis:
     image: redis:alpine
-    container_name: 'athens-redis'
+    container_name: 'accord-redis'
     restart: always
     command: 'redis-server --requirepass docker'
     ports:
@@ -26,19 +26,8 @@ services:
     volumes:
       - '/data'
     networks:
-      - athens-network
-
-  azurite:
-    image: 'mcr.microsoft.com/azure-storage/azurite'
-    container_name: 'azurite'
-    restart: always
-    command: 'azurite-blob --blobHost 0.0.0.0'
-    ports:
-      - 4003:10000
-      - 4004:10001
-    volumes:
-      - '/data'
+      - accord-network
 
 networks:
-  athens-network:
+  accord-network:
     driver: bridge
