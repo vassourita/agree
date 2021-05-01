@@ -7,6 +7,8 @@ defmodule AccordWeb.Router do
 
   scope "/api", AccordWeb do
     pipe_through :api
+
+    post "/users", UsersController, :create
   end
 
   # Enables LiveDashboard only for development

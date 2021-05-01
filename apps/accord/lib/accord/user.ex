@@ -41,6 +41,8 @@ defmodule Accord.User do
     change(changeset, %{tag: gen_tag(user_name, tags_in_use)})
   end
 
+  defp put_tag(changeset), do: changeset
+
   defp gen_tag(user_name, tags) do
     new_tag = Enum.random(1..9999)
 
@@ -54,6 +56,8 @@ defmodule Accord.User do
   defp put_email_verified(%Changeset{valid?: true} = changeset) do
     change(changeset, %{email_verified: false})
   end
+
+  defp put_email_verified(changeset), do: changeset
 
   defp put_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, Bcrypt.add_hash(password))
