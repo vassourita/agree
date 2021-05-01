@@ -19,6 +19,10 @@ config :accord, AccordWeb.Endpoint,
   pubsub_server: Accord.PubSub,
   live_view: [signing_salt: "0B9fopFN"]
 
+config :accord, Accord.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
