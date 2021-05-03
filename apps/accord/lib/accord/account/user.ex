@@ -32,30 +32,60 @@ defmodule Accord.Account.User do
     |> validate_length(:user_name, min: 1, max: 40)
     |> validate_format(:email, ~r/@/)
     |> unique_constraint([:email])
-    |> put_tag()
+    |> put_tag(attrs)
+    |> validate_tag()
     |> put_email_verified()
     |> put_password_hash()
   end
 
-  defp put_tag(%Changeset{valid?: true, changes: %{user_name: user_name}} = changeset) do
-    tags_in_use = Repo.all(from(u in __MODULE__, select: u.tag, where: u.user_name == ^user_name))
-
-    change(changeset, %{tag: gen_tag(user_name, tags_in_use)})
+  defp put_tag(
+         %Changeset{valid?: true, action: :insert, changes: %{user_name: user_name}} = changeset,
+         _attrs
+       ) do
+    change(changeset, %{tag: gen_tag(user_name)})
   end
 
-  defp put_tag(changeset), do: changeset
+  defp put_tag(
+         %Changeset{valid?: true, action: :update, data: data, changes: %{tag: tag}} = changeset,
+         attrs
+       ) do
+    IO.inspect(changeset)
 
-  defp gen_tag(user_name, tags) do
+    if verify_tag_available(data.user_name, tag) do
+      change(changeset, %{tag: tag})
+    else
+      change(changeset, %{tag: data.tag})
+    end
+  end
+
+  defp put_tag(changeset, _attrs), do: changeset
+
+  defp gen_tag(user_name) do
     new_tag = Enum.random(1..9999)
 
-    if new_tag in tags do
-      gen_tag(user_name, tags)
+    if verify_tag_available(user_name, new_tag) do
+      gen_tag(user_name)
     else
       new_tag
     end
   end
 
-  defp put_email_verified(%Changeset{valid?: true} = changeset) do
+  defp verify_tag_available(user_name, tag) do
+    tags =
+      Repo.all(
+        from(u in __MODULE__, select: u.tag, where: u.user_name == ^user_name and u.tag == ^tag)
+      )
+
+    length(tags) > 0
+  end
+
+  defp validate_tag(%Changeset{valid?: true, changes: %{tag: tag}}) do
+    tag >= 1 and tag <= 9999
+  end
+
+  defp validate_tag(changeset), do: changeset
+
+  defp put_email_verified(%Changeset{valid?: true, action: :insert} = changeset) do
     change(changeset, %{email_verified: false})
   end
 
