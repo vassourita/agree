@@ -16,21 +16,29 @@
 </h2>
 <br/>
 
-I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation.
+I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation. Docs on how to run the project locally will be created when the project reaches some minimum requirements I want to fulfill.
+
 You can check on development status [here](https://trello.com/agree15) and on Figma designs [here](https://www.figma.com/file/JIcmhV3KQXXCJmZJNB8KXx/Desktop?node-id=27%3A257).
 
-| App name                            |  Description           |
-| ----------------------------------- | ---------------------- |
-| [Athens](apps/athens)               | .NET Main webapi       |
-| [Agree Landing](apps/agree-landing) | Next.js Landing page   |
-| [Concord](apps/concord)             | CRA dashboard          |
-| [Accord](apps/accord)               | Elixir Phoenix backend |
+<br/>
+<h4 align="center">
+:construction: ----- Attention! These projects are under heavy changes recently ----- :construction:
+</h4>
+<br/>
+
+| Project                                                      |  Description           |
+| ------------------------------------------------------------ | ---------------------- |
+| [Allow](apps/allow)                                          | IdentityServer auth    |
+| [Concord](apps/allow/src/Agree.Allow.Presentation/ClientApp) | CRA Dashboard          |
+| [Accord](apps/accord)                                        | Elixir Phoenix backend |
 
 <br/>
 <h3 align="center">
 Project scope
 </h3>
-
+I'm working to get the initial scope running and stable as fast as possible but without losing quality. After this is done, I'll work to get new features and finish the final scope.
+<br/>
+<br/>
 <p align="center">
    <img src="./docs/initial_scope.png" alt="Initial scope" width="450"/>
    <img src="./docs/final_scope.png" alt="Final scope" width="300"/>
