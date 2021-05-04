@@ -2,6 +2,8 @@
 
 Concord is the Agree main dashboard, built with CRA and Chakra UI.
 
+It is served along with [Allow](../../..) on the same webserver to integrate with IdentityServer
+
 I decided to divide it into three layers:
 - The presentation layer, where is located most of the jsx and styling
 - The logic layer, where I use React Contexts and Hooks to manage the entire application business rules
