@@ -1,3 +1,5 @@
+> #### This folder will be deleted soon, as Concord now is a part of [Allow](../allow)
+
 # Concord :tv:
 
 Concord is the Agree main dashboard, built with CRA and Chakra UI.
