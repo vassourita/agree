@@ -3,15 +3,17 @@ using System;
 using Agree.Allow.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agree.Allow.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504190450_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,14 +24,14 @@ namespace Agree.Allow.Data.Migrations
             modelBuilder.Entity("Agree.Allow.Presentation.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(36)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -53,16 +55,16 @@ namespace Agree.Allow.Data.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
@@ -77,7 +79,6 @@ namespace Agree.Allow.Data.Migrations
                         .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
-                        .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
