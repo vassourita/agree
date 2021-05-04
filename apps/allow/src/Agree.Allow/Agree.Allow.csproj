@@ -27,10 +27,6 @@
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Agree.Allow.Data\Agree.Allow.Data.csproj" />
-    <ProjectReference Include="..\Agree.Allow.Core\Agree.Allow.Core.csproj" />
-  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />

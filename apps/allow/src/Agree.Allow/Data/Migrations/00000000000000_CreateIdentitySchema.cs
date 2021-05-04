@@ -30,6 +30,7 @@ namespace Agree.Allow.Data.Migrations
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Tag = table.Column<int>(type: "INTEGER", nullable: false, maxLength: 4),
                     EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Agree.Allow.Data
+namespace Agree.Allow.Data.Contexts
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
