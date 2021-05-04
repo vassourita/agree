@@ -1,13 +1,20 @@
-import { Component, Fragment } from 'react';
-import { Route } from 'react-router';
+import { Component, Fragment } from 'react'
+import { Route } from 'react-router'
 import { Login } from './Login'
 import { Logout } from './Logout'
-import { ApplicationPaths, LoginActions, LogoutActions } from './ApiAuthorizationConstants';
+import { ApplicationPaths, LoginActions, LogoutActions } from './ApiAuthorizationConstants'
 
-export default class ApiAuthorizationRoutes extends Component {
+function loginAction (name: any) {
+  return (<Login action={name}></Login>)
+}
 
+function logoutAction (name: any) {
+  return (<Logout action={name}></Logout>)
+}
+
+export class ApiAuthorizationRoutes extends Component {
   render () {
-    return(
+    return (
       <Fragment>
           <Route path={ApplicationPaths.Login} render={() => loginAction(LoginActions.Login)} />
           <Route path={ApplicationPaths.LoginFailed} render={() => loginAction(LoginActions.LoginFailed)} />
@@ -17,14 +24,6 @@ export default class ApiAuthorizationRoutes extends Component {
           <Route path={ApplicationPaths.LogOut} render={() => logoutAction(LogoutActions.Logout)} />
           <Route path={ApplicationPaths.LogOutCallback} render={() => logoutAction(LogoutActions.LogoutCallback)} />
           <Route path={ApplicationPaths.LoggedOut} render={() => logoutAction(LogoutActions.LoggedOut)} />
-      </Fragment>);
+      </Fragment>)
   }
-}
-
-function loginAction(name: any){
-    return (<Login action={name}></Login>);
-}
-
-function logoutAction(name: any) {
-    return (<Logout action={name}></Logout>);
 }

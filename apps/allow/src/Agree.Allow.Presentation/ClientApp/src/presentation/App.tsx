@@ -7,7 +7,7 @@ import { ContextContainer } from '../logic/contexts/ContextContainer'
 
 import './styles/utils.scss'
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')
+const baseUrl = document.getElementsByTagName('base')?.[0]?.getAttribute('href')
 
 export function App (): JSX.Element {
   return (

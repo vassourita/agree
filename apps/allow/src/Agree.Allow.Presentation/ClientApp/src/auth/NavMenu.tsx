@@ -1,24 +1,24 @@
 import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginMenu } from './LoginMenu'
-import './NavMenu.css';
+import './NavMenu.css'
 
 export class NavMenu extends Component<any, any> {
-  static displayName = NavMenu.name;
+  static displayName = NavMenu.name
 
   constructor (props: any) {
-    super(props);
+    super(props)
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this)
     this.state = {
       collapsed: true
-    };
+    }
   }
 
   toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
-    });
+    })
   }
 
   render () {
@@ -46,6 +46,6 @@ export class NavMenu extends Component<any, any> {
           </div>
         </nav>
       </header>
-    );
+    )
   }
 }

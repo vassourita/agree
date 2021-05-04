@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './auth/Layout';
-import { Home } from './auth/Home';
-import { FetchData } from './auth/FetchData';
-import { Counter } from './auth/Counter';
-import AuthorizeRoute from './auth/AuthorizeRoute';
-import ApiAuthorizationRoutes from './auth/ApiAuthorizationRoutes';
-import { ApplicationPaths } from './auth/ApiAuthorizationConstants';
+import { Component } from 'react'
+import { Route } from 'react-router'
+import { Layout } from './auth/Layout'
+import { Home } from './auth/Home'
+import { ApiAuthorizationRoutes } from './auth/ApiAuthorizationRoutes'
+import { ApplicationPaths } from './auth/ApiAuthorizationConstants'
 
 import './custom.css'
+import { BrowserRouter } from 'react-router-dom'
 
-export default class App extends Component {
-  static displayName = App.name;
+const baseUrl = document.getElementsByTagName('base')?.[0]?.getAttribute('href')
+
+export class App extends Component<any, any> {
+  static displayName = App.name
 
   render () {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <AuthorizeRoute path='/fetch-data' component={FetchData} />
-        <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
-      </Layout>
-    );
+      <BrowserRouter basename={baseUrl || undefined}>
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+        </Layout>
+      </BrowserRouter>
+    )
   }
 }

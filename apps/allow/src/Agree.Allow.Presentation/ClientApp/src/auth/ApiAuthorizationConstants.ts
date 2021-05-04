@@ -1,15 +1,15 @@
-export const ApplicationName = 'Agree.Allow.Presentation';
+export const ApplicationName = 'Agree.Allow.Presentation'
 
 export const QueryParameterNames = {
   ReturnUrl: 'returnUrl',
   Message: 'message'
-};
+}
 
 export const LogoutActions = {
   LogoutCallback: 'logout-callback',
   Logout: 'logout',
   LoggedOut: 'logged-out'
-};
+}
 
 export const LoginActions = {
   Login: 'login',
@@ -17,9 +17,9 @@ export const LoginActions = {
   LoginFailed: 'login-failed',
   Profile: 'profile',
   Register: 'register'
-};
+}
 
-const prefix = '/authentication';
+const prefix = '/authentication'
 
 export const ApplicationPaths = {
   DefaultLoginRedirectPath: '/',
@@ -35,4 +35,4 @@ export const ApplicationPaths = {
   LogOutCallback: `${prefix}/${LogoutActions.LogoutCallback}`,
   IdentityRegisterPath: 'Identity/Account/Register',
   IdentityManagePath: 'Identity/Account/Manage'
-};
+}

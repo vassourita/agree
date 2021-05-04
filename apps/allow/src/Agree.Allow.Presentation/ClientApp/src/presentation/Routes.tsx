@@ -1,58 +1,43 @@
-import { Switch, Route, Redirect } from 'react-router-dom'
-import { useAuth } from '../logic/hooks/useAuth'
+import { Switch, Route } from 'react-router-dom'
+import { ApplicationPaths } from '../auth/ApiAuthorizationConstants'
+import { ApiAuthorizationRoutes } from '../auth/ApiAuthorizationRoutes'
+import { AuthorizeRoute } from '../auth/AuthorizeRoute'
 import { DashboardLayout } from './layouts/DashboardLayout'
-import { AuthPage } from './pages/account/AuthPage'
 import { HomePage } from './pages/dashboard/HomePage'
 import { NotFoundPage } from './pages/error/NotFoundPage'
 
 export function Routes (): JSX.Element {
-  const { AuthenticatedTemplate, UnauthenticatedTemplate } = useAuth()
-
   return (
-    <>
-      <AuthenticatedTemplate>
-        <Switch>
-          <Route exact path="/">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/settings">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/new">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/search">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/:id">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route path="*">
-            <NotFoundPage />
-          </Route>
-        </Switch>
-      </AuthenticatedTemplate>
-
-      <UnauthenticatedTemplate>
-        <Switch>
-          <Route exact path={['/login', '/register']}>
-            <AuthPage />
-          </Route>
-          <Route path="*">
-            <Redirect to="/login" />
-          </Route>
-        </Switch>
-      </UnauthenticatedTemplate>
-    </>
+    <Switch>
+      <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+      <AuthorizeRoute exact path="/" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+      <AuthorizeRoute exact path="/settings" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+      <AuthorizeRoute exact path="/s/new" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+      <AuthorizeRoute exact path="/s/search" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+      <AuthorizeRoute exact path="/s/:id" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+      <AuthorizeRoute path="*" component={() => (
+        <NotFoundPage />
+      )}/>
+    </Switch>
   )
 }

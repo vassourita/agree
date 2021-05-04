@@ -1,8 +1,8 @@
-import { Component } from 'react';
-import { NavMenu } from './NavMenu';
+import { Component } from 'react'
+import { NavMenu } from './NavMenu'
 
-export class Layout extends Component {
-  static displayName = Layout.name;
+export class Layout extends Component<any, any> {
+  static displayName = Layout.name
 
   render () {
     return (
@@ -12,6 +12,6 @@ export class Layout extends Component {
           {this.props.children}
         </div>
       </div>
-    );
+    )
   }
 }
