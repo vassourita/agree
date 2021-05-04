@@ -8,38 +8,42 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.5.1"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.5.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="$(SpaRoot)**"/>
-    <None Remove="$(SpaRoot)**"/>
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Agree.Allow.Data\Agree.Allow.Data.csproj" />
+    <ProjectReference Include="..\Agree.Allow.Core\Agree.Allow.Core.csproj" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..."/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
   </Target>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build"/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build\**"/>
+      <DistFiles Include="$(SpaRoot)build\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

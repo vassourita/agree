@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
-using Agree.Allow.Presentation.Data;
 using Agree.Allow.Presentation.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Agree.Allow.Data;
+using Agree.Allow.Presentation.Configuration;
 
 namespace Agree.Allow.Presentation
 {
@@ -32,7 +33,7 @@ namespace Agree.Allow.Presentation
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(IdentityConfiguration.Setup)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()

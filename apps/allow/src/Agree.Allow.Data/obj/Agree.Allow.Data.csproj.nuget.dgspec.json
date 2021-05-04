@@ -4,14 +4,14 @@
     "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj": {}
   },
   "projects": {
-    "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj": {
+    "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/Agree.Allow.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj",
-        "projectName": "Agree.Allow.Data",
-        "projectPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj",
+        "projectUniqueName": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/Agree.Allow.Core.csproj",
+        "projectName": "Agree.Allow.Core",
+        "projectPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/Agree.Allow.Core.csproj",
         "packagesPath": "/home/vassao/.nuget/packages/",
-        "outputPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/obj/",
+        "outputPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/vassao/.nuget/NuGet/NuGet.Config"
@@ -37,6 +37,102 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj",
+        "projectName": "Agree.Allow.Data",
+        "projectPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/Agree.Allow.Data.csproj",
+        "packagesPath": "/home/vassao/.nuget/packages/",
+        "outputPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/vassao/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/Agree.Allow.Core.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/allow/src/Agree.Allow.Core/Agree.Allow.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.5.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
