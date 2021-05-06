@@ -11,6 +11,7 @@ using Agree.Allow.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -70,12 +71,55 @@ namespace Agree.Allow.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return Ok(new { AccessToken = await GenerateJwt(loginUser.Email) });
+                return BadRequest(new { Message = "Email or Password are incorrect" });
             }
 
-            return BadRequest(new { Message = "Email or Password are incorrect" });
+            return Ok(new { AccessToken = await GenerateJwt(loginUser.Email) });
+        }
+
+        [HttpPut]
+        [Route("")]
+        [Authorize]
+        public async Task<ActionResult> Update(UpdateAccountDto updateAccountDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+
+            var user = await GetAuthenticatedUserAccount();
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "User account not found" });
+            }
+
+            if (user.Email != updateAccountDto.Email)
+            {
+                var emailToken = await _userManager.GenerateChangeEmailTokenAsync(user, updateAccountDto.Email);
+            }
+
+            user.DisplayName = updateAccountDto.UserName;
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new { AccessToken = await GenerateJwt(user.Email), User = CurrentlyLoggedUser });
+        }
+
+        [HttpGet]
+        [Route("ConfirmEmail")]
+        [Authorize]
+        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email, [FromQuery] string newEmail)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            var result = await _userManager.ChangeEmailAsync(user, newEmail, token);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Message = "We could not verify your email. Please try again by clicking in the link we sent on your email", Verified = false });
+            }
+
+            return Ok(new { Message = "Email verified successfully", Verified = true });
         }
 
         [HttpGet]
@@ -101,6 +145,7 @@ namespace Agree.Allow.Controllers
                      new Claim(ClaimTypes.Name, $"{user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}"),
                      new Claim(ClaimTypes.Email, user.Email),
                      new Claim(ClaimTypes.Role, "user"),
+                     new Claim("verified", user.EmailConfirmed.ToString().ToLower()),
                      new Claim("id", user.Id.ToString()),
                 }),
                 Issuer = _tokenConfiguration.Issuer,

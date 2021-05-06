@@ -27,7 +27,8 @@ namespace Agree.Allow.Controllers
                 Id = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == "id").Value),
                 UserName = HttpContext.User.Identity.Name.Split('#').First(),
                 Tag = HttpContext.User.Identity.Name.Split('#').Last(),
-                Email = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Email).Value
+                Email = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Email).Value,
+                Verified = bool.Parse(HttpContext.User.Claims.First(c => c.Type == "verified").Value)
             }
             : null;
 
