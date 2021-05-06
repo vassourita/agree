@@ -21,7 +21,7 @@ You can check on development status [here](https://trello.com/agree15) and on Fi
 
 | App name                            |  Description           |
 | ----------------------------------- | ---------------------- |
-| [Athens](apps/athens)               | .NET Main webapi       |
+| [Allow](apps/allow)                 | .NET auth server       |
 | [Agree Landing](apps/agree-landing) | Next.js Landing page   |
 | [Concord](apps/concord)             | CRA dashboard          |
 | [Accord](apps/accord)               | Elixir Phoenix backend |
