@@ -80,14 +80,17 @@ namespace Agree.Allow.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            var identityClaims = new ClaimsIdentity();
-            identityClaims.AddClaims(await _userManager.GetClaimsAsync(user));
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_tokenConfiguration.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = identityClaims,
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                     new Claim(ClaimTypes.Name, $"{user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}"),
+                     new Claim(ClaimTypes.Email, user.Email),
+                     new Claim(ClaimTypes.Role, "user"),
+                     new Claim("id", user.Id.ToString()),
+                }),
                 Issuer = _tokenConfiguration.Issuer,
                 Audience = _tokenConfiguration.Audience,
                 Expires = DateTime.UtcNow.AddHours(_tokenConfiguration.ExpiresInMinutes),

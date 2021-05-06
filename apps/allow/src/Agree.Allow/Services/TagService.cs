@@ -19,7 +19,7 @@ namespace Agree.Allow.Services
             var rnd = new Random();
             var tag = rnd.Next(1, 9999);
 
-            var tagsInUse = await _ctx.Users.Where(u => u.UserName == userName).Select(u => u.Tag).ToArrayAsync();
+            var tagsInUse = await _ctx.Users.Where(u => u.DisplayName == userName).Select(u => u.Tag).ToArrayAsync();
 
             while (tagsInUse.Contains(tag))
             {
