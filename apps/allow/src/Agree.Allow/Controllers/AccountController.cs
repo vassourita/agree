@@ -95,9 +95,12 @@ namespace Agree.Allow.Controllers
             }
 
             if (!string.IsNullOrEmpty(updateAccountDto.Email) &&
-                user.Email != updateAccountDto.Email)
+                user.Email != updateAccountDto.Email &&
+                await _userManager.Users.FirstOrDefaultAsync(u => u.Email == updateAccountDto.Email) == null)
             {
                 var emailToken = await _userManager.GenerateChangeEmailTokenAsync(user, updateAccountDto.Email);
+                user.EmailConfirmed = false;
+                user.Email = updateAccountDto.Email;
             }
 
             if (!string.IsNullOrEmpty(updateAccountDto.UserName) &&
@@ -108,18 +111,12 @@ namespace Agree.Allow.Controllers
 
             if (user.Tag != updateAccountDto.Tag)
             {
-                var userWithSameTagAndName
-                    = await _userManager.Users.FirstOrDefaultAsync(
-                        u => u.DisplayName == user.DisplayName &&
-                        u.Tag == updateAccountDto.Tag);
-
-                if (userWithSameTagAndName == null)
-                {
-                    user.Tag = updateAccountDto.Tag;
-                }
+                user.Tag = updateAccountDto.Tag;
             }
 
-            await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             return Ok(new { AccessToken = await GenerateJwt(user.Email), User = user.ToViewModel() });
         }
