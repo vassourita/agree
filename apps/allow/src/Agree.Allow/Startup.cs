@@ -51,6 +51,11 @@ namespace Agree.Allow
             });
 
             services.AddScoped<TagService>();
+            services.AddScoped<MailService>();
+
+            // Mail
+            var mailConfigSection = Configuration.GetSection("MailConfiguration");
+            services.Configure<MailConfiguration>(mailConfigSection);
 
             // JWT
             var tokenConfigSection = Configuration.GetSection("TokenConfiguration");

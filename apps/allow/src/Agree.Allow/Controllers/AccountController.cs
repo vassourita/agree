@@ -25,18 +25,21 @@ namespace Agree.Allow.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TagService _tagService;
+        private readonly MailService _mailService;
         private readonly TokenConfiguration _tokenConfiguration;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TagService tagService,
+            MailService mailService,
             IOptions<TokenConfiguration> tokenConfiguration)
             : base(userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tagService = tagService;
+            _mailService = mailService;
             _tokenConfiguration = tokenConfiguration.Value;
         }
 
@@ -59,6 +62,12 @@ namespace Agree.Allow.Controllers
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
+            var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+            await _mailService.SendMailAsync(
+                user.Email,
+                "Agree - Welcome",
+                $"<html><body>Welcome to Agree! Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your email.</body></html>");
             await _signInManager.SignInAsync(user, false);
 
             return Ok(new { AccessToken = await GenerateJwt(user.Email) });
@@ -98,9 +107,14 @@ namespace Agree.Allow.Controllers
                 user.Email != updateAccountDto.Email &&
                 await _userManager.Users.FirstOrDefaultAsync(u => u.Email == updateAccountDto.Email) == null)
             {
-                var emailToken = await _userManager.GenerateChangeEmailTokenAsync(user, updateAccountDto.Email);
                 user.EmailConfirmed = false;
                 user.Email = updateAccountDto.Email;
+                var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+                await _mailService.SendMailAsync(
+                    user.Email,
+                    "Agree - Confirmation",
+                    $"<html><body>Hello, {user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}. Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your new email.</body></html>");
             }
 
             if (!string.IsNullOrEmpty(updateAccountDto.UserName) &&
@@ -149,13 +163,12 @@ namespace Agree.Allow.Controllers
         }
 
         [HttpGet]
-        [Route("ConfirmEmail")]
-        [Authorize]
-        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email, [FromQuery] string newEmail)
+        [Route("ConfirmEmail", Name = "ConfirmEmail")]
+        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-            var result = await _userManager.ChangeEmailAsync(user, newEmail, token);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
 
             if (!result.Succeeded)
             {
@@ -168,11 +181,11 @@ namespace Agree.Allow.Controllers
         [HttpGet]
         [Route("@Me")]
         [Authorize]
-        public ActionResult Me()
+        public async Task<ActionResult> Me()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
-            return BadRequest(new { User = CurrentlyLoggedUser });
+            return Ok(new { User = (await GetAuthenticatedUserAccount()).ToViewModel() });
         }
 
         private async Task<string> GenerateJwt(string email)
