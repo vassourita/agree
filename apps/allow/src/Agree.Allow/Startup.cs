@@ -14,6 +14,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Agree.Allow.Configuration;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Agree.Allow
 {
@@ -31,12 +37,43 @@ namespace Agree.Allow
         {
             services
                 .AddDbContext<ApplicationContext>(
-                    opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                    opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
+                .AddDefaultIdentity<ApplicationUser>(IdentityConfiguration.Setup)
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Allow", Version = "v1" });
+            });
+
+            // JWT
+
+            var tokenConfigSection = Configuration.GetSection("TokenConfiguration");
+            services.Configure<TokenConfiguration>(tokenConfigSection);
+
+            var tokenConfig = tokenConfigSection.Get<TokenConfiguration>();
+            var key = Encoding.ASCII.GetBytes(tokenConfig.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = tokenConfig.Audience,
+                    ValidIssuer = tokenConfig.Issuer,
+                };
             });
         }
 
@@ -54,6 +91,7 @@ namespace Agree.Allow
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
