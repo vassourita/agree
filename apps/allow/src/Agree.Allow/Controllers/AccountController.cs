@@ -8,6 +8,7 @@ using Agree.Allow.Configuration;
 using Agree.Allow.Dtos;
 using Agree.Allow.Models;
 using Agree.Allow.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,7 +18,7 @@ namespace Agree.Allow.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : CustomBaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,6 +30,7 @@ namespace Agree.Allow.Controllers
             SignInManager<ApplicationUser> signInManager,
             TagService tagService,
             IOptions<TokenConfiguration> tokenConfiguration)
+            : base(userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -74,6 +76,16 @@ namespace Agree.Allow.Controllers
             }
 
             return BadRequest(new { Message = "Email or Password are incorrect" });
+        }
+
+        [HttpGet]
+        [Route("@Me")]
+        [Authorize]
+        public ActionResult Me()
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+
+            return BadRequest(new { User = CurrentlyLoggedUser });
         }
 
         private async Task<string> GenerateJwt(string email)
