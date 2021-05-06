@@ -106,12 +106,39 @@ namespace Agree.Allow.Controllers
             if (!string.IsNullOrEmpty(updateAccountDto.UserName) &&
                 user.DisplayName != updateAccountDto.UserName)
             {
-                user.DisplayName = updateAccountDto.UserName;
+                var userWithSameTagAndName = await _userManager.Users.FirstOrDefaultAsync(
+                    u => u.DisplayName == updateAccountDto.UserName &&
+                    u.Tag == user.Tag);
+
+                if (userWithSameTagAndName == null)
+                {
+                    user.DisplayName = updateAccountDto.UserName;
+                }
             }
 
             if (user.Tag != updateAccountDto.Tag)
             {
-                user.Tag = updateAccountDto.Tag;
+                var userWithSameTagAndName = await _userManager.Users.FirstOrDefaultAsync(
+                    u => u.DisplayName == user.DisplayName &&
+                    u.Tag == updateAccountDto.Tag);
+
+                if (userWithSameTagAndName == null)
+                {
+                    user.Tag = updateAccountDto.Tag;
+
+                    if (!string.IsNullOrEmpty(updateAccountDto.UserName) &&
+                        user.DisplayName != updateAccountDto.UserName)
+                    {
+                        userWithSameTagAndName = await _userManager.Users.FirstOrDefaultAsync(
+                            u => u.DisplayName == updateAccountDto.UserName &&
+                            u.Tag == user.Tag);
+
+                        if (userWithSameTagAndName == null)
+                        {
+                            user.DisplayName = updateAccountDto.UserName;
+                        }
+                    }
+                }
             }
 
             var result = await _userManager.UpdateAsync(user);
