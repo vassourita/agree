@@ -10,6 +10,7 @@ using Agree.Allow.Models;
 using Agree.Allow.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Agree.Allow.Controllers
@@ -27,12 +28,12 @@ namespace Agree.Allow.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TagService tagService,
-            TokenConfiguration tokenConfiguration)
+            IOptions<TokenConfiguration> tokenConfiguration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tagService = tagService;
-            _tokenConfiguration = tokenConfiguration;
+            _tokenConfiguration = tokenConfiguration.Value;
         }
 
         [HttpPost]
@@ -44,7 +45,8 @@ namespace Agree.Allow.Controllers
             var user = new ApplicationUser
             {
                 Email = registerDto.Email,
-                UserName = registerDto.UserName,
+                UserName = registerDto.Email,
+                DisplayName = registerDto.UserName,
                 Tag = await _tagService.GenerateTag(registerDto.UserName),
                 EmailConfirmed = false
             };
@@ -58,11 +60,11 @@ namespace Agree.Allow.Controllers
             return Ok();
         }
 
-        [HttpPost()]
+        [HttpPost]
         [Route("Login")]
         public async Task<ActionResult> Login(LoginDto loginUser)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
             var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 

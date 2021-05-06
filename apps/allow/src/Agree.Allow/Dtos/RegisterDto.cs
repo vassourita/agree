@@ -16,7 +16,7 @@ namespace Agree.Allow.Dtos
         [StringLength(255, ErrorMessage = "{0} must have between {2} and {1} characters", MinimumLength = 6)]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "As senhas não são iguais")]
+        [Compare("Password", ErrorMessage = "The passwords don't match")]
         public string ConfirmPassword { get; set; }
     }
 }

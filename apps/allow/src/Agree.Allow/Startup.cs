@@ -20,6 +20,7 @@ using Agree.Allow.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Agree.Allow.Services;
 
 namespace Agree.Allow
 {
@@ -49,8 +50,9 @@ namespace Agree.Allow
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Allow", Version = "v1" });
             });
 
-            // JWT
+            services.AddScoped<TagService>();
 
+            // JWT
             var tokenConfigSection = Configuration.GetSection("TokenConfiguration");
             services.Configure<TokenConfiguration>(tokenConfigSection);
 
@@ -87,7 +89,7 @@ namespace Agree.Allow
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agree.Allow v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
