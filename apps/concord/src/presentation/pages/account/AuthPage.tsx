@@ -1,7 +1,7 @@
-import { Box, Container, Flex, Grid, Heading, List, ListItem, Text } from '@chakra-ui/layout'
+import { Box, Container, Flex, Grid, Heading, List, ListItem, Text, Link } from '@chakra-ui/layout'
 import { useHistory, useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
-import { FiArrowLeftCircle, FiChevronRight, FiLock, FiMail, FiMenu, FiUser } from 'react-icons/fi'
+import { Link as RouterLink } from 'react-router-dom'
+import { FiArrowLeftCircle, FiChevronRight, FiChevronsRight, FiLock, FiMail, FiMenu, FiUser } from 'react-icons/fi'
 import { TextInput } from '../../components/form/TextInput'
 import { PasswordInput } from '../../components/form/PasswordInput'
 import { SquareButton } from '../../components/form/SquareButton'
@@ -94,7 +94,7 @@ export function AuthPage (): JSX.Element {
               )
             : (
                 <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
-                  <ListItem><Link to="/">{t`Home`}</Link></ListItem>
+                  <ListItem><Link as={RouterLink} to="/">{t`Home`}</Link></ListItem>
                   <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">{t`Login`}</Link></ListItem>
                   <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">{t`Create an account`}</Link></ListItem>
                 </List>
@@ -117,8 +117,18 @@ export function AuthPage (): JSX.Element {
             <Flex direction={{ base: 'column-reverse', lg: 'row' }} justify="space-between" align="center">
               <Flex align="center" justify="center" mt={{ base: '2rem', lg: '0' }}>
                 <Text fontSize="1.1rem" color="gray.700" lineHeight="1.4">
-                  Ainda não tem uma conta?<br />
-                  <Link style={{ textDecoration: 'underline' }} to="/register">Clique aqui</Link> para criar uma
+                  <Link as={RouterLink} display="flex" alignItems="center" to="/register">
+                    Criar uma conta
+                    <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
+                  </Link>
+                  <Link as={RouterLink} display="flex" alignItems="center" to="/forgot">
+                    Esqueci minha senha
+                    <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
+                  </Link>
+                  <Link as={RouterLink} display="flex" alignItems="center" to="/resend">
+                    Reenviar confirmação de email
+                    <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
+                  </Link>
                 </Text>
               </Flex>
               <Flex direction={{ base: 'column', lg: 'row' }} gridGap={{ base: '1rem', lg: '50px' }}>
