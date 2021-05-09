@@ -1,0 +1,12 @@
+{
+  "name": "contract",
+  "version": "1.0.0",
+  "description": "Contract is the official js lib for Agree apis",
+  "author": "Vinicius Vassao",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/contract-core",
+    "packages/contract-react"
+  ]
+}
