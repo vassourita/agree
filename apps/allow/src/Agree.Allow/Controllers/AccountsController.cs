@@ -204,7 +204,7 @@ namespace Agree.Allow.Controllers
                 return NotFound();
             }
 
-            return Ok(new { User = user });
+            return Ok(new { User = user.ToViewModel() });
         }
 
         private async Task<string> GenerateJwt(string email)
