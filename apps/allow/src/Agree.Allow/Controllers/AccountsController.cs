@@ -20,7 +20,7 @@ namespace Agree.Allow.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : CustomBaseController
+    public class AccountsController : CustomBaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -28,7 +28,7 @@ namespace Agree.Allow.Controllers
         private readonly MailService _mailService;
         private readonly TokenConfiguration _tokenConfiguration;
 
-        public AccountController(
+        public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TagService tagService,
@@ -70,7 +70,9 @@ namespace Agree.Allow.Controllers
                 $"<html><body>Welcome to Agree! Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your email.</body></html>");
             await _signInManager.SignInAsync(user, false);
 
-            return Ok(new { AccessToken = await GenerateJwt(user.Email) });
+            return Created(
+                Url.Link("GetById", new { Id = user.Id }),
+                new { AccessToken = await GenerateJwt(user.Email) });
         }
 
         [HttpPost]
@@ -186,6 +188,23 @@ namespace Agree.Allow.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
             return Ok(new { User = (await GetAuthenticatedUserAccount()).ToViewModel() });
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        [Authorize]
+        public async Task<ActionResult> Show([FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { User = user });
         }
 
         private async Task<string> GenerateJwt(string email)
