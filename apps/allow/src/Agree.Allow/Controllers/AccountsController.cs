@@ -60,7 +60,7 @@ namespace Agree.Allow.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(new { result.Errors });
 
             var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
@@ -159,7 +159,7 @@ namespace Agree.Allow.Controllers
 
             var result = await _userManager.UpdateAsync(user);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(new { result.Errors });
 
             return Ok(new { AccessToken = await GenerateJwt(user.Email), User = user.ToViewModel() });
         }
