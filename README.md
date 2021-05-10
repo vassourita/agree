@@ -25,7 +25,6 @@ You can check on development status [here](https://trello.com/agree15) and on Fi
 | [Agree Landing](apps/agree-landing) | Next.js Landing page      |
 | [Concord](apps/concord)             | CRA dashboard             |
 | [Accord](apps/accord)               | Elixir Phoenix backend    |
-| [Contract](apps/contract)           | JS lib for backend access |
 
 <br/>
 <h3 align="center">
