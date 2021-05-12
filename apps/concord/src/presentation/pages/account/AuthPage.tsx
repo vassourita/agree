@@ -13,7 +13,7 @@ import { Image } from '@chakra-ui/image'
 
 import LogoImage from '../../assets/agreew.svg'
 import BgImage from '../../assets/bglogin.png'
-import { useAuth } from '../../../logic/hooks/useAuth'
+import { useAllow } from '../../../logic/hooks/useAllow'
 import { useInputState } from '../../hooks/useInputState'
 import { FormEvent } from 'react'
 import { useI18n } from '../../hooks/useI18n'
@@ -29,7 +29,7 @@ export function AuthPage (): JSX.Element {
   const [registerPassword, setRegisterPassword] = useInputState()
   const [registerPasswordConfirm, setRegisterPasswordConfirm] = useInputState()
 
-  const auth = useAuth()
+  const auth = useAllow()
   const { t } = useI18n()
   const history = useHistory()
   const [,, isMd] = useBreakpoints()

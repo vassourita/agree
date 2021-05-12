@@ -1,12 +1,12 @@
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { useAuth } from '../logic/hooks/useAuth'
+import { useAllow } from '../logic/hooks/useAllow'
 import { DashboardLayout } from './layouts/DashboardLayout'
 import { AuthPage } from './pages/account/AuthPage'
 import { HomePage } from './pages/dashboard/HomePage'
 import { NotFoundPage } from './pages/error/NotFoundPage'
 
 export function Routes (): JSX.Element {
-  const { AuthenticatedTemplate, UnauthenticatedTemplate } = useAuth()
+  const { AuthenticatedTemplate, UnauthenticatedTemplate } = useAllow()
 
   return (
     <>

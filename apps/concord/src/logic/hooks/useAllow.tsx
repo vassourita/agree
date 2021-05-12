@@ -1,13 +1,13 @@
 import { Fragment, FunctionComponent, PropsWithChildren, useContext } from 'react'
-import { AuthContext, AuthContextProps } from '../contexts/AuthContext'
+import { AllowContext, AllowContextProps } from '../contexts/AllowContext'
 
 type AuthHook = {
   AuthenticatedTemplate: FunctionComponent<PropsWithChildren<unknown>>
   UnauthenticatedTemplate: FunctionComponent<PropsWithChildren<unknown>>
-} & AuthContextProps
+} & AllowContextProps
 
-export function useAuth (): AuthHook {
-  const ctx = useContext(AuthContext)
+export function useAllow (): AuthHook {
+  const ctx = useContext(AllowContext)
 
   function AuthenticatedTemplate ({ children }: PropsWithChildren<unknown>): JSX.Element {
     return (
