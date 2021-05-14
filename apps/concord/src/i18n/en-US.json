@@ -28,6 +28,7 @@
   "Password must contain one uppercase, one lowercase and one digit characters": "Password must contain one uppercase, one lowercase and one digit characters",
   "Password confirmation is required": "Password confirmation is required",
   "Passwords must match": "Passwords must match",
+  "Email has already been taken": "Email has already been taken",
   "Logout": "Logout",
   "Oops! Something is wrong...": "Oops! Something is wrong...",
   "UserName": "UserName",
