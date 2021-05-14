@@ -177,13 +177,13 @@ export function AuthPage (): JSX.Element {
         <Box overflowY="auto" shadow="md" maxW="500px" w="full" h="100vh" p="3rem" bg="gray.100" color="gray.800">
           <Flex w="auto" cursor="pointer" fontWeight="semibold" align="center" gridGap="1rem" onClick={() => history.push('/login')}>
             <FiArrowLeftCircle size={24} />
-            VOLTAR
+            {t`Back`.toUpperCase()}
           </Flex>
 
           <Flex flexDir="column" marginTop="2.5rem">
-            <Heading as="h2">Criar conta</Heading>
+            <Heading as="h2">{t`Create an account`}</Heading>
             <Text marginTop="0.5rem">
-              Basta preencher esses dados para criar uma conta. Você poderá personalizar tudo isso depois.
+              {t`All you need to do is fill this data. You will be able to change all this later`}
             </Text>
           </Flex>
 
@@ -192,11 +192,11 @@ export function AuthPage (): JSX.Element {
               <Alert rounded="md" flexDirection="column" alignItems="start" status="error" variant="left-accent">
                 <Flex mb="0.4rem" alignItems="flex-start" justifyContent="flex-start">
                   <AlertIcon />
-                  <AlertTitle>Ops! Tem alguns erros nos seus dados...</AlertTitle>
+                  <AlertTitle>{t`Ops! Tem alguns erros nos seus dados...`}</AlertTitle>
                 </Flex>
                 <Flex flexDirection="column">
                   {registerErrors.map(e => (
-                    <AlertDescription key={e}>{e}</AlertDescription>
+                    <AlertDescription key={e}>{t`${e}`}</AlertDescription>
                   ))}
                 </Flex>
               </Alert>
@@ -204,11 +204,13 @@ export function AuthPage (): JSX.Element {
           )}
 
           <Flex onSubmit={submitRegisterForm} as="form" flexDir="column" marginTop="2.5rem" w="auto" gridRowGap="1.5rem">
-            <TextInput value={registerUserName} onChange={setRegisterUserName} icon={<FiUser />} placeholder="NOME DE USUÁRIO" />
+            <TextInput maxLength={20} value={registerUserName} onChange={setRegisterUserName} icon={<FiUser />} placeholder={t`UserName`.toUpperCase()} />
             <TextInput value={registerEmail} onChange={setRegisterEmail} icon={<FiMail />} placeholder="EMAIL" />
-            <PasswordInput value={registerPassword} onChange={setRegisterPassword} icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
-            <PasswordInput value={registerPasswordConfirm} onChange={setRegisterPasswordConfirm} icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
-            <Button disabled={!(registerEmail && registerUserName && registerPassword && registerPasswordConfirm)} type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
+            <PasswordInput value={registerPassword} onChange={setRegisterPassword} icon={<FiLock />} placeholder={t`Type your password`.toUpperCase()} />
+            <PasswordInput value={registerPasswordConfirm} onChange={setRegisterPasswordConfirm} icon={<FiLock />} placeholder={t`Confirm your password`.toUpperCase()} />
+            <Button disabled={!(registerEmail && registerUserName && registerPassword && registerPasswordConfirm)} type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>
+              {t`Create account`.toUpperCase()}
+            </Button>
           </Flex>
         </Box>
       </Slide>
