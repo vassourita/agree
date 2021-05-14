@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { useI18n } from '../../presentation/hooks/useI18n'
+import { RegisterInput } from '../../validation/RegisterValidator'
 import { useSyncCacheState } from '../hooks/useSyncCacheState'
 import { Account } from '../models/Account'
 import { ICache } from '../services/ICache'
@@ -12,9 +13,9 @@ export type AllowContextProps = {
   isAuthenticated: boolean
   account: Account | null
   accessToken: string | null
-  login(email: string, password: string): Promise<void>
+  login(email: string, password: string): Promise<string[]>
   logout(): void
-  register(userName: string, email: string, password: string): Promise<void>
+  register(input: RegisterInput): Promise<string[]>
 }
 
 export const AllowContext = createContext<AllowContextProps>({} as AllowContextProps)
@@ -28,7 +29,7 @@ export type AllowProviderProps = {
 
 const ACCESS_TOKEN_KEY = '@agree/access-token'
 
-export function AllowProvider ({ httpClient, cache, children, logger }: AllowProviderProps): JSX.Element {
+export function AllowProvider ({ httpClient, cache, children, logger: _logger }: AllowProviderProps): JSX.Element {
   const [accessToken, setAccessToken] = useSyncCacheState<string>(cache, ACCESS_TOKEN_KEY)
   const [account, setAccount] = useState<Account | null>(null)
 
@@ -70,7 +71,7 @@ export function AllowProvider ({ httpClient, cache, children, logger }: AllowPro
     return user
   }
 
-  async function login (email: string, password: string) {
+  async function login (email: string, password: string): Promise<string[]> {
     const response = await httpClient.request({
       method: 'post',
       body: {
@@ -85,49 +86,68 @@ export function AllowProvider ({ httpClient, cache, children, logger }: AllowPro
       setAccessToken(response.body.accessToken)
       await me()
       history.push('/')
+      return []
     } else {
       setAccessToken(null)
       toast({
-        title: t`${response.body.message}`,
+        title: t`Email or password incorrect`,
         isClosable: true,
         status: 'error'
       })
+      return []
     }
   }
 
-  async function register (userName: string, email: string, password: string) {
+  async function register (input: RegisterInput): Promise<string[]> {
     const response = await httpClient.request({
       method: 'post',
       body: {
-        email,
-        password,
-        userName
+        email: input.email,
+        userName: input.userName,
+        password: input.password,
+        confirmPassword: input.confirmPassword
       },
       url: `${process.env.REACT_APP_ALLOW_URL}/accounts/register`
     })
 
     if (response.statusCode === HttpStatusCode.OK || response.statusCode === HttpStatusCode.CREATED) {
       toast({
-        title: t`${response.body.message}`,
-        description: t`We sent a confirmation mail to ${email}.`,
+        title: t`Welcome, ${response.body.user.userName}#${response.body.user.tag}!`,
+        description: t`We sent a confirmation mail to ${input.email}.`,
         isClosable: true,
         status: 'success'
       })
       setAccessToken(response.body.accessToken)
       await me()
-      history.push('/')
+      history.push({ pathname: '/', state: { firstLogin: true } })
+      return []
+    } else if (response.body?.errors?.some((e: any) => e.code === 'DuplicateEmail')) {
+      return [
+        'Email has already been taken'
+      ]
     } else {
       toast({
-        title: t`${response.body.message}`,
+        title: t`An unexpected error ocurred`,
+        description: t`Please try again later`,
         isClosable: true,
         status: 'error'
       })
+      _logger.info(response)
     }
+    return []
   }
 
   const tryAuthenticate = () =>
-    accessToken() && me()
-      .then(() => location.pathname === '/login' && history.push('/'))
+    accessToken()
+      ? me()
+        .then(user => user && location.pathname === '/login' && history.push('/') && (
+          toast({
+            title: t`Welcome, ${user?.userName}#${user?.tag}!`,
+            isClosable: true,
+            status: 'success'
+          })
+        ))
+      : history.push('/login')
 
   useEffect(() => {
     tryAuthenticate()
@@ -137,18 +157,14 @@ export function AllowProvider ({ httpClient, cache, children, logger }: AllowPro
     tryAuthenticate()
   }, [accessToken()])
 
-  useEffect(() => {
-    if (account) {
-      toast({
-        title: t`Welcome, ${account?.userName}#${account?.tag}!`,
-        isClosable: true,
-        status: 'success'
-      })
-    }
-  }, [account])
-
   function logout () {
     setAccessToken(null)
+    setAccount(null)
+    toast({
+      title: t`Bye bye...`,
+      isClosable: true,
+      status: 'info'
+    })
     history.push('/login')
   }
 

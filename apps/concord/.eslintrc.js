@@ -33,6 +33,7 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/no-explicit-any': 'off',
+    'no-template-curly-in-string': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': [
       'error',

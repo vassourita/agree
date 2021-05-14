@@ -13,5 +13,7 @@
   "Account succesfully created": "Conta criada com sucesso",
   "We sent a confirmation mail to {0}. You must confirm your email before logging in.": "Enviamos um email de confirmação para {0}. Você precisa confirmar seu email antes de fazer login.",
   "Email verified succesfully": "Email verificado com sucesso",
-  "Now you can login into Agree!": "Agora você pode fazer login no Agree!"
+  "Now you can login into Agree!": "Agora você pode fazer login no Agree!",
+  "Email or password incorrect": "Email ou senha incorretos",
+  "Bye bye...": "Tchau, tchau..."
 }

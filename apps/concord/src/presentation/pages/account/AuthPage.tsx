@@ -15,8 +15,10 @@ import LogoImage from '../../assets/agreew.svg'
 import BgImage from '../../assets/bglogin.png'
 import { useAllow } from '../../../logic/hooks/useAllow'
 import { useInputState } from '../../hooks/useInputState'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { useI18n } from '../../hooks/useI18n'
+import { RegisterValidator } from '../../../validation/RegisterValidator'
+import { Alert, AlertDescription, AlertIcon, AlertTitle } from '@chakra-ui/alert'
 
 export function AuthPage (): JSX.Element {
   const location = useLocation()
@@ -28,6 +30,8 @@ export function AuthPage (): JSX.Element {
   const [registerUserName, setRegisterUserName] = useInputState()
   const [registerPassword, setRegisterPassword] = useInputState()
   const [registerPasswordConfirm, setRegisterPasswordConfirm] = useInputState()
+
+  const [registerErrors, setRegisterErrors] = useState<string[]>([])
 
   const auth = useAllow()
   const { t } = useI18n()
@@ -41,11 +45,33 @@ export function AuthPage (): JSX.Element {
     auth.login(loginEmail, loginPassword)
   }
 
-  function submitRegisterForm (e: FormEvent) {
-    e.preventDefault()
-    auth.register(registerUserName, registerEmail, registerPassword).then(() => {
-      history.push('/login')
-    })
+  async function submitRegisterForm (event: FormEvent) {
+    event.preventDefault()
+    const validator = new RegisterValidator()
+
+    const registerInput = {
+      email: registerEmail,
+      userName: registerUserName,
+      password: registerPassword,
+      confirmPassword: registerPasswordConfirm
+    }
+
+    const validation = await validator.validate(registerInput)
+
+    if (validation?.errors) {
+      setRegisterErrors(validation.errors)
+    } else {
+      auth.register(registerInput).then((errors) => {
+        if (!errors.length) {
+          history.push('/login')
+        } else {
+          setRegisterErrors(previous => [
+            ...previous.filter(e => errors.some(v => v === e)),
+            ...errors
+          ])
+        }
+      })
+    }
   }
 
   return (
@@ -95,8 +121,8 @@ export function AuthPage (): JSX.Element {
             : (
                 <List fontSize="24" d="flex" mt="3rem" alignItems="end" justifyContent="center" w="full" textAlign="center" gridGap="4rem">
                   <ListItem><Link as={RouterLink} to="/">{t`Home`}</Link></ListItem>
-                  <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link to="/login">{t`Login`}</Link></ListItem>
-                  <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link to="/register">{t`Create an account`}</Link></ListItem>
+                  <ListItem fontWeight={!isRegisterPage ? 'bold' : 'normal'}><Link as={RouterLink} to="/login">{t`Login`}</Link></ListItem>
+                  <ListItem fontWeight={isRegisterPage ? 'bold' : 'normal'}><Link as={RouterLink} to="/register">{t`Create an account`}</Link></ListItem>
                 </List>
               )}
         </Flex>
@@ -161,12 +187,28 @@ export function AuthPage (): JSX.Element {
             </Text>
           </Flex>
 
+          {registerErrors.length > 0 && (
+            <Flex marginTop="2rem">
+              <Alert rounded="md" flexDirection="column" alignItems="start" status="error" variant="left-accent">
+                <Flex mb="0.4rem" alignItems="flex-start" justifyContent="flex-start">
+                  <AlertIcon />
+                  <AlertTitle>Ops! Tem alguns erros nos seus dados...</AlertTitle>
+                </Flex>
+                <Flex flexDirection="column">
+                  {registerErrors.map(e => (
+                    <AlertDescription key={e}>{e}</AlertDescription>
+                  ))}
+                </Flex>
+              </Alert>
+            </Flex>
+          )}
+
           <Flex onSubmit={submitRegisterForm} as="form" flexDir="column" marginTop="2.5rem" w="auto" gridRowGap="1.5rem">
             <TextInput value={registerUserName} onChange={setRegisterUserName} icon={<FiUser />} placeholder="NOME DE USUÁRIO" />
             <TextInput value={registerEmail} onChange={setRegisterEmail} icon={<FiMail />} placeholder="EMAIL" />
             <PasswordInput value={registerPassword} onChange={setRegisterPassword} icon={<FiLock />} placeholder="DIGITE SUA SENHA" />
             <PasswordInput value={registerPasswordConfirm} onChange={setRegisterPasswordConfirm} icon={<FiLock />} placeholder="CONFIRME SUA SENHA" />
-            <Button type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
+            <Button disabled={!(registerEmail && registerUserName && registerPassword && registerPasswordConfirm)} type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>CRIAR CONTA</Button>
           </Flex>
         </Box>
       </Slide>

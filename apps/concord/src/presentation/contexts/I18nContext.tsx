@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { ILogger } from '../../logic/services/ILogger'
 
 export type Language = 'en-US' | 'pt-BR'
 
