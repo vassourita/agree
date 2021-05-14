@@ -1,6 +1,5 @@
 import { InputLeftElement, Input, InputGroup, InputProps } from '@chakra-ui/input'
 
-import { Box } from '@chakra-ui/layout'
 import { ReactNode } from 'react'
 
 type TextInputProps = {
@@ -22,7 +21,6 @@ export function TextInput ({ icon, placeholder, type = 'text', w = 'full', ...re
       _focusWithin={{ borderColor: 'gray.300' }}
       _hover={{ borderColor: 'gray.300' }}
     >
-      <Box w="4px" bg="brand.700" borderLeftRadius="md" />
       <InputLeftElement
         h="full"
         ml="12px"
@@ -40,8 +38,6 @@ export function TextInput ({ icon, placeholder, type = 'text', w = 'full', ...re
         border="none"
         placeholder={placeholder}
         _placeholder={{ color: 'gray.600' }}
-        _focus={{ borderColor: 'transparent' }}
-        _active={{ borderColor: 'transparent' }}
         {...rest}
       />
     </InputGroup>

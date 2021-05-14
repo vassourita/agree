@@ -1,7 +1,6 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { InputLeftElement, Input, InputGroup, InputRightElement, InputProps } from '@chakra-ui/input'
 
-import { Box } from '@chakra-ui/layout'
 import { ReactNode } from 'react'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
@@ -25,7 +24,6 @@ export function PasswordInput ({ icon, placeholder, w = 'full', ...rest }: Passw
       _focusWithin={{ borderColor: 'gray.300' }}
       _hover={{ borderColor: 'gray.300' }}
     >
-      <Box w="4px" bg="brand.700" borderLeftRadius="md" />
       <InputLeftElement
         h="full"
         ml="12px"
@@ -43,8 +41,6 @@ export function PasswordInput ({ icon, placeholder, w = 'full', ...rest }: Passw
         border="none"
         placeholder={placeholder}
         _placeholder={{ color: 'gray.600' }}
-        _focus={{ borderColor: 'transparent' }}
-        _active={{ borderColor: 'transparent' }}
         {...rest}
       />
       <InputRightElement

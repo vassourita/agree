@@ -9,7 +9,7 @@ type SquareButtonProps = {
 export function SquareButton ({ icon, w, ...rest }: SquareButtonProps): JSX.Element {
   return (
     <Button
-    h={w} w={w}
+      h={w} w={w}
       border="1px" borderColor="gray.200"
       bg="white" color="gray.600"
       _active={{ filter: 'brightness(1.1)', borderColor: 'gray.300' }}
