@@ -112,7 +112,7 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
         isClosable: true,
         status: 'success'
       })
-      history.push({ pathname: '/home', state: { firstLogin: true } })
+      history.push('/home')
       return []
     } else if (response.body?.errors?.some((e: any) => e.code === 'DuplicateEmail')) {
       return [
@@ -140,21 +140,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     })
     history.push('/login')
   }
-
-  useEffect(() => {
-    if (accessToken()) {
-      me()
-        .then(user => {
-          if (user && location.pathname === '/login') {
-            history.push('/home')
-          } else {
-            history.push(location.pathname)
-          }
-        })
-    } else {
-      history.push('/login')
-    }
-  }, [])
 
   useEffect(() => {
     const verifiedEmail = new URLSearchParams(location.search).get('email_verified')

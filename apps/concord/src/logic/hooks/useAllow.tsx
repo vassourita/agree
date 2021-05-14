@@ -1,33 +1,40 @@
-import { Fragment, FunctionComponent, PropsWithChildren, useContext } from 'react'
+import { FunctionComponent, useContext } from 'react'
+import { Redirect, Route, RouteProps } from 'react-router'
 import { AllowContext, AllowContextProps } from '../contexts/AllowContext'
 
 type AuthHook = {
-  AuthenticatedTemplate: FunctionComponent<PropsWithChildren<unknown>>
-  UnauthenticatedTemplate: FunctionComponent<PropsWithChildren<unknown>>
+  AuthenticatedRoute: FunctionComponent<RouteProps>
+  UnauthenticatedRoute: FunctionComponent<RouteProps>
 } & AllowContextProps
 
 export function useAllow (): AuthHook {
   const ctx = useContext(AllowContext)
 
-  function AuthenticatedTemplate ({ children }: PropsWithChildren<unknown>): JSX.Element {
+  function AuthenticatedRoute ({ component, ...rest }: RouteProps): JSX.Element {
+    const Component = component as any
     return (
-      <Fragment>
-        {ctx.isAuthenticated && children}
-      </Fragment>
+      <Route {...rest} render={props => (
+        ctx.isAuthenticated
+          ? <Component {...props} />
+          : <Redirect to="/login" />
+      )} />
     )
   }
 
-  function UnauthenticatedTemplate ({ children }: PropsWithChildren<unknown>): JSX.Element {
+  function UnauthenticatedRoute ({ component, ...rest }: RouteProps): JSX.Element {
+    const Component = component as any
     return (
-      <Fragment>
-        {!ctx.isAuthenticated && children}
-      </Fragment>
+      <Route {...rest} render={props => (
+        !ctx.isAuthenticated
+          ? <Component {...props} />
+          : <Redirect to="/home" />
+      )} />
     )
   }
 
   return {
     ...ctx,
-    AuthenticatedTemplate,
-    UnauthenticatedTemplate
+    AuthenticatedRoute,
+    UnauthenticatedRoute
   }
 }

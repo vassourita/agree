@@ -8,7 +8,7 @@ export function HomePage () : JSX.Element {
   return (
     <Flex flexDirection="column">
       <Heading>HOME</Heading>
-      <Button onClick={() => allow.logout()}>logout</Button>
+      <Button p="1rem" onClick={() => allow.logout()}>logout</Button>
     </Flex>
   )
 }

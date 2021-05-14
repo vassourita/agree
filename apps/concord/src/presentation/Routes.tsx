@@ -6,53 +6,51 @@ import { HomePage } from './pages/dashboard/HomePage'
 import { NotFoundPage } from './pages/error/NotFoundPage'
 
 export function Routes (): JSX.Element {
-  const { AuthenticatedTemplate, UnauthenticatedTemplate } = useAllow()
+  const { AuthenticatedRoute, UnauthenticatedRoute } = useAllow()
 
   return (
-    <>
-      <AuthenticatedTemplate>
-        <Switch>
-          <Route exact path="/home">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/settings">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/new">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/search">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route exact path="/s/:id">
-            <DashboardLayout>
-              <HomePage />
-            </DashboardLayout>
-          </Route>
-          <Route path="*">
-            <NotFoundPage />
-          </Route>
-        </Switch>
-      </AuthenticatedTemplate>
+    <Switch>
+      <AuthenticatedRoute exact path="/" component={() => (
+        <Redirect to="/home"/>
+      )}/>
 
-      <UnauthenticatedTemplate>
-        <Switch>
-          <Route exact path={['/login', '/register']}>
-            <AuthPage />
-          </Route>
-          <Route path="*">
-            <Redirect to="/login" />
-          </Route>
-        </Switch>
-      </UnauthenticatedTemplate>
-    </>
+      <AuthenticatedRoute exact path="/home" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+
+      <AuthenticatedRoute exact path="/settings" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+
+      <AuthenticatedRoute exact path="/s/new" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+
+      <AuthenticatedRoute exact path="/s/search" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+
+      <AuthenticatedRoute exact path="/s/:id" component={() => (
+        <DashboardLayout>
+          <HomePage />
+        </DashboardLayout>
+      )}/>
+
+      <UnauthenticatedRoute exact path={['/login', '/register']} component={() => (
+        <AuthPage />
+      )}/>
+
+      <Route path="*">
+        <NotFoundPage />
+      </Route>
+    </Switch>
   )
 }
