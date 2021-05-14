@@ -12,7 +12,7 @@ export function Routes (): JSX.Element {
     <>
       <AuthenticatedTemplate>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/home">
             <DashboardLayout>
               <HomePage />
             </DashboardLayout>

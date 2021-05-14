@@ -1,7 +1,6 @@
-import { IValidator } from './IValidator'
-
 import * as Yup from 'yup'
-import { IHttpClient } from '../logic/services/IHttpClient'
+
+import { IValidator } from './IValidator'
 
 export type RegisterInput = {
   email: string

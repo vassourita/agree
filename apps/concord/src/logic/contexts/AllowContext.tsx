@@ -39,18 +39,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   const history = useHistory()
   const location = useLocation()
 
-  useEffect(() => {
-    const verifiedEmail = new URLSearchParams(location.search).get('email_verified')
-    if (verifiedEmail) {
-      toast({
-        title: t`Email verified succesfully`,
-        description: t`Now you can login into Agree!`,
-        isClosable: true,
-        status: 'info'
-      })
-    }
-  }, [])
-
   async function me (): Promise<Account | null> {
     const response = await httpClient.request({
       method: 'get',
@@ -84,8 +72,13 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
 
     if (response.statusCode === HttpStatusCode.OK) {
       setAccessToken(response.body.accessToken)
-      await me()
-      history.push('/')
+      const user = (await me() as Account)
+      toast({
+        title: t`Welcome, ${user?.userName}#${user?.tag}!`,
+        isClosable: true,
+        status: 'success'
+      })
+      history.push('/home')
       return []
     } else {
       setAccessToken(null)
@@ -111,15 +104,15 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     })
 
     if (response.statusCode === HttpStatusCode.OK || response.statusCode === HttpStatusCode.CREATED) {
+      setAccessToken(response.body.accessToken)
+      const user = (await me() as Account)
       toast({
-        title: t`Welcome, ${response.body.user.userName}#${response.body.user.tag}!`,
-        description: t`We sent a confirmation mail to ${input.email}.`,
+        title: t`Welcome, ${user?.userName}#${user?.tag}!`,
+        description: t`We sent a confirmation mail to ${input.email}`,
         isClosable: true,
         status: 'success'
       })
-      setAccessToken(response.body.accessToken)
-      await me()
-      history.push({ pathname: '/', state: { firstLogin: true } })
+      history.push({ pathname: '/home', state: { firstLogin: true } })
       return []
     } else if (response.body?.errors?.some((e: any) => e.code === 'DuplicateEmail')) {
       return [
@@ -137,26 +130,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     return []
   }
 
-  const tryAuthenticate = () =>
-    accessToken()
-      ? me()
-        .then(user => user && location.pathname === '/login' && history.push('/') && (
-          toast({
-            title: t`Welcome, ${user?.userName}#${user?.tag}!`,
-            isClosable: true,
-            status: 'success'
-          })
-        ))
-      : history.push('/login')
-
-  useEffect(() => {
-    tryAuthenticate()
-  }, [])
-
-  useEffect(() => {
-    tryAuthenticate()
-  }, [accessToken()])
-
   function logout () {
     setAccessToken(null)
     setAccount(null)
@@ -168,8 +141,35 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     history.push('/login')
   }
 
+  useEffect(() => {
+    if (accessToken()) {
+      me()
+        .then(user => {
+          if (user && location.pathname === '/login') {
+            history.push('/home')
+          } else {
+            history.push(location.pathname)
+          }
+        })
+    } else {
+      history.push('/login')
+    }
+  }, [])
+
+  useEffect(() => {
+    const verifiedEmail = new URLSearchParams(location.search).get('email_verified')
+    if (verifiedEmail) {
+      toast({
+        title: t`Email verified succesfully`,
+        description: t`Now you can login into Agree!`,
+        isClosable: true,
+        status: 'info'
+      })
+    }
+  }, [])
+
   return (
-    <AllowContext.Provider value={{ accessToken: accessToken(), logout, account, isAuthenticated: !!(account), login, register }}>
+    <AllowContext.Provider value={{ accessToken: accessToken(), logout, account, isAuthenticated: !!(accessToken()), login, register }}>
       {children}
     </AllowContext.Provider>
   )

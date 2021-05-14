@@ -10,7 +10,7 @@ export function ServerBar (): JSX.Element {
 
       <Flex flexDirection="column" align="center" justify="center" minW="100px" marginTop="1.75rem" marginBottom="1.25rem">
 
-        <ServerAvatar to="/" variant="fill" icon={IconImg} marginBottom="1.75rem" />
+        <ServerAvatar to="/home" variant="fill" icon={IconImg} marginBottom="1.75rem" />
 
         <Box border="1px solid white" width="75px" />
 
