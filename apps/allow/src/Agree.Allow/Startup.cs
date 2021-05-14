@@ -96,6 +96,11 @@ namespace Agree.Allow
 
             // app.UseHttpsRedirection();
 
+            app.UseCors(config =>
+                config.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+
             app.UseRouting();
 
             app.UseAuthentication();

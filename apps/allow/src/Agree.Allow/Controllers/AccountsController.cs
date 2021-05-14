@@ -72,7 +72,7 @@ namespace Agree.Allow.Controllers
 
             return Created(
                 Url.Link("GetById", new { Id = user.Id }),
-                new { AccessToken = await GenerateJwt(user.Email) });
+                new { AccessToken = await GenerateJwt(user.Email), User = user.ToViewModel() });
         }
 
         [HttpPost]
@@ -191,7 +191,7 @@ namespace Agree.Allow.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id}", Name = "GetById")]
         [Authorize]
         public async Task<ActionResult> Show([FromRoute] Guid id)
         {
