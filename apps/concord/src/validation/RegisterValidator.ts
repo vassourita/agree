@@ -21,7 +21,7 @@ export class RegisterValidator implements IValidator<RegisterInput> {
         .min(6, 'Password must have at least ${min} characters')
         .max(255, 'Password must not have more than ${max} characters')
         .matches(
-          /^(?=.*[A-Z])(?=.*\d)(?=.*[a-z])[A-Za-z\d]{6,}$/,
+          /^(?=.*[A-Z])(?=.*\d)(?=.*[a-z])[A-Za-z\d!@#$%&*_-]{6,}$/,
           'Password must contain one uppercase, one lowercase and one digit characters'
         ),
       confirmPassword: Yup.string().required('Password confirmation is required')
