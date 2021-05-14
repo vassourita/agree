@@ -28,6 +28,7 @@
   "Password must contain one uppercase, one lowercase and one digit characters": "Senha deve conter uma letra maiúscula, uma minúscula e um dígito",
   "Password confirmation is required": "Confirmação da senha é obrigatória",
   "Passwords must match": "As senhas não correspondem",
+  "Email has already been taken": "Este email já está em uso",
   "Logout": "Logout",
   "Oops! Something is wrong...": "Oops! Tem algo errado...",
   "UserName": "Nome de usuário",
