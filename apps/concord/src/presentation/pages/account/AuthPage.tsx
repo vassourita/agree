@@ -144,22 +144,22 @@ export function AuthPage (): JSX.Element {
               <Flex align="center" justify="center" mt={{ base: '2rem', lg: '0' }}>
                 <Text fontSize="1.1rem" color="gray.700" lineHeight="1.4">
                   <Link as={RouterLink} display="flex" alignItems="center" to="/register">
-                    Criar uma conta
+                    {t`Create an account`}
                     <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
                   </Link>
                   <Link as={RouterLink} display="flex" alignItems="center" to="/forgot">
-                    Esqueci minha senha
+                    {t`Forgot my password`}
                     <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
                   </Link>
                   <Link as={RouterLink} display="flex" alignItems="center" to="/resend">
-                    Reenviar confirmação de email
+                    {t`Resend confirmation mail`}
                     <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
                   </Link>
                 </Text>
               </Flex>
               <Flex direction={{ base: 'column', lg: 'row' }} gridGap={{ base: '1rem', lg: '50px' }}>
                 <TextInput value={loginEmail} onChange={setLoginEmail} w={{ base: 'auto', lg: '300px' }} icon={<FiMail />} placeholder="EMAIL" />
-                <PasswordInput value={loginPassword} onChange={setLoginPassword} w={{ base: 'auto', lg: '300px' }} icon={<FiLock />} placeholder="SENHA" />
+                <PasswordInput value={loginPassword} onChange={setLoginPassword} w={{ base: 'auto', lg: '300px' }} icon={<FiLock />} placeholder={t`Password`.toUpperCase()} />
                 {isMd
                   ? (
                       <Button type="submit" h="3.9rem" rightIcon={<FiChevronRight />}>LOGIN</Button>
@@ -192,7 +192,7 @@ export function AuthPage (): JSX.Element {
               <Alert rounded="md" flexDirection="column" alignItems="start" status="error" variant="left-accent">
                 <Flex mb="0.4rem" alignItems="flex-start" justifyContent="flex-start">
                   <AlertIcon />
-                  <AlertTitle>{t`Ops! Tem alguns erros nos seus dados...`}</AlertTitle>
+                  <AlertTitle>{t`Oops! Something is wrong...`}</AlertTitle>
                 </Flex>
                 <Flex flexDirection="column">
                   {registerErrors.map(e => (

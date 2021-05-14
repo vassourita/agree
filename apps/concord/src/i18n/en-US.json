@@ -32,7 +32,10 @@
   "Oops! Something is wrong...": "Oops! Something is wrong...",
   "UserName": "UserName",
   "Type your password": "Type your password",
+  "Password": "Password",
   "Confirm your password": "Confirm your password",
   "Back": "Back",
-  "All you need to do is fill this data. You will be able to change all this later": "All you need to do is fill this data. You will be able to change all this later"
+  "All you need to do is fill this data. You will be able to change all this later": "All you need to do is fill this data. You will be able to change all this later",
+  "Forgot my password": "Forgot my password",
+  "Resend confirmation mail": "Resend confirmation mail"
 }

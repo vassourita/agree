@@ -29,10 +29,13 @@
   "Password confirmation is required": "Confirmação da senha é obrigatória",
   "Passwords must match": "As senhas não correspondem",
   "Logout": "Logout",
-  "Oops! Something is wrong...": "Ops! Tem alguns erros nos seus dados...",
+  "Oops! Something is wrong...": "Oops! Tem algo errado...",
   "UserName": "Nome de usuário",
   "Type your password": "Digite sua senha",
+  "Password": "Senha",
   "Confirm your password": "Confirme sua senha",
   "Back": "Voltar",
-  "All you need to do is fill this data. You will be able to change all this later": "Basta preencher esses dados para criar uma conta. Você poderá personalizar tudo isso depois."
+  "All you need to do is fill this data. You will be able to change all this later": "Basta preencher esses dados para criar uma conta. Você poderá personalizar tudo isso depois.",
+  "Forgot my password": "Esqueci minha senha",
+  "Resend confirmation mail": "Reenviar confirmação de email"
 }
