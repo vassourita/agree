@@ -196,7 +196,7 @@ export function AuthPage (): JSX.Element {
                 </Flex>
                 <Flex flexDirection="column">
                   {registerErrors.map(e => (
-                    <AlertDescription key={e}>• {t([e] as any)}</AlertDescription>
+                    <AlertDescription key={e}>• {t([e] as unknown as TemplateStringsArray)}</AlertDescription>
                   ))}
                 </Flex>
               </Alert>

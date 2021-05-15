@@ -142,6 +142,9 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   }
 
   useEffect(() => {
+    if (accessToken()) {
+      me()
+    }
     const verifiedEmail = new URLSearchParams(location.search).get('email_verified')
     if (verifiedEmail) {
       toast({
