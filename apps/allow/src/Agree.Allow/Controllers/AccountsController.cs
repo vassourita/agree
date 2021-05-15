@@ -180,6 +180,26 @@ namespace Agree.Allow.Controllers
             return Ok(new { Message = "Email verified successfully", Verified = true });
         }
 
+        [HttpPost]
+        [Route("ResendConfirmationEmail")]
+        [Authorize]
+        public async Task<ActionResult> ResendConfirmationEmail()
+        {
+            var user = await GetAuthenticatedUserAccount();
+            if (user.EmailConfirmed)
+            {
+                return BadRequest();
+            }
+            var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+            await _mailService.SendMailAsync(
+                user.Email,
+                "Agree - Confirmation",
+                $"<html><body>Hello, {user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}. Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your new email.</body></html>");
+
+            return Ok();
+        }
+
         [HttpGet]
         [Route("@Me")]
         [Authorize]
