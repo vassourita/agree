@@ -39,8 +39,10 @@ export function SideBar (): JSX.Element {
               </PopoverTrigger>
               <PopoverContent bg="brand.900" w="250px">
                 <PopoverHeader>{datefns.format(new Date(), 'PPPP', { locale: dateFnsLocale })}</PopoverHeader>
-                <PopoverBody d="flex" justifyContent="flex-end">
-                  <Button p="0.6rem" onClick={() => logout()}>{t`Logout`}</Button>
+                <PopoverBody d="flex" flexDirection="column" justifyContent="space-between">
+                  <Button bg="none" p="0.6rem" onClick={() => logout()}>{t`Logout`}</Button>
+                  {!account?.verified && <Button bg="none" p="0.6rem">{t`Resend confirmation mail`}</Button>}
+                  <Button bg="none" p="0.6rem" onClick={() => logout()}>{t`Forgot my password`}</Button>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
