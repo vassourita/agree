@@ -1,7 +1,6 @@
 import { Image } from '@chakra-ui/image'
-import { Box, Flex, ListItem, Link } from '@chakra-ui/layout'
+import { Box, Flex, Link } from '@chakra-ui/layout'
 import { ChakraProps } from '@chakra-ui/system'
-import { ReactNode } from 'react'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 
 import './ServerAvatar.scss'

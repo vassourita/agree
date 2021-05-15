@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/layout'
-import { FiHeadphones, FiMic, FiSettings } from 'react-icons/fi'
+import { FiHeadphones, FiMic } from 'react-icons/fi'
 import { useAllow } from '../../../logic/hooks/useAllow'
 import { UserAvatar } from '../avatar/UserAvatar'
 import { Button } from '../form/Button'
