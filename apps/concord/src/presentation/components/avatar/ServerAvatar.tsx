@@ -19,7 +19,7 @@ export function ServerAvatar ({ to, icon, variant, tooltip, ...rest }: ServerAva
     if (variant === 'fill') {
       return (
         <Box className="ServerAvatarContainer" {...rest}>
-          <Link as={RouterNavLink} to={to} activeClassName="active">
+          <Link as={RouterNavLink} _focus={{ border: 'transparent' }} to={to} activeClassName="active">
             <Tooltip label={tooltip || to} fontSize="md" placement="right">
               <Flex bg="white" w="50px" h="50px" rounded="lg" align="center" justify="center">
                 <Image objectFit="cover" objectPosition="center" src={icon} w="50px" h="50px" rounded="lg" />
@@ -32,7 +32,7 @@ export function ServerAvatar ({ to, icon, variant, tooltip, ...rest }: ServerAva
 
     return (
       <ListItem className="ServerAvatarContainer" marginY="0.5rem" {...rest}>
-        <Link as={RouterNavLink} to={to} activeClassName="active">
+        <Link as={RouterNavLink} _focus={{ border: 'transparent' }} to={to} activeClassName="active">
           <Tooltip label={tooltip || to} fontSize="md" placement="right">
             <Flex bg="white" w="50px" h="50px" rounded="lg">
               <Image objectFit="cover" objectPosition="center" src={icon} w="50px" h="50px" rounded="lg" />
@@ -45,7 +45,7 @@ export function ServerAvatar ({ to, icon, variant, tooltip, ...rest }: ServerAva
 
   return (
     <Box className="ServerAvatarContainer" {...rest}>
-      <Link as={RouterNavLink} to={to} activeClassName="active">
+      <Link as={RouterNavLink} _focus={{ border: 'transparent' }} to={to} activeClassName="active">
         <Tooltip label={tooltip || to} fontSize="md" placement="right">
           <Flex border={`2px ${variant} white`} bg="none" w="50px" h="50px" rounded="lg" align="center" justify="center">
             {icon}

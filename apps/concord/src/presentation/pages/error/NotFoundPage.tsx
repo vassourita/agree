@@ -1,4 +1,4 @@
-import { Image } from '@chakra-ui/image'
+import { Img } from '@chakra-ui/image'
 import { Flex, Heading, Text } from '@chakra-ui/layout'
 import { useI18n } from '../../hooks/useI18n'
 
@@ -10,7 +10,7 @@ export function NotFoundPage (): JSX.Element {
 
   return (
     <Flex align="center" justify="center" h="100vh" flexDirection="column" bg={`url(${BgImage}) no-repeat`} bgSize="cover">
-      <Image alt="Agree logo" h="4rem" src={LogoImage} mb="3rem" />
+      <Img alt="Agree logo" h="4rem" src={LogoImage} mb="3rem" />
       <Heading as="h1" fontSize="4.2rem" mb="3rem">
         404 NOT FOUND
       </Heading>

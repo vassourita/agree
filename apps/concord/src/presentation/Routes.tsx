@@ -10,39 +10,31 @@ export function Routes (): JSX.Element {
 
   return (
     <Switch>
+      <DashboardLayout>
       <AuthenticatedRoute exact path="/" component={() => (
         <Redirect to="/home"/>
       )}/>
 
       <AuthenticatedRoute exact path="/home" component={() => (
-        <DashboardLayout>
-          <HomePage />
-        </DashboardLayout>
+        <HomePage />
       )}/>
 
       <AuthenticatedRoute exact path="/settings" component={() => (
-        <DashboardLayout>
-          <HomePage />
-        </DashboardLayout>
+        <HomePage />
       )}/>
 
       <AuthenticatedRoute exact path="/s/new" component={() => (
-        <DashboardLayout>
-          <HomePage />
-        </DashboardLayout>
+        <HomePage />
       )}/>
 
       <AuthenticatedRoute exact path="/s/search" component={() => (
-        <DashboardLayout>
-          <HomePage />
-        </DashboardLayout>
+        <HomePage />
       )}/>
 
       <AuthenticatedRoute exact path="/s/:id" component={() => (
-        <DashboardLayout>
-          <HomePage />
-        </DashboardLayout>
+        <HomePage />
       )}/>
+      </DashboardLayout>
 
       <UnauthenticatedRoute exact path={['/login', '/register']} component={() => (
         <AuthPage />

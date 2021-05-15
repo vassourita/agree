@@ -21,7 +21,7 @@ export function ServerBar (): JSX.Element {
 
       <List w="full" h="full" className="hide-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
-        {Array.from(Array(6).keys()).map(i => (
+        {Array.from(Array(20).keys()).map(i => (
           <ServerAvatar key={i} variant="solid" icon="https://source.unsplash.com/random" to={`/s/${i}`}/>
         ))}
 

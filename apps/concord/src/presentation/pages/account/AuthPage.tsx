@@ -9,7 +9,7 @@ import { Slide } from '@chakra-ui/transition'
 import { Button } from '../../components/form/Button'
 import { useBreakpoints } from '../../hooks/useBreakpoints'
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/menu'
-import { Image } from '@chakra-ui/image'
+import { Img } from '@chakra-ui/image'
 
 import LogoImage from '../../assets/agreew.svg'
 import BgImage from '../../assets/bglogin.png'
@@ -100,7 +100,7 @@ export function AuthPage (): JSX.Element {
             ? (
               <Flex direction="column" px="3rem">
                 <Flex h="4rem" w="full" py="3rem" align="flex-start" justify="space-between">
-                  <Image alt="Agree logo" h="3rem" src={LogoImage} mb="1.1rem" />
+                  <Img alt="Agree logo" h="3rem" src={LogoImage} mb="1.1rem" />
                   <Menu>
                     <MenuButton>
                       <FiMenu size={32} />
@@ -130,7 +130,7 @@ export function AuthPage (): JSX.Element {
         <Flex gridArea="text">
           <Container maxW="80rem">
             <Flex hidden={isMd} h="full" direction="column" justify="flex-end" align="start">
-              <Image alt="Agree logo" h="100px" src={LogoImage} mb="1.1rem" />
+              <Img alt="Agree logo" h="100px" src={LogoImage} mb="1.1rem" />
               <Text maxW="430px" mb="4rem" fontSize="1.9rem" color="gray.100" lineHeight="1.4">
                   {t`Log in and connect with 20 other people. Yes, just that. Call more people please.`}
               </Text>
