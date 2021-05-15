@@ -3,4 +3,5 @@ export type Account = {
   tag: string
   email: string
   userName: string
+  verified: boolean
 }

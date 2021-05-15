@@ -5,10 +5,10 @@ import { SideBar } from '../components/nav/SideBar'
 
 export function DashboardLayout ({ children }: PropsWithChildren<unknown>): JSX.Element {
   return (
-    <Flex minH="100vh">
+    <Flex h="100vh">
       <ServerBar />
       <SideBar />
-      <Flex minH="100vh" w="100%" bg="brand.900">
+      <Flex h="100vh" w="100%" bg="brand.900">
         {children}
       </Flex>
     </Flex>

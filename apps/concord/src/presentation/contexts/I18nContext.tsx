@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import datefns from 'date-fns'
+import * as locales from 'date-fns/locale'
 
 export type Language = 'en-US' | 'pt-BR'
 
@@ -10,6 +12,7 @@ export type Resource = {
 
 export type I18nContextProps = {
   language: Language
+  dateFnsLocale: datefns.Locale
   t(string: TemplateStringsArray, ...values: string[]): string
 }
 
@@ -68,8 +71,15 @@ export function I18nProvider ({ children, resource }: I18nProviderProps): JSX.El
     return formatTaggedTemplate(false, strings, ...values)
   }
 
+  function getDateFnsLocale () {
+    if (language === 'pt-BR') {
+      return locales.ptBR
+    }
+    return locales.enUS
+  }
+
   return (
-    <I18nContext.Provider value={{ language, t }}>
+    <I18nContext.Provider value={{ language, t, dateFnsLocale: getDateFnsLocale() }}>
       {children}
     </I18nContext.Provider>
   )
