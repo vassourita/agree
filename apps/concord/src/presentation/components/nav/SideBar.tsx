@@ -9,7 +9,7 @@ import { UserAvatar } from '../avatar/UserAvatar'
 import { Button } from '../form/Button'
 
 export function SideBar (): JSX.Element {
-  const { account, logout } = useAllow()
+  const { account, logout, resendConfirmationMail } = useAllow()
   const { t, dateFnsLocale } = useI18n()
 
   return (
@@ -41,8 +41,8 @@ export function SideBar (): JSX.Element {
                 <PopoverHeader>{datefns.format(new Date(), 'PPPP', { locale: dateFnsLocale })}</PopoverHeader>
                 <PopoverBody d="flex" flexDirection="column" justifyContent="space-between">
                   <Button bg="none" p="0.6rem" onClick={() => logout()}>{t`Logout`}</Button>
-                  {!account?.verified && <Button bg="none" p="0.6rem">{t`Resend confirmation mail`}</Button>}
-                  <Button bg="none" p="0.6rem" onClick={() => logout()}>{t`Forgot my password`}</Button>
+                  {!account?.verified && <Button bg="none" p="0.6rem" onClick={() => resendConfirmationMail()}>{t`Resend confirmation mail`}</Button>}
+                  <Button bg="none" p="0.6rem" disabled onClick={() => logout()}>{t`Forgot my password`}</Button>
                 </PopoverBody>
               </PopoverContent>
             </Popover>

@@ -151,10 +151,6 @@ export function AuthPage (): JSX.Element {
                     {t`Forgot my password`}
                     <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
                   </Link>
-                  <Link as={RouterLink} display="flex" alignItems="center" to="/resend">
-                    {t`Resend confirmation mail`}
-                    <FiChevronsRight style={{ margin: '3px 2px 0 0' }} />
-                  </Link>
                 </Text>
               </Flex>
               <Flex direction={{ base: 'column', lg: 'row' }} gridGap={{ base: '1rem', lg: '50px' }}>

@@ -13,6 +13,7 @@ export type AllowContextProps = {
   isAuthenticated: boolean
   account: Account | null
   accessToken: string | null
+  resendConfirmationMail(): Promise<void>
   login(email: string, password: string): Promise<string[]>
   logout(): void
   register(input: RegisterInput): Promise<string[]>
@@ -141,6 +142,34 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     history.push('/login')
   }
 
+  async function resendConfirmationMail () {
+    if (!account?.email) {
+      return
+    }
+    const response = await httpClient.request({
+      method: 'post',
+      url: `${process.env.REACT_APP_ALLOW_URL}/accounts/ResendConfirmationEmail`,
+      headers: {
+        Authorization: `Bearer ${accessToken()}`
+      }
+    })
+    if (response.statusCode === HttpStatusCode.OK) {
+      toast({
+        title: 'OkiDoki!',
+        description: t`We sent a confirmation mail to ${account.email}`,
+        isClosable: true,
+        status: 'success'
+      })
+    } else {
+      toast({
+        title: t`An unexpected error ocurred`,
+        description: t`Please try again later`,
+        isClosable: true,
+        status: 'error'
+      })
+    }
+  }
+
   useEffect(() => {
     if (accessToken()) {
       me()
@@ -157,7 +186,7 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   }, [])
 
   return (
-    <AllowContext.Provider value={{ accessToken: accessToken(), logout, account, isAuthenticated: !!(accessToken()), login, register }}>
+    <AllowContext.Provider value={{ accessToken: accessToken(), logout, account, isAuthenticated: !!(accessToken()), login, register, resendConfirmationMail }}>
       {children}
     </AllowContext.Provider>
   )
