@@ -38,5 +38,8 @@
   "Back": "Voltar",
   "All you need to do is fill this data. You will be able to change all this later": "Basta preencher esses dados para criar uma conta. Você poderá personalizar tudo isso depois.",
   "Forgot my password": "Esqueci minha senha",
-  "Resend confirmation mail": "Reenviar confirmação de email"
+  "Resend confirmation mail": "Reenviar confirmação de email",
+  "Create server": "Criar servidor",
+  "Search servers": "Pesquisar servidores",
+  "Settings": "Configurações"
 }
