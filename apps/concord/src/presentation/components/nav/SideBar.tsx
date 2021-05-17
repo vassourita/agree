@@ -1,12 +1,14 @@
 import { Box, Flex, Text } from '@chakra-ui/layout'
 import { Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger } from '@chakra-ui/popover'
-import { FiHeadphones, FiMic } from 'react-icons/fi'
+import { FiHeadphones, FiMic, FiSearch } from 'react-icons/fi'
 import * as datefns from 'date-fns'
 
 import { useAllow } from '../../../logic/hooks/useAllow'
 import { useI18n } from '../../hooks/useI18n'
 import { UserAvatar } from '../avatar/UserAvatar'
 import { Button } from '../form/Button'
+import { TextInput } from '../form/TextInput'
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 
 export function SideBar (): JSX.Element {
   const { account, logout, resendConfirmationMail } = useAllow()
@@ -16,7 +18,10 @@ export function SideBar (): JSX.Element {
     <Flex justify="space-between" position="relative" maxH="100vh" minW="300px" bg="brand.700" flexDirection="column" >
 
       <Flex flexDirection="column" align="center" justify="center" minW="100px" marginTop="1.75rem" marginBottom="1.25rem">
-
+        <InputGroup h="50px" width="250px">
+          <Input h="50px" width="250px" placeholder="Procurando algo?" borderColor="white" borderWidth="2px" _placeholder={{ color: 'white' }} />
+          <InputRightElement h="50px"><FiSearch /></InputRightElement>
+        </InputGroup>
       </Flex>
 
       <Flex h="full"></Flex>
