@@ -1,3 +1,4 @@
+using System.Web;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -27,13 +28,15 @@ namespace Agree.Allow.Controllers
         private readonly TagService _tagService;
         private readonly MailService _mailService;
         private readonly TokenConfiguration _tokenConfiguration;
+        private readonly FrontendConfiguration _frontendConfiguration;
 
         public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TagService tagService,
             MailService mailService,
-            IOptions<TokenConfiguration> tokenConfiguration)
+            IOptions<TokenConfiguration> tokenConfiguration,
+            IOptions<FrontendConfiguration> frontendConfiguration)
             : base(userManager)
         {
             _userManager = userManager;
@@ -41,6 +44,7 @@ namespace Agree.Allow.Controllers
             _tagService = tagService;
             _mailService = mailService;
             _tokenConfiguration = tokenConfiguration.Value;
+            _frontendConfiguration = frontendConfiguration.Value;
         }
 
         [HttpPost]
@@ -172,12 +176,11 @@ namespace Agree.Allow.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
-            if (!result.Succeeded)
-            {
-                return BadRequest(new { Message = "We could not verify your email. Please try again by clicking in the link we sent on your email", Verified = false });
-            }
+            string uiUrl = result.Succeeded
+                ? $"{_frontendConfiguration.MailConfirmationBaseUrl}?mailVerifiedOk=true&mailVerified={HttpUtility.UrlEncode(user.Email)}"
+                : $"{_frontendConfiguration.MailConfirmationBaseUrl}?mailVerifiedOk=false&mailVerified={HttpUtility.UrlEncode(user.Email)}";
 
-            return Ok(new { Message = "Email verified successfully", Verified = true });
+            return Redirect(uiUrl);
         }
 
         [HttpPost]

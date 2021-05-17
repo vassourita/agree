@@ -41,5 +41,7 @@
   "Resend confirmation mail": "Resend confirmation mail",
   "Create server": "Create server",
   "Search servers": "Search servers",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "It was not possible to verify your email": "It was not possible to verify your email",
+  "Please try again later": "Please try again later"
 }

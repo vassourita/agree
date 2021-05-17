@@ -44,18 +44,16 @@ namespace Agree.Allow
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Allow", Version = "v1" });
-            });
-
             services.AddScoped<TagService>();
             services.AddScoped<MailService>();
 
             // Mail
             var mailConfigSection = Configuration.GetSection("MailConfiguration");
             services.Configure<MailConfiguration>(mailConfigSection);
+
+            // Frontend
+            var frontendConfigSection = Configuration.GetSection("FrontendConfiguration");
+            services.Configure<FrontendConfiguration>(frontendConfigSection);
 
             // JWT
             var tokenConfigSection = Configuration.GetSection("TokenConfiguration");
@@ -81,6 +79,12 @@ namespace Agree.Allow
                     ValidAudience = tokenConfig.Audience,
                     ValidIssuer = tokenConfig.Issuer,
                 };
+            });
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Allow", Version = "v1" });
             });
         }
 

@@ -38,7 +38,7 @@ export function SideBar (): JSX.Element {
                 </button>
               </PopoverTrigger>
               <PopoverContent bg="brand.900" w="250px">
-                <PopoverHeader>{datefns.format(new Date(), 'PPPP', { locale: dateFnsLocale })}</PopoverHeader>
+                <PopoverHeader fontSize="sm" textAlign="center">{datefns.format(new Date(), 'PPPP', { locale: dateFnsLocale })}</PopoverHeader>
                 <PopoverBody d="flex" flexDirection="column" justifyContent="space-between">
                   <Button bg="none" p="0.6rem" onClick={() => logout()}>{t`Logout`}</Button>
                   {!account?.verified && <Button bg="none" p="0.6rem" onClick={() => resendConfirmationMail()}>{t`Resend confirmation mail`}</Button>}

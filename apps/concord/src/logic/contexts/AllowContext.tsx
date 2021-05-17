@@ -174,13 +174,20 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     if (accessToken()) {
       me()
     }
-    const verifiedEmail = new URLSearchParams(location.search).get('email_verified')
-    if (verifiedEmail) {
+    const verifiedMailOk = new URLSearchParams(location.search).get('mailVerifiedOk')
+
+    if (verifiedMailOk === 'true') {
       toast({
         title: t`Email verified succesfully`,
-        description: t`Now you can login into Agree!`,
         isClosable: true,
         status: 'info'
+      })
+    } else if (verifiedMailOk === 'false') {
+      toast({
+        title: t`It was not possible to verify your email`,
+        description: t`Please try again later`,
+        isClosable: true,
+        status: 'error'
       })
     }
   }, [])
