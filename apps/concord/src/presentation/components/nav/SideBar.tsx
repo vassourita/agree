@@ -34,7 +34,7 @@ export function SideBar (): JSX.Element {
 
         <List w="full" h="full" className="custom-scrollbar ml" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
-          {Array.from(Array(20).keys()).map(i => (
+          {Array.from(Array(8).keys()).map(i => (
             <FriendListItem avatarUrl={`https://source.unsplash.com/random?${(i + 2) * 100}`} to={`/u/${i}`} key={i} />
           ))}
 
