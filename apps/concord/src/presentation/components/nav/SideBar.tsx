@@ -1,7 +1,6 @@
-import { Box, Flex, Heading, Link, List, ListItem, Text } from '@chakra-ui/layout'
+import { Box, Flex, Heading, List, Text } from '@chakra-ui/layout'
 import { Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger } from '@chakra-ui/popover'
 import { FiHeadphones, FiMic, FiPlus, FiSearch } from 'react-icons/fi'
-import { NavLink as RouterNavLink } from 'react-router-dom'
 import * as datefns from 'date-fns'
 
 import { useAllow } from '../../../logic/hooks/useAllow'
@@ -33,9 +32,9 @@ export function SideBar (): JSX.Element {
           <IconButton border="2px" background="none" aria-label="Add friend" icon={<FiPlus size={22} />} />
         </Flex>
 
-        <List w="full" h="full" className="custom-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
+        <List w="full" h="full" className="custom-scrollbar ml" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
-          {Array.from(Array(6).keys()).map(i => (
+          {Array.from(Array(20).keys()).map(i => (
             <FriendListItem avatarUrl={`https://source.unsplash.com/random?${(i + 2) * 100}`} to={`/u/${i}`} key={i} />
           ))}
 
