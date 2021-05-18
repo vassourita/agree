@@ -10,6 +10,7 @@ import { UserAvatar } from '../avatar/UserAvatar'
 import { Button } from '../form/Button'
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { IconButton } from '@chakra-ui/button'
+import { FriendListItem } from '../avatar/FriendListItem'
 
 export function SideBar (): JSX.Element {
   const { account, logout, resendConfirmationMail } = useAllow()
@@ -35,15 +36,7 @@ export function SideBar (): JSX.Element {
         <List w="full" h="full" className="custom-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
 
           {Array.from(Array(6).keys()).map(i => (
-            <ListItem key={i} d="flex" w="full" mb="0.8rem" alignItems="center" _last={{ mb: '0' }} rounded="md" mr="0.5rem">
-              <Link d="flex" w="full" as={RouterNavLink} _focus={{ border: 'transparent' }} to={`/u/${i}`} rounded="md" activeClassName="active" _hover={{ textDecoration: 'none', backgroundColor: 'brand.600' }}>
-                <UserAvatar avatarUrl="https://source.unsplash.com/random" to={`/u/${i}`}/>
-                <Box ml="0.7rem">
-                  <Text overflow="hidden" whiteSpace="nowrap" maxW="50rem" textOverflow="ellipsis">MyFriend</Text>
-                  <Text textColor="whiteAlpha.800" fontSize="sm">Online</Text>
-                </Box>
-              </Link>
-            </ListItem>
+            <FriendListItem avatarUrl={`https://source.unsplash.com/random?${(i + 2) * 100}`} to={`/u/${i}`} key={i} />
           ))}
 
         </List>
@@ -63,7 +56,7 @@ export function SideBar (): JSX.Element {
             >
               <PopoverTrigger>
                 <button>
-                  <UserAvatar avatarUrl="https://source.unsplash.com/random" />
+                  <UserAvatar avatarUrl={'https://source.unsplash.com/random?me'} />
                 </button>
               </PopoverTrigger>
               <PopoverContent bg="brand.900" w="250px">

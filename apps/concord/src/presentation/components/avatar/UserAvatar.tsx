@@ -3,8 +3,6 @@ import { Box, Flex, Link } from '@chakra-ui/layout'
 import { ChakraProps } from '@chakra-ui/system'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 
-import './ServerAvatar.scss'
-
 type ServerAvatarProps = {
   to?: string
   avatarUrl: string
@@ -12,7 +10,7 @@ type ServerAvatarProps = {
 
 export function UserAvatar ({ to, avatarUrl, ...rest }: ServerAvatarProps): JSX.Element {
   if (to) {
-    <Box {...rest}>
+    <Box {...rest} rounded="lg">
       <Link as={RouterNavLink} to={to} activeClassName="active">
         <Flex bg="white" w="45px" h="45px" rounded="lg" align="center" justify="center">
           <Image objectFit="cover" objectPosition="center" src={avatarUrl} w="45px" h="45px" rounded="lg" />
