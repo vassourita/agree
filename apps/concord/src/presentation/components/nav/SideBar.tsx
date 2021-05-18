@@ -28,8 +28,8 @@ export function SideBar (): JSX.Element {
       <Flex flexDir="column" h="full" width="full" overflowY="auto" p="25px">
 
         <Flex align="center" justify="space-between" width="full" mb="1rem">
-          <Heading fontSize="1.25rem" as="h6">AMIGOS</Heading>
-          <IconButton background="none" aria-label="Add friend" icon={<FiPlus size={22} />} />
+          <Heading fontSize="1.4rem" as="h6">SEUS AMIGOS</Heading>
+          <IconButton border="2px" background="none" aria-label="Add friend" icon={<FiPlus size={22} />} />
         </Flex>
 
         <List w="full" h="full" className="custom-scrollbar" overflowY="auto" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
