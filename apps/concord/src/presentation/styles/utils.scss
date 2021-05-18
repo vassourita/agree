@@ -5,3 +5,20 @@
     display: none;
   }
 }
+
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #5a189a;
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #7b2cbf;
+  }
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+}

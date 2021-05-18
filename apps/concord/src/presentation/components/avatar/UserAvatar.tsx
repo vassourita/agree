@@ -14,8 +14,8 @@ export function UserAvatar ({ to, avatarUrl, ...rest }: ServerAvatarProps): JSX.
   if (to) {
     <Box {...rest}>
       <Link as={RouterNavLink} to={to} activeClassName="active">
-        <Flex bg="white" w="50px" h="50px" rounded="lg" align="center" justify="center">
-          <Image objectFit="cover" objectPosition="center" src={avatarUrl} w="50px" h="50px" rounded="lg" />
+        <Flex bg="white" w="45px" h="45px" rounded="lg" align="center" justify="center">
+          <Image objectFit="cover" objectPosition="center" src={avatarUrl} w="45px" h="45px" rounded="lg" />
         </Flex>
       </Link>
     </Box>

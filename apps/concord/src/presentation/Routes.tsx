@@ -9,7 +9,7 @@ import { NotFoundPage } from './pages/error/NotFoundPage'
 export function Routes (): JSX.Element {
   return (
     <Switch>
-      <AuthenticatedRoute exact path={['/', '/home', '/settings', '/s/new', '/s/search', '/s/:id']} component={() => (
+      <AuthenticatedRoute exact path={['/', '/home', '/settings', '/s/new', '/s/search', '/s/:id', '/u/:id']} component={() => (
         <DashboardLayout>
           <Route render={({ location }) => (
             <Switch location={location}>
@@ -19,6 +19,7 @@ export function Routes (): JSX.Element {
               <AuthenticatedRoute exact path="/s/search" component={() => <HomePage />}/>
               <AuthenticatedRoute exact path="/s/new" component={() => <HomePage />}/>
               <AuthenticatedRoute exact path="/s/:id" component={() => <HomePage />}/>
+              <AuthenticatedRoute exact path="/u/:id" component={() => <HomePage />}/>
             </Switch>
           )}/>
         </DashboardLayout>
