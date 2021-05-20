@@ -19,6 +19,7 @@ using Agree.Allow.Domain.Dtos;
 using AutoMapper;
 using Agree.Allow.Presentation.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Agree.Allow.Presentation.Controllers
 {
@@ -82,9 +83,10 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
 
-            Response.Cookies.Append("@agree.allow/access-token", await GenerateJwt(user.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(user.Email), new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
             });
 
             return Created(
@@ -105,9 +107,10 @@ namespace Agree.Allow.Presentation.Controllers
                 return BadRequest(new { Message = "Email or Password are incorrect" });
             }
 
-            Response.Cookies.Append("@agree.allow/access-token", await GenerateJwt(loginUser.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(loginUser.Email), new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
             });
 
             return Ok();
@@ -185,12 +188,20 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
 
-            Response.Cookies.Append("@agree.allow/access-token", await GenerateJwt(user.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(user.Email), new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
             });
 
             return Ok(new { User = userViewModel });
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("agreeallow_accesstoken");
+            return NoContent();
         }
 
         [HttpGet]

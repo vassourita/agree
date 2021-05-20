@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using Agree.Allow.Domain.Services;
 using Agree.Allow.Infrastructure.Configuration;
 using Agree.Allow.Infrastructure.Data;
 using Agree.Allow.Infrastructure.Mappings;
 using Agree.Allow.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,13 +21,6 @@ namespace Agree.Allow.Infrastructure.IoC
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services
-                .AddDbContext<ApplicationDbContext>(
-                    opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddScoped<ITagService, TagService>();
-            services.AddScoped<IMailService, MailService>();
-
             // Mail
             var mailConfigSection = configuration.GetSection("MailConfiguration");
             services.Configure<MailConfiguration>(mailConfigSection);
@@ -36,6 +32,13 @@ namespace Agree.Allow.Infrastructure.IoC
             // JWT
             var tokenConfigSection = configuration.GetSection("TokenConfiguration");
             services.Configure<TokenConfiguration>(tokenConfigSection);
+
+            services
+                .AddDbContext<ApplicationDbContext>(
+                    opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IMailService, MailService>();
         }
 
         public static void ConfigureIdentity(IdentityOptions options)
@@ -59,24 +62,30 @@ namespace Agree.Allow.Infrastructure.IoC
             var tokenConfig = tokenConfigSection.Get<TokenConfiguration>();
             var key = Encoding.ASCII.GetBytes(tokenConfig.Secret);
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = tokenConfig.Audience,
-                    ValidIssuer = tokenConfig.Issuer,
-                };
-            });
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidAudience = tokenConfig.Audience,
+                        ValidIssuer = tokenConfig.Issuer,
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["agreeallow_accesstoken"];
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
         }
     }
 }
