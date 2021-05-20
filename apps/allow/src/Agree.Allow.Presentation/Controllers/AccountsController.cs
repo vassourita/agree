@@ -20,6 +20,7 @@ using AutoMapper;
 using Agree.Allow.Presentation.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Agree.Allow.Presentation.Responses;
 
 namespace Agree.Allow.Presentation.Controllers
 {
@@ -55,7 +56,7 @@ namespace Agree.Allow.Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
+        [Route("Register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
@@ -91,7 +92,7 @@ namespace Agree.Allow.Presentation.Controllers
 
             return Created(
                 Url.Link("GetById", new { Id = user.Id }),
-                new { User = userViewModel });
+                new UserResponse(userViewModel));
         }
 
         [HttpPost]
@@ -194,7 +195,7 @@ namespace Agree.Allow.Presentation.Controllers
                 SameSite = SameSiteMode.Strict
             });
 
-            return Ok(new { User = userViewModel });
+            return Ok(new UserResponse(userViewModel));
         }
 
         [HttpPost]
@@ -248,7 +249,7 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(await GetAuthenticatedUserAccount());
 
-            return Ok(new { User = userViewModel });
+            return Ok(new UserResponse(userViewModel));
         }
 
         [HttpGet]
@@ -267,7 +268,7 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(await GetAuthenticatedUserAccount());
 
-            return Ok(new { User = userViewModel });
+            return Ok(new UserResponse(userViewModel));
         }
 
         private async Task<string> GenerateJwt(string email)
