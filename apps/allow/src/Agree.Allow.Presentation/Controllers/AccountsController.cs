@@ -199,6 +199,7 @@ namespace Agree.Allow.Presentation.Controllers
         }
 
         [HttpPost]
+        [Route("Logout")]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("agreeallow_accesstoken");

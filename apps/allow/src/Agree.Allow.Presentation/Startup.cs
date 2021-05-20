@@ -23,6 +23,7 @@ using Agree.Allow.Infrastructure.Data;
 using Agree.Allow.Domain.Security;
 using Agree.Allow.Presentation.ViewModels;
 using Agree.Allow.Presentation.Mappings;
+using Microsoft.Net.Http.Headers;
 
 namespace Agree.Allow.Presentation
 {
@@ -37,6 +38,23 @@ namespace Agree.Allow.Presentation
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                options.AddPolicy("DefaultCorsPolicy", builder =>
+                    builder.WithMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
+                        .WithHeaders(
+                            HeaderNames.Accept,
+                            HeaderNames.ContentType,
+                            HeaderNames.Authorization)
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(origin =>
+                        {
+                            if (string.IsNullOrWhiteSpace(origin)) return false;
+                            if (origin.ToLower().StartsWith("http://localhost")) return true;
+                            return false;
+                        })
+                )
+            );
+
             services
                 .AddDefaultIdentity<ApplicationUser>(NativeContainerBootStrapper.ConfigureIdentity)
                 .AddRoles<ApplicationRole>()
@@ -69,10 +87,7 @@ namespace Agree.Allow.Presentation
 
             // app.UseHttpsRedirection();
 
-            app.UseCors(config =>
-                config.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
+            app.UseCors("DefaultCorsPolicy");
 
             app.UseRouting();
 
