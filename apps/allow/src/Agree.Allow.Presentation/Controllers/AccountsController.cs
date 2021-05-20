@@ -32,6 +32,7 @@ namespace Agree.Allow.Presentation.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITagService _tagService;
         private readonly IMailService _mailService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly TokenConfiguration _tokenConfiguration;
         private readonly FrontendConfiguration _frontendConfiguration;
@@ -41,8 +42,8 @@ namespace Agree.Allow.Presentation.Controllers
             SignInManager<ApplicationUser> signInManager,
             ITagService tagService,
             IMailService mailService,
+            ITokenService tokenService,
             IMapper mapper,
-            IOptions<TokenConfiguration> tokenConfiguration,
             IOptions<FrontendConfiguration> frontendConfiguration)
             : base(userManager)
         {
@@ -50,8 +51,8 @@ namespace Agree.Allow.Presentation.Controllers
             _signInManager = signInManager;
             _tagService = tagService;
             _mailService = mailService;
+            _tokenService = tokenService;
             _mapper = mapper;
-            _tokenConfiguration = tokenConfiguration.Value;
             _frontendConfiguration = frontendConfiguration.Value;
         }
 
@@ -84,7 +85,7 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
 
-            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(user.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await _tokenService.GenerateToken(user.Email), new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict
@@ -108,7 +109,7 @@ namespace Agree.Allow.Presentation.Controllers
                 return BadRequest(new { Message = "Email or Password are incorrect" });
             }
 
-            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(loginUser.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await _tokenService.GenerateToken(loginUser.Email), new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict
@@ -189,7 +190,7 @@ namespace Agree.Allow.Presentation.Controllers
 
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
 
-            Response.Cookies.Append("agreeallow_accesstoken", await GenerateJwt(user.Email), new CookieOptions
+            Response.Cookies.Append("agreeallow_accesstoken", await _tokenService.GenerateToken(user.Email), new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict
@@ -270,31 +271,6 @@ namespace Agree.Allow.Presentation.Controllers
             var userViewModel = _mapper.Map<ApplicationUserViewModel>(await GetAuthenticatedUserAccount());
 
             return Ok(new UserResponse(userViewModel));
-        }
-
-        private async Task<string> GenerateJwt(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_tokenConfiguration.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                     new Claim(ClaimTypes.Name, $"{user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}"),
-                     new Claim(ClaimTypes.Email, user.Email),
-                     new Claim(ClaimTypes.Role, "user"),
-                     new Claim("verified", user.EmailConfirmed.ToString().ToLower()),
-                     new Claim("id", user.Id.ToString()),
-                }),
-                Issuer = _tokenConfiguration.Issuer,
-                Audience = _tokenConfiguration.Audience,
-                Expires = DateTime.UtcNow.AddHours(_tokenConfiguration.ExpiresInMinutes),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
     }
 }
