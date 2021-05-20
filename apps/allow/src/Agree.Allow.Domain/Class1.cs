@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Agree.Allow.Infrastructure.IoC
+namespace Agree.Allow.Domain
 {
     public class Class1
     {
