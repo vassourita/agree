@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Agree.Allow.Domain.Services;
 using Agree.Allow.Infrastructure.Configuration;
 using Agree.Allow.Infrastructure.Data;
-using Agree.Allow.Infrastructure.Mappings;
 using Agree.Allow.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

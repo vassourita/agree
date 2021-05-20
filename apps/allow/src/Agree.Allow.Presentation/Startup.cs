@@ -21,8 +21,8 @@ using Microsoft.IdentityModel.Tokens;
 using Agree.Allow.Infrastructure.IoC;
 using Agree.Allow.Infrastructure.Data;
 using Agree.Allow.Domain.Security;
-using Agree.Allow.Infrastructure.Mappings;
 using Agree.Allow.Presentation.ViewModels;
+using Agree.Allow.Presentation.Mappings;
 
 namespace Agree.Allow.Presentation
 {
@@ -45,7 +45,7 @@ namespace Agree.Allow.Presentation
 
             services.AddAutoMapper(opt =>
             {
-                opt.AddProfile<ApplicationUserToViewModelMap<ApplicationUserViewModel>>();
+                opt.AddProfile<EntityToViewModelMap>();
             });
 
             NativeContainerBootStrapper.ConfigureServices(services, Configuration);

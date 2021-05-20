@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Allow.Core", "Agree.Allow.Core\Agree.Allow.Core.csproj", "{0FB3DBE8-5960-4283-9937-48EB73EAE926}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Allow.Infrastructure", "Agree.Allow.Infrastructure\Agree.Allow.Infrastructure.csproj", "{DAAEA81C-7814-4751-B75D-779019606567}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agree.Allow.Infrastructure.Data", "Agree.Allow.Infrastructure.Data\Agree.Allow.Infrastructure.Data.csproj", "{9ADAA286-4BB6-442F-9779-E2BA630690DD}"
