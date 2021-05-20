@@ -38,6 +38,7 @@ namespace Agree.Allow.Infrastructure.IoC
 
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IMailService, MailService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         public static void ConfigureIdentity(IdentityOptions options)
