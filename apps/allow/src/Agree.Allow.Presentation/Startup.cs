@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agree.Allow.Data.Contexts;
-using Agree.Allow.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,13 +14,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Agree.Allow.Configuration;
+using Agree.Allow.Infrastructure.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Agree.Allow.Services;
+using Agree.Allow.Infrastructure.IoC;
+using Agree.Allow.Infrastructure.Data;
+using Agree.Allow.Domain.Security;
+using Agree.Allow.Infrastructure.Mappings;
+using Agree.Allow.Presentation.ViewModels;
 
-namespace Agree.Allow
+namespace Agree.Allow.Presentation
 {
     public class Startup
     {
@@ -37,49 +39,18 @@ namespace Agree.Allow
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationContext>(
-                    opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
-                .AddDefaultIdentity<ApplicationUser>(IdentityConfiguration.Setup)
+                .AddDefaultIdentity<ApplicationUser>(NativeContainerBootStrapper.ConfigureIdentity)
                 .AddRoles<ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<TagService>();
-            services.AddScoped<MailService>();
-
-            // Mail
-            var mailConfigSection = Configuration.GetSection("MailConfiguration");
-            services.Configure<MailConfiguration>(mailConfigSection);
-
-            // Frontend
-            var frontendConfigSection = Configuration.GetSection("FrontendConfiguration");
-            services.Configure<FrontendConfiguration>(frontendConfigSection);
-
-            // JWT
-            var tokenConfigSection = Configuration.GetSection("TokenConfiguration");
-            services.Configure<TokenConfiguration>(tokenConfigSection);
-
-            var tokenConfig = tokenConfigSection.Get<TokenConfiguration>();
-            var key = Encoding.ASCII.GetBytes(tokenConfig.Secret);
-
-            services.AddAuthentication(x =>
+            services.AddAutoMapper(opt =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = tokenConfig.Audience,
-                    ValidIssuer = tokenConfig.Issuer,
-                };
+                opt.AddProfile<ApplicationUserToViewModelMap<ApplicationUserViewModel>>();
             });
+
+            NativeContainerBootStrapper.ConfigureServices(services, Configuration);
+            NativeContainerBootStrapper.ConfigureAuthentication(services, Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

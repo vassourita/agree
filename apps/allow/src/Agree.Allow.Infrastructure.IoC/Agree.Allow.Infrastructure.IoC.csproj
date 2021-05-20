@@ -4,5 +4,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0"/>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Agree.Allow.Infrastructure\Agree.Allow.Infrastructure.csproj"/>
+    <ProjectReference Include="..\Agree.Allow.Infrastructure.Data\Agree.Allow.Infrastructure.Data.csproj"/>
   </ItemGroup>
 </Project>

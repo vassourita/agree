@@ -15,5 +15,14 @@
         "titleBar.inactiveBackground": "#68217a99",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#68217A"
+    "peacock.color": "#68217A",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/bin": true,
+        "**/obj": true
+    }
 }
