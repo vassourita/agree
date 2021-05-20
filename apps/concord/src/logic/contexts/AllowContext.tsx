@@ -3,7 +3,6 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { useI18n } from '../../presentation/hooks/useI18n'
 import { RegisterInput } from '../../validation/RegisterValidator'
-import { useSyncCacheState } from '../hooks/useSyncCacheState'
 import { Account } from '../models/Account'
 import { ICache } from '../services/ICache'
 import { HttpStatusCode, IHttpClient } from '../services/IHttpClient'
@@ -12,7 +11,6 @@ import { ILogger } from '../services/ILogger'
 export type AllowContextProps = {
   isAuthenticated: boolean
   account: Account | null
-  accessToken: string | null
   resendConfirmationMail(): Promise<void>
   login(email: string, password: string): Promise<string[]>
   logout(): void
@@ -28,10 +26,7 @@ export type AllowProviderProps = {
   children: ReactNode
 }
 
-const ACCESS_TOKEN_KEY = '@agree/access-token'
-
-export function AllowProvider ({ httpClient, cache, children, logger: _logger }: AllowProviderProps): JSX.Element {
-  const [accessToken, setAccessToken] = useSyncCacheState<string>(cache, ACCESS_TOKEN_KEY)
+export function AllowProvider ({ httpClient, cache: _cache, children, logger: _logger }: AllowProviderProps): JSX.Element {
   const [account, setAccount] = useState<Account | null>(null)
 
   const { t } = useI18n()
@@ -43,14 +38,10 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   async function me (): Promise<Account | null> {
     const response = await httpClient.request({
       method: 'get',
-      headers: {
-        Authorization: `Bearer ${accessToken()}`
-      },
       url: `${process.env.REACT_APP_ALLOW_URL}/accounts/@me`
     })
 
     if (response.statusCode !== HttpStatusCode.OK) {
-      setAccessToken(null)
       setAccount(null)
       return null
     }
@@ -72,7 +63,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     })
 
     if (response.statusCode === HttpStatusCode.OK) {
-      setAccessToken(response.body.accessToken)
       const user = (await me() as Account)
       toast({
         title: t`Welcome, ${user?.userName}#${user?.tag}!`,
@@ -82,7 +72,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
       history.push('/home')
       return []
     } else {
-      setAccessToken(null)
       toast({
         title: t`Email or password incorrect`,
         isClosable: true,
@@ -105,7 +94,6 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     })
 
     if (response.statusCode === HttpStatusCode.OK || response.statusCode === HttpStatusCode.CREATED) {
-      setAccessToken(response.body.accessToken)
       const user = (await me() as Account)
       toast({
         title: t`Welcome, ${user?.userName}#${user?.tag}!`,
@@ -131,15 +119,20 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     return []
   }
 
-  function logout () {
-    setAccessToken(null)
-    setAccount(null)
-    toast({
-      title: t`Bye bye...`,
-      isClosable: true,
-      status: 'info'
+  async function logout () {
+    const response = await httpClient.request({
+      method: 'post',
+      url: `${process.env.REACT_APP_ALLOW_URL}/accounts/logout`
     })
-    history.push('/login')
+    if (response.statusCode === HttpStatusCode.NOCONTENT) {
+      setAccount(null)
+      toast({
+        title: t`Bye bye...`,
+        isClosable: true,
+        status: 'info'
+      })
+      history.push('/login')
+    }
   }
 
   async function resendConfirmationMail () {
@@ -148,10 +141,7 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
     }
     const response = await httpClient.request({
       method: 'post',
-      url: `${process.env.REACT_APP_ALLOW_URL}/accounts/ResendConfirmationEmail`,
-      headers: {
-        Authorization: `Bearer ${accessToken()}`
-      }
+      url: `${process.env.REACT_APP_ALLOW_URL}/accounts/ResendConfirmationEmail`
     })
     if (response.statusCode === HttpStatusCode.OK) {
       toast({
@@ -171,9 +161,7 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   }
 
   useEffect(() => {
-    if (accessToken()) {
-      me()
-    }
+    me()
     const verifiedMailOk = new URLSearchParams(location.search).get('mailVerifiedOk')
 
     if (verifiedMailOk === 'true') {
@@ -193,7 +181,7 @@ export function AllowProvider ({ httpClient, cache, children, logger: _logger }:
   }, [])
 
   return (
-    <AllowContext.Provider value={{ accessToken: accessToken(), logout, account, isAuthenticated: !!(accessToken()), login, register, resendConfirmationMail }}>
+    <AllowContext.Provider value={{ logout, account, isAuthenticated: !!(account), login, register, resendConfirmationMail }}>
       {children}
     </AllowContext.Provider>
   )

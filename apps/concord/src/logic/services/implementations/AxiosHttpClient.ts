@@ -18,6 +18,7 @@ export class AxiosHttpClient implements IHttpClient {
         method: data.method,
         data: data.body,
         headers: data.headers,
+        withCredentials: true,
         validateStatus: () => true
       })
     } catch (error) {
