@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie'
 import { useHistory, useLocation } from 'react-router'
 import { useI18n } from '../../presentation/hooks/useI18n'
 import { RegisterInput } from '../../validation/RegisterValidator'
@@ -26,8 +27,11 @@ export type AllowProviderProps = {
   children: ReactNode
 }
 
+const accountCookie = 'agreeconcord_account'
+
 export function AllowProvider ({ httpClient, cache: _cache, children, logger: _logger }: AllowProviderProps): JSX.Element {
   const [account, setAccount] = useState<Account | null>(null)
+  const [cookies, setCookie, removeCookie] = useCookies([accountCookie])
 
   const { t } = useI18n()
 
@@ -47,6 +51,7 @@ export function AllowProvider ({ httpClient, cache: _cache, children, logger: _l
     }
 
     const { user } = response.body
+    setCookie(accountCookie, user)
     setAccount(user)
     return user
   }
@@ -126,6 +131,7 @@ export function AllowProvider ({ httpClient, cache: _cache, children, logger: _l
     })
     if (response.statusCode === HttpStatusCode.NOCONTENT) {
       setAccount(null)
+      removeCookie(accountCookie)
       toast({
         title: t`Bye bye...`,
         isClosable: true,
@@ -161,7 +167,9 @@ export function AllowProvider ({ httpClient, cache: _cache, children, logger: _l
   }
 
   useEffect(() => {
-    me()
+    if (cookies[accountCookie]) {
+      me()
+    }
     const verifiedMailOk = new URLSearchParams(location.search).get('mailVerifiedOk')
 
     if (verifiedMailOk === 'true') {
@@ -181,7 +189,7 @@ export function AllowProvider ({ httpClient, cache: _cache, children, logger: _l
   }, [])
 
   return (
-    <AllowContext.Provider value={{ logout, account, isAuthenticated: !!(account), login, register, resendConfirmationMail }}>
+    <AllowContext.Provider value={{ logout, account, isAuthenticated: !!(cookies[accountCookie]), login, register, resendConfirmationMail }}>
       {children}
     </AllowContext.Provider>
   )
