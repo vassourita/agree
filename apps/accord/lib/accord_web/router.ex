@@ -3,10 +3,13 @@ defmodule AccordWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug AccordWeb.Plugs.Auth
   end
 
   scope "/api", AccordWeb do
     pipe_through :api
+
+    get "/accounts/me", AccountController, :me
   end
 
   # Enables LiveDashboard only for development
