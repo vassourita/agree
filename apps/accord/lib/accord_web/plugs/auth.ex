@@ -1,5 +1,6 @@
 defmodule AccordWeb.Plugs.Auth do
   import Plug.Conn
+  import Phoenix.Controller
 
   def init(default), do: default
 
@@ -11,6 +12,8 @@ defmodule AccordWeb.Plugs.Auth do
     else
       conn
       |> put_status(:unauthorized)
+      |> json(%{status: 401})
+      |> halt()
     end
   end
 end
