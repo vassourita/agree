@@ -3,6 +3,6 @@ defmodule AccordWeb.AccountController do
 
   def me(conn, _params) do
     conn
-    |> json(%{id: 1})
+    |> json(%{user: conn.assigns[:user]})
   end
 end
