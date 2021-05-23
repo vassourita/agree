@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Agree.Allow.Infrastructure.IoC
@@ -31,6 +32,10 @@ namespace Agree.Allow.Infrastructure.IoC
             // JWT
             var tokenConfigSection = configuration.GetSection("TokenConfiguration");
             services.Configure<TokenConfiguration>(tokenConfigSection);
+
+            // External
+            var externalConfigSection = configuration.GetSection("ExternalServiceConfiguration");
+            services.Configure<ExternalServiceConfiguration>(externalConfigSection);
 
             services
                 .AddDbContext<ApplicationDbContext>(
@@ -81,6 +86,13 @@ namespace Agree.Allow.Infrastructure.IoC
                     {
                         OnMessageReceived = context =>
                         {
+                            var requestExternalServiceToken = context.Request.Headers["agreeallow_externaltoken"];
+                            var validExternalServiceToken = configuration["ExternalServiceConfiguration:Token"];
+                            if (requestExternalServiceToken == validExternalServiceToken)
+                            {
+                                context.Token = context.Request.Headers["agreeallow_accesstoken"];
+                                return Task.CompletedTask;
+                            }
                             context.Token = context.Request.Cookies["agreeallow_accesstoken"];
                             return Task.CompletedTask;
                         }
