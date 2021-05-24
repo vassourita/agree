@@ -10,6 +10,12 @@ defmodule AccordWeb.Router do
     pipe_through :api
 
     get "/accounts/me", AccountController, :me
+
+    get "/servers", ServerController, :index
+    get "/servers/:id", ServerController, :show
+    post "/servers", ServerController, :create
+    put "/servers/:id", ServerController, :update
+    delete "/servers/:id", ServerController, :delete
   end
 
   # Enables LiveDashboard only for development
