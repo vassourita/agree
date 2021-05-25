@@ -7,6 +7,8 @@ defmodule Accord.Roles do
   alias Accord.Repo
 
   alias Accord.Roles.Role
+  alias Accord.Roles.MemberRole
+  alias Accord.Servers.Server
 
   @doc """
   Returns the list of role.
@@ -69,6 +71,18 @@ defmodule Accord.Roles do
     |> Repo.insert()
   end
 
+  def get_member_permissions_on_server(user_id, server_id) do
+    query =
+      from mr in MemberRole,
+        join: r in Role,
+        on: r.id == mr.role_id,
+        join: s in Server,
+        on: s.id == r.server_id,
+        where: mr.member_id == ^user_id and s.id == ^server_id
+
+    {:ok, member_roles} = Repo.one!(query)
+  end
+
   @doc """
   Updates a role.
 
@@ -115,8 +129,6 @@ defmodule Accord.Roles do
   def change_role(%Role{} = role, attrs \\ %{}) do
     Role.changeset(role, attrs)
   end
-
-  alias Accord.Roles.MemberRole
 
   @doc """
   Returns the list of member_role.

@@ -65,14 +65,19 @@ defmodule Accord.Servers do
 
       {:ok, _channel} = create_channel(%{category_id: category.id, name: "Example channel"})
 
-      {:ok, _member} = create_member(%{server_id: server.id, id: user.id})
+      {:ok, member} = create_member(%{server_id: server.id, allow_user_id: user.id})
 
       {:ok, admin_role} = Roles.create_default_admin_role(server.id)
 
-      {:ok, _member_role} =
-        Roles.create_member_role(%{member_id: user.id, role_id: admin_role.id})
+      member
+      |> Member.changeset_add_role(admin_role)
 
-      IO.inspect(server)
+      Server
+      |> Ecto.Query.where(id: ^server.id)
+      |> Ecto.Query.preload(categories: [:channels])
+      |> Ecto.Query.preload(:roles)
+      |> Ecto.Query.preload(members: [:roles])
+      |> Repo.one()
     end)
   end
 
@@ -150,25 +155,9 @@ defmodule Accord.Servers do
       [%Category{}, ...]
 
   """
-  def list_category do
-    Repo.all(Category)
+  def list_category(server_id) do
+    Repo.all(from c in Category, where: c.server_id == ^server_id)
   end
-
-  @doc """
-  Gets a single category.
-
-  Raises `Ecto.NoResultsError` if the Category does not exist.
-
-  ## Examples
-
-      iex> get_category!(123)
-      %Category{}
-
-      iex> get_category!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_category!(id), do: Repo.get!(Category, id)
 
   @doc """
   Creates a category.
@@ -244,25 +233,9 @@ defmodule Accord.Servers do
       [%Channel{}, ...]
 
   """
-  def list_channel do
-    Repo.all(Channel)
+  def list_channel(category_id) do
+    Repo.all(from c in Channel, where: c.category_id == ^category_id)
   end
-
-  @doc """
-  Gets a single channel.
-
-  Raises `Ecto.NoResultsError` if the Channel does not exist.
-
-  ## Examples
-
-      iex> get_channel!(123)
-      %Channel{}
-
-      iex> get_channel!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_channel!(id), do: Repo.get!(Channel, id)
 
   @doc """
   Creates a channel.

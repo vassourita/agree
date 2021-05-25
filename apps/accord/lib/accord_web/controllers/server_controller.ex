@@ -12,7 +12,9 @@ defmodule AccordWeb.ServerController do
   end
 
   def create(conn, %{"server" => server_params}) do
-    with {:ok, %Server{} = server} <- Servers.create_server(server_params) do
+    user = %{id: conn.assigns[:user].id}
+
+    with {:ok, %Server{} = server} <- Servers.create_server(server_params, user) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.server_path(conn, :show, server))

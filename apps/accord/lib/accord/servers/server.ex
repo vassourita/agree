@@ -10,6 +10,9 @@ defmodule Accord.Servers.Server do
     field :description, :string
     field :name, :string
     field :privacy, :integer
+    has_many :categories, Accord.Servers.Category
+    has_many :members, Accord.Servers.Member
+    has_many :roles, Accord.Roles.Role
 
     timestamps()
   end
@@ -19,6 +22,6 @@ defmodule Accord.Servers.Server do
     server
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
-    |> validate_number(:privacy, less_than_or_equal_to: 2, greater_than_or_equal_to: 0)
+    |> validate_inclusion(:privacy, 0..2)
   end
 end

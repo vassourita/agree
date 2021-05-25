@@ -21,7 +21,8 @@ defmodule Accord.Roles.Role do
     field :can_update_server_name, :boolean, default: false
     field :can_update_server_privacy, :boolean, default: false
     field :name, :string
-    field :server_id, :binary_id
+    belongs_to :server, Accord.Servers.Server
+    many_to_many :members, Accord.Servers.Member, join_through: Accord.Roles.MemberRole
 
     timestamps()
   end

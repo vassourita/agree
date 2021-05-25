@@ -8,7 +8,7 @@ defmodule Accord.Roles.MemberRole do
 
   schema "member_role" do
     field :role_id, :binary_id, primary_key: true
-    field :member_id, :string, primary_key: true
+    field :member_id, :binary_id, primary_key: true
 
     timestamps()
   end

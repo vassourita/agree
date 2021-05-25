@@ -21,10 +21,10 @@ defmodule AccordWeb.Plugs.Auth do
         conn
         |> assign(:user, user)
 
-      {:error, message} ->
+      {:error, reason} ->
         conn
         |> put_status(:unauthorized)
-        |> json(%{status: 401, message: message})
+        |> json(%{status: 401, message: reason})
         |> halt()
     end
   end

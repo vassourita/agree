@@ -8,7 +8,7 @@ defmodule Accord.Servers.Channel do
 
   schema "channel" do
     field :name, :string
-    field :category_id, :binary_id
+    belongs_to :category, Accord.Servers.Category
 
     timestamps()
   end
