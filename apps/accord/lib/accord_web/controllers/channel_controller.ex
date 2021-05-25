@@ -6,8 +6,8 @@ defmodule AccordWeb.ChannelController do
 
   action_fallback AccordWeb.FallbackController
 
-  def index(conn, _params) do
-    channel = Servers.list_channel()
+  def index(conn, %{category_id: category_id}) do
+    channel = Servers.list_channel(category_id)
     render(conn, "index.json", channel: channel)
   end
 
@@ -18,11 +18,6 @@ defmodule AccordWeb.ChannelController do
       |> put_resp_header("location", Routes.channel_path(conn, :show, channel))
       |> render("show.json", channel: channel)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    channel = Servers.get_channel!(id)
-    render(conn, "show.json", channel: channel)
   end
 
   def update(conn, %{"id" => id, "channel" => channel_params}) do

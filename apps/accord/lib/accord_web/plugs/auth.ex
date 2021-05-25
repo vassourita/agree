@@ -20,6 +20,7 @@ defmodule AccordWeb.Plugs.Auth do
       {:ok, user} ->
         conn
         |> assign(:user, user)
+        |> assign(:access_token, token_cookie)
 
       {:error, reason} ->
         conn

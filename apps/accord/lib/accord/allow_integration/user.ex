@@ -1,4 +1,6 @@
 defmodule Accord.AllowIntegration.User do
+  defstruct [:id, :name, :tag, :email, :verified]
+
   def authenticate_from_token(token) do
     me_endpoint = "#{System.get_env("ALLOW_BASEURL")}/accounts/@me"
     fetch_user(me_endpoint, token)
@@ -17,7 +19,14 @@ defmodule Accord.AllowIntegration.User do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         case Jason.decode(body) do
           {:ok, decoded_body} ->
-            {:ok, decoded_body["user"]}
+            {:ok,
+             %__MODULE__{
+               id: decoded_body["user"]["id"],
+               tag: decoded_body["user"]["tag"],
+               name: decoded_body["user"]["userName"],
+               email: decoded_body["user"]["email"],
+               verified: decoded_body["user"]["verified"]
+             }}
 
           _ ->
             {:error, "Something went wrong"}

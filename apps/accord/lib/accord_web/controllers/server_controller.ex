@@ -3,6 +3,7 @@ defmodule AccordWeb.ServerController do
 
   alias Accord.Servers
   alias Accord.Servers.Server
+  alias Accord.AllowIntegration.User, as: Allow
 
   action_fallback AccordWeb.FallbackController
 

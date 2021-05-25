@@ -20,7 +20,7 @@ defmodule Accord.Servers.Server do
   @doc false
   def changeset(server, attrs) do
     server
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, [:name, :privacy, :description])
     |> validate_required(@required_fields)
     |> validate_inclusion(:privacy, 0..2)
   end

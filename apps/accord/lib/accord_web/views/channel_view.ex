@@ -11,7 +11,6 @@ defmodule AccordWeb.ChannelView do
   end
 
   def render("channel.json", %{channel: channel}) do
-    %{id: channel.id,
-      name: channel.name}
+    %{id: channel.id, name: channel.name}
   end
 end

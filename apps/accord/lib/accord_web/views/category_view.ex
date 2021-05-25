@@ -11,7 +11,10 @@ defmodule AccordWeb.CategoryView do
   end
 
   def render("category.json", %{category: category}) do
-    %{id: category.id,
-      name: category.name}
+    %{id: category.id, name: category.name}
+    |> Map.put_new(
+      :channels,
+      render_many(category.channels, AccordWeb.ChannelView, "channel.json", as: :channel)
+    )
   end
 end

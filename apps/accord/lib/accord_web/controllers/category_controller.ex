@@ -6,8 +6,8 @@ defmodule AccordWeb.CategoryController do
 
   action_fallback AccordWeb.FallbackController
 
-  def index(conn, _params) do
-    category = Servers.list_category()
+  def index(conn, %{server_id: server_id}) do
+    category = Servers.list_category(server_id)
     render(conn, "index.json", category: category)
   end
 
@@ -18,11 +18,6 @@ defmodule AccordWeb.CategoryController do
       |> put_resp_header("location", Routes.category_path(conn, :show, category))
       |> render("show.json", category: category)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    category = Servers.get_category!(id)
-    render(conn, "show.json", category: category)
   end
 
   def update(conn, %{"id" => id, "category" => category_params}) do
