@@ -4,6 +4,15 @@ defmodule Accord.Roles.Role do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @required_fields [
+    :name,
+    :can_update_server_name,
+    :can_update_server_description,
+    :can_update_server_privacy,
+    :can_add_users,
+    :can_remove_users,
+    :server_id
+  ]
 
   schema "role" do
     field :can_add_users, :boolean, default: false
@@ -20,7 +29,7 @@ defmodule Accord.Roles.Role do
   @doc false
   def changeset(role, attrs) do
     role
-    |> cast(attrs, [:name, :can_update_server_name, :can_update_server_description, :can_update_server_privacy, :can_add_users, :can_remove_users])
-    |> validate_required([:name, :can_update_server_name, :can_update_server_description, :can_update_server_privacy, :can_add_users, :can_remove_users])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

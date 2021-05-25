@@ -7,6 +7,10 @@ defmodule Accord.Servers do
   alias Accord.Repo
 
   alias Accord.Servers.Server
+  alias Accord.Servers.Category
+  alias Accord.Servers.Channel
+  alias Accord.Servers.Member
+  alias Accord.Roles
 
   @doc """
   Returns the list of server.
@@ -49,10 +53,27 @@ defmodule Accord.Servers do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_server(attrs \\ %{}) do
-    %Server{}
-    |> Server.changeset(attrs)
-    |> Repo.insert()
+  def create_server(server_attrs, user) do
+    Repo.transaction(fn ->
+      {:ok, server} =
+        %Server{}
+        |> Server.changeset(server_attrs)
+        |> Repo.insert()
+
+      {:ok, category} =
+        create_category(%{server_id: server.id, name: "Welcome to #{server.name}"})
+
+      {:ok, _channel} = create_channel(%{category_id: category.id, name: "Example channel"})
+
+      {:ok, _member} = create_member(%{server_id: server.id, id: user.id})
+
+      {:ok, admin_role} = Roles.create_default_admin_role(server.id)
+
+      {:ok, _member_role} =
+        Roles.create_member_role(%{member_id: user.id, role_id: admin_role.id})
+
+      IO.inspect(server)
+    end)
   end
 
   @doc """
@@ -119,8 +140,6 @@ defmodule Accord.Servers do
       _ -> nil
     end
   end
-
-  alias Accord.Servers.Category
 
   @doc """
   Returns the list of category.
@@ -216,8 +235,6 @@ defmodule Accord.Servers do
     Category.changeset(category, attrs)
   end
 
-  alias Accord.Servers.Channel
-
   @doc """
   Returns the list of channel.
 
@@ -311,8 +328,6 @@ defmodule Accord.Servers do
   def change_channel(%Channel{} = channel, attrs \\ %{}) do
     Channel.changeset(channel, attrs)
   end
-
-  alias Accord.Servers.Member
 
   @doc """
   Returns the list of member.

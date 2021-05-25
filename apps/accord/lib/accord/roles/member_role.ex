@@ -2,12 +2,13 @@ defmodule Accord.Roles.MemberRole do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key {:id, :binary_id, autogenerate: true}
+  @primary_key false
   @foreign_key_type :binary_id
+  @required_fields [:role_id, :member_id]
 
   schema "member_role" do
-    field :role_id, :binary_id
-    field :member_id, :string
+    field :role_id, :binary_id, primary_key: true
+    field :member_id, :string, primary_key: true
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule Accord.Roles.MemberRole do
   @doc false
   def changeset(member_role, attrs) do
     member_role
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

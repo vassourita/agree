@@ -4,6 +4,7 @@ defmodule Accord.Servers.Category do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @required_fields [:name, :server_id]
 
   schema "category" do
     field :name, :string
@@ -15,7 +16,7 @@ defmodule Accord.Servers.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

@@ -55,6 +55,20 @@ defmodule Accord.Roles do
     |> Repo.insert()
   end
 
+  def create_default_admin_role(server_id) do
+    %Role{}
+    |> Role.changeset(%{
+      name: "Admin",
+      server_id: server_id,
+      can_add_users: true,
+      can_remove_users: true,
+      can_update_server_description: true,
+      can_update_server_name: true,
+      can_update_server_privacy: true
+    })
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a role.
 
