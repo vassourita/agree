@@ -11,6 +11,6 @@ defmodule AccordWeb.MemberRoleView do
   end
 
   def render("member_role.json", %{member_role: member_role}) do
-    %{id: member_role.id}
+    %{role_id: member_role.role_id, member_id: member_role.member_id}
   end
 end

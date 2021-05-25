@@ -11,7 +11,6 @@ defmodule AccordWeb.MemberView do
   end
 
   def render("member.json", %{member: member}) do
-    %{id: member.id,
-      id: member.id}
+    %{id: member.id}
   end
 end
