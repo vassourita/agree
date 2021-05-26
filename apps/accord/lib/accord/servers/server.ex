@@ -23,5 +23,7 @@ defmodule Accord.Servers.Server do
     |> cast(attrs, [:name, :privacy, :description])
     |> validate_required(@required_fields)
     |> validate_inclusion(:privacy, [0, 1, 2])
+    |> validate_length(:name, min: 1, max: 30)
+    |> validate_length(:description, max: 200)
   end
 end

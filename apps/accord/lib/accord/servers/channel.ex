@@ -18,5 +18,6 @@ defmodule Accord.Servers.Channel do
     channel
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
+    |> validate_length(:name, min: 1, max: 30)
   end
 end
