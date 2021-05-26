@@ -23,8 +23,10 @@ defmodule AccordWeb.ServerController do
   end
 
   def show(conn, %{"id" => id}) do
-    server = Servers.get_server!(id, conn.assigns[:user])
-    render(conn, "show.json", server: server)
+    with {:ok, server} <- Servers.get_server!(id, conn.assigns[:user]) do
+      conn
+      |> render("show.json", server: server)
+    end
   end
 
   def update(conn, %{"id" => id, "server" => server_params}) do

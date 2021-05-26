@@ -1,38 +1,31 @@
 defmodule AccordWeb.FallbackController do
-  @moduledoc """
-  Translates controller action results into valid `Plug.Conn` responses.
-
-  See `Phoenix.Controller.action_fallback/1` for more details.
-  """
   use AccordWeb, :controller
 
-  # This clause handles errors returned by Ecto's insert/update/delete.
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
-    |> put_status(:unprocessable_entity)
-    |> put_view(AccordWeb.ChangesetView)
-    |> render("error.json", changeset: changeset)
+    |> put_status(:bad_request)
+    |> put_view(AccordWeb.ErrorView)
+    |> render("400.json", result: changeset)
   end
 
-  # This clause is an example of how to handle resources that cannot be found.
-  def call(conn, {:error, :not_found}) do
+  def call(conn, {:error, %{reason: :not_found, resource_name: resource_name}}) do
     conn
     |> put_status(:not_found)
     |> put_view(AccordWeb.ErrorView)
-    |> render(:"404")
+    |> render("404.json", result: resource_name)
   end
 
   def call(conn, {:error, :internal_server_error}) do
     conn
     |> put_status(:internal_server_error)
     |> put_view(AccordWeb.ErrorView)
-    |> render(:"500")
+    |> render("500.json")
   end
 
   def call(conn, _) do
     conn
     |> put_status(:internal_server_error)
     |> put_view(AccordWeb.ErrorView)
-    |> render(:"500")
+    |> render("500.json")
   end
 end

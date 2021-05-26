@@ -4,12 +4,10 @@ defmodule Accord.Servers do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Multi
   alias Accord.Repo
 
-  alias Accord.Servers.Server
-  alias Accord.Servers.Category
-  alias Accord.Servers.Channel
-  alias Accord.Servers.Member
+  alias Accord.Servers.{Server, Category, Channel, Member}
   alias Accord.Roles
 
   def list_servers do
@@ -26,14 +24,28 @@ defmodule Accord.Servers do
       |> Kernel.not()
 
     if is_member do
-      from(s in Server, where: s.id == ^server_id)
-      |> preload(categories: [:channels])
-      |> preload(:roles)
-      |> preload(members: [:roles])
-      |> Repo.one()
+      s =
+        from(s in Server, where: s.id == ^server_id)
+        |> preload(categories: [:channels])
+        |> preload(:roles)
+        |> preload(members: [:roles])
+        |> Repo.one()
+
+      if is_nil(s) do
+        {:error, %{reason: :not_found, resource_name: "Server"}}
+      else
+        {:ok, s}
+      end
     else
-      from(s in Server, where: s.id == ^server_id and s.privacy < 2)
-      |> Repo.one()
+      s =
+        from(s in Server, where: s.id == ^server_id and s.privacy < 2)
+        |> Repo.one()
+
+      if is_nil(s) do
+        {:error, %{reason: :not_found, resource_name: "Server"}}
+      else
+        {:ok, s}
+      end
     end
   end
 
