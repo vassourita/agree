@@ -1,11 +1,13 @@
 defmodule AccordWeb.ServerView do
   use AccordWeb, :view
-  alias AccordWeb.ServerView
 
+  import AccordWeb.ViewHelpers
+
+  alias AccordWeb.ServerView
   alias Accord.Servers
 
-  def render("index.json", %{server: server}) do
-    %{data: render_many(server, ServerView, "server.json")}
+  def render("index.json", %{servers: servers}) do
+    %{data: render_many(servers, ServerView, "server.json")}
   end
 
   def render("show.json", %{server: server}) do
@@ -20,17 +22,22 @@ defmodule AccordWeb.ServerView do
       privacy: server.privacy,
       privacy_str: Servers.int_to_privacy_string(server.privacy)
     }
-    |> Map.put_new(
+    |> put_assoc(
+      Ecto.assoc_loaded?(server.categories),
       :categories,
-      render_many(server.categories, AccordWeb.CategoryView, "category.json", as: :category)
+      fn ->
+        render_many(server.categories, AccordWeb.CategoryView, "category.json", as: :category)
+      end
     )
-    |> Map.put_new(
+    |> put_assoc(
+      Ecto.assoc_loaded?(server.roles),
       :roles,
-      render_many(server.roles, AccordWeb.RoleView, "role.json", as: :role)
+      fn -> render_many(server.roles, AccordWeb.RoleView, "role.json", as: :role) end
     )
-    |> Map.put_new(
+    |> put_assoc(
+      Ecto.assoc_loaded?(server.members),
       :members,
-      render_many(server.members, AccordWeb.MemberView, "member.json", as: :member)
+      fn -> render_many(server.members, AccordWeb.MemberView, "member.json", as: :member) end
     )
   end
 end

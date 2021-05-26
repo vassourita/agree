@@ -9,6 +9,7 @@ defmodule AccordWeb.Router do
   scope "/api", AccordWeb do
     pipe_through :api
 
+    get "/servers", ServerController, :index
     get "/servers/:id", ServerController, :show
     post "/servers", ServerController, :create
   end

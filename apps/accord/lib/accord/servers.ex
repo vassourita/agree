@@ -12,47 +12,31 @@ defmodule Accord.Servers do
   alias Accord.Servers.Member
   alias Accord.Roles
 
-  @doc """
-  Returns the list of server.
-
-  ## Examples
-
-      iex> list_server()
-      [%Server{}, ...]
-
-  """
-  def list_server do
-    Repo.all(Server)
+  def list_servers do
+    Server
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single server.
+  def get_server!(server_id, user) do
+    is_member =
+      Member
+      |> where(allow_user_id: ^user.id, server_id: ^server_id)
+      |> Repo.one()
+      |> is_nil()
+      |> Kernel.not()
 
-  Raises `Ecto.NoResultsError` if the Server does not exist.
+    if is_member do
+      from(s in Server, where: s.id == ^server_id)
+      |> preload(categories: [:channels])
+      |> preload(:roles)
+      |> preload(members: [:roles])
+      |> Repo.one()
+    else
+      from(s in Server, where: s.id == ^server_id and s.privacy < 2)
+      |> Repo.one()
+    end
+  end
 
-  ## Examples
-
-      iex> get_server!(123)
-      %Server{}
-
-      iex> get_server!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_server!(id), do: Repo.get!(Server, id)
-
-  @doc """
-  Creates a server.
-
-  ## Examples
-
-      iex> create_server(%{field: value})
-      {:ok, %Server{}}
-
-      iex> create_server(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_server(server_attrs, user) do
     Repo.transaction(fn ->
       {:ok, server} =
@@ -73,10 +57,10 @@ defmodule Accord.Servers do
       |> Member.changeset_add_role(admin_role)
 
       Server
-      |> Ecto.Query.where(id: ^server.id)
-      |> Ecto.Query.preload(categories: [:channels])
-      |> Ecto.Query.preload(:roles)
-      |> Ecto.Query.preload(members: [:roles])
+      |> where(id: ^server.id)
+      |> preload(categories: [:channels])
+      |> preload(:roles)
+      |> preload(members: [:roles])
       |> Repo.one()
     end)
   end
