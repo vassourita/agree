@@ -22,6 +22,6 @@ defmodule Accord.Servers.Server do
     server
     |> cast(attrs, [:name, :privacy, :description])
     |> validate_required(@required_fields)
-    |> validate_inclusion(:privacy, 0..2)
+    |> validate_inclusion(:privacy, [0, 1, 2])
   end
 end
