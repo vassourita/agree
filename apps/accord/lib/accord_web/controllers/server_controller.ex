@@ -7,7 +7,7 @@ defmodule AccordWeb.ServerController do
   action_fallback AccordWeb.FallbackController
 
   def index(conn, params) do
-    user = %{id: conn.assigns[:user].id}
+    user = conn.assigns[:user]
 
     servers =
       Servers.search_servers(user,
@@ -20,7 +20,7 @@ defmodule AccordWeb.ServerController do
   end
 
   def create(conn, %{"server" => server_params}) do
-    user = %{id: conn.assigns[:user].id}
+    user = conn.assigns[:user]
 
     with {:ok, %Server{} = server} <- Servers.create_server(server_params, user) do
       conn
@@ -31,25 +31,11 @@ defmodule AccordWeb.ServerController do
   end
 
   def show(conn, %{"id" => id}) do
-    with {:ok, server} <- Servers.get_server!(id, conn.assigns[:user]) do
+    user = conn.assigns[:user]
+
+    with {:ok, server} <- Servers.get_server!(id, user) do
       conn
       |> render("show.json", server: server)
-    end
-  end
-
-  def update(conn, %{"id" => id, "server" => server_params}) do
-    server = Servers.get_server!(id, conn.assigns[:user])
-
-    with {:ok, %Server{} = server} <- Servers.update_server(server, server_params) do
-      render(conn, "show.json", server: server)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    server = Servers.get_server!(id, conn.assigns[:user])
-
-    with {:ok, %Server{}} <- Servers.delete_server(server) do
-      send_resp(conn, :no_content, "")
     end
   end
 end

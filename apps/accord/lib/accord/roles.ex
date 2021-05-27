@@ -1,14 +1,9 @@
 defmodule Accord.Roles do
-  @moduledoc """
-  The Roles context.
-  """
-
   import Ecto.Query, warn: false
   alias Accord.Repo
 
-  alias Accord.Roles.Role
-  alias Accord.Roles.MemberRole
-  alias Accord.Servers.Server
+  alias Accord.Roles.{Role, MemberRole}
+  alias Accord.Servers.{Member}
 
   @doc """
   Returns the list of role.
@@ -72,15 +67,39 @@ defmodule Accord.Roles do
   end
 
   def get_member_permissions_on_server(user_id, server_id) do
-    query =
-      from mr in MemberRole,
+    roles =
+      from(mr in MemberRole,
         join: r in Role,
-        on: r.id == mr.role_id,
-        join: s in Server,
-        on: s.id == r.server_id,
-        where: mr.member_id == ^user_id and s.id == ^server_id
+        on: mr.role_id == r.id,
+        join: m in Member,
+        on: m.id == mr.member_id,
+        where: r.server_id == ^server_id and m.allow_user_id == ^user_id,
+        select: r
+      )
+      |> Repo.all()
 
-    {:ok, member_roles} = Repo.one!(query)
+    %{
+      can_add_users:
+        roles
+        |> Enum.map(fn r -> r.can_add_users end)
+        |> Enum.any?(),
+      can_remove_users:
+        roles
+        |> Enum.map(fn r -> r.can_remove_users end)
+        |> Enum.any?(),
+      can_update_server_description:
+        roles
+        |> Enum.map(fn r -> r.can_update_server_description end)
+        |> Enum.any?(),
+      can_update_server_name:
+        roles
+        |> Enum.map(fn r -> r.can_update_server_name end)
+        |> Enum.any?(),
+      can_update_server_privacy:
+        roles
+        |> Enum.map(fn r -> r.can_update_server_privacy end)
+        |> Enum.any?()
+    }
   end
 
   @doc """

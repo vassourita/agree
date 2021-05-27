@@ -12,6 +12,7 @@ defmodule AccordWeb.Router do
     get "/servers", ServerController, :index
     get "/servers/:id", ServerController, :show
     post "/servers", ServerController, :create
+    get "/servers/:id/permissions", PermissionController, :index
   end
 
   # Enables LiveDashboard only for development
