@@ -17,12 +17,29 @@ defmodule Accord.Servers do
   end
 
   def search_servers(user, opt) do
-    default_opt = [page: 1, limit: 10]
+    default_opt = [page: 1, limit: 10, sort_by: "name", order: "asc"]
     options = Keyword.merge(default_opt, opt)
 
     opt_q = "%#{options[:query]}%"
     opt_limit = options[:limit]
     opt_offset = options[:limit] * (options[:page] - 1)
+
+    opt_sort =
+      String.to_atom(options[:sort_by])
+      |> case do
+        :name -> :name
+        :description -> :description
+        :creation_date -> :inserted_at
+        _ -> :inserted_at
+      end
+
+    opt_order =
+      String.to_atom(options[:order])
+      |> case do
+        :asc -> :asc
+        :desc -> :desc
+        _ -> :asc
+      end
 
     from(s in Server,
       where:
@@ -33,7 +50,8 @@ defmodule Accord.Servers do
                "? IN (SELECT allow_user_id FROM member m WHERE m.server_id = ?)",
                ^user.id,
                s.id
-             ))
+             )),
+      order_by: [{^opt_order, field(s, ^opt_sort)}]
     )
     |> limit(^opt_limit)
     |> offset(^opt_offset)

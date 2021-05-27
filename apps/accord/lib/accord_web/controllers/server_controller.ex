@@ -13,7 +13,9 @@ defmodule AccordWeb.ServerController do
       Servers.search_servers(user,
         query: params["q"],
         limit: String.to_integer(params["limit"] || "10"),
-        page: String.to_integer(params["page"] || "1")
+        page: String.to_integer(params["page"] || "1"),
+        sort_by: params["sort_by"] || "name",
+        order: params["order"] || "asc"
       )
 
     render(conn, "index.json", servers: servers)
