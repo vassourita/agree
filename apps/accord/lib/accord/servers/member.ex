@@ -29,6 +29,5 @@ defmodule Accord.Servers.Member do
     |> Repo.preload(:roles)
     |> cast(%{}, @required_fields)
     |> put_assoc(:roles, [role])
-    |> Repo.update!()
   end
 end

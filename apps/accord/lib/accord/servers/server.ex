@@ -17,7 +17,6 @@ defmodule Accord.Servers.Server do
     timestamps()
   end
 
-  @doc false
   def changeset(server, attrs) do
     server
     |> cast(attrs, [:name, :privacy, :description])

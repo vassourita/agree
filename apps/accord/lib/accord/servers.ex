@@ -50,31 +50,41 @@ defmodule Accord.Servers do
   end
 
   def create_server(server_attrs, user) do
-    Repo.transaction(fn ->
-      {:ok, server} =
-        %Server{}
-        |> Server.changeset(server_attrs)
-        |> Repo.insert()
-
-      {:ok, category} =
+    multi =
+      Multi.new()
+      |> Multi.insert(:server, Server.changeset(%Server{}, server_attrs))
+      |> Multi.run(:category, fn _, %{server: server} ->
         create_category(%{server_id: server.id, name: "Welcome to #{server.name}"})
+      end)
+      |> Multi.run(:channel, fn _, %{category: category} ->
+        create_channel(%{category_id: category.id, name: "Example channel"})
+      end)
+      |> Multi.run(:member, fn _, %{server: server} ->
+        create_member(%{server_id: server.id, allow_user_id: user.id})
+      end)
+      |> Multi.run(:role, fn _, %{server: server} ->
+        Roles.create_default_admin_role(server.id)
+      end)
+      |> Multi.run(:member_role, fn _, %{role: role, member: member} ->
+        member
+        |> Member.changeset_add_role(role)
+        |> Repo.update()
+      end)
 
-      {:ok, _channel} = create_channel(%{category_id: category.id, name: "Example channel"})
+    Repo.transaction(multi)
+    |> case do
+      {:ok, %{server: server}} ->
+        {:ok,
+         Server
+         |> Ecto.Query.where(id: ^server.id)
+         |> Ecto.Query.preload(categories: [:channels])
+         |> Ecto.Query.preload(:roles)
+         |> Ecto.Query.preload(members: [:roles])
+         |> Repo.one()}
 
-      {:ok, member} = create_member(%{server_id: server.id, allow_user_id: user.id})
-
-      {:ok, admin_role} = Roles.create_default_admin_role(server.id)
-
-      member
-      |> Member.changeset_add_role(admin_role)
-
-      Server
-      |> where(id: ^server.id)
-      |> preload(categories: [:channels])
-      |> preload(:roles)
-      |> preload(members: [:roles])
-      |> Repo.one()
-    end)
+      {:error, _error_key, error_msg, _succeded} ->
+        {:error, error_msg}
+    end
   end
 
   @doc """

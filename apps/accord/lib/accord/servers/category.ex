@@ -19,6 +19,6 @@ defmodule Accord.Servers.Category do
     category
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
-    |> validate_length(:name, min: 1, max: 30)
+    |> validate_length(:name, min: 1, max: 50)
   end
 end
