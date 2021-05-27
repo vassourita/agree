@@ -4,6 +4,7 @@ defmodule Accord.Servers do
   """
 
   import Ecto.Query, warn: false
+  require Ecto.Query.API
   alias Ecto.Multi
   alias Accord.Repo
 
@@ -12,6 +13,30 @@ defmodule Accord.Servers do
 
   def list_servers do
     Server
+    |> Repo.all()
+  end
+
+  def search_servers(user, opt) do
+    default_opt = [page: 1, limit: 10]
+    options = Keyword.merge(default_opt, opt)
+
+    opt_q = "%#{options[:query]}%"
+    opt_limit = options[:limit]
+    opt_offset = options[:limit] * (options[:page] - 1)
+
+    from(s in Server,
+      where:
+        (ilike(s.name, ^opt_q) or
+           ilike(s.description, ^opt_q)) and
+          (s.privacy < 2 or
+             fragment(
+               "? IN (SELECT allow_user_id FROM member m WHERE m.server_id = ?)",
+               ^user.id,
+               s.id
+             ))
+    )
+    |> limit(^opt_limit)
+    |> offset(^opt_offset)
     |> Repo.all()
   end
 

@@ -6,8 +6,16 @@ defmodule AccordWeb.ServerController do
 
   action_fallback AccordWeb.FallbackController
 
-  def index(conn, _params) do
-    servers = Servers.list_servers()
+  def index(conn, params) do
+    user = %{id: conn.assigns[:user].id}
+
+    servers =
+      Servers.search_servers(user,
+        query: params["q"],
+        limit: String.to_integer(params["limit"] || "10"),
+        page: String.to_integer(params["page"] || "1")
+      )
+
     render(conn, "index.json", servers: servers)
   end
 
