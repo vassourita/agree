@@ -78,28 +78,35 @@ defmodule Accord.Roles do
       )
       |> Repo.all()
 
-    %{
-      can_add_users:
-        roles
-        |> Enum.map(fn r -> r.can_add_users end)
-        |> Enum.any?(),
-      can_remove_users:
-        roles
-        |> Enum.map(fn r -> r.can_remove_users end)
-        |> Enum.any?(),
-      can_update_server_description:
-        roles
-        |> Enum.map(fn r -> r.can_update_server_description end)
-        |> Enum.any?(),
-      can_update_server_name:
-        roles
-        |> Enum.map(fn r -> r.can_update_server_name end)
-        |> Enum.any?(),
-      can_update_server_privacy:
-        roles
-        |> Enum.map(fn r -> r.can_update_server_privacy end)
-        |> Enum.any?()
-    }
+    case length(roles) do
+      0 ->
+        {:error, %{reason: :forbidden, message: "User is not a member of the server"}}
+
+      _ ->
+        {:ok,
+         %{
+           can_add_users:
+             roles
+             |> Enum.map(fn r -> r.can_add_users end)
+             |> Enum.any?(),
+           can_remove_users:
+             roles
+             |> Enum.map(fn r -> r.can_remove_users end)
+             |> Enum.any?(),
+           can_update_server_description:
+             roles
+             |> Enum.map(fn r -> r.can_update_server_description end)
+             |> Enum.any?(),
+           can_update_server_name:
+             roles
+             |> Enum.map(fn r -> r.can_update_server_name end)
+             |> Enum.any?(),
+           can_update_server_privacy:
+             roles
+             |> Enum.map(fn r -> r.can_update_server_privacy end)
+             |> Enum.any?()
+         }}
+    end
   end
 
   @doc """

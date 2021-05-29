@@ -23,7 +23,11 @@ defmodule AccordWeb.ErrorView do
   end
 
   def render("400.json", %{result: message}) do
-    %{errors: message}
+    %{message: message}
+  end
+
+  def render("403.json", %{result: message}) do
+    %{message: message}
   end
 
   def render("404.json", %{result: resource_name}) do
