@@ -10,6 +10,7 @@ import { Button } from '../form/Button'
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { IconButton } from '@chakra-ui/button'
 import { FriendListItem } from '../avatar/FriendListItem'
+import Icon from '@chakra-ui/icon'
 
 export function SideBar (): JSX.Element {
   const { account, logout, resendConfirmationMail } = useAllow()
@@ -21,7 +22,7 @@ export function SideBar (): JSX.Element {
       <Flex flexDir="column" align="center" justify="center" minW="100px" marginTop="1.75rem" marginBottom="0.5rem">
         <InputGroup h="50px" width="250px">
           <Input h="50px" width="250px" placeholder="Procurando algo?" borderColor="white" borderWidth="2px" _placeholder={{ color: 'white' }} />
-          <InputRightElement h="50px"><FiSearch /></InputRightElement>
+          <InputRightElement h="50px"><Icon as={FiSearch}/></InputRightElement>
         </InputGroup>
       </Flex>
 
