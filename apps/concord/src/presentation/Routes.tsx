@@ -6,6 +6,7 @@ import { HomePage } from './pages/dashboard/HomePage'
 import { NotFoundPage } from './pages/error/NotFoundPage'
 import { SettingsLayout } from './layouts/SettingsLayout'
 import { ServerSearch } from './pages/dashboard/ServerSearch'
+import { ServerCreate } from './pages/dashboard/ServerCreate'
 
 export function Routes (): JSX.Element {
   return (
@@ -19,7 +20,7 @@ export function Routes (): JSX.Element {
               <AuthenticatedRoute exact path="/" component={() => <Redirect to="/home" />}/>
               <AuthenticatedRoute exact path="/home" component={() => <HomePage />}/>
               <AuthenticatedRoute exact path="/s/search" component={() => <ServerSearch />}/>
-              <AuthenticatedRoute exact path="/s/new" component={() => <HomePage />}/>
+              <AuthenticatedRoute exact path="/s/new" component={() => <ServerCreate />}/>
               <AuthenticatedRoute exact path="/s/:id" component={() => <HomePage />}/>
               <AuthenticatedRoute exact path="/u/:id" component={() => <HomePage />}/>
               <AuthenticatedRoute path="/settings" component={() => <SettingsLayout />}/>

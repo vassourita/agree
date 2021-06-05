@@ -8,6 +8,7 @@ import { AxiosHttpClient } from '../services/implementations/AxiosHttpClient'
 import { ConsoleLogger } from '../services/implementations/ConsoleLogger'
 import { LocalStorageCache } from '../services/implementations/LocalStorageCache'
 import { AllowProvider } from './AllowContext'
+import { ServerProvider } from './ServerContext'
 
 const axiosHttpClient = new AxiosHttpClient()
 const localStorageCache = new LocalStorageCache()
@@ -19,7 +20,9 @@ export function ContextContainer ({ children }: PropsWithChildren<any>): JSX.Ele
       <CookiesProvider>
         <I18nProvider resource={resource}>
           <AllowProvider cache={localStorageCache} httpClient={axiosHttpClient} logger={consoleLogger}>
-            {children}
+            <ServerProvider httpClient={axiosHttpClient} logger={consoleLogger}>
+              {children}
+            </ServerProvider>
           </AllowProvider>
         </I18nProvider>
       </CookiesProvider>

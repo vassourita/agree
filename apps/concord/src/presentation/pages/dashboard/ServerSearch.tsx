@@ -32,20 +32,20 @@ export function ServerSearch (): JSX.Element {
           </Select>
         </InputGroup>
       </Grid>
-      <Grid gridTemplateColumns="repeat(3, 1fr)" gridAutoRows="350px" gridGap="3rem" overflowY="scroll" className="custom-scrollbar" pr="1rem">
-          {Array.from(Array(12).keys()).map(i => (
-            <Flex position="relative" direction="column" key={i} bg="#49494f" w="full" h="350px" rounded="md">
-              <Image filter="brightness(35%)" objectFit="cover" objectPosition="center" h="8rem" w="full" rounded="md" src={'https://source.unsplash.com/random'}/>
-              <Text position="absolute" top="0.5rem" left="0.7rem" fontSize="xl">TItulooo</Text>
-              <Flex direction="column" h="full" p="1rem" justifyContent="space-between">
-                <Text>Por algum motivo esse nome me lembra goiaba. Eu gosto de goiaba. Mas as sementes são meio ruins de morder e tal.</Text>
-                <Box>
-                  <Text>11 membros</Text>
-                  <Text>Servidor público</Text>
-                </Box>
-              </Flex>
+      <Grid gridTemplateColumns="repeat(3, 1fr)" gridAutoRows="350px" gridGap="3rem" overflowY="scroll" className="hide-scrollbar">
+        {Array.from(Array(12).keys()).map(i => (
+          <Flex position="relative" direction="column" key={i} bg="#49494f" w="full" h="350px" rounded="md">
+            <Image filter="brightness(35%)" objectFit="cover" objectPosition="center" h="8rem" w="full" rounded="md" src={'https://source.unsplash.com/random'}/>
+            <Text position="absolute" top="0.5rem" left="0.7rem" fontSize="xl">TItulooo</Text>
+            <Flex direction="column" h="full" p="1rem" justifyContent="space-between">
+              <Text>Por algum motivo esse nome me lembra goiaba. Eu gosto de goiaba. Mas as sementes são meio ruins de morder e tal.</Text>
+              <Box>
+                <Text>11 membros</Text>
+                <Text>Servidor público</Text>
+              </Box>
             </Flex>
-          ))}
+          </Flex>
+        ))}
       </Grid>
     </Flex>
   )
