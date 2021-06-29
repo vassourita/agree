@@ -11,7 +11,7 @@ import { ILogger } from '../services/ILogger'
 export type ServerContextProps = {
   myServers: Server[]
   // myPermissions(serverId: string): Promise<ServerPermissions>
-  // searchServers(query: string, order: string, sort: string): Promise<Server[]>
+  searchServers(query: string, order: string, sort: string): Promise<Server[]>
   createServer(name: string, privacy: number, description?:string): Promise<Result<Server, AccordErrorList>>
 }
 
@@ -28,6 +28,24 @@ export function ServerProvider ({ children, httpClient, logger }: AllowProviderP
 
   const { t } = useI18n()
   const toast = useToast()
+
+  async function searchServers (query: string, order: string, sort: string): Promise<Server[]> {
+    const response = await httpClient.request({
+      method: 'get',
+      url: `${process.env.REACT_APP_ACCORD_URL}/servers?sort_by=${sort}&order=${order}${query && `&q=${encodeURI(query)}`}`
+    })
+
+    if (response.statusCode === HttpStatusCode.OK) {
+      return response.body.servers
+    }
+
+    toast({
+      title: t`Um erro inesperado ocorreu`,
+      isClosable: true,
+      status: 'error'
+    })
+    return []
+  }
 
   async function createServer (name: string, privacy: number, description?: string): Promise<Result<Server, AccordErrorList>> {
     const response = await httpClient.request({
@@ -60,7 +78,7 @@ export function ServerProvider ({ children, httpClient, logger }: AllowProviderP
   }
 
   return (
-    <ServerContext.Provider value={{ createServer, myServers }}>
+    <ServerContext.Provider value={{ createServer, myServers, searchServers }}>
       {children}
     </ServerContext.Provider>
   )
