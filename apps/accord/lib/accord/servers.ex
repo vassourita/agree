@@ -1,8 +1,4 @@
 defmodule Accord.Servers do
-  @moduledoc """
-  The Servers context.
-  """
-
   import Ecto.Query, warn: false
   require Ecto.Query.API
   alias Ecto.Multi

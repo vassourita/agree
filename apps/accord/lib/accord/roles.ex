@@ -85,28 +85,19 @@ defmodule Accord.Roles do
       _ ->
         {:ok,
          %{
-           can_add_users:
-             roles
-             |> Enum.map(fn r -> r.can_add_users end)
-             |> Enum.any?(),
-           can_remove_users:
-             roles
-             |> Enum.map(fn r -> r.can_remove_users end)
-             |> Enum.any?(),
-           can_update_server_description:
-             roles
-             |> Enum.map(fn r -> r.can_update_server_description end)
-             |> Enum.any?(),
-           can_update_server_name:
-             roles
-             |> Enum.map(fn r -> r.can_update_server_name end)
-             |> Enum.any?(),
-           can_update_server_privacy:
-             roles
-             |> Enum.map(fn r -> r.can_update_server_privacy end)
-             |> Enum.any?()
+           can_add_users: any_true(roles, :can_add_users),
+           can_remove_users: any_true(roles, :can_remove_users),
+           can_update_server_description: any_true(roles, :can_update_server_description),
+           can_update_server_name: any_true(roles, :can_update_server_name),
+           can_update_server_privacy: any_true(roles, :can_update_server_privacy)
          }}
     end
+  end
+
+  defp any_true(roles, field) do
+    roles
+    |> Enum.map(fn r -> Map.get(r, field) end)
+    |> Enum.any?()
   end
 
   @doc """
