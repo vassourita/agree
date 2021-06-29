@@ -43,5 +43,8 @@
   "Search servers": "Pesquisar servidores",
   "Settings": "Configurações",
   "It was not possible to verify your email": "Não foi possível verificar seu email",
-  "Please try again later": "Por favor tente novamente mais tarde"
+  "Please try again later": "Por favor tente novamente mais tarde",
+  "public": "público",
+  "private": "privado",
+  "secret": "secreto"
 }

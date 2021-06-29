@@ -43,5 +43,8 @@
   "Search servers": "Search servers",
   "Settings": "Settings",
   "It was not possible to verify your email": "It was not possible to verify your email",
-  "Please try again later": "Please try again later"
+  "Please try again later": "Please try again later",
+  "public": "public",
+  "private": "private",
+  "secret": "secret"
 }

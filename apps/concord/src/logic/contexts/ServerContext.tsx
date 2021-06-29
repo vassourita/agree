@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/toast'
 import { createContext, ReactNode, useState } from 'react'
 import { Err, Ok, Result } from 'ts-results'
 import { useI18n } from '../../presentation/hooks/useI18n'
+import { ApiResponseToModelMapper } from '../mappings/ApiResponseToModelMapper'
 import { AccordErrorList } from '../models/AccordErrorList'
 import { Server } from '../models/Server'
 // import { ServerPermissions } from '../models/ServerPermissions'
@@ -36,7 +37,7 @@ export function ServerProvider ({ children, httpClient, logger }: AllowProviderP
     })
 
     if (response.statusCode === HttpStatusCode.OK) {
-      return response.body.servers
+      return response.body.servers.map(ApiResponseToModelMapper.mapServer)
     }
 
     toast({

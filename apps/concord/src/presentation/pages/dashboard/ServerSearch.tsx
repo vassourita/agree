@@ -7,6 +7,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { FiChevronDown, FiFilter, FiSearch } from 'react-icons/fi'
 import { useServers } from '../../../logic/hooks/useServers'
 import { Server } from '../../../logic/models/Server'
+import { useI18n } from '../../hooks/useI18n'
 import { useInputState } from '../../hooks/useInputState'
 
 export function ServerSearch (): JSX.Element {
@@ -14,9 +15,11 @@ export function ServerSearch (): JSX.Element {
   const [sortBy, setSortBy] = useState('name')
   const [orderBy, setOrderBy] = useState('asc')
 
-  const [servers] = useState<Server[]>([])
+  const [servers, setServers] = useState<Server[]>([])
 
   const { searchServers } = useServers()
+
+  const { t } = useI18n()
 
   function handleFilterChange (e: ChangeEvent<HTMLSelectElement>) {
     const [sort, order] = e.target.value.split('|')
@@ -26,6 +29,7 @@ export function ServerSearch (): JSX.Element {
 
   function search () {
     searchServers(query, orderBy, sortBy)
+      .then(s => setServers(s))
   }
 
   useEffect(() => {
@@ -76,12 +80,14 @@ export function ServerSearch (): JSX.Element {
         {servers.map((server, i) => (
           <Flex position="relative" direction="column" key={i} bg="#49494f" w="full" h="350px" rounded="md">
             <Image filter="brightness(35%)" objectFit="cover" objectPosition="center" h="8rem" w="full" rounded="md" src={'https://source.unsplash.com/random'}/>
-            <Text position="absolute" top="0.5rem" left="0.7rem" fontSize="xl">{server.name}</Text>
+            <Text position="absolute" top="0.5rem" left="0.7rem" fontSize="xl">
+              {server.name}
+            </Text>
             <Flex direction="column" h="full" p="1rem" justifyContent="space-between">
               <Text>{server.description}</Text>
               <Box>
                 <Text>11 membros</Text>
-                <Text>Servidor público</Text>
+                <Text as="strong">{t([server.privacyStr] as unknown as TemplateStringsArray)}</Text>
               </Box>
             </Flex>
           </Flex>

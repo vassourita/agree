@@ -49,6 +49,7 @@ module.exports = {
       {
         argsIgnorePattern: '_'
       }
-    ]
+    ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
   }
 }
