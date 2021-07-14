@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using System.Linq;
+using Agree.Accord.SharedKernel;
 
 namespace Agree.Accord.Domain.Identity
 {
     /// <summary>
     /// Represents a four digit number used to differentiate users with the same name.
     /// </summary>
-    public class DiscriminatorTag
+    public class DiscriminatorTag : ValueObject
     {
         /// <summary>
         /// The tag value as a ushort. Will not have four digits if it starts with zeros.
@@ -47,6 +49,11 @@ namespace Agree.Accord.Domain.Identity
             }
 
             return false;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Value;
         }
     }
 }
