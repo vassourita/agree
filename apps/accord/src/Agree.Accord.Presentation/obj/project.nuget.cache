@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "UqfIITydqNe/1ggfZB2jccellNlx6cGF++Kvi4CQ561uIj7Qgo7iiEj883Q5kWoxA5xQfFGhL0eRjxluC3ICWg==",
+  "success": true,
+  "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Presentation/Agree.Accord.Presentation.csproj",
+  "expectedPackageFiles": [
+    "/home/vassao/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/home/vassao/.nuget/packages/swashbuckle.aspnetcore/5.6.3/swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "/home/vassao/.nuget/packages/swashbuckle.aspnetcore.swagger/5.6.3/swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "/home/vassao/.nuget/packages/swashbuckle.aspnetcore.swaggergen/5.6.3/swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "/home/vassao/.nuget/packages/swashbuckle.aspnetcore.swaggerui/5.6.3/swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
