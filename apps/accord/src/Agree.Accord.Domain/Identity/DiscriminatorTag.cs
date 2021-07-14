@@ -14,10 +14,10 @@ namespace Agree.Accord.Domain.Identity
         public ushort Value { get; private set; }
 
         /// <summary>
-        /// The tag value as a string. Will always be a numeric string and have a length of four.
+        /// Returns tag value as a string. Will always be a numeric string and have a length of four.
         /// </summary>
-        /// <value>Gets the tag value as a string.</value>
-        public string StringValue { get => Value.ToString().PadLeft(4, '0'); }
+        /// <returns>The tag value as a string.</returns>
+        public override string ToString() => Value.ToString().PadLeft(4, '0');
 
         private DiscriminatorTag(ushort value)
         {

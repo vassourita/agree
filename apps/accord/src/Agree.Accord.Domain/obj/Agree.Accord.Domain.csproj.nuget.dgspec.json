@@ -25,6 +25,62 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
+            "projectReferences": {
+              "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj": {
+                "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj",
+        "projectName": "Agree.Accord.SharedKernel",
+        "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj",
+        "packagesPath": "/home/vassao/.nuget/packages/",
+        "outputPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/vassao/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -37,12 +93,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.8, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
