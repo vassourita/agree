@@ -25,11 +25,11 @@ namespace Agree.Accord.Domain.Test
         [InlineData(" ", false)]
         [InlineData("a", false)]
         [InlineData("a1", false)]
-        public void TryParse_ShouldParseValuesCorrectly(object value, bool shouldPass)
+        public void TryParse_ShouldParseValuesCorrectly(object value, bool isValidTag)
         {
             if (DiscriminatorTag.TryParse(value, out var tag))
             {
-                if (shouldPass)
+                if (isValidTag)
                 {
                     Assert.Equal(value.ToString().PadLeft(4, '0'), tag.ToString());
                     Assert.Equal(ushort.Parse(value.ToString()), tag.Value);
