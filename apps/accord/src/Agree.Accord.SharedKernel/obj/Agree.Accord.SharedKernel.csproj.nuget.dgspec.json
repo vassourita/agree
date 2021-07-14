@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Domain/Agree.Accord.Domain.csproj": {}
+    "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj": {}
   },
   "projects": {
-    "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Domain/Agree.Accord.Domain.csproj": {
+    "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Domain/Agree.Accord.Domain.csproj",
-        "projectName": "Agree.Accord.Domain",
-        "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Domain/Agree.Accord.Domain.csproj",
+        "projectUniqueName": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj",
+        "projectName": "Agree.Accord.SharedKernel",
+        "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj",
         "packagesPath": "/home/vassao/.nuget/packages/",
-        "outputPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Domain/obj/",
+        "outputPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/vassao/.nuget/NuGet/NuGet.Config"
@@ -37,12 +37,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.8, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
