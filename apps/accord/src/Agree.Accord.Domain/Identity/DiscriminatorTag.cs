@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Agree.Accord.SharedKernel;
@@ -49,6 +50,24 @@ namespace Agree.Accord.Domain.Identity
             }
 
             return false;
+        }
+
+        private static Random _random = new Random();
+        /// <summary>
+        /// Generates a new <c>DiscriminatorTag</c> with a pseudo-random value between 1 and 9999.
+        /// <para>
+        /// This method does not checks if a user already has the same name and tag, it just generates a new random one.
+        /// </para>
+        /// </summary>
+        /// <returns>A <c>DiscriminatorTag</c> between 1 and 9999.</returns>
+        public static DiscriminatorTag NewTag()
+        {
+            var number = _random.Next(1, 9999);
+            if (TryParse(number, out var tag))
+            {
+                return tag;
+            }
+            return NewTag();
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
