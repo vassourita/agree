@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "BCrypt.Net-Next/4.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/BCrypt.Net-Next.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/BCrypt.Net-Next.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore/5.0.8": {
         "type": "package",
         "dependencies": {
@@ -235,6 +244,20 @@
           "bin/placeholder/Agree.Accord.Domain.dll": {}
         }
       },
+      "Agree.Accord.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Agree.Accord.Domain": "1.0.0",
+          "BCrypt.Net-Next": "4.0.2"
+        },
+        "compile": {
+          "bin/placeholder/Agree.Accord.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Agree.Accord.Infrastructure.dll": {}
+        }
+      },
       "Agree.Accord.Infrastructure.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
@@ -263,6 +286,39 @@
     }
   },
   "libraries": {
+    "BCrypt.Net-Next/4.0.2": {
+      "sha512": "LyNKpIpr4GraRD9+xlTviyxxbZpF6J4xJf7DvraC1mR8PSN/KonGc4rt8C/fjkD3vaEvgA7BcvsbHFCOjgczyQ==",
+      "type": "package",
+      "path": "bcrypt.net-next/4.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bcrypt.net-next.4.0.2.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "lib/net20/BCrypt.Net-Next.dll",
+        "lib/net20/BCrypt.Net-Next.xml",
+        "lib/net35/BCrypt.Net-Next.dll",
+        "lib/net35/BCrypt.Net-Next.xml",
+        "lib/net40/BCrypt.Net-Next.dll",
+        "lib/net40/BCrypt.Net-Next.xml",
+        "lib/net452/BCrypt.Net-Next.dll",
+        "lib/net452/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt.Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt.Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt.Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/net5.0/BCrypt.Net-Next.dll",
+        "lib/net5.0/BCrypt.Net-Next.xml",
+        "lib/netcoreapp3.1/BCrypt.Net-Next.dll",
+        "lib/netcoreapp3.1/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt.Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt.Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml"
+      ]
+    },
     "Microsoft.EntityFrameworkCore/5.0.8": {
       "sha512": "UzHZDWma5jJaDMBGnfsBC1h0+1bPzAZmEGnmEMy9xdn4UkO9yvrG7m0deRazvU98Ezoa9pqi4Bsp07WR8p8HUA==",
       "type": "package",
@@ -716,6 +772,11 @@
       "path": "../Agree.Accord.Domain/Agree.Accord.Domain.csproj",
       "msbuildProject": "../Agree.Accord.Domain/Agree.Accord.Domain.csproj"
     },
+    "Agree.Accord.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj",
+      "msbuildProject": "../Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj"
+    },
     "Agree.Accord.Infrastructure.Data/1.0.0": {
       "type": "project",
       "path": "../Agree.Accord.Infrastructure.Data/Agree.Accord.Infrastructure.Data.csproj",
@@ -730,7 +791,9 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Agree.Accord.Domain >= 1.0.0",
+      "Agree.Accord.Infrastructure >= 1.0.0",
       "Agree.Accord.Infrastructure.Data >= 1.0.0",
+      "Agree.Accord.SharedKernel >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.8",
       "Microsoft.Extensions.DependencyInjection >= 5.0.2",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.7"
@@ -766,6 +829,12 @@
             },
             "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure.Data/Agree.Accord.Infrastructure.Data.csproj": {
               "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure.Data/Agree.Accord.Infrastructure.Data.csproj"
+            },
+            "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj": {
+              "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj"
+            },
+            "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj": {
+              "projectPath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.SharedKernel/Agree.Accord.SharedKernel.csproj"
             }
           }
         }

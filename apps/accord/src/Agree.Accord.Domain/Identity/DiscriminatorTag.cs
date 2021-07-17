@@ -52,6 +52,30 @@ namespace Agree.Accord.Domain.Identity
             return false;
         }
 
+        /// <summary>
+        /// Parses a object into a <c>DiscriminatorTag</c>.
+        /// </summary>
+        /// <param name="value">The value to be parsed</param>
+        /// <returns>The parsed value if <c>value</c> was converted succesfully; otherwise, a zero-filled <c>DiscriminatorTag</c>.</returns>
+        public static DiscriminatorTag Parse(object value)
+        {
+            var tag = new DiscriminatorTag(0);
+            var strValue = value.ToString();
+
+            if (string.IsNullOrEmpty(strValue) || strValue.Length > 4 || !strValue.All(char.IsDigit))
+            {
+                return tag;
+            }
+
+            if (ushort.TryParse(strValue.PadLeft(4, '0'), out var parsedValue))
+            {
+                tag = new DiscriminatorTag(parsedValue);
+                return tag;
+            }
+
+            return tag;
+        }
+
         private static Random _random = new Random();
         /// <summary>
         /// Generates a new <c>DiscriminatorTag</c> with a pseudo-random value between 1 and 9999.

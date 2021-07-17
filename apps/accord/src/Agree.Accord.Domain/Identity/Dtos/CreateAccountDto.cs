@@ -17,7 +17,7 @@ namespace Agree.Accord.Domain.Identity.Dtos
 
         [Required(ErrorMessage = "Password is required.")]
         [MinLength(6)]
-        [MaxLength(100)]
+        [MaxLength(80)]
         [RegularExpression(PasswordRegEx, ErrorMessage = "Password must contain at least one uppercase character, one lowercase character, and a digit.")]
         public string Password { get; set; }
 

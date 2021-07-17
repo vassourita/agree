@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ibcgL2oLIzRJ5RuXSjiBkaKdwUeZAUe7sVJzGM/cLG/p8xvC/QnHVt0MUf+cs+N1A5wH+TjL0mAGJlz4ixrHqQ==",
+  "dgSpecHash": "e9B/0aQWekVo3ZyZPrVXc/NGlbf9U37BUKML8cF0Z/jDzJckranOKXVs+6FGf/haE0cXSY15U0eSYJMTua87HA==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Presentation/Agree.Accord.Presentation.csproj",
   "expectedPackageFiles": [
+    "/home/vassao/.nuget/packages/bcrypt.net-next/4.0.2/bcrypt.net-next.4.0.2.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore/5.0.8/microsoft.entityframeworkcore.5.0.8.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.abstractions/5.0.8/microsoft.entityframeworkcore.abstractions.5.0.8.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.entityframeworkcore.analyzers/5.0.8/microsoft.entityframeworkcore.analyzers.5.0.8.nupkg.sha512",

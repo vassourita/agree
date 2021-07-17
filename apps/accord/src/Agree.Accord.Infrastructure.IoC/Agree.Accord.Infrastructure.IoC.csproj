@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Agree.Accord.Domain\Agree.Accord.Domain.csproj" />
     <ProjectReference Include="..\Agree.Accord.Infrastructure.Data\Agree.Accord.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Agree.Accord.SharedKernel\Agree.Accord.SharedKernel.csproj" />
+    <ProjectReference Include="..\Agree.Accord.Infrastructure\Agree.Accord.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

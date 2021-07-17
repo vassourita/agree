@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "EBTtVGzc9K7dBY4nMK4cRQxc5baO4e70ORKZqPNhL/tlKi4la244Q8BOnxqivdS9PRMRMKDyB0bcrRwSTOkmPA==",
+  "dgSpecHash": "gHh09ygS6XgigF32RUJCz6lLTZTnqZsNzBQDEo6mJVUuPkszDRk9bWTizN9A+gdRUFJJJpf/skF4CaPgmlfCrg==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/vassao/.nuget/packages/bcrypt.net-next/4.0.2/bcrypt.net-next.4.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
