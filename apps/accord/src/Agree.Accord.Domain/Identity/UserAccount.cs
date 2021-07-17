@@ -13,10 +13,11 @@ namespace Agree.Accord.Domain.Identity
         /// <param name="userName">The user display name.</param>
         /// <param name="email">The user email address.</param>
         /// <param name="tag">The user discriminator tag.</param>
-        public UserAccount(string userName, string email, DiscriminatorTag tag)
+        public UserAccount(string userName, string email, string passwordHash, DiscriminatorTag tag)
         {
             UserName = userName;
             Email = email;
+            PasswordHash = passwordHash;
             Tag = tag;
         }
 
@@ -57,6 +58,12 @@ namespace Agree.Accord.Domain.Identity
         /// </summary>
         /// <value>The user email.</value>
         public string Email { get; private set; }
+
+        /// <summary>
+        /// Gets the user hashed password.
+        /// </summary>
+        /// <value>The user hashed password.</value>
+        public string PasswordHash { get; private set; }
 
         /// <summary>
         /// Gets the user email discriminator tag.
