@@ -41,5 +41,16 @@ namespace Agree.Accord.Domain.Test
                 }
             }
         }
+
+        [Fact]
+        public void NewTag_ShouldReturnTagBetween1And9999()
+        {
+            var oneMillion = 1000000;
+            for (int i = 0; i < oneMillion; i++)
+            {
+                var tag = DiscriminatorTag.NewTag();
+                Assert.True(tag.Value >= 1 && tag.Value <= 9999);
+            }
+        }
     }
 }
