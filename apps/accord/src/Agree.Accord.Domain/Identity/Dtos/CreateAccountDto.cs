@@ -5,7 +5,7 @@ namespace Agree.Accord.Domain.Identity.Dtos
     public class CreateAccountDto
     {
         [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Email must be a valid email address.")]
         [MaxLength(255)]
         public string Email { get; set; }
 
