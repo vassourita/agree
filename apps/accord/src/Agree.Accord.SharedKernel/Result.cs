@@ -5,17 +5,37 @@ namespace Agree.Accord.SharedKernel
     /// <summary>
     /// A abstract result, with a flag of whether the operation succeeded or not.
     /// </summary>
-    public abstract class Result
+    public interface IResult
+    {
+        /// <summary>
+        /// A flag indicating if the operation succeeded.
+        /// </summary>
+        /// <value><c>true</c> if the operation succeeded; otherwise, <c>false</c></value>
+        bool Succeeded { get; }
+
+        /// <summary>
+        /// A flag indicating if the operation failed.
+        /// </summary>
+        /// <value><c>true</c> if the operation failed; otherwise, <c>false</c></value>
+        bool Failed { get; }
+    }
+
+    /// <summary>
+    /// A abstract result, with a flag of whether the operation succeeded or not.
+    /// </summary>
+    public abstract class Result : IResult
     {
         protected Result(bool succeeded)
         {
             Succeeded = succeeded;
         }
+
         /// <summary>
         /// A flag indicating if the operation succeeded.
         /// </summary>
         /// <value><c>true</c> if the operation succeeded; otherwise, <c>false</c></value>
         public bool Succeeded { get; private set; }
+
         /// <summary>
         /// A flag indicating if the operation failed.
         /// </summary>
@@ -26,7 +46,7 @@ namespace Agree.Accord.SharedKernel
     /// <summary>
     /// A abstract result, with a flag of whether the operation succeeded or not, and a property for operation data.
     /// </summary>
-    public abstract class Result<TData> : Result
+    public abstract class Result<TData> : Result, IResult
     {
         /// <summary>
         /// A abstract result, with a flag of whether the operation succeeded or not, and a property for operation data.
@@ -54,7 +74,7 @@ namespace Agree.Accord.SharedKernel
     /// <summary>
     /// A abstract result, with a flag of whether the operation succeeded or not, a property for operation data, and a property for error data.
     /// </summary>
-    public abstract class Result<TData, TError> : Result
+    public abstract class Result<TData, TError> : Result, IResult
     {
         /// <summary>
         /// A abstract result, with a flag of whether the operation succeeded or not, and a property for operation data.
