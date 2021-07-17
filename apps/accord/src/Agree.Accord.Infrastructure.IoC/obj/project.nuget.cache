@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Fj2gyfG5G9RHbGDY1my5YyHKbywoR72XtS7wqoT+R9sJWCRLsOv8ADB1P8DcxRFiLr6WNFXCzlCinpvGEm7jFQ==",
+  "dgSpecHash": "0TezERiZxBXDX00vj8/On2qra9vO2b/iTZhKQ7jnA64fhi+aE+ziD3YWW6hlv4jveBXfZ91x63WKj1GSvgFySA==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure.IoC/Agree.Accord.Infrastructure.IoC.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/vassao/.nuget/packages/microsoft.extensions.dependencyinjection/5.0.2/microsoft.extensions.dependencyinjection.5.0.2.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/5.0.0/microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
