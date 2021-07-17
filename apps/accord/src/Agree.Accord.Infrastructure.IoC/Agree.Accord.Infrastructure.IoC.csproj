@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Agree.Accord.Domain\Agree.Accord.Domain.csproj" />
+    <ProjectReference Include="..\Agree.Accord.Infrastructure.Data\Agree.Accord.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>
