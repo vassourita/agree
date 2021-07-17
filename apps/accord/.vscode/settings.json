@@ -7,5 +7,6 @@
         "**/.DS_Store": true,
         "**/obj": true,
         "**/bin": true
-    }
+    },
+    "discord.enabled": true
 }

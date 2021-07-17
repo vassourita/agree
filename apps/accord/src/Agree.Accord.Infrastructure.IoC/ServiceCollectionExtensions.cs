@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Agree.Accord.SharedKernel.Data;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Infrastructure.Providers;
+using Agree.Accord.Domain.Identity.Tokens;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
@@ -25,9 +26,15 @@ namespace Agree.Accord.Infrastructure.IoC
             return services;
         }
 
-        public static IServiceCollection AddAccordAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddAccordAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-
+            services.Configure<JwtConfiguration>(options =>
+            {
+                options.Issuer = "http://localhost:5000/";
+                options.Audience = "http://localhost";
+                options.SigningKey = configuration["JwtConfiguration:SigningKey"];
+                options.ExpiresInMinutes = 60;
+            });
             return services;
         }
     }

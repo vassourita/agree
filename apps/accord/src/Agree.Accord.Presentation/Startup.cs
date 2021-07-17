@@ -28,7 +28,7 @@ namespace Agree.Accord.Presentation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAccordInfrastructure(Configuration);
-            services.AddAccordAuthentication();
+            services.AddAccordAuthentication(Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -1,5 +1,4 @@
 using Agree.Accord.SharedKernel;
-using Agree.Accord.SharedKernel.Data;
 
 namespace Agree.Accord.Domain.Identity
 {
