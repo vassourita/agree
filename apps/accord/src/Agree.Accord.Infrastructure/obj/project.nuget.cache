@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "r838ZbFT33m3BsbrOHfjZZErutD2WybszriviwlhhfgdnoVaIiyt8jLFsMjMhCCn9GZk2jNKPhrorKKsvU8XVg==",
+  "dgSpecHash": "KTiqbW4ZdOrhErVNKhNpilD5r/6SJqQ/APx+zdU3aUJDOLLi3WIPKWFikHZPqGWYP0yCVqFfFiaPX9s8HJ2gPg==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure/Agree.Accord.Infrastructure.csproj",
   "expectedPackageFiles": [
     "/home/vassao/.nuget/packages/bcrypt.net-next/4.0.2/bcrypt.net-next.4.0.2.nupkg.sha512",
-    "/home/vassao/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/5.0.8/microsoft.aspnetcore.authentication.jwtbearer.5.0.8.nupkg.sha512",
+    "/home/vassao/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/5.0.7/microsoft.aspnetcore.authentication.jwtbearer.5.0.7.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.identitymodel.jsonwebtokens/6.7.1/microsoft.identitymodel.jsonwebtokens.6.7.1.nupkg.sha512",
     "/home/vassao/.nuget/packages/microsoft.identitymodel.logging/6.7.1/microsoft.identitymodel.logging.6.7.1.nupkg.sha512",

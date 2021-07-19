@@ -18,7 +18,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> Store([FromBody] CreateAccountDto createAccountDto)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
                 if (registerResult.Failed)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
                 var account = registerResult.Data;
                 var newAccountUri = Url.Link("GetAccountById", new

@@ -25,7 +25,7 @@ namespace Agree.Accord.Domain.Identity.Dtos
         [Compare("Password", ErrorMessage = "Passwords doesn't match.")]
         public string PasswordConfirmation { get; set; }
 
-        private const string UserNameRegEx = @"/^[a-zA-Z0-9_-]*$/g";
-        private const string PasswordRegEx = @"/(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$)?(^(?=.*\d)(?=.*[a-z])(?=.*[@#$%^&+=]).*$)?(^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%^&+=]).*$)?(^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$)?/g";
+        private const string UserNameRegEx = @"[a-zA-Z0-9_-]*";
+        private const string PasswordRegEx = @"(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$)?(^(?=.*\d)(?=.*[a-z])(?=.*[@#$%^&+=]).*$)?(^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%^&+=]).*$)?(^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$)?";
     }
 }

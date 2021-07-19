@@ -11,7 +11,7 @@
           "lib/net5.0/BCrypt.Net-Next.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.8": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.7": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.7.1"
@@ -129,7 +129,7 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Agree.Accord.SharedKernel": "1.0.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.8"
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.7"
         },
         "compile": {
           "bin/placeholder/Agree.Accord.Domain.dll": {}
@@ -184,10 +184,10 @@
         "lib/netstandard2.1/BCrypt.Net-Next.xml"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.8": {
-      "sha512": "5XuTlEkJe7tzY1UQ0FndajTv/SB4PPaYRaAokZVGevoHTkioEF2bbvPxhrqaYr7ayHaN1KItzKsAwMWGil6wRg==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.7": {
+      "sha512": "80zYklKE6CZZswm5zjCUNbDx2Pavt45qfmVWLY1Heoe7GiJsPGGs9odgmsUFZ75bq4D6F4ZwK0LOam1TGUlHCg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/5.0.8",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/5.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -195,7 +195,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.5.0.8.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.5.0.7.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },

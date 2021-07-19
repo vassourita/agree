@@ -7,6 +7,7 @@ using Agree.Accord.SharedKernel.Data;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Infrastructure.Providers;
 using Agree.Accord.Domain.Identity.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
@@ -21,6 +22,7 @@ namespace Agree.Accord.Infrastructure.IoC
             );
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IHashProvider, BCryptHashProvider>();
+            services.AddScoped<TokenService>();
             services.AddScoped<AccountService>();
 
             return services;
@@ -35,6 +37,13 @@ namespace Agree.Accord.Infrastructure.IoC
                 options.Audience = configuration["JwtConfiguration:Audience"];
                 options.SigningKey = configuration["JwtConfiguration:SigningKey"];
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
             return services;
         }
     }
