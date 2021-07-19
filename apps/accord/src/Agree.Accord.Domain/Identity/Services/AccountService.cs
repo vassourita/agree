@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Results;
@@ -16,19 +17,21 @@ namespace Agree.Accord.Domain.Identity.Services
         private readonly IHashProvider _hashProvider;
         private readonly IRepository<UserAccount> _accountRepository;
         private readonly TokenService _tokenService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AccountService(IHashProvider hashProvider, IRepository<UserAccount> accountRepository, TokenService tokenService)
+        public AccountService(IHashProvider hashProvider,
+                              IRepository<UserAccount> accountRepository,
+                              TokenService tokenService,
+                              IUnitOfWork unitOfWork)
         {
             _hashProvider = hashProvider;
             _accountRepository = accountRepository;
             _tokenService = tokenService;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
         /// Creates a new user account with the specified data, hashes the password and saves it to the repository.
-        /// <para>
-        /// 
-        /// </para>
         /// </summary>
         /// <param name="createAccountDto">The user data used to create the account.</param>
         /// <returns>A result with either the new user account if it succeeded or the validation errors if it has failed.</returns>
@@ -61,7 +64,14 @@ namespace Agree.Accord.Domain.Identity.Services
 
             await _accountRepository.InsertAsync(account);
 
+            await _unitOfWork.CommitAsync();
+
             return CreateAccountResult.Ok(account);
+        }
+
+        public async Task<UserAccount> GetAccountByIdAsync(Guid id)
+        {
+            return await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
         }
 
         public async Task<LoginResult> LoginAsync(LoginDto loginDto)

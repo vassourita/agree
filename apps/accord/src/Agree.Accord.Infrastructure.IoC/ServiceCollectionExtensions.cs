@@ -20,7 +20,9 @@ namespace Agree.Accord.Infrastructure.IoC
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             );
+
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IUnitOfWork, ApplicationDbContext>();
             services.AddTransient<IHashProvider, BCryptHashProvider>();
             services.AddScoped<TokenService>();
             services.AddScoped<AccountService>();
