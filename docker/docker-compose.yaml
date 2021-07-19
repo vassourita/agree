@@ -28,19 +28,6 @@ services:
     networks:
       - accord-network
 
-  allow-postgres:
-    image: postgres
-    container_name: 'allow-postgres'
-    restart: always
-    ports:
-      - 4003:5432
-    environment:
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_USER=docker
-      - POSTGRES_DB=allow_db
-    volumes:
-      - '/var/lib/postgresql/data'
-
 networks:
   accord-network:
     driver: bridge
