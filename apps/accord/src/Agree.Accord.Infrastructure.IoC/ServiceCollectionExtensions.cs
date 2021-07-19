@@ -30,10 +30,10 @@ namespace Agree.Accord.Infrastructure.IoC
         {
             services.Configure<JwtConfiguration>(options =>
             {
-                options.Issuer = "http://localhost:5000/";
-                options.Audience = "http://localhost";
-                options.SigningKey = configuration["JwtConfiguration:SigningKey"];
                 options.ExpiresInMinutes = 60;
+                options.Issuer = configuration["JwtConfiguration:Issuer"];
+                options.Audience = configuration["JwtConfiguration:Audience"];
+                options.SigningKey = configuration["JwtConfiguration:SigningKey"];
             });
             return services;
         }

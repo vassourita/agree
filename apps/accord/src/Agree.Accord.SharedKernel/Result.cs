@@ -57,6 +57,13 @@ namespace Agree.Accord.SharedKernel
             Data = data;
         }
 
+        /// <summary>
+        /// A abstract result, with a flag of whether the operation succeeded or not, and a property for operation data.
+        /// </summary>
+        protected Result() : base(false)
+        {
+        }
+
         private TData _data;
 
         /// <summary>

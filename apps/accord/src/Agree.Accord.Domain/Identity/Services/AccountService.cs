@@ -15,11 +15,13 @@ namespace Agree.Accord.Domain.Identity.Services
     {
         private readonly IHashProvider _hashProvider;
         private readonly IRepository<UserAccount> _accountRepository;
+        private readonly TokenService _tokenService;
 
-        public AccountService(IHashProvider hashProvider, IRepository<UserAccount> accountRepository)
+        public AccountService(IHashProvider hashProvider, IRepository<UserAccount> accountRepository, TokenService tokenService)
         {
             _hashProvider = hashProvider;
             _accountRepository = accountRepository;
+            _tokenService = tokenService;
         }
 
         /// <summary>
@@ -60,6 +62,22 @@ namespace Agree.Accord.Domain.Identity.Services
             await _accountRepository.InsertAsync(account);
 
             return CreateAccountResult.Ok(account);
+        }
+
+        public async Task<LoginResult> LoginAsync(LoginDto loginDto)
+        {
+            var account = await _accountRepository.GetFirstAsync(new EmailEqualSpecification(loginDto.Email));
+            if (account == null)
+            {
+                return LoginResult.Fail();
+            }
+            var passwordsMatch = await _hashProvider.CompareAsync(account.PasswordHash, loginDto.Password);
+            if (!passwordsMatch)
+            {
+                return LoginResult.Fail();
+            }
+            var token = await _tokenService.GenerateAccessTokenAsync(account);
+            return LoginResult.Ok(token);
         }
     }
 }

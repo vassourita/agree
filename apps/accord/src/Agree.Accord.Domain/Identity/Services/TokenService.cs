@@ -23,36 +23,39 @@ namespace Agree.Accord.Domain.Identity.Services
             _accountRepository = accountRepository;
         }
 
-        public AccessToken GenerateAccessToken(UserAccount account)
+        public Task<AccessToken> GenerateAccessTokenAsync(UserAccount account)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
-
-            var expiresIn = DateTime.UtcNow.AddHours(1);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            return Task.Run(() =>
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
+
+                var expiresIn = DateTime.UtcNow.AddMinutes(_jwtConfiguration.ExpiresInMinutes);
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    new Claim(ClaimTypes.Name, account.NameTag),
-                    new Claim(ClaimTypes.Email, account.Email),
-                    new Claim(ClaimTypes.Role, "user"),
-                    new Claim("id", account.Id.ToString()),
-                }),
-                Expires = expiresIn,
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature
-                ),
-                Issuer = _jwtConfiguration.Issuer,
-            };
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, account.NameTag),
+                        new Claim(ClaimTypes.Email, account.Email),
+                        new Claim(ClaimTypes.Role, "user"),
+                        new Claim("id", account.Id.ToString()),
+                    }),
+                    Expires = expiresIn,
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature
+                    ),
+                    Issuer = _jwtConfiguration.Issuer,
+                };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new AccessToken
-            {
-                Token = tokenHandler.WriteToken(token),
-                ExpiresIn = ((DateTimeOffset)expiresIn).ToUnixTimeSeconds(),
-                Type = "Bearer"
-            };
+                var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
+                return new AccessToken
+                {
+                    Token = tokenHandler.WriteToken(token),
+                    ExpiresIn = ((DateTimeOffset)expiresIn).ToUnixTimeSeconds(),
+                    Type = "Bearer"
+                };
+            });
         }
     }
 }
