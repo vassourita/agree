@@ -38,14 +38,18 @@ namespace Agree.Accord.Domain.Identity.Services
 
             var emailIsInUse = (await _accountRepository.GetFirstAsync(new EmailEqualSpecification(createAccountDto.Email)) != null);
 
-            if (emailIsInUse)
-            {
-                return CreateAccountResult.Fail(validationResult.Error.ToErrorList().AddError("Email", "Email address is already in use"));
-            }
-
             if (validationResult.Failed)
             {
+                if (emailIsInUse)
+                {
+                    return CreateAccountResult.Fail(validationResult.Error.ToErrorList().AddError("Email", "Email address is already in use"));
+                }
                 return CreateAccountResult.Fail(validationResult.Error.ToErrorList());
+            }
+
+            if (emailIsInUse)
+            {
+                return CreateAccountResult.Fail(new ErrorList().AddError("Email", "Email address is already in use"));
             }
 
             var passwordHash = await _hashProvider.HashAsync(createAccountDto.Password);

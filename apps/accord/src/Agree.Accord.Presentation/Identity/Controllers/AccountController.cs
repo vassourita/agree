@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
                 if (registerResult.Failed)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(new ValidationErrorResponse(registerResult.Error));
                 }
                 var account = registerResult.Data;
                 var newAccountUri = Url.Link("GetAccountById", new
