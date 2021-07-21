@@ -9,12 +9,16 @@ namespace Agree.Accord.Domain.Identity.Specifications
     /// </summary>
     public class EmailEqualSpecification : Specification<UserAccount>
     {
-        public EmailEqualSpecification(string email)
-            : base(account => account.Email == email)
-        { }
+        private readonly string _email;
 
-        public EmailEqualSpecification(UserAccount acc)
-            : base(account => account.Email == acc.Email)
-        { }
+        public EmailEqualSpecification(string email)
+        {
+            Expression = x => x.Email == email;
+        }
+
+        public EmailEqualSpecification(UserAccount account)
+        {
+            Expression = x => x.Email == account.Email;
+        }
     }
 }

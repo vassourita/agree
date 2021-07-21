@@ -70,9 +70,7 @@ namespace Agree.Accord.Domain.Identity.Services
         }
 
         public async Task<UserAccount> GetAccountByIdAsync(Guid id)
-        {
-            return await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
-        }
+            => await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
 
         public async Task<LoginResult> LoginAsync(LoginDto loginDto)
         {

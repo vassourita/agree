@@ -9,12 +9,16 @@ namespace Agree.Accord.Domain.Identity.Specifications
     /// </summary>
     public class UserNameEqualSpecification : Specification<UserAccount>
     {
-        public UserNameEqualSpecification(string userName)
-            : base(account => account.UserName == userName)
-        { }
+        private readonly string _userName;
 
-        public UserNameEqualSpecification(UserAccount acc)
-            : base(account => account.UserName == acc.UserName)
-        { }
+        public UserNameEqualSpecification(string userName)
+        {
+            Expression = u => u.UserName == userName;
+        }
+
+        public UserNameEqualSpecification(UserAccount account)
+        {
+            Expression = u => u.UserName == account.UserName;
+        }
     }
 }

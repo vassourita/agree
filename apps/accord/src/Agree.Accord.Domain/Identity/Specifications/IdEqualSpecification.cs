@@ -8,12 +8,16 @@ namespace Agree.Accord.Domain.Identity.Specifications
     /// </summary>
     public class IdEqualSpecification : Specification<UserAccount>
     {
-        public IdEqualSpecification(Guid id)
-            : base(account => account.Id == id)
-        { }
+        private readonly Guid _id;
 
-        public IdEqualSpecification(UserAccount acc)
-            : base(account => account.Id == acc.Id)
-        { }
+        public IdEqualSpecification(Guid id)
+        {
+            Expression = x => x.Id == id;
+        }
+
+        public IdEqualSpecification(UserAccount account)
+        {
+            Expression = x => x.Id == account.Id;
+        }
     }
 }

@@ -12,12 +12,10 @@ namespace Agree.Accord.Presentation.Identity.Controllers
     public class AccountController : CustomControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(AccountService accountService, ILogger<AccountController> logger)
+        public AccountController(AccountService accountService)
         {
             _accountService = accountService;
-            _logger = logger;
         }
 
         [HttpPost]
@@ -41,7 +39,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                Console.WriteLine(e);
                 return InternalServerError();
             }
         }

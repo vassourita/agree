@@ -32,7 +32,7 @@ namespace Agree.Accord.Infrastructure.Data
 
         public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification)
         {
-            var result = await _dbContext.Set<T>().Where(specification.Expression).ToArrayAsync();
+            var result = await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
             return result;
         }
 
