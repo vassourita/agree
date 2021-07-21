@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Agree.Accord.SharedKernel.Data
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : IUnitOfWork
         where T : Entity
     {
         Task<T> GetFirstAsync(Specification<T> specification);

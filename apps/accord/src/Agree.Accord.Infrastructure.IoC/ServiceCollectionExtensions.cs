@@ -1,3 +1,4 @@
+using System;
 using Agree.Accord.Domain.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +20,10 @@ namespace Agree.Accord.Infrastructure.IoC
                 options
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    .LogTo(Console.WriteLine)
             );
 
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<IUnitOfWork, ApplicationDbContext>();
             services.AddTransient<IHashProvider, BCryptHashProvider>();
             services.AddScoped<TokenService>();
             services.AddScoped<AccountService>();

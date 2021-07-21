@@ -7,8 +7,6 @@ namespace Agree.Accord.Domain.Identity.Specifications
     /// </summary>
     public class TagEqualSpecification : Specification<UserAccount>
     {
-        private readonly DiscriminatorTag _tag;
-
         public TagEqualSpecification(DiscriminatorTag tag)
         {
             Expression = u => u.Tag == tag;

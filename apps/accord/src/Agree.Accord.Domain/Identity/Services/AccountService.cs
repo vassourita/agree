@@ -17,17 +17,14 @@ namespace Agree.Accord.Domain.Identity.Services
         private readonly IHashProvider _hashProvider;
         private readonly IRepository<UserAccount> _accountRepository;
         private readonly TokenService _tokenService;
-        private readonly IUnitOfWork _unitOfWork;
 
         public AccountService(IHashProvider hashProvider,
                               IRepository<UserAccount> accountRepository,
-                              TokenService tokenService,
-                              IUnitOfWork unitOfWork)
+                              TokenService tokenService)
         {
             _hashProvider = hashProvider;
             _accountRepository = accountRepository;
             _tokenService = tokenService;
-            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -58,13 +55,14 @@ namespace Agree.Accord.Domain.Identity.Services
             while (tagIsInUse)
             {
                 tag = DiscriminatorTag.NewTag();
+                tagIsInUse = (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, createAccountDto.UserName)) != null);
             }
 
             var account = new UserAccount(createAccountDto.UserName, createAccountDto.Email, passwordHash, tag);
 
             await _accountRepository.InsertAsync(account);
 
-            await _unitOfWork.CommitAsync();
+            await _accountRepository.CommitAsync();
 
             return CreateAccountResult.Ok(account);
         }

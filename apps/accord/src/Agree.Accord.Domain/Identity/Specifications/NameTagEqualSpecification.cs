@@ -9,9 +9,6 @@ namespace Agree.Accord.Domain.Identity.Specifications
     /// </summary>
     public class NameTagEqualSpecification : Specification<UserAccount>
     {
-        private readonly DiscriminatorTag _tag;
-        private readonly string _userName;
-
         public NameTagEqualSpecification(DiscriminatorTag tag, string userName)
         {
             Expression = u => u.UserName == userName && u.Tag == tag;

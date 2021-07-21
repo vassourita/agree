@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +36,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 {
                     id = account.Id
                 });
-                return Created(newAccountUri, new { Identity = account.Id });
+                return Created(newAccountUri, new { Account = UserAccountViewModel.FromEntity(account) });
             }
             catch (Exception e)
             {
@@ -45,7 +46,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{id:guid}", Name = "GetAccountById")]
         public async Task<IActionResult> Show([FromRoute] Guid id)
         {
             return Ok(await _accountService.GetAccountByIdAsync(id));

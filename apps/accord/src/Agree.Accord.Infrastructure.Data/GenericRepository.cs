@@ -17,6 +17,11 @@ namespace Agree.Accord.Infrastructure.Data
             _dbContext = dbContext;
         }
 
+        public Task CommitAsync()
+        {
+            return _dbContext.SaveChangesAsync();
+        }
+
         public Task<IResult> DeleteAsync(T entity)
         {
             try
