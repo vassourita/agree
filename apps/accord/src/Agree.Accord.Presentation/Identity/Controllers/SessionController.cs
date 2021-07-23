@@ -23,7 +23,8 @@ namespace Agree.Accord.Presentation.Identity.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             TokenService tokenService,
-            IMailProvider mailProvider)
+            IMailProvider mailProvider,
+            AccountService accountService) : base(accountService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

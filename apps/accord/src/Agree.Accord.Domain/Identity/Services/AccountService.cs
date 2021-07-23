@@ -16,24 +16,12 @@ namespace Agree.Accord.Domain.Identity.Services
     public class AccountService
     {
         private readonly IRepository<ApplicationUser> _accountRepository;
-        private readonly TokenService _tokenService;
-        private readonly IMailProvider _mailProvider;
 
-        public AccountService(
-            IRepository<ApplicationUser> accountRepository,
-            TokenService tokenService,
-            IMailProvider mailProvider)
+        public AccountService(IRepository<ApplicationUser> accountRepository)
         {
             _accountRepository = accountRepository;
-            _tokenService = tokenService;
-            _mailProvider = mailProvider;
         }
 
-        /// <summary>
-        /// Creates a new user account with the specified data, hashes the password and saves it to the repository.
-        /// </summary>
-        /// <param name="createAccountDto">The user data used to create the account.</param>
-        /// <returns>A result with either the new user account if it succeeded or the validation errors if it has failed.</returns>
         public async Task<DiscriminatorTag> GenerateDiscriminatorTagAsync(string displayName)
         {
             var tag = DiscriminatorTag.NewTag();
@@ -48,5 +36,8 @@ namespace Agree.Accord.Domain.Identity.Services
 
         public async Task<ApplicationUser> GetAccountByIdAsync(Guid id)
             => await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
+
+        public async Task<ApplicationUser> GetAccountByEmailAsync(string email)
+            => await _accountRepository.GetFirstAsync(new EmailEqualSpecification(email));
     }
 }

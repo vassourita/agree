@@ -38,6 +38,7 @@ namespace Agree.Accord.Domain.Identity.Services
                         new Claim(ClaimTypes.Email, account.Email),
                         new Claim(ClaimTypes.Role, "user"),
                         new Claim("id", account.Id.ToString()),
+                        new Claim("verified", account.EmailConfirmed.ToString().ToLower()),
                 }),
                 Expires = expiresIn,
                 SigningCredentials = new SigningCredentials(
