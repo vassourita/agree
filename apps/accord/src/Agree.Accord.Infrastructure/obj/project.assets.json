@@ -784,6 +784,9 @@
       "Agree.Accord.SharedKernel/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity": "2.2.0"
+        },
         "compile": {
           "bin/placeholder/Agree.Accord.SharedKernel.dll": {}
         },

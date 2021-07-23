@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace Agree.Accord.SharedKernel
 {
@@ -31,6 +32,16 @@ namespace Agree.Accord.SharedKernel
             {
                 var property = result.ErrorMessage.Split(' ')[0];
                 return list.AddError(property, result.ErrorMessage);
+            });
+    }
+
+    public static class IdentityErrorExtensions
+    {
+        public static ErrorList ToErrorList(this IEnumerable<IdentityError> identityErrors)
+            => identityErrors.Aggregate(new ErrorList(), (list, result) =>
+            {
+                var property = result.Description.Split(' ')[0];
+                return list.AddError(property, result.Description);
             });
     }
 }

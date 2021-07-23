@@ -34,6 +34,40 @@ namespace Agree.Accord.Infrastructure.Data
                     .HasMaxLength(4);
 
                 b.HasIndex(u => new { u.Tag, u.DisplayName }).IsUnique();
+
+                b.HasMany(u => u.Servers)
+                    .WithMany(s => s.Members);
+            });
+
+            builder.Entity<Server>(b =>
+            {
+                b.HasKey(s => s.Id);
+
+                b.Property(s => s.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                b.Property(s => s.Description)
+                    .HasMaxLength(300);
+
+                b.Property(s => s.PrivacyLevel)
+                    .IsRequired()
+                    .HasConversion(
+                        (privacyLevel) => privacyLevel.ToString(),
+                        (value) => Enum.Parse<ServerPrivacy>(value)
+                    );
+
+                b.HasMany(s => s.Members)
+                    .WithMany(m => m.Servers);
+
+                b.HasMany(s => s.Roles)
+                    .WithOne(r => r.Server);
+            });
+
+            builder.Entity<ServerRole>(b =>
+            {
+                b.HasOne(r => r.Server)
+                    .WithMany(s => s.Roles);
             });
         }
     }

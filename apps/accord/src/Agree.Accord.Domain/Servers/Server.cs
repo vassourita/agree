@@ -6,11 +6,12 @@ namespace Agree.Accord.Domain.Servers
 {
     public class Server
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public ServerPrivacy PrivacyLevel { get; set; }
-        public Guid Id { get; set; }
 
         public ICollection<ApplicationUser> Members { get; set; }
+        public ICollection<ServerRole> Roles { get; set; }
     }
 }

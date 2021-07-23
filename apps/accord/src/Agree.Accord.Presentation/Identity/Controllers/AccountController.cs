@@ -6,6 +6,8 @@ using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.ViewModels;
+using Agree.Accord.SharedKernel;
+using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,13 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         {
             try
             {
+                var validationResult = AnnotationValidator.TryValidate(createAccountDto);
+
+                if (validationResult.Failed)
+                {
+                    return BadRequest(validationResult.Error.ToErrorList());
+                }
+
                 var user = new ApplicationUser
                 {
                     Email = createAccountDto.Email,
@@ -54,7 +63,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
                 var result = await _userManager.CreateAsync(user, createAccountDto.Password);
 
-                if (!result.Succeeded) return BadRequest(new { result.Errors });
+                if (!result.Succeeded) return BadRequest(result.Errors.ToErrorList());
 
                 var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });

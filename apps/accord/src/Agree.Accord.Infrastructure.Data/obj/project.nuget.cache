@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AvbJcAaQACi1Y3Ku/mSOUFLxy/89jXHSAKbBGEkqXX4HMP1acQKWN1TcA3o8XPRcEsYmQrc5zwFCRBApVvVf3w==",
+  "dgSpecHash": "muo2WPGXbJkNsNeSD1isVmFFMHevGUxezphSuu5UBjDiG76RB9s2MYNiusX1tIEl/eTwnSgxR7iC4fbWX35s2w==",
   "success": true,
   "projectFilePath": "/home/vassao/projects/agree/apps/accord/src/Agree.Accord.Infrastructure.Data/Agree.Accord.Infrastructure.Data.csproj",
   "expectedPackageFiles": [
