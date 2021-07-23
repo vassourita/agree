@@ -9,7 +9,7 @@ using Agree.Accord.Domain.Identity.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Net.Http.Headers;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Server;
+using Agree.Accord.Domain.Servers;
 using Microsoft.AspNetCore.Identity;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Infrastructure.Providers;
@@ -93,8 +93,8 @@ namespace Agree.Accord.Infrastructure.IoC
 
         private static void SetupIdentityOptions(IdentityOptions options)
         {
-            options.Password.RequireDigit = true;
             options.Password.RequiredLength = 6;
+            options.Password.RequireDigit = true;
             options.Password.RequireLowercase = true;
             options.Password.RequireUppercase = true;
             options.Password.RequireNonAlphanumeric = false;

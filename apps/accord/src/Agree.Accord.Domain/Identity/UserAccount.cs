@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System;
 using Agree.Accord.SharedKernel;
 using Microsoft.AspNetCore.Identity;
+using Agree.Accord.Domain.Servers;
 
 namespace Agree.Accord.Domain.Identity
 {
@@ -26,5 +28,7 @@ namespace Agree.Accord.Domain.Identity
         /// </summary>
         /// <value>The user discriminator tag.</value>
         public DiscriminatorTag Tag { get; set; }
+
+        public ICollection<Server> Servers { get; set; }
     }
 }

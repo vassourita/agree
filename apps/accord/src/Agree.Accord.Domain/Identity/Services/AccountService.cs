@@ -15,8 +15,6 @@ namespace Agree.Accord.Domain.Identity.Services
     /// </summary>
     public class AccountService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IRepository<ApplicationUser> _accountRepository;
         private readonly TokenService _tokenService;
         private readonly IMailProvider _mailProvider;

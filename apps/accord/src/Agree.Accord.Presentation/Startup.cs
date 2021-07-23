@@ -38,7 +38,7 @@ namespace Agree.Accord.Presentation
 
             services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressModelStateInvalidFilter = false;
             });
         }
 

@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace Agree.Accord.Domain.Server
+namespace Agree.Accord.Domain.Servers
 {
     public class ServerRole : IdentityRole<Guid>
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Server;
+using Agree.Accord.Domain.Servers;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
