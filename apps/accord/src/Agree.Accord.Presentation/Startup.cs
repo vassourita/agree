@@ -36,7 +36,7 @@ namespace Agree.Accord.Presentation
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Accord.Presentation", Version = "v1" });
             });
 
-            services.AddMvc().ConfigureApiBehaviorOptions(options =>
+            services.AddRazorPages().ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
             });

@@ -2,13 +2,11 @@ using Agree.Accord.Presentation.ViewModels;
 
 namespace Agree.Accord.Presentation.Responses
 {
-    public class RegisterResponse
+    public class RegisterResponse : UserResponse
     {
-        public RegisterResponse(ApplicationUserViewModel user)
+        public RegisterResponse(ApplicationUserViewModel user) : base(user)
         {
-            User = user;
         }
-
-        public ApplicationUserViewModel User { get; private set; }
+        public string Message => $"Account created succesfully.";
     }
 }

@@ -8,6 +8,7 @@ using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.ViewModels;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 {
     [ApiController]
     [Route("api/identity/accounts")]
+    [Authorize]
     public class AccountController : CustomControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -41,6 +43,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
         [HttpPost]
         [Route("")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
             try
@@ -95,9 +98,32 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
         [HttpGet]
         [Route("{id:guid}", Name = "GetAccountById")]
+        [Authorize]
         public async Task<IActionResult> Show([FromRoute] Guid id)
         {
-            return Ok(await _accountService.GetAccountByIdAsync(id));
+            var entity = await _accountService.GetAccountByIdAsync(id);
+            return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        }
+
+        [HttpGet]
+        [Route("@me")]
+        [Authorize]
+        public async Task<IActionResult> Me()
+        {
+            var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
+            return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        }
+
+        [HttpGet]
+        [Route("email-confirmation", Name = "ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+        {
+            var user = await _accountService.GetAccountByEmailAsync(email);
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            return Ok();
         }
     }
 }
