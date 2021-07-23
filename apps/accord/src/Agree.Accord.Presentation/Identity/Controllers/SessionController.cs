@@ -40,7 +40,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { Message = "Email or Password are incorrect" });
+                return BadRequest();
             }
 
             var token = await _tokenService.GenerateAccessTokenAsync(loginDto.Email);
@@ -55,7 +55,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         }
 
         [HttpDelete]
-        [Route("Logout")]
+        [Route("")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
