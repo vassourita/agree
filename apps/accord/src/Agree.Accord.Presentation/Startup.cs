@@ -54,9 +54,12 @@ namespace Agree.Accord.Presentation
 
             app.UseHttpsRedirection();
 
+            app.UseCors("DefaultCorsPolicy");
+
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

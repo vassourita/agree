@@ -1,47 +1,85 @@
 using System;
 using System.Threading.Tasks;
+using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Domain.Providers;
 using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Agree.Accord.Presentation.Identity.Controllers
 {
     [ApiController]
-    [Route("api/accounts")]
+    [Route("api/identity/accounts")]
     public class AccountController : CustomControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly TokenService _tokenService;
+        private readonly IMailProvider _mailProvider;
         private readonly AccountService _accountService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            TokenService tokenService,
+            IMailProvider mailProvider,
+            AccountService accountService)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _mailProvider = mailProvider;
             _accountService = accountService;
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Store([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
             try
             {
-                var registerResult = await _accountService.CreateAccountAsync(createAccountDto);
+                var user = new ApplicationUser
+                {
+                    Email = createAccountDto.Email,
+                    UserName = createAccountDto.Email,
+                    DisplayName = createAccountDto.DisplayName,
+                    Tag = await _accountService.GenerateDiscriminatorTagAsync(createAccountDto.DisplayName),
+                    EmailConfirmed = false
+                };
 
-                if (registerResult.Failed)
+                var result = await _userManager.CreateAsync(user, createAccountDto.Password);
+
+                if (!result.Succeeded) return BadRequest(new { result.Errors });
+
+                var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+                await _mailProvider.SendMailAsync(
+                    user.Email,
+                    "Agree - Welcome",
+                    $"<html><body>Welcome to Agree! Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your email.</body></html>");
+                await _signInManager.SignInAsync(user, false);
+
+                var userViewModel = ApplicationUserViewModel.FromEntity(user);
+
+                var token = await _tokenService.GenerateAccessTokenAsync(user);
+
+                Response.Cookies.Append(AccessTokenCookieName, token.Token, new CookieOptions
                 {
-                    return BadRequest(new ValidationErrorResponse(registerResult.Error));
-                }
-                var account = registerResult.Data;
-                var newAccountUri = Url.Link("GetAccountById", new
-                {
-                    id = account.Id
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Strict
                 });
-                return Created(newAccountUri, new { Account = UserAccountViewModel.FromEntity(account) });
+
+                return Created(
+                    Url.Link("GetAccountById", new { Id = user.Id }),
+                    new RegisterResponse(userViewModel));
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
                 return InternalServerError();
             }
         }

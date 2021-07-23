@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Agree.Accord.Infrastructure.Data
 {
     public class GenericRepository<T> : IRepository<T>
-        where T : Entity
+        where T : class
     {
         private readonly ApplicationDbContext _dbContext;
 

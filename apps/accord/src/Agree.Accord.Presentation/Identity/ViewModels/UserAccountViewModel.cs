@@ -3,7 +3,7 @@ using Agree.Accord.Domain.Identity;
 
 namespace Agree.Accord.Presentation.ViewModels
 {
-    public class UserAccountViewModel
+    public class ApplicationUserViewModel
     {
         public Guid Id { get; private set; }
         public string UserName { get; private set; }
@@ -11,9 +11,9 @@ namespace Agree.Accord.Presentation.ViewModels
         public string Email { get; private set; }
         public string Tag { get; private set; }
 
-        public static UserAccountViewModel FromEntity(UserAccount entity)
+        public static ApplicationUserViewModel FromEntity(ApplicationUser entity)
         {
-            return new UserAccountViewModel
+            return new ApplicationUserViewModel
             {
                 Id = entity.Id,
                 UserName = entity.UserName,

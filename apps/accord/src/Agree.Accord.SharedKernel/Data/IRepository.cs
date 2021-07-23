@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Agree.Accord.SharedKernel.Data
 {
     public interface IRepository<T> : IUnitOfWork
-        where T : Entity
+        where T : class
     {
         Task<T> GetFirstAsync(Specification<T> specification);
         Task<IEnumerable<T>> GetAllAsync(Specification<T> specification);

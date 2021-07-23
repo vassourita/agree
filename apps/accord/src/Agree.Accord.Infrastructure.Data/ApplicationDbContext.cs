@@ -1,36 +1,29 @@
+using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
+using Agree.Accord.Domain.Server;
 using Agree.Accord.SharedKernel.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Accord.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ServerRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
 
-        public DbSet<UserAccount> UserAccounts { get; set; }
+        public DbSet<Server> Servers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<UserAccount>(b =>
+            builder.Entity<ApplicationUser>(b =>
             {
-                b.HasKey(u => u.Id);
-
-                b.Property(u => u.UserName)
+                b.Property(u => u.DisplayName)
                     .IsRequired()
                     .HasMaxLength(40);
-
-                b.Property(u => u.Email)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                b.Property(u => u.PasswordHash)
-                    .IsRequired()
-                    .HasMaxLength(255);
 
                 b.Property(u => u.Tag)
                     .HasConversion(
@@ -40,8 +33,7 @@ namespace Agree.Accord.Infrastructure.Data
                     .IsRequired()
                     .HasMaxLength(4);
 
-                b.HasIndex(u => new { u.Tag, u.UserName }).IsUnique();
-                b.HasIndex(u => u.Email).IsUnique();
+                b.HasIndex(u => new { u.Tag, u.DisplayName }).IsUnique();
             });
         }
     }

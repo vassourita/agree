@@ -6,6 +6,7 @@ using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Agree.Accord.Domain.Identity.Services
 {
@@ -14,17 +15,20 @@ namespace Agree.Accord.Domain.Identity.Services
     /// </summary>
     public class AccountService
     {
-        private readonly IHashProvider _hashProvider;
-        private readonly IRepository<UserAccount> _accountRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IRepository<ApplicationUser> _accountRepository;
         private readonly TokenService _tokenService;
+        private readonly IMailProvider _mailProvider;
 
-        public AccountService(IHashProvider hashProvider,
-                              IRepository<UserAccount> accountRepository,
-                              TokenService tokenService)
+        public AccountService(
+            IRepository<ApplicationUser> accountRepository,
+            TokenService tokenService,
+            IMailProvider mailProvider)
         {
-            _hashProvider = hashProvider;
             _accountRepository = accountRepository;
             _tokenService = tokenService;
+            _mailProvider = mailProvider;
         }
 
         /// <summary>
@@ -32,62 +36,19 @@ namespace Agree.Accord.Domain.Identity.Services
         /// </summary>
         /// <param name="createAccountDto">The user data used to create the account.</param>
         /// <returns>A result with either the new user account if it succeeded or the validation errors if it has failed.</returns>
-        public async Task<CreateAccountResult> CreateAccountAsync(CreateAccountDto createAccountDto)
+        public async Task<DiscriminatorTag> GenerateDiscriminatorTagAsync(string displayName)
         {
-            var validationResult = AnnotationValidator.TryValidate(createAccountDto);
-
-            var emailIsInUse = (await _accountRepository.GetFirstAsync(new EmailEqualSpecification(createAccountDto.Email)) != null);
-
-            if (validationResult.Failed)
-            {
-                if (emailIsInUse)
-                {
-                    return CreateAccountResult.Fail(validationResult.Error.ToErrorList().AddError("Email", "Email address is already in use"));
-                }
-                return CreateAccountResult.Fail(validationResult.Error.ToErrorList());
-            }
-
-            if (emailIsInUse)
-            {
-                return CreateAccountResult.Fail(new ErrorList().AddError("Email", "Email address is already in use"));
-            }
-
-            var passwordHash = await _hashProvider.HashAsync(createAccountDto.Password);
-
             var tag = DiscriminatorTag.NewTag();
-            var tagIsInUse = (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, createAccountDto.UserName)) != null);
+            var tagIsInUse = (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName)) != null);
             while (tagIsInUse)
             {
                 tag = DiscriminatorTag.NewTag();
-                tagIsInUse = (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, createAccountDto.UserName)) != null);
+                tagIsInUse = (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName)) != null);
             }
-
-            var account = new UserAccount(createAccountDto.UserName, createAccountDto.Email, passwordHash, tag);
-
-            await _accountRepository.InsertAsync(account);
-
-            await _accountRepository.CommitAsync();
-
-            return CreateAccountResult.Ok(account);
+            return tag;
         }
 
-        public async Task<UserAccount> GetAccountByIdAsync(Guid id)
+        public async Task<ApplicationUser> GetAccountByIdAsync(Guid id)
             => await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
-
-        public async Task<LoginResult> LoginAsync(LoginDto loginDto)
-        {
-            var account = await _accountRepository.GetFirstAsync(new EmailEqualSpecification(loginDto.Email));
-            if (account == null)
-            {
-                return LoginResult.Fail();
-            }
-            var passwordsMatch = await _hashProvider.CompareAsync(account.PasswordHash, loginDto.Password);
-            if (!passwordsMatch)
-            {
-                return LoginResult.Fail();
-            }
-            var token = await _tokenService.GenerateAccessTokenAsync(account);
-            return LoginResult.Ok(token);
-        }
     }
 }
