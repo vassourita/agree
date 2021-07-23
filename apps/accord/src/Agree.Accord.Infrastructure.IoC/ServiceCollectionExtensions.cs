@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Identity;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Infrastructure.Providers;
 using Agree.Accord.Infrastructure.Configuration;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
@@ -74,19 +77,48 @@ namespace Agree.Accord.Infrastructure.IoC
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            var tokenConfig = configuration.GetSection("TokenConfiguration").Get<JwtConfiguration>();
+            var key = Encoding.ASCII.GetBytes(tokenConfig.SigningKey);
+
             services.Configure<JwtConfiguration>(options =>
             {
                 options.ExpiresInMinutes = 60;
-                options.Issuer = configuration["JwtConfiguration:Issuer"];
-                options.Audience = configuration["JwtConfiguration:Audience"];
-                options.SigningKey = configuration["JwtConfiguration:SigningKey"];
+                options.Issuer = tokenConfig.Issuer;
+                options.Audience = tokenConfig.Audience;
+                options.SigningKey = tokenConfig.SigningKey;
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidAudience = tokenConfig.Audience,
+                        ValidIssuer = tokenConfig.Issuer,
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            // var requestExternalServiceToken = context.Request.Headers["agreeallow_externaltoken"];
+                            // var validExternalServiceToken = configuration["ExternalServiceConfiguration:Token"];
+                            // if (requestExternalServiceToken == validExternalServiceToken)
+                            // {
+                            //     context.Token = context.Request.Headers["agreeallow_accesstoken"];
+                            //     return Task.CompletedTask;
+                            // }
+                            context.Token = context.Request.Cookies["agreeallow_accesstoken"];
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
 
             return services;
         }
