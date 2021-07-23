@@ -102,6 +102,12 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         public async Task<IActionResult> Show([FromRoute] Guid id)
         {
             var entity = await _accountService.GetAccountByIdAsync(id);
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
             return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
         }
 
