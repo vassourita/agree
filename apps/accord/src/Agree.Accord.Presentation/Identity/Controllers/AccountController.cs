@@ -113,17 +113,5 @@ namespace Agree.Accord.Presentation.Identity.Controllers
             var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
             return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
         }
-
-        [HttpGet]
-        [Route("email-confirmation", Name = "ConfirmEmail")]
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
-        {
-            var user = await _accountService.GetAccountByEmailAsync(email);
-
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-
-            return Ok();
-        }
     }
 }
