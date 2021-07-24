@@ -1,9 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
@@ -12,12 +15,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Agree.Accord.Domain\Agree.Accord.Domain.csproj" />
     <ProjectReference Include="..\Agree.Accord.Infrastructure.Data\Agree.Accord.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Agree.Accord.SharedKernel\Agree.Accord.SharedKernel.csproj" />
     <ProjectReference Include="..\Agree.Accord.Infrastructure\Agree.Accord.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

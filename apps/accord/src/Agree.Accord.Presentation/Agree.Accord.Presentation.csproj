@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Agree.Accord.Infrastructure.IoC\Agree.Accord.Infrastructure.IoC.csproj" />
   </ItemGroup>
-
 </Project>
