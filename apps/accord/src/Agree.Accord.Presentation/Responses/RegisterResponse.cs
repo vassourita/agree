@@ -1,4 +1,4 @@
-using Agree.Accord.Presentation.ViewModels;
+using Agree.Accord.Presentation.Identity.ViewModels;
 
 namespace Agree.Accord.Presentation.Responses
 {

@@ -17,6 +17,7 @@ using Agree.Accord.Infrastructure.Configuration;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using Agree.Accord.Domain.Servers.Services;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
@@ -37,7 +38,7 @@ namespace Agree.Accord.Infrastructure.IoC
             services.AddDbContext<ApplicationDbContext>(options =>
                 options
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+            // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             // .LogTo(Console.WriteLine)
             );
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -48,6 +49,7 @@ namespace Agree.Accord.Infrastructure.IoC
             // Domain Services
             services.AddScoped<TokenService>();
             services.AddScoped<AccountService>();
+            services.AddScoped<ServerService>();
 
             return services;
         }

@@ -5,7 +5,6 @@ using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Presentation.Responses;
-using Agree.Accord.Presentation.ViewModels;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +22,6 @@ namespace Agree.Accord.Presentation.Identity.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMailProvider _mailProvider;
-        private readonly AccountService _accountService;
 
         public MailConfirmationController(
             UserManager<ApplicationUser> userManager,
@@ -32,7 +30,6 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         {
             _userManager = userManager;
             _mailProvider = mailProvider;
-            _accountService = accountService;
         }
 
         [HttpGet]

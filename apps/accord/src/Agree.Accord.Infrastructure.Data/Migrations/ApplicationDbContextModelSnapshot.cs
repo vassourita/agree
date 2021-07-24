@@ -96,6 +96,27 @@ namespace Agree.Accord.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Agree.Accord.Domain.Servers.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
+
+                    b.Property<Guid>("ServerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Agree.Accord.Domain.Servers.Server", b =>
                 {
                     b.Property<Guid>("Id")
@@ -268,6 +289,17 @@ namespace Agree.Accord.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Agree.Accord.Domain.Servers.Category", b =>
+                {
+                    b.HasOne("Agree.Accord.Domain.Servers.Server", "Server")
+                        .WithMany("Categories")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Server");
+                });
+
             modelBuilder.Entity("Agree.Accord.Domain.Servers.ServerRole", b =>
                 {
                     b.HasOne("Agree.Accord.Domain.Servers.Server", "Server")
@@ -347,6 +379,8 @@ namespace Agree.Accord.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Agree.Accord.Domain.Servers.Server", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618

@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Services;
-using Agree.Accord.Presentation.ViewModels;
+using Agree.Accord.Presentation.Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ namespace Agree.Accord.Presentation
     {
         public const string AccessTokenCookieName = "agreeaccord_accesstoken";
 
-        private readonly AccountService _accountService;
+        protected readonly AccountService _accountService;
 
         public CustomControllerBase(AccountService accountService)
         {

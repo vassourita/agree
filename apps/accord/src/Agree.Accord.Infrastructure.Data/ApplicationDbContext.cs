@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Servers;
 using Agree.Accord.SharedKernel.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,12 +63,27 @@ namespace Agree.Accord.Infrastructure.Data
 
                 b.HasMany(s => s.Roles)
                     .WithOne(r => r.Server);
+
+                b.HasMany(s => s.Categories)
+                    .WithOne(c => c.Server);
             });
 
             builder.Entity<ServerRole>(b =>
             {
                 b.HasOne(r => r.Server)
                     .WithMany(s => s.Roles);
+            });
+
+            builder.Entity<Category>(b =>
+            {
+                b.HasKey(c => c.Id);
+
+                b.Property(c => c.Name)
+                    .IsRequired()
+                    .HasMaxLength(80);
+
+                b.HasOne(c => c.Server)
+                    .WithMany(s => s.Categories);
             });
         }
     }

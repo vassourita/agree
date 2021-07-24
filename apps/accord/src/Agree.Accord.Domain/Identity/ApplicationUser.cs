@@ -11,6 +11,9 @@ namespace Agree.Accord.Domain.Identity
     /// </summary>
     public class ApplicationUser : IdentityUser<Guid>
     {
+        // EF ctor
+        public ApplicationUser() { }
+
         /// <summary>
         /// Gets the user display name.
         /// </summary>

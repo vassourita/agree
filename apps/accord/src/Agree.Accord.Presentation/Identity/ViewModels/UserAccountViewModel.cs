@@ -3,7 +3,7 @@ using System;
 using Agree.Accord.Domain.Identity;
 using System.Linq;
 
-namespace Agree.Accord.Presentation.ViewModels
+namespace Agree.Accord.Presentation.Identity.ViewModels
 {
     public class ApplicationUserViewModel
     {

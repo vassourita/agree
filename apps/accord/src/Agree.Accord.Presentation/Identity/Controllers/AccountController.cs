@@ -4,8 +4,8 @@ using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Providers;
+using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
-using Agree.Accord.Presentation.ViewModels;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +25,6 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TokenService _tokenService;
         private readonly IMailProvider _mailProvider;
-        private readonly AccountService _accountService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -38,7 +37,6 @@ namespace Agree.Accord.Presentation.Identity.Controllers
             _signInManager = signInManager;
             _tokenService = tokenService;
             _mailProvider = mailProvider;
-            _accountService = accountService;
         }
 
         [HttpPost]
