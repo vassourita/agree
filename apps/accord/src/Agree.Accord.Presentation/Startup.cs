@@ -63,6 +63,7 @@ namespace Agree.Accord.Presentation
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }

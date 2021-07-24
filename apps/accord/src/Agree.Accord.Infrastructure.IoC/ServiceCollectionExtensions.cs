@@ -77,7 +77,7 @@ namespace Agree.Accord.Infrastructure.IoC
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            var tokenConfig = configuration.GetSection("TokenConfiguration").Get<JwtConfiguration>();
+            var tokenConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
             var key = Encoding.ASCII.GetBytes(tokenConfig.SigningKey);
 
             services.Configure<JwtConfiguration>(options =>
