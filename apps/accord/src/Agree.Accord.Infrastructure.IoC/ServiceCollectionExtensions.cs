@@ -71,12 +71,6 @@ namespace Agree.Accord.Infrastructure.IoC
                 )
             );
 
-            services
-                .AddDefaultIdentity<ApplicationUser>(SetupIdentityOptions)
-                .AddRoles<ServerRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
             var tokenConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
             var key = Encoding.ASCII.GetBytes(tokenConfig.SigningKey);
 
@@ -114,11 +108,17 @@ namespace Agree.Accord.Infrastructure.IoC
                             //     context.Token = context.Request.Headers["agreeallow_accesstoken"];
                             //     return Task.CompletedTask;
                             // }
-                            context.Token = context.Request.Cookies["agreeallow_accesstoken"];
+                            context.Token = context.Request.Cookies["agreeaccord_accesstoken"];
                             return Task.CompletedTask;
                         }
                     };
                 });
+
+            services
+                .AddDefaultIdentity<ApplicationUser>(SetupIdentityOptions)
+                .AddRoles<ServerRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             return services;
         }

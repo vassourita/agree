@@ -80,6 +80,8 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
                 var token = await _tokenService.GenerateAccessTokenAsync(user);
 
+                await _signInManager.SignInAsync(user, false);
+
                 Response.Cookies.Append(AccessTokenCookieName, token.Token, new CookieOptions
                 {
                     HttpOnly = true,

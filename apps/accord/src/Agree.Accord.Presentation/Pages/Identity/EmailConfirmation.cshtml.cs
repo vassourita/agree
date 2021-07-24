@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Agree.Accord.Presentation.Identity.Views
+namespace Agree.Accord.Presentation.Views.Identity
 {
     [AllowAnonymous]
     public class EmailConfirmationModel : PageModel
