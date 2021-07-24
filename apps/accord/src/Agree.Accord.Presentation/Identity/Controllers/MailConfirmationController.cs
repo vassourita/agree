@@ -38,13 +38,18 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         [HttpGet]
         [Route("", Name = "ConfirmEmail")]
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+        public async Task<ActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] Guid id)
         {
-            var user = await _accountService.GetAccountByEmailAsync(email);
+            var user = await _accountService.GetAccountByIdAsync(id);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
-            return Ok();
+            return Redirect(Url.PageLink("/Identity/EmailConfirmation"));
         }
 
         [HttpPost]
@@ -58,7 +63,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 return BadRequest();
             }
             var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+            var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, id = user.Id });
             await _mailProvider.SendMailAsync(
                 user.Email,
                 "Agree - Confirmation",

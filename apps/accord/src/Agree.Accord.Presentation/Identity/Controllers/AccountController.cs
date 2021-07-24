@@ -69,7 +69,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 if (!result.Succeeded) return BadRequest(result.Errors.ToErrorList());
 
                 var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
+                var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, id = user.Id });
                 await _mailProvider.SendMailAsync(
                     user.Email,
                     "Agree - Welcome",
