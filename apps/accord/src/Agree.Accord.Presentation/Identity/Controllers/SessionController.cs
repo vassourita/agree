@@ -51,7 +51,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 SameSite = SameSiteMode.Strict
             });
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete]

@@ -49,7 +49,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 "Agree - Confirmation",
                 $"<html><body>Hello, {user.DisplayName}#{user.Tag.ToString().PadLeft(4, '0')}. Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your new email.</body></html>");
 
-            return Ok();
+            return NoContent();
         }
     }
 }
