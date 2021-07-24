@@ -37,7 +37,7 @@ namespace Agree.Accord.Presentation
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Accord.Presentation", Version = "v1" });
             });
 
-            services.AddRazorPages().ConfigureApiBehaviorOptions(options =>
+            services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
@@ -64,7 +64,6 @@ namespace Agree.Accord.Presentation
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }

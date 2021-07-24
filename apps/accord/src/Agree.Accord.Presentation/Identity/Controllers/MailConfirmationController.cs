@@ -49,7 +49,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
-            return Redirect(Url.PageLink("/Identity/EmailConfirmation"));
+            return Ok();
         }
 
         [HttpPost]
