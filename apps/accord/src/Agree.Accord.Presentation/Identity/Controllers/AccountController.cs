@@ -99,6 +99,15 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         }
 
         [HttpGet]
+        [Route("@me")]
+        [Authorize]
+        public async Task<IActionResult> Me()
+        {
+            var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
+            return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        }
+
+        [HttpGet]
         [Route("{id:guid}", Name = "GetAccountById")]
         [Authorize]
         public async Task<IActionResult> Show([FromRoute] Guid id)
@@ -110,15 +119,6 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                 return NotFound();
             }
 
-            return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
-        }
-
-        [HttpGet]
-        [Route("@me")]
-        [Authorize]
-        public async Task<IActionResult> Me()
-        {
-            var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
             return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
         }
     }

@@ -31,15 +31,14 @@ namespace Agree.Accord.Presentation
             services.AddAccordInfrastructure(Configuration);
             services.AddAccordAuthentication(Configuration);
 
-            services.AddControllers();
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Accord.Presentation", Version = "v1" });
-            });
-
-            services.AddMvc().ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
             });
         }
 
@@ -59,8 +58,8 @@ namespace Agree.Accord.Presentation
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -40,12 +40,10 @@ namespace Agree.Accord.Domain.Identity.Services
                         new Claim("id", account.Id.ToString()),
                         new Claim("verified", account.EmailConfirmed.ToString().ToLower()),
                 }),
-                Expires = expiresIn,
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature
-                ),
                 Issuer = _jwtConfiguration.Issuer,
+                Audience = _jwtConfiguration.Audience,
+                Expires = expiresIn,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);

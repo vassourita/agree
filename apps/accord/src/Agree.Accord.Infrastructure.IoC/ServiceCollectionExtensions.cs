@@ -38,7 +38,7 @@ namespace Agree.Accord.Infrastructure.IoC
                 options
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                    .LogTo(Console.WriteLine)
+            // .LogTo(Console.WriteLine)
             );
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 
@@ -70,6 +70,12 @@ namespace Agree.Accord.Infrastructure.IoC
                         })
                 )
             );
+
+            services
+                .AddDefaultIdentity<ApplicationUser>(SetupIdentityOptions)
+                .AddRoles<ServerRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             var tokenConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
             var key = Encoding.ASCII.GetBytes(tokenConfig.SigningKey);
@@ -113,12 +119,6 @@ namespace Agree.Accord.Infrastructure.IoC
                         }
                     };
                 });
-
-            services
-                .AddDefaultIdentity<ApplicationUser>(SetupIdentityOptions)
-                .AddRoles<ServerRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
 
             return services;
         }
