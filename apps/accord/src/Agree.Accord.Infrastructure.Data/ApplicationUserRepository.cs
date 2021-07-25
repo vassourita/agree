@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,10 +44,14 @@ namespace Agree.Accord.Infrastructure.Data
 
         public async Task<IEnumerable<ApplicationUser>> SearchAsync(string query)
         {
-            var result = await _dbContext.Set<ApplicationUser>().FromSqlInterpolated($@"
-                SELECT *
-                FROM ""AspNetUsers"" as u
-                WHERE (u.""DisplayName"" || '#' || LPAD(u.""Tag""::varchar(4), 4, '0')) ILIKE '%vass%';
+            var result = await _dbContext.Set<ApplicationUser>().FromSqlRaw($@"
+                SELECT
+                	""Id"", ""DisplayName"", ""Tag"", ""UserName"", ""NormalizedUserName"", ""Email"",
+                    ""NormalizedEmail"", ""EmailConfirmed"", ""PasswordHash"", ""SecurityStamp"",
+                    ""ConcurrencyStamp"", ""PhoneNumber"", ""PhoneNumberConfirmed"", ""TwoFactorEnabled"",
+                    ""LockoutEnd"", ""LockoutEnabled"", ""AccessFailedCount""
+                FROM ""AspNetUsers""
+                WHERE (""DisplayName"" || '#' || LPAD(""Tag""::varchar(4), 4, '0')) ILIKE '%{query}%';
             ").ToListAsync();
             return result;
         }
