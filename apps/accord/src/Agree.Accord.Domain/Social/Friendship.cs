@@ -10,11 +10,11 @@ namespace Agree.Accord.Domain.Social
 
         public Friendship(ApplicationUser from, ApplicationUser to)
         {
-            this.From = from;
-            this.FromId = from.Id;
-            this.To = to;
-            this.ToId = to.Id;
-            this.Accepted = false;
+            From = from;
+            FromId = from.Id;
+            To = to;
+            ToId = to.Id;
+            Accepted = false;
         }
 
         public Guid FromId { get; private set; }

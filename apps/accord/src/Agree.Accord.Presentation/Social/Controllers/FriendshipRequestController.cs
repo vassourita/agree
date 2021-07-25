@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Social;
 using Agree.Accord.Domain.Social.Dtos;
 using Agree.Accord.Presentation.Responses;
+using Agree.Accord.Presentation.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +29,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
         public async Task<IActionResult> SentRequests()
         {
             var requests = await _socialService.GetSentFriendshipRequestsFromUserAsync(await GetAuthenticatedUserAccount());
-            return Ok(requests);
+            return Ok(new { Requests = requests.Select(FriendshipRequestViewModel.FromEntity) });
         }
 
         [HttpGet]
@@ -36,7 +38,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
         public async Task<IActionResult> ReceivedRequests()
         {
             var requests = await _socialService.GetReceivedFriendshipRequestsFromUserAsync(await GetAuthenticatedUserAccount());
-            return Ok(requests);
+            return Ok(new { Requests = requests.Select(FriendshipRequestViewModel.FromEntity) });
         }
 
         [HttpPost]
@@ -54,10 +56,15 @@ namespace Agree.Accord.Presentation.Social.Controllers
         }
 
         [HttpPut]
-        [Route("")]
+        [Route("{fromUserId:guid}")]
         [Authorize]
-        public async Task<IActionResult> Accept([FromBody] AcceptFriendshipRequestDto acceptFriendshipRequestDto)
+        public async Task<IActionResult> Accept([FromRoute] Guid fromUserId)
         {
+            var acceptFriendshipRequestDto = new AcceptFriendshipRequestDto
+            {
+                LoggedUser = await GetAuthenticatedUserAccount(),
+                FromUserId = fromUserId
+            };
             acceptFriendshipRequestDto.LoggedUser = await GetAuthenticatedUserAccount();
             var ok = await _socialService.AcceptFriendshipRequestAsync(acceptFriendshipRequestDto);
             if (ok)
@@ -68,9 +75,9 @@ namespace Agree.Accord.Presentation.Social.Controllers
         }
 
         [HttpDelete]
-        [Route("")]
+        [Route("{fromUserId:guid}")]
         [Authorize]
-        public async Task<IActionResult> Decline([FromBody] Guid fromUserId)
+        public async Task<IActionResult> Decline([FromRoute] Guid fromUserId)
         {
             var ok = await _socialService.DeclineFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
             if (ok)

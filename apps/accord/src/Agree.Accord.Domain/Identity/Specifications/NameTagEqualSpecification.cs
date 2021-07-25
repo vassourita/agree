@@ -11,12 +11,12 @@ namespace Agree.Accord.Domain.Identity.Specifications
     {
         public NameTagEqualSpecification(DiscriminatorTag tag, string userName)
         {
-            Expression = u => u.UserName == userName && u.Tag == tag;
+            Expression = u => u.DisplayName == userName && u.Tag == tag;
         }
 
         public NameTagEqualSpecification(ApplicationUser account)
         {
-            Expression = u => u.UserName == account.UserName && u.Tag == account.Tag;
+            Expression = u => u.DisplayName == account.DisplayName && u.Tag == account.Tag;
         }
     }
 }

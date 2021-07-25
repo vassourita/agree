@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Servers;
+using Agree.Accord.Domain.Social;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -84,6 +85,14 @@ namespace Agree.Accord.Infrastructure.Data
 
                 b.HasOne(c => c.Server)
                     .WithMany(s => s.Categories);
+            });
+
+            builder.Entity<Friendship>(b =>
+            {
+                b.HasKey(f => new { f.FromId, f.ToId });
+
+                b.HasOne(c => c.To);
+                b.HasOne(c => c.From);
             });
         }
     }

@@ -29,13 +29,26 @@ namespace Agree.Accord.Domain.Social
 
             if (validationResult.Failed)
             {
+                if (friendshipRequestDto.From.NameTag == friendshipRequestDto.ToNameTag)
+                {
+                    return FriendshipRequestResult.Fail(validationResult.Error.ToErrorList().AddError("ToNameTag", "Cannot send a friendship request to yourself."));
+                }
                 return FriendshipRequestResult.Fail(validationResult.Error.ToErrorList());
+            }
+
+            if (friendshipRequestDto.From.NameTag == friendshipRequestDto.ToNameTag)
+            {
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("ToNameTag", "Cannot send a friendship request to yourself."));
             }
 
             var nameTag = friendshipRequestDto.ToNameTag.Split('#');
             var displayName = nameTag[0];
             var tag = DiscriminatorTag.Parse(nameTag[1]);
             var toUser = await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName));
+            if (toUser == null)
+            {
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("ToNameTag", "User does not exists."));
+            }
 
             var isAlreadyFriend = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(friendshipRequestDto.From.Id, toUser.Id));
             if (isAlreadyFriend != null)

@@ -6,9 +6,9 @@ namespace Agree.Accord.Presentation.Responses
     {
         public ValidationErrorResponse(ErrorList errors)
         {
-            _errors = errors;
+            Errors = errors;
         }
-        public ErrorList _errors { get; private set; }
+        public ErrorList Errors { get; private set; }
         public string Message => "One or more validation errors occurred.";
     }
 }
