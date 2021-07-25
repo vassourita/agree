@@ -14,7 +14,7 @@ export function Header() {
         <nav>
           {auth.isAuthenticated && auth.user ? (
             <>
-              <Link href="/dashboard">{auth.user.nameTag}</Link>
+              <Link href="/profile">{auth.user.nameTag}</Link>
               {' - '}
               <button onClick={() => auth.logout()}>Sair</button>
             </>

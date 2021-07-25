@@ -1,9 +1,13 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
+import { useContext } from "react";
 import { Header } from "../components/Header";
+import { AuthContext } from "../contexts/AuthContext";
 
-export default function Dashboard() {
+export default function Profile() {
+  const { user } = useContext(AuthContext);
+
   return (
     <div>
       <Head>
@@ -16,14 +20,17 @@ export default function Dashboard() {
       <hr />
 
       <main>
-        <h2>Dashboard</h2>
-
+        <h2>Profile</h2>
         <div>
-          <h6>Friends</h6>
-        </div>
-
-        <div>
-          <h6>Servers</h6>
+          <p>
+            <strong>Id:</strong>{user?.id}
+            <br />
+            <strong>Name:</strong>{user?.displayName}
+            <br />
+            <strong>Tag:</strong>{user?.tag}
+            <br />
+            <strong>Email:</strong>{user?.email}
+          </p>
         </div>
       </main>
     </div>
