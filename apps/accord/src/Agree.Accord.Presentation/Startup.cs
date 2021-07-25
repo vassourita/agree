@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace Agree.Accord.Presentation
@@ -28,6 +29,23 @@ namespace Agree.Accord.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                options.AddPolicy("DefaultCorsPolicy", builder =>
+                    builder.WithMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
+                        .WithHeaders(
+                            HeaderNames.Accept,
+                            HeaderNames.ContentType,
+                            HeaderNames.Authorization)
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(origin =>
+                        {
+                            if (string.IsNullOrWhiteSpace(origin)) return false;
+                            if (origin.ToLower().StartsWith("http://localhost")) return true;
+                            return false;
+                        })
+                )
+            );
+
             services.AddAccordInfrastructure(Configuration)
                 .AddAccordAuthentication(Configuration);
 
@@ -52,7 +70,7 @@ namespace Agree.Accord.Presentation
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agree.Accord.Presentation v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseCors("DefaultCorsPolicy");
 

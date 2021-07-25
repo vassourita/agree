@@ -56,23 +56,6 @@ namespace Agree.Accord.Infrastructure.IoC
 
         public static IServiceCollection AddAccordAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors(options =>
-                options.AddPolicy("DefaultCorsPolicy", builder =>
-                    builder.WithMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
-                        .WithHeaders(
-                            HeaderNames.Accept,
-                            HeaderNames.ContentType,
-                            HeaderNames.Authorization)
-                        .AllowCredentials()
-                        .SetIsOriginAllowed(origin =>
-                        {
-                            if (string.IsNullOrWhiteSpace(origin)) return false;
-                            if (origin.ToLower().StartsWith("http://localhost")) return true;
-                            return false;
-                        })
-                )
-            );
-
             services
                 .AddDefaultIdentity<ApplicationUser>(SetupIdentityOptions)
                 .AddRoles<ServerRole>()
