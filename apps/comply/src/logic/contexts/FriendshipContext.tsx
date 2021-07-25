@@ -27,8 +27,8 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
   const [friendshipHub, setFriendshipHub] = useState<SignalRService>()
 
   async function searchUsers(q: string) {
-    const response = await accord.get(`/api/identity/accounts?q=${encodeURI(q)}`)
-    return (response.data.users as User[]).filter(user => user.id !== auth.user?.id)
+    const response = await accord.get(`/api/identity/accounts?q=${encodeURI(q).replace(/#/g, '%23')}`)
+    return (response.data.users as User[]).filter(user => user.id !== auth.user?.id && !friends.map(f => f.id).includes(user.id))
   }
 
   async function fetchFriends() {
