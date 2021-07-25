@@ -85,30 +85,34 @@ namespace Agree.Accord.Domain.Social
             return await _friendshipRepository.GetAllAsync(new SentFriendshipRequestSpecification(user.Id));
         }
 
-        public async Task<bool> AcceptFriendshipRequestAsync(AcceptFriendshipRequestDto acceptFriendshipRequestDto)
+        public async Task<FriendshipRequestResult> AcceptFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
         {
-            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(acceptFriendshipRequestDto.FromUserId, acceptFriendshipRequestDto.LoggedUser.Id));
-            if (friendshipRequest == null) return false;
-            if (friendshipRequest.Accepted) return false;
+            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
+            if (friendshipRequest == null)
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request does not exist."));
+            if (friendshipRequest.Accepted)
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request already accepted."));
 
             friendshipRequest.Accept();
 
             await _friendshipRepository.UpdateAsync(friendshipRequest);
             await _friendshipRepository.CommitAsync();
 
-            return true;
+            return FriendshipRequestResult.Ok(friendshipRequest);
         }
 
-        public async Task<bool> DeclineFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+        public async Task<FriendshipRequestResult> DeclineFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
         {
             var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
-            if (friendshipRequest == null) return false;
-            if (friendshipRequest.Accepted) return false;
+            if (friendshipRequest == null)
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request does not exist."));
+            if (friendshipRequest.Accepted)
+                return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request already accepted."));
 
             await _friendshipRepository.DeleteAsync(friendshipRequest);
             await _friendshipRepository.CommitAsync();
 
-            return true;
+            return FriendshipRequestResult.Ok(friendshipRequest);
         }
     }
 }

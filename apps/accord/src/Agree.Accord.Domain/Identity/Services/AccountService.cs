@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Results;
@@ -15,9 +16,9 @@ namespace Agree.Accord.Domain.Identity.Services
     /// </summary>
     public class AccountService
     {
-        private readonly IRepository<ApplicationUser> _accountRepository;
+        private readonly IApplicationUserRepository _accountRepository;
 
-        public AccountService(IRepository<ApplicationUser> accountRepository)
+        public AccountService(IApplicationUserRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
@@ -39,5 +40,8 @@ namespace Agree.Accord.Domain.Identity.Services
 
         public async Task<ApplicationUser> GetAccountByEmailAsync(string email)
             => await _accountRepository.GetFirstAsync(new EmailEqualSpecification(email));
+
+        public async Task<IEnumerable<ApplicationUser>> SearchUsers(string query)
+            => await _accountRepository.SearchAsync(query);
     }
 }

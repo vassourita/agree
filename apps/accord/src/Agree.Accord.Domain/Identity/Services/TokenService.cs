@@ -35,9 +35,9 @@ namespace Agree.Accord.Domain.Identity.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                         new Claim(ClaimTypes.Name, account.NameTag),
+                        new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
                         new Claim(ClaimTypes.Email, account.Email),
                         new Claim(ClaimTypes.Role, "user"),
-                        new Claim("id", account.Id.ToString()),
                         new Claim("verified", account.EmailConfirmed.ToString().ToLower()),
                 }),
                 Issuer = _jwtConfiguration.Issuer,

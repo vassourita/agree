@@ -1,7 +1,9 @@
 import React, { PropsWithChildren, useEffect, useState } from "react"
 import { useContext } from "react";
+import { FriendshipRequest } from "../models/FriendshipRequest";
 import { User } from "../models/User";
 import { accord, getLoggedAccount } from "../services/accord";
+import { SignalRService } from "../services/signalr";
 
 type AuthContextData = {
   user?: User,
@@ -75,7 +77,6 @@ export function AuthContextProvider(props: PropsWithChildren<any>) {
   useEffect(() => {
     me().then(() => setIsReady(true))
   }, [])
-
 
   return (
     <AuthContext.Provider value={{ user, isReady, isAuthenticated, login, logout, register }}>

@@ -29,7 +29,7 @@ namespace Agree.Accord.Presentation.Identity.ViewModels
             var nameTag = principal.Identity.Name;
             return new ApplicationUserViewModel
             {
-                Id = Guid.Parse(principal.Claims.First(c => c.Type == "id").Value),
+                Id = Guid.Parse(principal.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value),
                 DisplayName = nameTag.Split('#').First(),
                 Tag = nameTag.Split('#').Last(),
                 Verified = bool.Parse(principal.Claims.First(c => c.Type == "verified").Value)

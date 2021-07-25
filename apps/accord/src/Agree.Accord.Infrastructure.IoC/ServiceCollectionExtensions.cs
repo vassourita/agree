@@ -43,6 +43,7 @@ namespace Agree.Accord.Infrastructure.IoC
             // .LogTo(Console.WriteLine)
             );
             services.AddTransient<IRepository<Friendship>, FriendshipRepository>();
+            services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 
             // Providers
@@ -95,13 +96,6 @@ namespace Agree.Accord.Infrastructure.IoC
                     {
                         OnMessageReceived = context =>
                         {
-                            // var requestExternalServiceToken = context.Request.Headers["agreeallow_externaltoken"];
-                            // var validExternalServiceToken = configuration["ExternalServiceConfiguration:Token"];
-                            // if (requestExternalServiceToken == validExternalServiceToken)
-                            // {
-                            //     context.Token = context.Request.Headers["agreeallow_accesstoken"];
-                            //     return Task.CompletedTask;
-                            // }
                             context.Token = context.Request.Cookies["agreeaccord_accesstoken"];
                             return Task.CompletedTask;
                         }

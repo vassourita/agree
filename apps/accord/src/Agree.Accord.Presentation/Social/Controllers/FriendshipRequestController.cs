@@ -5,9 +5,11 @@ using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Social;
 using Agree.Accord.Domain.Social.Dtos;
 using Agree.Accord.Presentation.Responses;
+using Agree.Accord.Presentation.Social.Hubs;
 using Agree.Accord.Presentation.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Agree.Accord.Presentation.Social.Controllers
 {
@@ -17,10 +19,12 @@ namespace Agree.Accord.Presentation.Social.Controllers
     public class FriendshipRequestController : CustomControllerBase
     {
         private readonly SocialService _socialService;
+        private readonly IHubContext<FriendshipHub> _hubContext;
 
-        public FriendshipRequestController(AccountService accountService, SocialService socialService) : base(accountService)
+        public FriendshipRequestController(AccountService accountService, SocialService socialService, IHubContext<FriendshipHub> hubContext) : base(accountService)
         {
             _socialService = socialService;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -52,6 +56,13 @@ namespace Agree.Accord.Presentation.Social.Controllers
             {
                 return BadRequest(new ValidationErrorResponse(result.Error));
             }
+            await _hubContext.Clients
+                .User(result.Data.ToId.ToString())
+                .SendAsync(
+                    FriendshipHub.FriendshipRequestReceivedMessage,
+                    FriendshipRequestViewModel.FromEntity(result.Data)
+                );
+
             return Ok();
         }
 
@@ -60,18 +71,18 @@ namespace Agree.Accord.Presentation.Social.Controllers
         [Authorize]
         public async Task<IActionResult> Accept([FromRoute] Guid fromUserId)
         {
-            var acceptFriendshipRequestDto = new AcceptFriendshipRequestDto
+            var result = await _socialService.AcceptFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
+            if (result.Failed)
             {
-                LoggedUser = await GetAuthenticatedUserAccount(),
-                FromUserId = fromUserId
-            };
-            acceptFriendshipRequestDto.LoggedUser = await GetAuthenticatedUserAccount();
-            var ok = await _socialService.AcceptFriendshipRequestAsync(acceptFriendshipRequestDto);
-            if (ok)
-            {
-                return Ok();
+                return BadRequest();
             }
-            return BadRequest();
+            await _hubContext.Clients
+                .User(fromUserId.ToString())
+                .SendAsync(
+                    FriendshipHub.FriendshipRequestAcceptedMessage,
+                    FriendshipRequestViewModel.FromEntity(result.Data)
+                );
+            return Ok();
         }
 
         [HttpDelete]
@@ -79,12 +90,18 @@ namespace Agree.Accord.Presentation.Social.Controllers
         [Authorize]
         public async Task<IActionResult> Decline([FromRoute] Guid fromUserId)
         {
-            var ok = await _socialService.DeclineFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
-            if (ok)
+            var result = await _socialService.DeclineFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
+            if (result.Failed)
             {
-                return Ok();
+                return BadRequest();
             }
-            return BadRequest();
+            await _hubContext.Clients
+                .User(fromUserId.ToString())
+                .SendAsync(
+                    FriendshipHub.FriendshipRequestDeclinedMessage,
+                    FriendshipRequestViewModel.FromEntity(result.Data)
+                );
+            return Ok();
         }
     }
 }

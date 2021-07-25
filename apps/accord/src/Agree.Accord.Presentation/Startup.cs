@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Infrastructure.IoC;
+using Agree.Accord.Presentation.Social.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,10 +33,7 @@ namespace Agree.Accord.Presentation
             services.AddCors(options =>
                 options.AddPolicy("DefaultCorsPolicy", builder =>
                     builder.WithMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
-                        .WithHeaders(
-                            HeaderNames.Accept,
-                            HeaderNames.ContentType,
-                            HeaderNames.Authorization)
+                        .AllowAnyHeader()
                         .AllowCredentials()
                         .SetIsOriginAllowed(origin =>
                         {
@@ -53,6 +51,7 @@ namespace Agree.Accord.Presentation
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            services.AddSignalR();
 
             services.AddSwaggerGen(c =>
             {
@@ -82,6 +81,7 @@ namespace Agree.Accord.Presentation
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<FriendshipHub>("/hubs/friendships");
             });
         }
     }

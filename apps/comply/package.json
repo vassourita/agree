@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@microsoft/signalr": "^5.0.8",
     "axios": "^0.21.1",
     "next": "11.0.1",
     "nookies": "^2.5.2",

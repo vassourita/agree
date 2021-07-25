@@ -2,12 +2,30 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FriendshipContext } from "../logic/contexts/FriendshipContext";
+import { ErrorList } from "../logic/models/ErrorList";
+import { FriendshipRequest } from "../logic/models/FriendshipRequest";
 import { Header } from "../presentation/components/Header";
 
 export default function Dashboard() {
   const friendship = useContext(FriendshipContext)
+
+  const [errors, setErrors] = useState<ErrorList>()
+
+  async function accept(req: FriendshipRequest) {
+    var errors = await friendship.acceptFriendRequest(req.from)
+    if (errors) {
+      setErrors(errors)
+    }
+  }
+
+  async function decline(req: FriendshipRequest) {
+    var errors = await friendship.declineFriendRequest(req.from)
+    if (errors) {
+      setErrors(errors)
+    }
+  }
 
   return (
     <div>
@@ -24,54 +42,15 @@ export default function Dashboard() {
         <h2>Dashboard</h2>
 
         <div>
-          <h4>Friends - {friendship.friends.length}</h4>
-          <ul>
-            {friendship.friends.map(friend => (
-              <li key={friend.id}>
-                <Link href={`/u/${friend.id}`}>{friend.nameTag}</Link>
-              </li>
-            ))}
-          </ul>
+          <Link passHref href="/friends">
+            <h5>Friends</h5>
+          </Link>
         </div>
 
-        <br />
-        
         <div>
-          <h4>Requests</h4>
-          <div>
-            <span>
-              <Link href={`friendship-requests/new`}>New</Link>
-            </span>
-          </div>
-          <br />
-          <span>Received - {friendship.receivedRequests.length}</span>
-          <ul>
-            {friendship.receivedRequests.map(req => (
-              <li key={req.from.id}>
-                <span>
-                  {req.from.nameTag}
-                  <button onClick={() => friendship.acceptFriendRequest(req.from)}>Accept</button>
-                  <button onClick={() => friendship.declineFriendRequest(req.from)}>Decline</button>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <span>Sent - {friendship.sentRequests.length}</span>
-          <ul>
-            {friendship.sentRequests.map(req => (
-              <li key={req.to.id}>
-                <span>
-                  {req.to.nameTag}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <br />
-
-        <div>
-          <h4>Servers</h4>
+          <Link passHref href="/servers">
+            <h5>Servers</h5>
+          </Link>
         </div>
       </main>
     </div>

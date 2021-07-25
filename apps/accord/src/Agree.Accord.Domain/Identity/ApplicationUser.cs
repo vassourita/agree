@@ -24,7 +24,7 @@ namespace Agree.Accord.Domain.Identity
         /// Gets the user nametag. The nametag is a unique identifier formed by the user display name and the discriminator tag.
         /// </summary>
         /// <value>The user nametag.</value>
-        public string NameTag { get => $"{DisplayName}#{Tag.ToString()}"; }
+        public virtual string NameTag { get => $"{DisplayName}#{Tag.ToString()}"; }
 
         /// <summary>
         /// Gets the user email discriminator tag.

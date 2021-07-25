@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Dtos;
@@ -118,6 +119,16 @@ namespace Agree.Accord.Presentation.Identity.Controllers
             }
 
             return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        }
+
+        [HttpGet]
+        [Route("")]
+        [Authorize]
+        public async Task<IActionResult> Index([FromQuery] string q)
+        {
+            var entities = await _accountService.SearchUsers(q);
+
+            return Ok(new { users = entities.Select(ApplicationUserViewModel.FromEntity) });
         }
     }
 }
