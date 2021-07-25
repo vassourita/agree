@@ -23,7 +23,7 @@ namespace Agree.Accord.Domain.Social
             _friendshipRepository = friendshipRepository;
         }
 
-        public async Task<FriendshipRequestResult> SendFriendshipRequest(FriendshipRequestDto friendshipRequestDto)
+        public async Task<FriendshipRequestResult> SendFriendshipRequest(SendFriendshipRequestDto friendshipRequestDto)
         {
             var validationResult = AnnotationValidator.TryValidate(friendshipRequestDto);
 
@@ -72,15 +72,27 @@ namespace Agree.Accord.Domain.Social
             return await _friendshipRepository.GetAllAsync(new SentFriendshipRequestSpecification(user.Id));
         }
 
-        public async Task<bool> AcceptFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+        public async Task<bool> AcceptFriendshipRequestAsync(AcceptFriendshipRequestDto acceptFriendshipRequestDto)
         {
-            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
+            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(acceptFriendshipRequestDto.FromUserId, acceptFriendshipRequestDto.LoggedUser.Id));
             if (friendshipRequest == null) return false;
             if (friendshipRequest.Accepted) return false;
 
             friendshipRequest.Accept();
 
             await _friendshipRepository.UpdateAsync(friendshipRequest);
+            await _friendshipRepository.CommitAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeclineFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+        {
+            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
+            if (friendshipRequest == null) return false;
+            if (friendshipRequest.Accepted) return false;
+
+            await _friendshipRepository.DeleteAsync(friendshipRequest);
             await _friendshipRepository.CommitAsync();
 
             return true;
