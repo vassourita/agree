@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Router from 'next/router'
 import { useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext } from '../../logic/contexts/AuthContext'
 
 export function Header() {
   const auth = useContext(AuthContext)
@@ -9,7 +9,7 @@ export function Header() {
   async function handleLogout() {
     const ok = await auth.logout()
     if (ok) {
-      Router.push(`/login`)
+      Router.push(`/account/login`)
     }
   }
 
@@ -22,15 +22,15 @@ export function Header() {
         <nav>
           {auth.isAuthenticated && auth.user ? (
             <>
-              <Link href="/profile">{auth.user.nameTag}</Link>
+              <Link href="/account/profile">{auth.user.nameTag}</Link>
               {' - '}
               <button onClick={handleLogout}>Sair</button>
             </>
           ) : (
             <>
-              <Link href="/login">Login</Link>
+              <Link href="/account/login">Login</Link>
               {' - '}
-              <Link href="/register">Register</Link>
+              <Link href="/account/register">Register</Link>
             </>
           )}
         </nav>

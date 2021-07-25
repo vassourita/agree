@@ -4,9 +4,9 @@ import Link from "next/link";
 import Router from "next/router";
 import { parseCookies } from "nookies";
 import { FormEvent, useContext, useState } from "react";
-import { Header } from "../../components/Header";
-import { User } from "../../contexts/AuthContext";
-import { FriendshipContext } from "../../contexts/FriendshipContext";
+import { FriendshipContext } from "../../logic/contexts/FriendshipContext";
+import { User } from "../../logic/models/User";
+import { Header } from "../../presentation/components/Header";
 
 export default function NewFriendshipRequest() {
   const friendship = useContext(FriendshipContext)
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/account/login',
         permanent: false,
       }
     }

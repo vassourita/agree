@@ -1,7 +1,7 @@
-import '../styles/globals.css'
+import '../presentation/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { AuthContextProvider } from '../contexts/AuthContext'
-import { FriendshipContextProvider } from '../contexts/FriendshipContext'
+import { AuthContextProvider } from '../logic/contexts/AuthContext'
+import { FriendshipContextProvider } from '../logic/contexts/FriendshipContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

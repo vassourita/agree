@@ -2,8 +2,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 import { useContext } from "react";
-import { Header } from "../components/Header";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../logic/contexts/AuthContext";
+import { Header } from "../../presentation/components/Header";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/account/login',
         permanent: false,
       }
     }

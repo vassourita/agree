@@ -1,10 +1,10 @@
 import Router from 'next/router'
 import Head from 'next/head'
 import { FormEvent, useContext, useState } from 'react'
-import { Header } from '../components/Header'
-import { AuthContext } from '../contexts/AuthContext'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
+import { AuthContext } from '../../logic/contexts/AuthContext'
+import { Header } from '../../presentation/components/Header'
 
 export default function Register() {
   const auth = useContext(AuthContext)
@@ -60,7 +60,7 @@ export default function Register() {
           </div>
           <br />
           <div>
-            <button>Login</button>
+            <button>Register</button>
           </div>
         </form>
       </main>

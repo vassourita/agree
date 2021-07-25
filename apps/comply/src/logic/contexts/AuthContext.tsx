@@ -1,13 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react"
 import { useContext } from "react";
+import { User } from "../models/User";
 import { accord, getLoggedAccount } from "../services/accord";
-
-export type User = {
-  id: string,
-  tag: string,
-  nameTag: string,
-  displayName: string
-}
 
 type AuthContextData = {
   user?: User,

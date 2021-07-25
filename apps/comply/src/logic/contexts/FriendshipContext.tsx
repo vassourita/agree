@@ -1,12 +1,8 @@
 import React, { PropsWithChildren, useContext, useEffect, useState } from "react"
+import { FriendshipRequest } from "../models/FriendshipRequest"
+import { User } from "../models/User"
 import { accord } from "../services/accord"
-import { AuthContext, User } from "./AuthContext"
-
-type FriendshipRequest = {
-  from: User,
-  to: User,
-  accepted: boolean,
-}
+import { AuthContext } from "./AuthContext"
 
 type FriendshipContextData = {
   friends: User[],

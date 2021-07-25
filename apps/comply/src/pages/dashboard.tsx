@@ -3,8 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useContext } from "react";
-import { Header } from "../components/Header";
-import { FriendshipContext } from "../contexts/FriendshipContext";
+import { FriendshipContext } from "../logic/contexts/FriendshipContext";
+import { Header } from "../presentation/components/Header";
 
 export default function Dashboard() {
   const friendship = useContext(FriendshipContext)
@@ -24,7 +24,7 @@ export default function Dashboard() {
         <h2>Dashboard</h2>
 
         <div>
-          <h4>Friends</h4>
+          <h4>Friends - {friendship.friends.length}</h4>
           <ul>
             {friendship.friends.map(friend => (
               <li key={friend.id}>
@@ -84,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/account/login',
         permanent: false,
       }
     }
