@@ -22,5 +22,10 @@ namespace Agree.Accord.Domain.Social
         public Guid ToId { get; private set; }
         public ApplicationUser To { get; private set; }
         public bool Accepted { get; private set; }
+
+        public void Accept()
+        {
+            Accepted = true;
+        }
     }
 }

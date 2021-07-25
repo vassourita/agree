@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,6 +70,20 @@ namespace Agree.Accord.Domain.Social
         public async Task<IEnumerable<Friendship>> GetSentFriendshipRequestsFromUserAsync(ApplicationUser user)
         {
             return await _friendshipRepository.GetAllAsync(new SentFriendshipRequestSpecification(user.Id));
+        }
+
+        public async Task<bool> AcceptFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+        {
+            var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
+            if (friendshipRequest == null) return false;
+            if (friendshipRequest.Accepted) return false;
+
+            friendshipRequest.Accept();
+
+            await _friendshipRepository.UpdateAsync(friendshipRequest);
+            await _friendshipRepository.CommitAsync();
+
+            return true;
         }
     }
 }
