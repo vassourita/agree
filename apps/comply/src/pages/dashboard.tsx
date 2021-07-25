@@ -1,9 +1,14 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { parseCookies } from "nookies";
+import { useContext } from "react";
 import { Header } from "../components/Header";
+import { FriendshipContext } from "../contexts/FriendshipContext";
 
 export default function Dashboard() {
+  const friendship = useContext(FriendshipContext)
+
   return (
     <div>
       <Head>
@@ -19,11 +24,54 @@ export default function Dashboard() {
         <h2>Dashboard</h2>
 
         <div>
-          <h6>Friends</h6>
+          <h4>Friends</h4>
+          <ul>
+            {friendship.friends.map(friend => (
+              <li key={friend.id}>
+                <Link href={`/u/${friend.id}`}>{friend.nameTag}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
+        <br />
+        
         <div>
-          <h6>Servers</h6>
+          <h4>Requests</h4>
+          <div>
+            <span>
+              <Link href={`friendship-requests/new`}>New</Link>
+            </span>
+          </div>
+          <br />
+          <span>Received - {friendship.receivedRequests.length}</span>
+          <ul>
+            {friendship.receivedRequests.map(req => (
+              <li key={req.from.id}>
+                <span>
+                  {req.from.nameTag}
+                  <button onClick={() => friendship.acceptFriendRequest(req.from)}>Accept</button>
+                  <button onClick={() => friendship.declineFriendRequest(req.from)}>Decline</button>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <span>Sent - {friendship.sentRequests.length}</span>
+          <ul>
+            {friendship.sentRequests.map(req => (
+              <li key={req.to.id}>
+                <span>
+                  {req.to.nameTag}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <br />
+
+        <div>
+          <h4>Servers</h4>
         </div>
       </main>
     </div>

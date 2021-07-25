@@ -1,15 +1,13 @@
 import React, { PropsWithChildren, useEffect, useState } from "react"
 import { useContext } from "react";
-import { allow, getLoggedAccount } from "../services/allow";
+import { accord, getLoggedAccount } from "../services/accord";
 
-type User = {
+export type User = {
   id: string,
   tag: string,
-  email: string,
   nameTag: string,
   displayName: string
 }
-
 
 type AuthContextData = {
   user?: User,
@@ -28,7 +26,7 @@ export function AuthContextProvider(props: PropsWithChildren<any>) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   async function login(email: string, password: string) {
-    const response = await allow.post<{user:User}>("/api/identity/sessions", {
+    const response = await accord.post<{user:User}>("/api/identity/sessions", {
       email, password
     })
     if (response.status === 204) {
@@ -41,7 +39,7 @@ export function AuthContextProvider(props: PropsWithChildren<any>) {
   }
 
   async function logout() {
-    const response = await allow.delete("/api/identity/sessions")
+    const response = await accord.delete("/api/identity/sessions")
     if (response.status === 204) {
       setUser(undefined)
       setIsAuthenticated(false)
@@ -51,7 +49,7 @@ export function AuthContextProvider(props: PropsWithChildren<any>) {
   }
 
   async function register(email: string, displayName: string, password: string, passwordConfirmation: string) {
-    const response = await allow.post("/api/identity/accounts", {
+    const response = await accord.post("/api/identity/accounts", {
       email,
       password,
       displayName,

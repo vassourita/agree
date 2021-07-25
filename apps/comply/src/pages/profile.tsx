@@ -28,8 +28,6 @@ export default function Profile() {
             <strong>Name:</strong>{user?.displayName}
             <br />
             <strong>Tag:</strong>{user?.tag}
-            <br />
-            <strong>Email:</strong>{user?.email}
           </p>
         </div>
       </main>
