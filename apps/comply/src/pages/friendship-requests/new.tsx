@@ -46,6 +46,8 @@ export default function NewFriendshipRequest() {
             <br />
             <input type="nametag" id="nametag" value={nameTag} onChange={e => setNameTag(e.target.value)} />
           </div>
+          <br />
+          <button>Send</button>
         </form>
       </main>
     </div>

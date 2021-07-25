@@ -1,9 +1,17 @@
 import Link from 'next/link'
+import Router from 'next/router'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 
 export function Header() {
   const auth = useContext(AuthContext)
+
+  async function handleLogout() {
+    const ok = await auth.logout()
+    if (ok) {
+      Router.push(`/login`)
+    }
+  }
 
   return (
     <header>
@@ -16,7 +24,7 @@ export function Header() {
             <>
               <Link href="/profile">{auth.user.nameTag}</Link>
               {' - '}
-              <button onClick={() => auth.logout()}>Sair</button>
+              <button onClick={handleLogout}>Sair</button>
             </>
           ) : (
             <>

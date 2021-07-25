@@ -28,17 +28,20 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
 
   async function fetchFriends() {
     const response = await accord.get(`/api/friends`)
-    setFriends(response.data.friends)
+    if (response.status === 200)
+      setFriends(response.data.friends)
   }
 
   async function fetchSentRequests() {
     const response = await accord.get(`/api/friendship-requests/sent`)
-    setSentRequests(response.data.requests)
+    if (response.status === 200)
+      setSentRequests(response.data.requests)
   }
 
   async function fetchReceivedRequests() {
     const response = await accord.get(`/api/friendship-requests/received`)
-    setReceivedRequests(response.data.requests)
+    if (response.status === 200)
+      setReceivedRequests(response.data.requests)
   }
 
   function addFriend(friend: User) {
@@ -77,7 +80,7 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
     fetchFriends()
     fetchSentRequests()
     fetchReceivedRequests()
-  }, [])
+  }, [auth.user?.id])
 
   return (
     <FriendshipContext.Provider value={{ friends, sentRequests, receivedRequests, acceptFriendRequest, declineFriendRequest, sendFriendRequest }}>

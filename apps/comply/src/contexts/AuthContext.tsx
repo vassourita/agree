@@ -70,6 +70,7 @@ export function AuthContextProvider(props: PropsWithChildren<any>) {
     if (!user) {
       setUser(undefined)
       setIsAuthenticated(false)
+      await logout()
       return null
     }
     setUser(user)
