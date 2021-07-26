@@ -82,6 +82,7 @@ namespace Agree.Accord.Presentation
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<FriendshipHub>("/hubs/friendships");
+                endpoints.MapHub<DirectMessageHub>("/hubs/direct-messages");
             });
         }
     }

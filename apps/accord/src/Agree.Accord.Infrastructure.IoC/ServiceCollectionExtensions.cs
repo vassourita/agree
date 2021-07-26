@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Servers.Services;
 using Agree.Accord.Domain.Social;
+using Agree.Accord.Domain.Social.Services;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
@@ -57,6 +58,7 @@ namespace Agree.Accord.Infrastructure.IoC
             services.AddScoped<AccountService>();
             services.AddScoped<ServerService>();
             services.AddScoped<SocialService>();
+            services.AddScoped<DirectMessageService>();
 
             return services;
         }

@@ -10,7 +10,7 @@ using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 
-namespace Agree.Accord.Domain.Social
+namespace Agree.Accord.Domain.Social.Services
 {
     /// <summary>
     /// Provides methods for the social domain, managing friendships and other interactions between users.

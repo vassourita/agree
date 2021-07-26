@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Social;
+using Agree.Accord.Domain.Social.Services;
 using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.Social.Hubs;

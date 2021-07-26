@@ -13,6 +13,7 @@ namespace Agree.Accord.Domain.Social.Dtos
         public Guid ToId { get; set; }
 
         [Required]
+        [MaxLength(400)]
         public string MessageText { get; set; }
 
     }
