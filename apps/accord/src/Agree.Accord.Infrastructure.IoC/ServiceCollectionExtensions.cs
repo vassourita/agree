@@ -22,6 +22,9 @@ using Agree.Accord.Domain.Social;
 
 namespace Agree.Accord.Infrastructure.IoC
 {
+    /// <summary>
+    /// Provides extension methods for the <see cref="IServiceCollection"/> interface that configure the application infrastructure and auth.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddAccordInfrastructure(this IServiceCollection services, IConfiguration configuration)

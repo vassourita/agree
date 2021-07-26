@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Agree.Accord.Presentation.Identity.ViewModels
 {
+    /// <summary>
+    /// A view model for a user account.
+    /// </summary>
     public class ApplicationUserViewModel
     {
         public Guid Id { get; private set; }
@@ -13,6 +16,11 @@ namespace Agree.Accord.Presentation.Identity.ViewModels
         public string Tag { get; private set; }
         public bool Verified { get; private set; }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ApplicationUserViewModel"/> class from a <see cref="ApplicationUser"/> entity.
+        /// </summary>
+        /// <param name="entity">The user account.</param>
+        /// <returns>The view model.</returns>
         public static ApplicationUserViewModel FromEntity(ApplicationUser entity)
         {
             return new ApplicationUserViewModel
@@ -24,6 +32,11 @@ namespace Agree.Accord.Presentation.Identity.ViewModels
             };
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ApplicationUserViewModel"/> class from a <see cref="ClaimsPrincipal"/>.
+        /// </summary>
+        /// <param name="principal">The claims principal.</param>
+        /// <returns>The view model.</returns>
         public static ApplicationUserViewModel FromClaims(ClaimsPrincipal principal)
         {
             var nameTag = principal.Identity.Name;

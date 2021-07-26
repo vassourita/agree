@@ -1,5 +1,8 @@
 namespace Agree.Accord.Domain.Identity.Tokens
 {
+    /// <summary>
+    /// The JWT access token configuration.
+    /// </summary>
     public class JwtConfiguration
     {
         public string SigningKey { get; set; }

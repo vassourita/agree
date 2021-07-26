@@ -4,13 +4,18 @@ using Agree.Accord.Domain.Identity.Dtos;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.SharedKernel.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agree.Accord.Presentation.Identity.Controllers
 {
+    /// <summary>
+    /// A controller that handles user login and logout operations.
+    /// </summary>
     [ApiController]
+    [AllowAnonymous]
     [Route("api/identity/sessions")]
     public class SessionController : CustomControllerBase
     {

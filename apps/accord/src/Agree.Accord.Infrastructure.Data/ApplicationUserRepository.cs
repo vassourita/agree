@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Accord.Infrastructure.Data
 {
+    /// <summary>
+    /// A <see cref="IApplicationUserRepository"/> implementation using Entity Framework.
+    /// </summary>
     public class ApplicationUserRepository : IApplicationUserRepository
     {
         private readonly ApplicationDbContext _dbContext;

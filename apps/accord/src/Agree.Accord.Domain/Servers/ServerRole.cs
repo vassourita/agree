@@ -6,6 +6,9 @@ using Agree.Accord.Domain.Identity;
 
 namespace Agree.Accord.Domain.Servers
 {
+    /// <summary>
+    /// A role in a server.
+    /// </summary>
     public class ServerRole : IdentityRole<Guid>
     {
         // EF ctor

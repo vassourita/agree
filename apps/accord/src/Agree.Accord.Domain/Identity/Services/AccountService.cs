@@ -23,6 +23,11 @@ namespace Agree.Accord.Domain.Identity.Services
             _accountRepository = accountRepository;
         }
 
+        /// <summary>
+        /// Generates a new DiscriminatorTag for the given display name.
+        /// </summary>
+        /// <param name="displayName">The user display name.</param>
+        /// <returns>A new tag for this display name.</returns>
         public async Task<DiscriminatorTag> GenerateDiscriminatorTagAsync(string displayName)
         {
             var tag = DiscriminatorTag.NewTag();
@@ -35,12 +40,27 @@ namespace Agree.Accord.Domain.Identity.Services
             return tag;
         }
 
+        /// <summary>
+        /// Gets a user account by its id and returns it.
+        /// </summary>
+        /// <param name="id">The user id.</param>
+        /// <returns>The user account or null if it doesn't exists.</returns>
         public async Task<ApplicationUser> GetAccountByIdAsync(Guid id)
             => await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
 
+        /// <summary>
+        /// Gets a user account by its email and returns it.
+        /// </summary>
+        /// <param name="email">The user email.</param>
+        /// <returns>The user account or null if it doesn't exists.</returns>
         public async Task<ApplicationUser> GetAccountByEmailAsync(string email)
             => await _accountRepository.GetFirstAsync(new EmailEqualSpecification(email));
 
+        /// <summary>
+        /// Searchs for user accounts by their nametag and returns them.
+        /// </summary>
+        /// <param name="query">The search input.</param>
+        /// <returns>The user accounts that match the specified query.</returns>
         public async Task<IEnumerable<ApplicationUser>> SearchUsers(string query)
             => await _accountRepository.SearchAsync(query);
     }

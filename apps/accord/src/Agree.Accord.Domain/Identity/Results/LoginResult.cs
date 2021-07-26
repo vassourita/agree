@@ -3,6 +3,9 @@ using Agree.Accord.SharedKernel;
 
 namespace Agree.Accord.Domain.Identity.Results
 {
+    /// <summary>
+    /// The result of a login operation.
+    /// </summary>
     public class LoginResult : Result<AccessToken>
     {
         private LoginResult(AccessToken data) : base(data)

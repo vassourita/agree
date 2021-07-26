@@ -12,6 +12,9 @@ using Agree.Accord.Domain.Identity.Specifications;
 
 namespace Agree.Accord.Domain.Identity.Services
 {
+    /// <summary>
+    /// Service for creating and managing tokens.
+    /// </summary>
     public class TokenService
     {
         public readonly JwtConfiguration _jwtConfiguration;
@@ -55,11 +58,21 @@ namespace Agree.Accord.Domain.Identity.Services
             };
         }
 
+        /// <summary>
+        /// Generates a access token for a given user.
+        /// </summary>
+        /// <param name="account">The user account.</param>
+        /// <returns>The generated access token.</returns>
         public Task<AccessToken> GenerateAccessTokenAsync(ApplicationUser account)
         {
             return Task.Run(() => GenerateTokenCore(account));
         }
 
+        /// <summary>
+        /// Generates a access token for a given user.
+        /// </summary>
+        /// <param name="accountEmail">The user email.</param>
+        /// <returns>The generated access token.</returns>
         public async Task<AccessToken> GenerateAccessTokenAsync(string accountEmail)
         {
             var account = await _accountRepository.GetFirstAsync(new EmailEqualSpecification(accountEmail));

@@ -7,6 +7,9 @@ using Microsoft.Extensions.Options;
 
 namespace Agree.Accord.Infrastructure.Providers
 {
+    /// <summary>
+    /// A implementation of <see cref="IMailProvider"/> using C#'s native <see cref="SmtpClient"/>.
+    /// </summary>
     public class NativeMailProvider : IMailProvider
     {
         private readonly SmtpClient _client;

@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Agree.Accord.Presentation
 {
+    /// <summary>
+    /// A custom <see cref="ControllerBase"/> that provides useful and common methods for all controllers.
+    /// </summary>
     public class CustomControllerBase : ControllerBase
     {
         public const string AccessTokenCookieName = "agreeaccord_accesstoken";

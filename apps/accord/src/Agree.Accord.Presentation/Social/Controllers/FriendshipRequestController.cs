@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Agree.Accord.Presentation.Social.Controllers
 {
+    /// <summary>
+    /// A controller for managing friendship requests.
+    /// </summary>
     [ApiController]
     [Route("api/friendship-requests")]
     [Authorize]

@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Accord.Infrastructure.Data
 {
+    /// <summary>
+    /// The <see cref="ApplicationDbContext"/> class implements the application database context.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ServerRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -17,6 +20,7 @@ namespace Agree.Accord.Infrastructure.Data
         { }
 
         public DbSet<Server> Servers { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -53,6 +57,7 @@ namespace Agree.Accord.Infrastructure.Data
                     .HasMaxLength(300);
 
                 b.Property(s => s.PrivacyLevel)
+                    .HasColumnType("varchar(10)")
                     .IsRequired()
                     .HasConversion(
                         (privacyLevel) => privacyLevel.ToString(),

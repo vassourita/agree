@@ -5,7 +5,7 @@ using Agree.Accord.SharedKernel.Data;
 namespace Agree.Accord.Domain.Identity.Specifications
 {
     /// <summary>
-    /// A composite specification that checks if the account nametag (userName + tag) of a given user is equal to a given value.
+    /// A specification that checks if the account nametag (userName + tag) of a given user is equal to a given value.
     /// </summary>
     public class NameTagEqualSpecification : Specification<ApplicationUser>
     {

@@ -2,6 +2,9 @@ using Agree.Accord.SharedKernel;
 
 namespace Agree.Accord.Domain.Social.Results
 {
+    /// <summary>
+    /// The result of an operation on a friendship request.
+    /// </summary>
     public class FriendshipRequestResult : Result<Friendship, ErrorList>
     {
         private FriendshipRequestResult(Friendship friendship) : base(friendship)

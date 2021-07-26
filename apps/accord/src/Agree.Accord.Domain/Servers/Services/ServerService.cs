@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Agree.Accord.Domain.Servers.Services
 {
+    /// <summary>
+    /// Provides methods for creating and managing servers.
+    /// </summary>
     public class ServerService
     {
         private readonly IRepository<Server> _serverRepository;
@@ -24,6 +27,12 @@ namespace Agree.Accord.Domain.Servers.Services
             _serverRoleRepository = serverRoleRepository;
         }
 
+        /// <summary>
+        /// Creates a new server.
+        /// </summary>
+        /// <param name="createServerDto">The creation request data.</param>
+        /// <param name="owner">The user creating the server.</param>
+        /// <returns>The result of the creation.</returns>
         public async Task<CreateServerResult> CreateServerAsync(CreateServerDto createServerDto, ApplicationUser owner)
         {
             var validationResult = AnnotationValidator.TryValidate(createServerDto);

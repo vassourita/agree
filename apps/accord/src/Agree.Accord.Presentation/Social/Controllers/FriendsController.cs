@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Agree.Accord.Presentation.Social.Controllers
 {
+    /// <summary>
+    /// A controller for managing friends.
+    /// </summary>
     [ApiController]
     [Route("api/friends")]
     [Authorize]
@@ -24,7 +27,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
         [HttpGet]
         [Route("")]
         [Authorize]
-        public async Task<IActionResult> SentRequests()
+        public async Task<IActionResult> Index()
         {
             var friends = await _socialService.GetFriendsFromUserAsync(await GetAuthenticatedUserAccount());
             return Ok(new { Friends = friends.Select(ApplicationUserViewModel.FromEntity) });

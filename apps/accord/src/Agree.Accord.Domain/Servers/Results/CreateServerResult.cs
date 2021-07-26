@@ -2,6 +2,9 @@ using Agree.Accord.SharedKernel;
 
 namespace Agree.Accord.Domain.Servers.Results
 {
+    /// <summary>
+    /// The result of a server creation.
+    /// </summary>
     public class CreateServerResult : Result<Server, ErrorList>
     {
         private CreateServerResult(Server server) : base(server)

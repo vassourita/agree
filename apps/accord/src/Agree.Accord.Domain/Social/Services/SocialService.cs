@@ -12,6 +12,9 @@ using Agree.Accord.SharedKernel.Data;
 
 namespace Agree.Accord.Domain.Social
 {
+    /// <summary>
+    /// Provides methods for the social domain, managing friendships and other interactions between users.
+    /// </summary>
     public class SocialService
     {
         private readonly IRepository<Friendship> _friendshipRepository;

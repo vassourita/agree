@@ -3,6 +3,9 @@ using Agree.Accord.SharedKernel;
 
 namespace Agree.Accord.Domain.Identity.Results
 {
+    /// <summary>
+    /// The result of a attempt to create a new account.
+    /// </summary>
     public class CreateAccountResult : Result<(ApplicationUser, AccessToken), ErrorList>
     {
         private CreateAccountResult(ApplicationUser user, AccessToken accessToken) : base((user, accessToken))

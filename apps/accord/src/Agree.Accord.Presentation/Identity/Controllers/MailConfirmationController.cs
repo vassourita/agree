@@ -15,6 +15,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Agree.Accord.Presentation.Identity.Controllers
 {
+    /// <summary>
+    /// A controller for managing user account email confirmation.
+    /// </summary>
     [ApiController]
     [Route("api/identity/email-confirmation")]
     [Authorize]

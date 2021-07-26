@@ -6,6 +6,9 @@ using Agree.Accord.Domain.Identity;
 
 namespace Agree.Accord.Domain.Servers
 {
+    /// <summary>
+    /// A message server.
+    /// </summary>
     public class Server
     {
         /// EF ctor

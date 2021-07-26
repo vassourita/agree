@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Accord.Infrastructure.Data
 {
+    /// <summary>
+    /// A generic repository for the data access layer using Entity Framework.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GenericRepository<T> : IRepository<T>
         where T : class
     {

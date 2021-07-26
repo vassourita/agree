@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Accord.Infrastructure.Data
 {
+    /// <summary>
+    /// A custom <see cref="IRepository{T}"/> implementation for <see cref="Friendship"/> using Entity Framework.
+    /// </summary>
     public class FriendshipRepository : IRepository<Friendship>
     {
         private readonly ApplicationDbContext _dbContext;

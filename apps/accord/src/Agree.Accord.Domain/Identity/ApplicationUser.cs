@@ -32,6 +32,10 @@ namespace Agree.Accord.Domain.Identity
         /// <value>The user discriminator tag.</value>
         public DiscriminatorTag Tag { get; set; }
 
+        /// <summary>
+        /// The servers that the user is a member of.
+        /// </summary>
+        /// <value>The server list.</value>
         public ICollection<Server> Servers { get; set; }
     }
 }

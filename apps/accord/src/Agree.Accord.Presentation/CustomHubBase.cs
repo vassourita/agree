@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Agree.Accord.Presentation
 {
+    /// <summary>
+    /// A custom <see cref="Hub"/> that provides useful and common methods for all hubs.
+    /// </summary>
     public class CustomHubBase : Hub
     {
         public const string AccessTokenCookieName = "agreeaccord_accesstoken";

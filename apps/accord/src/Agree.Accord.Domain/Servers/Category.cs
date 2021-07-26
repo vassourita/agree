@@ -4,6 +4,9 @@ using Agree.Accord.Domain.Identity;
 
 namespace Agree.Accord.Domain.Servers
 {
+    /// <summary>
+    /// A server category.
+    /// </summary>
     public class Category
     {
         /// EF ctor

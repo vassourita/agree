@@ -17,6 +17,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Agree.Accord.Presentation.Identity.Controllers
 {
+    /// <summary>
+    /// A controller for managing user accounts.
+    /// </summary>
     [ApiController]
     [Route("api/identity/accounts")]
     [Authorize]

@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Agree.Accord.Infrastructure.Data
 {
+    /// <summary>
+    /// A factory for creating <see cref="ApplicationDbContext"/> instances during design-time builds.
+    /// </summary>
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)

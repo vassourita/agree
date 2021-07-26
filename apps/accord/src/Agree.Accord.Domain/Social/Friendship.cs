@@ -3,6 +3,9 @@ using Agree.Accord.Domain.Identity;
 
 namespace Agree.Accord.Domain.Social
 {
+    /// <summary>
+    /// The representation of a friendship (or a friendship request) between two users.
+    /// </summary>
     public class Friendship
     {
         // EF ctor
