@@ -46,7 +46,7 @@ namespace Agree.Accord.Domain.Identity.Services
         /// <param name="id">The user id.</param>
         /// <returns>The user account or null if it doesn't exists.</returns>
         public async Task<ApplicationUser> GetAccountByIdAsync(Guid id)
-            => await _accountRepository.GetFirstAsync(new IdEqualSpecification(id));
+            => await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(id));
 
         /// <summary>
         /// Gets a user account by its email and returns it.
