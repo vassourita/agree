@@ -98,6 +98,18 @@ namespace Agree.Accord.Infrastructure.Data
                 b.HasOne(c => c.To);
                 b.HasOne(c => c.From);
             });
+
+            builder.Entity<DirectMessage>(b =>
+            {
+                b.HasKey(f => f.Id);
+
+                b.Property(f => f.Text)
+                    .IsRequired()
+                    .HasMaxLength(400);
+
+                b.HasOne(c => c.To);
+                b.HasOne(c => c.From);
+            });
         }
     }
 }

@@ -5,6 +5,9 @@ namespace Agree.Accord.Domain.Social
 {
     public class DirectMessage
     {
+        // EF ctor
+        public DirectMessage() { }
+
         public DirectMessage(string text, ApplicationUser from, ApplicationUser to)
         {
             Id = Guid.NewGuid();
