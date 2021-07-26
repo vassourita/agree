@@ -1,6 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Domain.Social.Dtos;
+using Agree.Accord.Domain.Social.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;

@@ -53,7 +53,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
             await _hubContext.Clients
                 .User(friendId.ToString())
                 .SendAsync(
-                    FriendshipHub.FriendshipRemoved,
+                    FriendshipHub.FriendshipRemovedMessage,
                     FriendshipRequestViewModel.FromEntity(result.Data)
                 );
             return NoContent();

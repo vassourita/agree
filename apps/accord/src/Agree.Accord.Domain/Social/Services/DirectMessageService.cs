@@ -24,7 +24,7 @@ namespace Agree.Accord.Domain.Social.Services
             _directMessageRepository = directMessageRepository;
         }
 
-        public async Task<DirectMessageResult> SendDirectMessage(SendDirectMessageDto sendDirectMessageDto)
+        public async Task<DirectMessageResult> SendDirectMessageAsync(SendDirectMessageDto sendDirectMessageDto)
         {
             var toUser = await _accountService.GetAccountByIdAsync(sendDirectMessageDto.ToId);
             if (toUser == null)
@@ -39,6 +39,9 @@ namespace Agree.Accord.Domain.Social.Services
 
             return DirectMessageResult.Ok(directMessage);
         }
+
+        public async Task<DirectMessage> GetDirectMessageByIdAsync(Guid id)
+            => await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(id));
 
         public async Task<DirectMessageResult> MarkAsRead(ApplicationUser loggedUser, Guid directMessageId)
         {
