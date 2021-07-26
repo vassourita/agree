@@ -14,6 +14,7 @@ type FriendshipContextData = {
   acceptFriendRequest(friend: User): Promise<ErrorList | null>,
   declineFriendRequest(friend: User): Promise<ErrorList | null>,
   searchUsers(q: string): Promise<User[]>,
+  removeFriend(friendId: string): Promise<ErrorList | null>
 }
 
 export const FriendshipContext = React.createContext<FriendshipContextData>({} as FriendshipContextData)
@@ -29,6 +30,15 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
   async function searchUsers(q: string) {
     const response = await accord.get(`/api/identity/accounts?q=${encodeURI(q).replace(/#/g, '%23')}`)
     return (response.data.users as User[]).filter(user => user.id !== auth.user?.id && !friends.map(f => f.id).includes(user.id))
+  }
+
+  async function removeFriend(friendId: string) {
+    const response = await accord.delete(`/api/friends/${friendId}`)
+    if (response.status === 204) {
+      setFriends(friends.filter(f => f.id !== friendId))
+      return null
+    }
+    return response.data.errors as ErrorList
   }
 
   async function fetchFriends() {
@@ -97,6 +107,7 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
       friendshipHub.hubConnection.off("friendship_request_received")
       friendshipHub.hubConnection.off("friendship_request_declined")
       friendshipHub.hubConnection.off("friendship_request_accepted")
+      friendshipHub.hubConnection.off("friendship_removed")
       friendshipHub.hubConnection.on("friendship_request_received", (req: FriendshipRequest) => {
         setReceivedRequests(f => [...f, req])
       })
@@ -109,11 +120,14 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
         setSentRequests(f => f.filter(f => f.to.id !== req.to.id))
         addFriend(req.to)
       })
+      friendshipHub.hubConnection.on("friendship_removed", (req: FriendshipRequest) => {
+        setFriends(f => f.filter(f => f.id !== req.from.id && f.id !== req.to.id))
+      })
     }
   }, [auth.isAuthenticated, auth.isReady, friendshipHub])
 
   return (
-    <FriendshipContext.Provider value={{ friends, sentRequests, receivedRequests, acceptFriendRequest, declineFriendRequest, sendFriendRequest, searchUsers }}>
+    <FriendshipContext.Provider value={{ friends, sentRequests, receivedRequests, acceptFriendRequest, declineFriendRequest, sendFriendRequest, searchUsers, removeFriend }}>
       {props.children}
     </FriendshipContext.Provider>
   )

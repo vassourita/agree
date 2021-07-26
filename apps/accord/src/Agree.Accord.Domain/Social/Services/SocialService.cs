@@ -117,5 +117,20 @@ namespace Agree.Accord.Domain.Social
 
             return FriendshipRequestResult.Ok(friendshipRequest);
         }
+
+        public async Task<RemoveFriendResult> RemoveFriend(ApplicationUser user, Guid friendId)
+        {
+            var friendship = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(user.Id, friendId));
+
+            if (friendship == null)
+                return RemoveFriendResult.Fail(new ErrorList().AddError("Friendship", "Friendship does not exist."));
+            if (!friendship.Accepted)
+                return RemoveFriendResult.Fail(new ErrorList().AddError("Friendship", "You are not friends with this user."));
+
+            await _friendshipRepository.DeleteAsync(friendship);
+            await _friendshipRepository.CommitAsync();
+
+            return RemoveFriendResult.Ok(friendship);
+        }
     }
 }

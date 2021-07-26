@@ -28,6 +28,13 @@ export default function Friends() {
     }
   }
 
+  async function remove(friendId: string) {
+    var errors = await friendship.removeFriend(friendId)
+    if (errors) {
+      setErrors(errors)
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -55,7 +62,8 @@ export default function Friends() {
           <ul>
             {friendship.friends.map(friend => (
               <li key={friend.id}>
-                <Link href={`/u/${friend.id}`}>{friend.nameTag}</Link>
+                <span>{friend.nameTag}</span>
+                <button onClick={() => remove(friend.id)}>Remove</button>
               </li>
             ))}
           </ul>

@@ -19,5 +19,6 @@ namespace Agree.Accord.Presentation.Social.Hubs
         public const string FriendshipRequestReceivedMessage = "friendship_request_received";
         public const string FriendshipRequestAcceptedMessage = "friendship_request_accepted";
         public const string FriendshipRequestDeclinedMessage = "friendship_request_declined";
+        public const string FriendshipRemoved = "friendship_removed";
     }
 }
