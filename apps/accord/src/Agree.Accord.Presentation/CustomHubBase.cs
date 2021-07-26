@@ -9,6 +9,7 @@ using Agree.Accord.Presentation.Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace Agree.Accord.Presentation
 {
@@ -20,10 +21,12 @@ namespace Agree.Accord.Presentation
         public const string AccessTokenCookieName = "agreeaccord_accesstoken";
 
         protected readonly AccountService _accountService;
+        private readonly ILogger<CustomHubBase> _logger;
 
-        public CustomHubBase(AccountService accountService)
+        public CustomHubBase(AccountService accountService, ILogger<CustomHubBase> logger)
         {
             _accountService = accountService;
+            _logger = logger;
         }
 
         protected ApplicationUserViewModel CurrentlyLoggedUser =>
@@ -39,7 +42,7 @@ namespace Agree.Accord.Presentation
         public override async Task OnConnectedAsync()
         {
             await base.OnConnectedAsync();
-            Console.WriteLine($"Connected: {CurrentlyLoggedUser.NameTag}");
+            _logger.LogInformation($"New connection on hub: {CurrentlyLoggedUser.NameTag}");
         }
     }
 }
