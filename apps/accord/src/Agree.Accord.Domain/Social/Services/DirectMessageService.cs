@@ -9,6 +9,7 @@ using Agree.Accord.Domain.Social.Results;
 using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
+using System.Linq;
 
 namespace Agree.Accord.Domain.Social.Services
 {
@@ -62,6 +63,28 @@ namespace Agree.Accord.Domain.Social.Services
             await _directMessageRepository.CommitAsync();
 
             return DirectMessageResult.Ok(directMessage);
+        }
+
+        public async Task<DirectMessagesReadResult> MarkEntireChatAsRead(Guid requesterId, Guid friendId)
+        {
+            var directMessages = await GetDirectMessagesFromFriendChatAsync(requesterId, friendId);
+
+            var toBeReturned = new List<DirectMessage>();
+
+            foreach (var directMessage in directMessages)
+            {
+                if (directMessage.From.Id == requesterId)
+                {
+                    continue;
+                }
+                directMessage.MarkRead();
+                toBeReturned.Add(directMessage);
+                await _directMessageRepository.UpdateAsync(directMessage);
+            }
+
+            await _directMessageRepository.CommitAsync();
+
+            return DirectMessagesReadResult.Ok(toBeReturned);
         }
 
         public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendChatAsync(Guid requesterId, Guid friendId)
