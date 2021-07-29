@@ -75,5 +75,19 @@ namespace Agree.Accord.Presentation.Social.Controllers
             var messages = await _directMessageService.GetDirectMessagesFromFriendChatAsync(requester.Id, friendId);
             return Ok(new { Messages = messages.Select(DirectMessageViewModel.FromEntity) });
         }
+
+        [HttpPut]
+        [Route("friends/{friendId:guid}/direct-messages")]
+        [Authorize]
+        public async Task<IActionResult> MarkRead([FromRoute] Guid friendId)
+        {
+            var requester = await GetAuthenticatedUserAccount();
+            var result = await _directMessageService.MarkEntireChatAsRead(requester.Id, friendId);
+            if (result.Failed)
+            {
+                return BadRequest(new ValidationErrorResponse(result.Error));
+            }
+            return Ok(new { Messages = result.Data.Select(DirectMessageViewModel.FromEntity) });
+        }
     }
 }
