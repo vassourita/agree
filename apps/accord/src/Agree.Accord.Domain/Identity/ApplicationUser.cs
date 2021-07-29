@@ -37,5 +37,7 @@ namespace Agree.Accord.Domain.Identity
         /// </summary>
         /// <value>The server list.</value>
         public ICollection<Server> Servers { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

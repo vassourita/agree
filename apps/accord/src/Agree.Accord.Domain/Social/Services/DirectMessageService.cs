@@ -64,7 +64,7 @@ namespace Agree.Accord.Domain.Social.Services
             return DirectMessageResult.Ok(directMessage);
         }
 
-        public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendAsync(Guid requesterId, Guid friendId)
+        public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendChatAsync(Guid requesterId, Guid friendId)
             => await _directMessageRepository.GetAllAsync(new DirectMessageFromOrToFriendSpecification(requesterId, friendId));
     }
 }

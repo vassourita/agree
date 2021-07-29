@@ -15,6 +15,7 @@ namespace Agree.Accord.Domain.Social
             From = from;
             To = to;
             Read = false;
+            CreatedAt = DateTime.UtcNow;
         }
 
         public Guid Id { get; private set; }
@@ -23,6 +24,8 @@ namespace Agree.Accord.Domain.Social
         public ApplicationUser From { get; private set; }
         public ApplicationUser To { get; private set; }
         public bool Read { get; private set; }
+
+        public DateTime CreatedAt { get; private set; }
 
         public void MarkRead()
         {

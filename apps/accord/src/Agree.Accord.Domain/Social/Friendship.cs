@@ -18,6 +18,7 @@ namespace Agree.Accord.Domain.Social
             To = to;
             ToId = to.Id;
             Accepted = false;
+            SentAt = DateTime.UtcNow;
         }
 
         public Guid FromId { get; private set; }
@@ -26,9 +27,13 @@ namespace Agree.Accord.Domain.Social
         public ApplicationUser To { get; private set; }
         public bool Accepted { get; private set; }
 
+        public DateTime SentAt { get; private set; }
+        public DateTime AcceptedAt { get; private set; }
+
         public void Accept()
         {
             Accepted = true;
+            AcceptedAt = DateTime.UtcNow;
         }
     }
 }

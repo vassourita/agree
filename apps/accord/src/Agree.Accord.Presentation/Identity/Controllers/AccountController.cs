@@ -63,7 +63,8 @@ namespace Agree.Accord.Presentation.Identity.Controllers
                     UserName = createAccountDto.Email,
                     DisplayName = createAccountDto.DisplayName,
                     Tag = await _accountService.GenerateDiscriminatorTagAsync(createAccountDto.DisplayName),
-                    EmailConfirmed = false
+                    EmailConfirmed = false,
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 var result = await _userManager.CreateAsync(user, createAccountDto.Password);

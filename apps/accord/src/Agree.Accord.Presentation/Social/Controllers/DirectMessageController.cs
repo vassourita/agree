@@ -72,7 +72,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
         public async Task<IActionResult> Index([FromRoute] Guid friendId)
         {
             var requester = await GetAuthenticatedUserAccount();
-            var messages = await _directMessageService.GetDirectMessagesFromFriendAsync(requester.Id, friendId);
+            var messages = await _directMessageService.GetDirectMessagesFromFriendChatAsync(requester.Id, friendId);
             return Ok(new { Messages = messages.Select(DirectMessageViewModel.FromEntity) });
         }
     }
