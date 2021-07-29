@@ -128,9 +128,9 @@ namespace Agree.Accord.Presentation.Identity.Controllers
         [HttpGet]
         [Route("")]
         [Authorize]
-        public async Task<IActionResult> Index([FromQuery] string q)
+        public async Task<IActionResult> Index([FromQuery] SearchAccountsDto search)
         {
-            var entities = await _accountService.SearchUsers(q);
+            var entities = await _accountService.SearchUsers(search);
 
             return Ok(new { users = entities.Select(ApplicationUserViewModel.FromEntity) });
         }

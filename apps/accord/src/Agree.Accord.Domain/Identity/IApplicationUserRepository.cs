@@ -12,6 +12,6 @@ namespace Agree.Accord.Domain.Identity
         /// <summary>
         /// Searches for users by their nameTag.
         /// </summary>
-        Task<IEnumerable<ApplicationUser>> SearchAsync(string query);
+        Task<IEnumerable<ApplicationUser>> SearchAsync(string query, IPagination pagination);
     }
 }

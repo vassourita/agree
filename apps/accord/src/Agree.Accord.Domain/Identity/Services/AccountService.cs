@@ -61,7 +61,7 @@ namespace Agree.Accord.Domain.Identity.Services
         /// </summary>
         /// <param name="query">The search input.</param>
         /// <returns>The user accounts that match the specified query.</returns>
-        public async Task<IEnumerable<ApplicationUser>> SearchUsers(string query)
-            => await _accountRepository.SearchAsync(query);
+        public async Task<IEnumerable<ApplicationUser>> SearchUsers(SearchAccountsDto searchAccountsDto)
+            => await _accountRepository.SearchAsync(searchAccountsDto.Query, searchAccountsDto);
     }
 }

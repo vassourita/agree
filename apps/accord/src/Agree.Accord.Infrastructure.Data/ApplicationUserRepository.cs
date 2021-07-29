@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,17 +46,17 @@ namespace Agree.Accord.Infrastructure.Data
             return result;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> SearchAsync(string query)
+        public async Task<IEnumerable<ApplicationUser>> SearchAsync(string query, IPagination pagination)
         {
             var result = await _dbContext.Set<ApplicationUser>().FromSqlRaw($@"
-                SELECT
-                	""Id"", ""DisplayName"", ""Tag"", ""UserName"", ""NormalizedUserName"", ""Email"",
-                    ""NormalizedEmail"", ""EmailConfirmed"", ""PasswordHash"", ""SecurityStamp"",
-                    ""ConcurrencyStamp"", ""PhoneNumber"", ""PhoneNumberConfirmed"", ""TwoFactorEnabled"",
-                    ""LockoutEnd"", ""LockoutEnabled"", ""AccessFailedCount""
+                SELECT *
                 FROM ""AspNetUsers""
-                WHERE (""DisplayName"" || '#' || LPAD(""Tag""::varchar(4), 4, '0')) ILIKE '%{query}%';
-            ").ToListAsync();
+                WHERE (""DisplayName"" || '#' || LPAD(""Tag""::varchar(4), 4, '0')) ILIKE '%{query}%'
+            ")
+                .OrderBy(u => u.CreatedAt)
+                .Skip((pagination.Page - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
+                .ToListAsync();
             return result;
         }
 
