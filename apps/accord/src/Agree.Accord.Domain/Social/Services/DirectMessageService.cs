@@ -67,7 +67,7 @@ namespace Agree.Accord.Domain.Social.Services
 
         public async Task<DirectMessagesReadResult> MarkEntireChatAsRead(Guid requesterId, Guid friendId)
         {
-            var directMessages = await GetDirectMessagesFromFriendChatAsync(requesterId, friendId);
+            var directMessages = await _directMessageRepository.GetAllAsync(new DirectMessageFromOrToFriendSpecification(requesterId, friendId));
 
             var toBeReturned = new List<DirectMessage>();
 
@@ -87,7 +87,7 @@ namespace Agree.Accord.Domain.Social.Services
             return DirectMessagesReadResult.Ok(toBeReturned);
         }
 
-        public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendChatAsync(Guid requesterId, Guid friendId)
-            => await _directMessageRepository.GetAllAsync(new DirectMessageFromOrToFriendSpecification(requesterId, friendId));
+        public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendChatAsync(Guid requesterId, Guid friendId, IPagination pagination)
+            => await _directMessageRepository.GetAllAsync(new DirectMessageFromOrToFriendPaginatedSpecification(requesterId, friendId, pagination));
     }
 }

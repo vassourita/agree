@@ -7,6 +7,7 @@ using Agree.Accord.Domain.Social.Services;
 using Agree.Accord.Presentation.Responses;
 using Agree.Accord.Presentation.Social.Hubs;
 using Agree.Accord.Presentation.ViewModels;
+using Agree.Accord.SharedKernel.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -69,10 +70,10 @@ namespace Agree.Accord.Presentation.Social.Controllers
         [HttpGet]
         [Route("friends/{friendId:guid}/direct-messages")]
         [Authorize]
-        public async Task<IActionResult> Index([FromRoute] Guid friendId)
+        public async Task<IActionResult> Index([FromRoute] Guid friendId, [FromQuery] Pagination pagination)
         {
             var requester = await GetAuthenticatedUserAccount();
-            var messages = await _directMessageService.GetDirectMessagesFromFriendChatAsync(requester.Id, friendId);
+            var messages = await _directMessageService.GetDirectMessagesFromFriendChatAsync(requester.Id, friendId, pagination);
             return Ok(new { Messages = messages.Select(DirectMessageViewModel.FromEntity) });
         }
 

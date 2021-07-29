@@ -41,8 +41,15 @@ namespace Agree.Accord.Infrastructure.Data
 
         public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification)
         {
-            var result = await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
-            return result;
+            if (specification is PaginatedSpecification<T> paginatedSpecification)
+            {
+                return await _dbContext.Set<T>()
+                     .Where(specification.Expression)
+                     .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
+                     .Take(paginatedSpecification.Pagination.PageSize)
+                     .ToListAsync();
+            }
+            return await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
         }
 
         public async Task<T> GetFirstAsync(Specification<T> specification)

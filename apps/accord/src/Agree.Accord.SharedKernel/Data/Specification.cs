@@ -10,4 +10,14 @@ namespace Agree.Accord.SharedKernel.Data
 
         public Expression<Func<T, bool>> Expression { get; protected set; }
     }
+
+    public abstract class PaginatedSpecification<T> : Specification<T>
+    {
+        public IPagination Pagination { get; protected set; }
+
+        public PaginatedSpecification(IPagination pagination)
+        {
+            Pagination = pagination;
+        }
+    }
 }
