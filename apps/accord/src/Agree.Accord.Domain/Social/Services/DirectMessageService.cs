@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -62,5 +63,8 @@ namespace Agree.Accord.Domain.Social.Services
 
             return DirectMessageResult.Ok(directMessage);
         }
+
+        public async Task<IEnumerable<DirectMessage>> GetDirectMessagesFromFriendAsync(Guid requesterId, Guid friendId)
+            => await _directMessageRepository.GetAllAsync(new DirectMessageFromOrToFriendSpecification(requesterId, friendId));
     }
 }

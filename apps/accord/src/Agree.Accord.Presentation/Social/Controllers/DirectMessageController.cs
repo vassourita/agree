@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Social.Dtos;
@@ -13,7 +14,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Agree.Accord.Presentation.Social.Controllers
 {
     [ApiController]
-    [Route("api/direct-messages")]
+    [Route("api")]
     [Authorize]
     public class DirectMessageController : CustomControllerBase
     {
@@ -29,7 +30,7 @@ namespace Agree.Accord.Presentation.Social.Controllers
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("direct-messages")]
         [Authorize]
         public async Task<IActionResult> SendDirectMessage(SendDirectMessageDto sendDirectMessageDto)
         {
@@ -53,9 +54,9 @@ namespace Agree.Accord.Presentation.Social.Controllers
         }
 
         [HttpGet]
-        [Route("{id}", Name = "GetDirectMessageById")]
+        [Route("direct-messages/{id:guid}", Name = "GetDirectMessageById")]
         [Authorize]
-        public async Task<IActionResult> GetDirectMessage([FromRoute] Guid id)
+        public async Task<IActionResult> Show([FromRoute] Guid id)
         {
             var message = await _directMessageService.GetDirectMessageByIdAsync(id);
             if (message == null)
@@ -63,6 +64,16 @@ namespace Agree.Accord.Presentation.Social.Controllers
                 return NotFound();
             }
             return Ok(new { Message = DirectMessageViewModel.FromEntity(message) });
+        }
+
+        [HttpGet]
+        [Route("friends/{friendId:guid}/direct-messages")]
+        [Authorize]
+        public async Task<IActionResult> Index([FromRoute] Guid friendId)
+        {
+            var requester = await GetAuthenticatedUserAccount();
+            var messages = await _directMessageService.GetDirectMessagesFromFriendAsync(requester.Id, friendId);
+            return Ok(new { Messages = messages.Select(DirectMessageViewModel.FromEntity) });
         }
     }
 }
