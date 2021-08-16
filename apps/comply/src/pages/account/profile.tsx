@@ -2,8 +2,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 import { useContext } from "react";
-import { AuthContext } from "../../logic/contexts/AuthContext";
-import { Header } from "../../presentation/components/Header";
+import { AuthContext } from "@logic/contexts/AuthContext";
+import { Header } from "@presentation/components/Header";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);

@@ -1,12 +1,13 @@
+import { Box, Flex } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useContext, useState } from "react";
-import { FriendshipContext } from "../logic/contexts/FriendshipContext";
-import { ErrorList } from "../logic/models/ErrorList";
-import { FriendshipRequest } from "../logic/models/FriendshipRequest";
-import { Header } from "../presentation/components/Header";
+import { FriendshipContext } from "@logic/contexts/FriendshipContext";
+import { ErrorList } from "@logic/models/ErrorList";
+import { FriendshipRequest } from "@logic/models/FriendshipRequest";
+import { Header } from "@presentation/components/Header";
 
 export default function Dashboard() {
   const friendship = useContext(FriendshipContext)
@@ -38,21 +39,21 @@ export default function Dashboard() {
 
       <hr />
 
-      <main>
+      <div>
         <h2>Dashboard</h2>
 
         <div>
-          <Link passHref href="/friends">
-            <h5>Friends</h5>
+          <Link href="/friends">
+            Friends
           </Link>
         </div>
 
         <div>
-          <Link passHref href="/servers">
-            <h5>Servers</h5>
+          <Link href="/servers">
+            Servers
           </Link>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

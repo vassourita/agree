@@ -3,8 +3,10 @@ import Head from 'next/head'
 import { FormEvent, useContext, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
-import { AuthContext } from '../../logic/contexts/AuthContext'
-import { Header } from '../../presentation/components/Header'
+import { AuthContext } from '@logic/contexts/AuthContext'
+import { Header } from '@presentation/components/Header'
+import { ErrorList } from '@logic/models/ErrorList'
+import { ErrorAlert } from '@presentation/components/ErrorAlert'
 
 export default function Register() {
   const auth = useContext(AuthContext)
@@ -14,13 +16,15 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
+  const [errors, setErrors] = useState<ErrorList>()
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    var ok = await auth.register(email, displayName, password, passwordConfirmation)
-    if (ok) {
-      Router.push('/')
+    var errors = await auth.register(email, displayName, password, passwordConfirmation)
+    if (errors) {
+      setErrors(errors)
     } else {
-      alert('Error')
+      Router.push('/')
     }
   }
 
@@ -37,6 +41,14 @@ export default function Register() {
 
       <main>
         <h2>Register</h2>
+        
+        {errors && (
+          <>
+            <ErrorAlert errors={errors} />
+            <br />
+          </>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">UserName</label>

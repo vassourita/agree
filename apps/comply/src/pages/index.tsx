@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { parseCookies } from 'nookies'
-import { Header } from '../presentation/components/Header'
+import { Header } from '@presentation/components/Header'
 
 export default function Index() {
   return (

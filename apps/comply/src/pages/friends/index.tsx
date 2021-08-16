@@ -3,11 +3,11 @@ import Head from "next/head";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useContext, useState } from "react";
-import { FriendshipContext } from "../../logic/contexts/FriendshipContext";
-import { ErrorList } from "../../logic/models/ErrorList";
-import { FriendshipRequest } from "../../logic/models/FriendshipRequest";
-import { ErrorAlert } from "../../presentation/components/ErrorAlert";
-import { Header } from "../../presentation/components/Header";
+import { FriendshipContext } from "@logic/contexts/FriendshipContext";
+import { ErrorList } from "@logic/models/ErrorList";
+import { FriendshipRequest } from "@logic/models/FriendshipRequest";
+import { ErrorAlert } from "@presentation/components/ErrorAlert";
+import { Header } from "@presentation/components/Header";
 
 export default function Friends() {
   const friendship = useContext(FriendshipContext)
@@ -49,7 +49,6 @@ export default function Friends() {
       <main>
         <h2>Friends</h2>
 
-        <br />
         {errors && (
           <>
             <ErrorAlert errors={errors} />
@@ -58,11 +57,11 @@ export default function Friends() {
         )}
 
         <div>
-          <h4>Friends - {friendship.friends.length}</h4>
+          <h4>Friends - {friendship.friends?.length}</h4>
           <ul>
-            {friendship.friends.map(friend => (
+            {friendship.friends?.map(friend => (
               <li key={friend.id}>
-                <span>{friend.nameTag}</span>
+                <Link href={`/u/${friend.id}`}>{friend.nameTag}</Link>
                 <button onClick={() => remove(friend.id)}>Remove</button>
               </li>
             ))}
@@ -79,24 +78,24 @@ export default function Friends() {
             </span>
           </div>
           <br />
-          <span>Received - {friendship.receivedRequests.length}</span>
+          <span>Received - {friendship.receivedRequests?.length}</span>
           <ul>
-            {friendship.receivedRequests.map((req, index) => (
+            {friendship.receivedRequests?.map((req, index) => (
               <li key={index}>
                 <span>
-                  {'>'} {req.from.nameTag}
+                  {req.from.nameTag}
                   <button onClick={() => accept(req)}>Accept</button>
                   <button onClick={() => decline(req)}>Decline</button>
                 </span>
               </li>
             ))}
           </ul>
-          <span>Sent - {friendship.sentRequests.length}</span>
+          <span>Sent - {friendship.sentRequests?.length}</span>
           <ul>
-            {friendship.sentRequests.map((req, index) => (
+            {friendship.sentRequests?.map((req, index) => (
               <li key={index}>
                 <span>
-                  {'>'} {req.to.nameTag}
+                  {req.to.nameTag}
                 </span>
               </li>
             ))}

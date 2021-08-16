@@ -101,7 +101,9 @@ namespace Agree.Accord.Infrastructure.IoC
                     {
                         OnMessageReceived = context =>
                         {
-                            context.Token = context.Request.Cookies["agreeaccord_accesstoken"];
+                            var cookieToken = context.Request.Cookies["agreeaccord_accesstoken"];
+                            var headerToken = context.Request.Headers["agreeaccord_accesstoken"];
+                            context.Token = string.IsNullOrEmpty(cookieToken) ? context.Token : cookieToken;
                             return Task.CompletedTask;
                         }
                     };

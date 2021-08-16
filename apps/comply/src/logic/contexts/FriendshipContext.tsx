@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from "react
 import { ErrorList } from "../models/ErrorList"
 import { FriendshipRequest } from "../models/FriendshipRequest"
 import { User } from "../models/User"
-import { accord } from "../services/accord"
+import { getAccordClient } from "../services/accord"
 import { SignalRService } from "../services/signalr"
 import { AuthContext } from "./AuthContext"
 
@@ -19,6 +19,8 @@ type FriendshipContextData = {
 
 export const FriendshipContext = React.createContext<FriendshipContextData>({} as FriendshipContextData)
 
+const accord = getAccordClient();
+
 export function FriendshipContextProvider(props: PropsWithChildren<any>) {
   const auth = useContext(AuthContext)
 
@@ -28,7 +30,7 @@ export function FriendshipContextProvider(props: PropsWithChildren<any>) {
   const [friendshipHub, setFriendshipHub] = useState<SignalRService>()
 
   async function searchUsers(q: string) {
-    const response = await accord.get(`/api/identity/accounts?q=${encodeURI(q).replace(/#/g, '%23')}`)
+    const response = await accord.get(`/api/identity/accounts?query=${encodeURI(q).replace(/#/g, '%23')}`)
     return (response.data.users as User[]).filter(user => user.id !== auth.user?.id && !friends.map(f => f.id).includes(user.id))
   }
 

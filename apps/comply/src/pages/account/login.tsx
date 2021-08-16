@@ -1,58 +1,25 @@
-import Router from 'next/router'
 import Head from 'next/head'
-import { FormEvent, useContext, useState } from 'react'
+import NextImg from 'next/image'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
-import { AuthContext } from '../../logic/contexts/AuthContext'
-import { Header } from '../../presentation/components/Header'
+
+import LogoImg from '@presentation/assets/agreew.svg'
+import { LoginForm } from '@presentation/components/account/LoginForm'
+import { Box, Flex } from '@chakra-ui/react'
 
 export default function Login() {
-  const auth = useContext(AuthContext)
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    var ok = await auth.login(email, password)
-    if (ok) {
-      Router.push('/')
-    } else {
-      alert('Error')
-    }
-  }
-
   return (
-    <div>
+    <Flex bg={{ base: 'background', md: 'primary' }} w="full" minH="100vh" direction="column" align="center" justify="center">
       <Head>
-        <title>Home - Agree</title>
+        <title>Login - Agree</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+    <NextImg height="49.29px" width="180px" src={LogoImg} alt="Agree logo" />
 
-      <hr />
+    <LoginForm />
 
-      <main>
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <br />
-            <input type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <br />
-            <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-          </div>
-          <br />
-          <div>
-            <button>Login</button>
-          </div>
-        </form>
-      </main>
-    </div>
+    </Flex>
   )
 }
 

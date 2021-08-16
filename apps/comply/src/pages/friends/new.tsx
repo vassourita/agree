@@ -4,11 +4,11 @@ import Link from "next/link";
 import Router from "next/router";
 import { parseCookies } from "nookies";
 import { FormEvent, useContext, useState } from "react";
-import { FriendshipContext } from "../../logic/contexts/FriendshipContext";
-import { ErrorList } from "../../logic/models/ErrorList";
-import { User } from "../../logic/models/User";
-import { ErrorAlert } from "../../presentation/components/ErrorAlert";
-import { Header } from "../../presentation/components/Header";
+import { FriendshipContext } from "@logic/contexts/FriendshipContext";
+import { ErrorList } from "@logic/models/ErrorList";
+import { User } from "@logic/models/User";
+import { ErrorAlert } from "@presentation/components/ErrorAlert";
+import { Header } from "@presentation/components/Header";
 
 export default function NewFriendshipRequest() {
   const friendship = useContext(FriendshipContext)
@@ -50,7 +50,6 @@ export default function NewFriendshipRequest() {
       <main>
         <h2>New friendship request</h2>
 
-        <br />
         {errors && (
           <>
             <ErrorAlert errors={errors} />
