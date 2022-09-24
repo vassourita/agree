@@ -1,9 +1,8 @@
+namespace Agree.Accord.Domain.Identity.Dtos;
+
 using Agree.Accord.SharedKernel.Data;
 
-namespace Agree.Accord.Domain.Identity.Dtos
+public class SearchAccountsDto : Pagination
 {
-    public class SearchAccountsDto : Pagination
-    {
-        public string Query { get; set; }
-    }
+    public string Query { get; set; }
 }

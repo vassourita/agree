@@ -1,17 +1,13 @@
+namespace Agree.Accord.Presentation.Responses;
+
 using Agree.Accord.Presentation.Identity.ViewModels;
 
-namespace Agree.Accord.Presentation.Responses
+/// <summary>
+/// The response to a user account request.
+/// </summary>
+public class UserResponse
 {
-    /// <summary>
-    /// The response to a user account request.
-    /// </summary>
-    public class UserResponse
-    {
-        public UserResponse(ApplicationUserViewModel user)
-        {
-            User = user;
-        }
+    public UserResponse(ApplicationUserViewModel user) => User = user;
 
-        public ApplicationUserViewModel User { get; private set; }
-    }
+    public ApplicationUserViewModel User { get; private set; }
 }

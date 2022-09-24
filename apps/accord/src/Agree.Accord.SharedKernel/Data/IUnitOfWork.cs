@@ -1,9 +1,8 @@
+namespace Agree.Accord.SharedKernel.Data;
+
 using System.Threading.Tasks;
 
-namespace Agree.Accord.SharedKernel.Data
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        Task CommitAsync();
-    }
+    Task CommitAsync();
 }

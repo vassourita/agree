@@ -1,18 +1,13 @@
-using Agree.Accord.Presentation.Identity.ViewModels;
+namespace Agree.Accord.Presentation.Responses;
+
 using Agree.Accord.Presentation.Servers.ViewModels;
 
-namespace Agree.Accord.Presentation.Responses
+/// <summary>
+/// The response to a server request.
+/// </summary>
+public class ServerResponse
 {
-    /// <summary>
-    /// The response to a server request.
-    /// </summary>
-    public class ServerResponse
-    {
-        public ServerResponse(ServerViewModel server)
-        {
-            Server = server;
-        }
+    public ServerResponse(ServerViewModel server) => Server = server;
 
-        public ServerViewModel Server { get; private set; }
-    }
+    public ServerViewModel Server { get; private set; }
 }

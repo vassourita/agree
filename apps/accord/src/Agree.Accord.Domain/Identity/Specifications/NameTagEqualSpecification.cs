@@ -1,22 +1,13 @@
-using System;
-using System.Linq.Expressions;
+namespace Agree.Accord.Domain.Identity.Specifications;
+
 using Agree.Accord.SharedKernel.Data;
 
-namespace Agree.Accord.Domain.Identity.Specifications
+/// <summary>
+/// A specification that checks if the account nametag (userName + tag) of a given user is equal to a given value.
+/// </summary>
+public class NameTagEqualSpecification : Specification<ApplicationUser>
 {
-    /// <summary>
-    /// A specification that checks if the account nametag (userName + tag) of a given user is equal to a given value.
-    /// </summary>
-    public class NameTagEqualSpecification : Specification<ApplicationUser>
-    {
-        public NameTagEqualSpecification(DiscriminatorTag tag, string userName)
-        {
-            Expression = u => u.DisplayName == userName && u.Tag == tag;
-        }
+    public NameTagEqualSpecification(DiscriminatorTag tag, string userName) => Expression = u => u.Username == userName && u.Tag == tag;
 
-        public NameTagEqualSpecification(ApplicationUser account)
-        {
-            Expression = u => u.DisplayName == account.DisplayName && u.Tag == account.Tag;
-        }
-    }
+    public NameTagEqualSpecification(ApplicationUser account) => Expression = u => u.Username == account.Username && u.Tag == account.Tag;
 }

@@ -1,3 +1,5 @@
+namespace Agree.Accord.Infrastructure.Data;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,83 +7,69 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Agree.Accord.Infrastructure.Data
+/// <summary>
+/// A generic repository for the data access layer using Entity Framework.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class GenericRepository<T> : IRepository<T>
+    where T : class
 {
-    /// <summary>
-    /// A generic repository for the data access layer using Entity Framework.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class GenericRepository<T> : IRepository<T>
-        where T : class
+    private readonly ApplicationDbContext _dbContext;
+
+    public GenericRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
+
+    public Task CommitAsync() => _dbContext.SaveChangesAsync();
+
+    public Task<IResult> DeleteAsync(T entity)
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public GenericRepository(ApplicationDbContext dbContext)
+        try
         {
-            _dbContext = dbContext;
+            _dbContext.Set<T>().Remove(entity);
+            return Task.FromResult(DatabaseOperationResult.Ok());
         }
-
-        public Task CommitAsync()
+        catch
         {
-            return _dbContext.SaveChangesAsync();
+            return Task.FromResult(DatabaseOperationResult.Fail());
         }
+    }
 
-        public Task<IResult> DeleteAsync(T entity)
+    public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification) => specification is PaginatedSpecification<T> paginatedSpecification
+            ? await _dbContext.Set<T>()
+                 .Where(specification.Expression)
+                 .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
+                 .Take(paginatedSpecification.Pagination.PageSize)
+                 .ToListAsync()
+            : await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
+
+    public async Task<T> GetFirstAsync(Specification<T> specification)
+    {
+        var result = await _dbContext.Set<T>().Where(specification.Expression).FirstOrDefaultAsync();
+        return result;
+    }
+
+    public async Task<IResult> InsertAsync(T entity)
+    {
+        try
         {
-            try
-            {
-                _dbContext.Set<T>().Remove(entity);
-                return Task.FromResult(DatabaseOperationResult.Ok());
-            }
-            catch
-            {
-                return Task.FromResult(DatabaseOperationResult.Fail());
-            }
+            await _dbContext.Set<T>().AddAsync(entity);
+            return DatabaseOperationResult.Ok();
         }
-
-        public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification)
+        catch
         {
-            if (specification is PaginatedSpecification<T> paginatedSpecification)
-            {
-                return await _dbContext.Set<T>()
-                     .Where(specification.Expression)
-                     .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
-                     .Take(paginatedSpecification.Pagination.PageSize)
-                     .ToListAsync();
-            }
-            return await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
+            return DatabaseOperationResult.Fail();
         }
+    }
 
-        public async Task<T> GetFirstAsync(Specification<T> specification)
+    public Task<IResult> UpdateAsync(T entity)
+    {
+        try
         {
-            var result = await _dbContext.Set<T>().Where(specification.Expression).FirstOrDefaultAsync();
-            return result;
+            _dbContext.Set<T>().Update(entity);
+            return Task.FromResult(DatabaseOperationResult.Ok());
         }
-
-        public async Task<IResult> InsertAsync(T entity)
+        catch
         {
-            try
-            {
-                await _dbContext.Set<T>().AddAsync(entity);
-                return DatabaseOperationResult.Ok();
-            }
-            catch
-            {
-                return DatabaseOperationResult.Fail();
-            }
-        }
-
-        public Task<IResult> UpdateAsync(T entity)
-        {
-            try
-            {
-                _dbContext.Set<T>().Update(entity);
-                return Task.FromResult(DatabaseOperationResult.Ok());
-            }
-            catch
-            {
-                return Task.FromResult(DatabaseOperationResult.Fail());
-            }
+            return Task.FromResult(DatabaseOperationResult.Fail());
         }
     }
 }

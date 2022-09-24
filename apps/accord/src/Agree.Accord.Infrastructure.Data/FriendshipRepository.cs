@@ -1,3 +1,5 @@
+namespace Agree.Accord.Infrastructure.Data;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,74 +8,65 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Agree.Accord.Infrastructure.Data
+/// <summary>
+/// A custom <see cref="IRepository{T}"/> implementation for <see cref="Friendship"/> using Entity Framework.
+/// </summary>
+public class FriendshipRepository : IRepository<Friendship>
 {
-    /// <summary>
-    /// A custom <see cref="IRepository{T}"/> implementation for <see cref="Friendship"/> using Entity Framework.
-    /// </summary>
-    public class FriendshipRepository : IRepository<Friendship>
+    private readonly ApplicationDbContext _dbContext;
+
+    public FriendshipRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
+
+    public Task CommitAsync() => _dbContext.SaveChangesAsync();
+
+    public Task<IResult> DeleteAsync(Friendship entity)
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public FriendshipRepository(ApplicationDbContext dbContext)
+        try
         {
-            _dbContext = dbContext;
+            _dbContext.Set<Friendship>().Remove(entity);
+            return Task.FromResult(DatabaseOperationResult.Ok());
         }
-
-        public Task CommitAsync()
+        catch
         {
-            return _dbContext.SaveChangesAsync();
+            return Task.FromResult(DatabaseOperationResult.Fail());
         }
+    }
 
-        public Task<IResult> DeleteAsync(Friendship entity)
+    public async Task<IEnumerable<Friendship>> GetAllAsync(Specification<Friendship> specification)
+    {
+        var result = await _dbContext.Set<Friendship>().Where(specification.Expression).Include(f => f.From).Include(f => f.To).ToListAsync();
+        return result;
+    }
+
+    public async Task<Friendship> GetFirstAsync(Specification<Friendship> specification)
+    {
+        var result = await _dbContext.Set<Friendship>().Where(specification.Expression).Include(f => f.From).Include(f => f.To).FirstOrDefaultAsync();
+        return result;
+    }
+
+    public async Task<IResult> InsertAsync(Friendship entity)
+    {
+        try
         {
-            try
-            {
-                _dbContext.Set<Friendship>().Remove(entity);
-                return Task.FromResult(DatabaseOperationResult.Ok());
-            }
-            catch
-            {
-                return Task.FromResult(DatabaseOperationResult.Fail());
-            }
+            await _dbContext.Set<Friendship>().AddAsync(entity);
+            return DatabaseOperationResult.Ok();
         }
-
-        public async Task<IEnumerable<Friendship>> GetAllAsync(Specification<Friendship> specification)
+        catch
         {
-            var result = await _dbContext.Set<Friendship>().Where(specification.Expression).Include(f => f.From).Include(f => f.To).ToListAsync();
-            return result;
+            return DatabaseOperationResult.Fail();
         }
+    }
 
-        public async Task<Friendship> GetFirstAsync(Specification<Friendship> specification)
+    public Task<IResult> UpdateAsync(Friendship entity)
+    {
+        try
         {
-            var result = await _dbContext.Set<Friendship>().Where(specification.Expression).Include(f => f.From).Include(f => f.To).FirstOrDefaultAsync();
-            return result;
+            _dbContext.Set<Friendship>().Update(entity);
+            return Task.FromResult(DatabaseOperationResult.Ok());
         }
-
-        public async Task<IResult> InsertAsync(Friendship entity)
+        catch
         {
-            try
-            {
-                await _dbContext.Set<Friendship>().AddAsync(entity);
-                return DatabaseOperationResult.Ok();
-            }
-            catch
-            {
-                return DatabaseOperationResult.Fail();
-            }
-        }
-
-        public Task<IResult> UpdateAsync(Friendship entity)
-        {
-            try
-            {
-                _dbContext.Set<Friendship>().Update(entity);
-                return Task.FromResult(DatabaseOperationResult.Ok());
-            }
-            catch
-            {
-                return Task.FromResult(DatabaseOperationResult.Fail());
-            }
+            return Task.FromResult(DatabaseOperationResult.Fail());
         }
     }
 }
