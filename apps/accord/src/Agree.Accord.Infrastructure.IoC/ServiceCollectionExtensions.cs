@@ -43,8 +43,8 @@ public static class ServiceCollectionExtensions
         // .LogTo(Console.WriteLine)
         );
         services.AddTransient<IRepository<Friendship>, FriendshipRepository>();
-        services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
-        services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
+        services.AddTransient<IUserAccountRepository, UserAccountRepository>();
+        services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<,>));
 
         // Providers
         services.AddScoped<IMailProvider, NativeMailProvider>();

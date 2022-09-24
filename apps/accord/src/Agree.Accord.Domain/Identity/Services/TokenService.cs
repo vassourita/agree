@@ -17,16 +17,16 @@ using Microsoft.IdentityModel.Tokens;
 public class TokenService
 {
     private readonly JwtConfiguration _jwtConfiguration;
-    private readonly IRepository<ApplicationUser> _accountRepository;
+    private readonly IRepository<UserAccount> _accountRepository;
 
     public TokenService(IOptions<JwtConfiguration> jwtConfiguration,
-                        IRepository<ApplicationUser> accountRepository)
+                        IRepository<UserAccount> accountRepository)
     {
         _jwtConfiguration = jwtConfiguration.Value;
         _accountRepository = accountRepository;
     }
 
-    private AccessToken GenerateTokenCore(ApplicationUser account)
+    private AccessToken GenerateTokenCore(UserAccount account)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
@@ -36,11 +36,10 @@ public class TokenService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                    new Claim(ClaimTypes.Name, account.NameTag),
-                    new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
-                    new Claim(ClaimTypes.Email, account.EmailAddress),
-                    new Claim(ClaimTypes.Role, "user"),
-                    new Claim("verified", account.EmailConfirmed.ToString().ToLower(System.Globalization.CultureInfo.CurrentCulture)),
+                new Claim(ClaimTypes.Name, account.NameTag),
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
+                new Claim(ClaimTypes.Email, account.EmailAddress),
+                new Claim(ClaimTypes.Role, "user")
             }),
             Issuer = _jwtConfiguration.Issuer,
             Audience = _jwtConfiguration.Audience,
@@ -62,7 +61,7 @@ public class TokenService
     /// </summary>
     /// <param name="account">The user account.</param>
     /// <returns>The generated access token.</returns>
-    public Task<AccessToken> GenerateAccessTokenAsync(ApplicationUser account) => Task.Run(() => GenerateTokenCore(account));
+    public Task<AccessToken> GenerateAccessTokenAsync(UserAccount account) => Task.Run(() => GenerateTokenCore(account));
 
     /// <summary>
     /// Generates a access token for a given user.

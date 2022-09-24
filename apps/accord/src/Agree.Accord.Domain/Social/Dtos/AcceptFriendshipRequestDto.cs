@@ -14,7 +14,7 @@ public class AcceptFriendshipRequestDto
     /// </summary>
     /// <value>The user account.</value>
     [Required]
-    public ApplicationUser LoggedUser { get; set; }
+    public UserAccount LoggedUser { get; set; }
 
     /// <summary>
     /// The id of the friendship request sender.

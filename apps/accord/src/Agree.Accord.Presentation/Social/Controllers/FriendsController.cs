@@ -36,7 +36,7 @@ public class FriendsController : CustomControllerBase
     public async Task<IActionResult> Index()
     {
         var friends = await _socialService.GetFriendsFromUserAsync(await GetAuthenticatedUserAccount());
-        return Ok(new { Friends = friends.Select(ApplicationUserViewModel.FromEntity) });
+        return Ok(new { Friends = friends.Select(UserAccountViewModel.FromEntity) });
     }
 
     [HttpDelete]

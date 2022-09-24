@@ -3,14 +3,15 @@ namespace Agree.Accord.Domain.Identity;
 using System.Collections.Generic;
 using System;
 using Agree.Accord.Domain.Servers;
+using Agree.Accord.SharedKernel;
 
 /// <summary>
 /// Represents a registered user account.
 /// </summary>
-public class ApplicationUser
+public class UserAccount : IEntity<Guid>
 {
     // EF ctor
-    public ApplicationUser() { }
+    public UserAccount() { }
 
     /// <summary>
     /// Gets the user unique identifier.
@@ -25,10 +26,10 @@ public class ApplicationUser
     public string EmailAddress { get; set; }
 
     /// <summary>
-    /// Gets whether the user email address is confirmed or not.
+    /// Gets the hashed password.
     /// </summary>
-    /// <value>True if user email address is confirmed, false otherwise.</value>
-    public bool EmailConfirmed { get; set; }
+    /// <value>The hashed password.</value>
+    public string PasswordHash { get; set; }
 
     /// <summary>
     /// Gets the username.

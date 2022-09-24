@@ -23,12 +23,12 @@ public class CustomHubBase : Hub
         _logger = logger;
     }
 
-    protected ApplicationUserViewModel CurrentlyLoggedUser =>
+    protected UserAccountViewModel CurrentlyLoggedUser =>
         Context.User.Identity.IsAuthenticated
-        ? ApplicationUserViewModel.FromClaims(Context.User)
+        ? UserAccountViewModel.FromClaims(Context.User)
         : null;
 
-    protected async Task<ApplicationUser> GetAuthenticatedUserAccount()
+    protected async Task<UserAccount> GetAuthenticatedUserAccount()
         => await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
 
     public string GetConnectionId() => Context.ConnectionId;

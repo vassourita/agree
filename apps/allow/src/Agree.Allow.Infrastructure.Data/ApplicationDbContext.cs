@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agree.Allow.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public class ApplicationDbContext : IdentityDbContext<UserAccount, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -15,7 +15,7 @@ namespace Agree.Allow.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<ApplicationUser>(b =>
+            builder.Entity<UserAccount>(b =>
                 b.HasIndex(u => new { u.Tag, u.DisplayName }).IsUnique());
         }
     }

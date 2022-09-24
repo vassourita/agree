@@ -1,11 +1,13 @@
-namespace Agree.Accord.Domain.Identity.Dtos;
+namespace Agree.Accord.Domain.Identity.Commands;
 
 using System.ComponentModel.DataAnnotations;
+using Agree.Accord.Domain.Identity.Results;
+using MediatR;
 
 /// <summary>
-/// The <see cref="CreateAccountDto"/> class represents a request to create an account.
+/// The <see cref="CreateAccountCommand"/> class represents a request to create an account.
 /// </summary>
-public class CreateAccountDto
+public class CreateAccountCommand : IRequest<CreateAccountResult>
 {
     /// <summary>
     /// The email address of the account.
@@ -14,7 +16,7 @@ public class CreateAccountDto
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Email must be a valid email address.")]
     [MaxLength(255, ErrorMessage = "Email must have less than 255 characters.")]
-    public string Email { get; set; }
+    public string EmailAddress { get; set; }
 
     /// <summary>
     /// The username of the account.

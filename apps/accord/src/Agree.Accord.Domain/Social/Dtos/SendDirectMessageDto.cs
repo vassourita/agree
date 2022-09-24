@@ -7,7 +7,7 @@ using Agree.Accord.Domain.Identity;
 public class SendDirectMessageDto
 {
     [Required]
-    public ApplicationUser From { get; set; }
+    public UserAccount From { get; set; }
 
     [Required]
     public Guid ToId { get; set; }

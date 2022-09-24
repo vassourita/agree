@@ -4,13 +4,15 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Dtos;
+using Agree.Accord.Domain.Identity.Commands;
+using Agree.Accord.Domain.Identity.Results;
 using Agree.Accord.Domain.Identity.Services;
 using Agree.Accord.Domain.Providers;
 using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -24,14 +26,15 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class AccountController : CustomControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<UserAccount> _userManager;
+    private readonly SignInManager<UserAccount> _signInManager;
     private readonly TokenService _tokenService;
     private readonly IMailProvider _mailProvider;
+    private readonly IMediator _mediator;
 
     public AccountController(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
+        UserManager<UserAccount> userManager,
+        SignInManager<UserAccount> signInManager,
         TokenService tokenService,
         IMailProvider mailProvider,
         AccountService accountService) : base(accountService)
@@ -45,59 +48,26 @@ public class AccountController : CustomControllerBase
     [HttpPost]
     [Route("")]
     [AllowAnonymous]
-    public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
+    public async Task<IActionResult> Register([FromBody] CreateAccountCommand command)
     {
-        try
+        var result = await _mediator.Send<CreateAccountResult>(command);
+
+        if (result.Failed)
+            return BadRequest(new ValidationErrorResponse(result.Error));
+
+        var (account, token) = result.Data;
+
+        var userViewModel = UserAccountViewModel.FromEntity(account);
+
+        Response.Cookies.Append(AccessTokenCookieName, token.Token, new CookieOptions
         {
-            var validationResult = AnnotationValidator.TryValidate(createAccountDto);
+            HttpOnly = true,
+            SameSite = SameSiteMode.Strict
+        });
 
-            if (validationResult.Failed)
-            {
-                return BadRequest(validationResult.Error.ToErrorList());
-            }
-
-            var user = new ApplicationUser
-            {
-                EmailAddress = createAccountDto.Email,
-                Username = createAccountDto.Username,
-                Tag = await _accountService.GenerateDiscriminatorTagAsync(createAccountDto.Username),
-                EmailConfirmed = false,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            var result = await _userManager.CreateAsync(user, createAccountDto.Password);
-
-            // if (!result.Succeeded)
-            // return BadRequest(result.Errors.ToErrorList());
-
-            var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, id = user.Id });
-            await _mailProvider.SendMailAsync(
-                user.EmailAddress,
-                "Agree - Welcome",
-                $"<html><body>Welcome to Agree! Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your email.</body></html>");
-            await _signInManager.SignInAsync(user, false);
-
-            var userViewModel = ApplicationUserViewModel.FromEntity(user);
-
-            var token = await _tokenService.GenerateAccessTokenAsync(user);
-
-            await _signInManager.SignInAsync(user, false);
-
-            Response.Cookies.Append(AccessTokenCookieName, token.Token, new CookieOptions
-            {
-                HttpOnly = true,
-                SameSite = SameSiteMode.Strict
-            });
-
-            return Created(
-                Url.Link("GetAccountById", new { user.Id }),
-                new RegisterResponse(userViewModel));
-        }
-        catch
-        {
-            return InternalServerError();
-        }
+        return Created(
+            Url.Link("GetAccountById", new { account.Id }),
+            new RegisterResponse(userViewModel));
     }
 
     [HttpGet]
@@ -106,7 +76,7 @@ public class AccountController : CustomControllerBase
     public async Task<IActionResult> Me()
     {
         var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
-        return Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        return Ok(new UserResponse(UserAccountViewModel.FromEntity(entity)));
     }
 
     [HttpGet]
@@ -115,17 +85,15 @@ public class AccountController : CustomControllerBase
     public async Task<IActionResult> Show([FromRoute] Guid id)
     {
         var entity = await _accountService.GetAccountByIdAsync(id);
-
-        return entity == null ? NotFound() : Ok(new UserResponse(ApplicationUserViewModel.FromEntity(entity)));
+        return entity == null ? NotFound() : Ok(new UserResponse(UserAccountViewModel.FromEntity(entity)));
     }
 
     [HttpGet]
     [Route("")]
     [Authorize]
-    public async Task<IActionResult> Index([FromQuery] SearchAccountsDto search)
+    public async Task<IActionResult> Index([FromQuery] SearchAccountsCommand search)
     {
         var entities = await _accountService.SearchUsers(search);
-
-        return Ok(new { users = entities.Select(ApplicationUserViewModel.FromEntity) });
+        return Ok(new { users = entities.Select(UserAccountViewModel.FromEntity) });
     }
 }

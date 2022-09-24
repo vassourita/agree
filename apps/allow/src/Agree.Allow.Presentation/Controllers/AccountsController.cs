@@ -28,8 +28,8 @@ namespace Agree.Allow.Presentation.Controllers
     [Route("api/[controller]")]
     public class AccountsController : CustomBaseController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<UserAccount> _userManager;
+        private readonly SignInManager<UserAccount> _signInManager;
         private readonly ITagService _tagService;
         private readonly IMailService _mailService;
         private readonly ITokenService _tokenService;
@@ -38,8 +38,8 @@ namespace Agree.Allow.Presentation.Controllers
         private readonly FrontendConfiguration _frontendConfiguration;
 
         public AccountsController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<UserAccount> userManager,
+            SignInManager<UserAccount> signInManager,
             ITagService tagService,
             IMailService mailService,
             ITokenService tokenService,
@@ -60,9 +60,10 @@ namespace Agree.Allow.Presentation.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
-            var user = new ApplicationUser
+            var user = new UserAccount
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Email,
@@ -73,7 +74,8 @@ namespace Agree.Allow.Presentation.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (!result.Succeeded) return BadRequest(new { result.Errors });
+            if (!result.Succeeded)
+                return BadRequest(new { result.Errors });
 
             var mailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationUrl = Url.Link("ConfirmEmail", new { token = mailToken, email = user.Email });
@@ -83,7 +85,7 @@ namespace Agree.Allow.Presentation.Controllers
                 $"<html><body>Welcome to Agree! Please click <a href=\"{confirmationUrl}\">HERE</a> to confirm your email.</body></html>");
             await _signInManager.SignInAsync(user, false);
 
-            var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
+            var userViewModel = _mapper.Map<UserAccountViewModel>(user);
 
             Response.Cookies.Append("agreeallow_accesstoken", await _tokenService.GenerateToken(user.Email), new CookieOptions
             {
@@ -98,9 +100,10 @@ namespace Agree.Allow.Presentation.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> Login(LoginDto loginUser)
+        public async Task<ActionResult> Login(LoginCommand loginUser)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
             var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
@@ -123,7 +126,8 @@ namespace Agree.Allow.Presentation.Controllers
         [Authorize]
         public async Task<ActionResult> Update(UpdateAccountDto updateAccountDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
             var user = await GetAuthenticatedUserAccount();
 
@@ -186,9 +190,10 @@ namespace Agree.Allow.Presentation.Controllers
 
             var result = await _userManager.UpdateAsync(user);
 
-            if (!result.Succeeded) return BadRequest(new { result.Errors });
+            if (!result.Succeeded)
+                return BadRequest(new { result.Errors });
 
-            var userViewModel = _mapper.Map<ApplicationUserViewModel>(user);
+            var userViewModel = _mapper.Map<UserAccountViewModel>(user);
 
             Response.Cookies.Append("agreeallow_accesstoken", await _tokenService.GenerateToken(user.Email), new CookieOptions
             {
@@ -247,9 +252,10 @@ namespace Agree.Allow.Presentation.Controllers
         [Authorize]
         public async Task<ActionResult> Me()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
-            var userViewModel = _mapper.Map<ApplicationUserViewModel>(await GetAuthenticatedUserAccount());
+            var userViewModel = _mapper.Map<UserAccountViewModel>(await GetAuthenticatedUserAccount());
 
             return Ok(new UserResponse(userViewModel));
         }
@@ -259,7 +265,8 @@ namespace Agree.Allow.Presentation.Controllers
         [Authorize]
         public async Task<ActionResult> Show([FromRoute] Guid id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
 
             var user = await _userManager.FindByIdAsync(id.ToString());
 
@@ -268,7 +275,7 @@ namespace Agree.Allow.Presentation.Controllers
                 return NotFound();
             }
 
-            var userViewModel = _mapper.Map<ApplicationUserViewModel>(await GetAuthenticatedUserAccount());
+            var userViewModel = _mapper.Map<UserAccountViewModel>(await GetAuthenticatedUserAccount());
 
             return Ok(new UserResponse(userViewModel));
         }

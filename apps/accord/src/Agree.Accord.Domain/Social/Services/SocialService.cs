@@ -17,10 +17,10 @@ using Agree.Accord.SharedKernel.Data;
 /// </summary>
 public class SocialService
 {
-    private readonly IRepository<Friendship> _friendshipRepository;
-    private readonly IRepository<ApplicationUser> _accountRepository;
+    private readonly IRepository<Friendship, string> _friendshipRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
 
-    public SocialService(IRepository<ApplicationUser> accountRepository, IRepository<Friendship> friendshipRepository)
+    public SocialService(IRepository<UserAccount, Guid> accountRepository, IRepository<Friendship, string> friendshipRepository)
     {
         _accountRepository = accountRepository;
         _friendshipRepository = friendshipRepository;
@@ -70,17 +70,17 @@ public class SocialService
         return FriendshipRequestResult.Ok(friendship);
     }
 
-    public async Task<IEnumerable<ApplicationUser>> GetFriendsFromUserAsync(ApplicationUser user)
+    public async Task<IEnumerable<UserAccount>> GetFriendsFromUserAsync(UserAccount user)
     {
         var friends = await _friendshipRepository.GetAllAsync(new FriendshipAcceptedSpecification(user.Id));
         return friends.Select(friendship => friendship.ToId == user.Id ? friendship.From : friendship.To);
     }
 
-    public async Task<IEnumerable<Friendship>> GetReceivedFriendshipRequestsFromUserAsync(ApplicationUser user) => await _friendshipRepository.GetAllAsync(new ReceivedFriendshipRequestSpecification(user.Id));
+    public async Task<IEnumerable<Friendship>> GetReceivedFriendshipRequestsFromUserAsync(UserAccount user) => await _friendshipRepository.GetAllAsync(new ReceivedFriendshipRequestSpecification(user.Id));
 
-    public async Task<IEnumerable<Friendship>> GetSentFriendshipRequestsFromUserAsync(ApplicationUser user) => await _friendshipRepository.GetAllAsync(new SentFriendshipRequestSpecification(user.Id));
+    public async Task<IEnumerable<Friendship>> GetSentFriendshipRequestsFromUserAsync(UserAccount user) => await _friendshipRepository.GetAllAsync(new SentFriendshipRequestSpecification(user.Id));
 
-    public async Task<FriendshipRequestResult> AcceptFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+    public async Task<FriendshipRequestResult> AcceptFriendshipRequestAsync(UserAccount user, Guid fromUserId)
     {
         var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
         if (friendshipRequest == null)
@@ -96,7 +96,7 @@ public class SocialService
         return FriendshipRequestResult.Ok(friendshipRequest);
     }
 
-    public async Task<FriendshipRequestResult> DeclineFriendshipRequestAsync(ApplicationUser user, Guid fromUserId)
+    public async Task<FriendshipRequestResult> DeclineFriendshipRequestAsync(UserAccount user, Guid fromUserId)
     {
         var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(fromUserId, user.Id));
         if (friendshipRequest == null)
@@ -110,7 +110,7 @@ public class SocialService
         return FriendshipRequestResult.Ok(friendshipRequest);
     }
 
-    public async Task<RemoveFriendResult> RemoveFriend(ApplicationUser user, Guid friendId)
+    public async Task<RemoveFriendResult> RemoveFriend(UserAccount user, Guid friendId)
     {
         var friendship = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(user.Id, friendId));
 

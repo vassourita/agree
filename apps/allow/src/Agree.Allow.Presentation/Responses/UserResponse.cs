@@ -4,12 +4,12 @@ namespace Agree.Allow.Presentation.Responses
 {
     public class UserResponse
     {
-        public UserResponse(ApplicationUserViewModel user)
+        public UserResponse(UserAccountViewModel user)
         {
             User = user;
             Message = $"You are currently logged-in as {user.UserName}#{user.Tag}";
         }
         public string Message { get; set; }
-        public ApplicationUserViewModel User { get; set; }
+        public UserAccountViewModel User { get; set; }
     }
 }

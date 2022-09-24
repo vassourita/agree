@@ -8,7 +8,7 @@ namespace Agree.Allow.Presentation.Mappings
     {
         public EntityToViewModelMap()
         {
-            CreateMap<ApplicationUser, ApplicationUserViewModel>()
+            CreateMap<UserAccount, UserAccountViewModel>()
                 .ForMember(viewModel => viewModel.UserName, memberOptions =>
                 {
                     memberOptions.MapFrom(entity => entity.DisplayName);

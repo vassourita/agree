@@ -4,16 +4,17 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System;
 using Agree.Accord.Domain.Identity;
+using Agree.Accord.SharedKernel;
 
 /// <summary>
 /// A message server.
 /// </summary>
-public class Server
+public class Server : IEntity<Guid>
 {
     /// EF ctor
     protected Server()
     {
-        Members = new Collection<ApplicationUser>();
+        Members = new Collection<UserAccount>();
         Roles = new Collection<ServerRole>();
         Categories = new Collection<Category>();
     }
@@ -24,7 +25,7 @@ public class Server
         Name = name;
         Description = description;
         PrivacyLevel = privacyLevel;
-        Members = new Collection<ApplicationUser>();
+        Members = new Collection<UserAccount>();
         Roles = new Collection<ServerRole>();
         Categories = new Collection<Category>();
     }
@@ -34,7 +35,7 @@ public class Server
     public string Description { get; private set; }
     public ServerPrivacy PrivacyLevel { get; private set; }
 
-    public ICollection<ApplicationUser> Members { get; private set; }
+    public ICollection<UserAccount> Members { get; private set; }
     public ICollection<ServerRole> Roles { get; private set; }
     public ICollection<Category> Categories { get; private set; }
 }

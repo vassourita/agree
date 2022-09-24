@@ -1,11 +1,13 @@
-namespace Agree.Accord.Domain.Servers.Dtos;
+namespace Agree.Accord.Domain.Servers.Commands;
 
 using System.ComponentModel.DataAnnotations;
+using Agree.Accord.Domain.Servers.Results;
+using MediatR;
 
 /// <summary>
 /// The representation of a request to create a new server.
 /// </summary>
-public class CreateServerDto
+public class CreateServerCommand : IRequest<CreateServerResult>
 {
     /// <summary>
     /// The server name.

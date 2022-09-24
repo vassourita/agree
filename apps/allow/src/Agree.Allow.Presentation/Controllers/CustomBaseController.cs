@@ -13,16 +13,16 @@ namespace Agree.Allow.Presentation.Controllers
 {
     public abstract class CustomBaseController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<UserAccount> _userManager;
 
-        public CustomBaseController(UserManager<ApplicationUser> userManager)
+        public CustomBaseController(UserManager<UserAccount> userManager)
         {
             _userManager = userManager;
         }
 
-        protected ApplicationUserViewModel CurrentlyLoggedUser =>
+        protected UserAccountViewModel CurrentlyLoggedUser =>
             HttpContext.User.Identity.IsAuthenticated
-            ? new ApplicationUserViewModel
+            ? new UserAccountViewModel
             {
                 Id = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == "id").Value),
                 UserName = HttpContext.User.Identity.Name.Split('#').First(),
@@ -32,7 +32,7 @@ namespace Agree.Allow.Presentation.Controllers
             }
             : null;
 
-        protected async Task<ApplicationUser> GetAuthenticatedUserAccount()
+        protected async Task<UserAccount> GetAuthenticatedUserAccount()
             => await _userManager.Users.FirstOrDefaultAsync(u => u.Id == CurrentlyLoggedUser.Id);
 
         protected IActionResult InternalServerError()

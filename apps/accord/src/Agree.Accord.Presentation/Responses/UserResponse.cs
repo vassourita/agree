@@ -7,7 +7,7 @@ using Agree.Accord.Presentation.Identity.ViewModels;
 /// </summary>
 public class UserResponse
 {
-    public UserResponse(ApplicationUserViewModel user) => User = user;
+    public UserResponse(UserAccountViewModel user) => User = user;
 
-    public ApplicationUserViewModel User { get; private set; }
+    public UserAccountViewModel User { get; private set; }
 }

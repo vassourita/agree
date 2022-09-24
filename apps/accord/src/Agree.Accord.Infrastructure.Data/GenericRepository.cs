@@ -1,26 +1,28 @@
 namespace Agree.Accord.Infrastructure.Data;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
+using Agree.Accord.SharedKernel.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 /// <summary>
 /// A generic repository for the data access layer using Entity Framework.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class GenericRepository<T> : IRepository<T>
-    where T : class
+public class GenericRepository<T, TId> : IRepository<T, TId>
+    where T : class, IEntity<TId>
 {
-    private readonly ApplicationDbContext _dbContext;
+    protected readonly ApplicationDbContext _dbContext;
 
     public GenericRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public Task CommitAsync() => _dbContext.SaveChangesAsync();
 
-    public Task<IResult> DeleteAsync(T entity)
+    public Task DeleteAsync(T entity)
     {
         try
         {
@@ -47,29 +49,29 @@ public class GenericRepository<T> : IRepository<T>
         return result;
     }
 
-    public async Task<IResult> InsertAsync(T entity)
+    public async Task<T> InsertAsync(T entity)
     {
         try
         {
-            await _dbContext.Set<T>().AddAsync(entity);
-            return DatabaseOperationResult.Ok();
+            var response = await _dbContext.Set<T>().AddAsync(entity);
+            return response.Entity;
         }
-        catch
+        catch (Exception e)
         {
-            return DatabaseOperationResult.Fail();
+            throw new RepositoryOperationException($"An error ocurred while inserting entity {nameof(T)}#{entity.Id}", e);
         }
     }
 
-    public Task<IResult> UpdateAsync(T entity)
+    public Task<T> UpdateAsync(T entity)
     {
         try
         {
-            _dbContext.Set<T>().Update(entity);
-            return Task.FromResult(DatabaseOperationResult.Ok());
+            var response = _dbContext.Set<T>().Update(entity);
+            return Task.FromResult(response.Entity);
         }
-        catch
+        catch (Exception e)
         {
-            return Task.FromResult(DatabaseOperationResult.Fail());
+            throw new RepositoryOperationException($"An error ocurred while updating entity {nameof(T)}#{entity.Id}", e);
         }
     }
 }

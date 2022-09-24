@@ -7,12 +7,12 @@ namespace Agree.Allow.Domain.Services
 {
     public interface IAccountService
     {
-        Task<ApplicationUser> FindByEmailAsync(string email);
-        Task<ApplicationUser> FindByIdAsync(Guid id);
-        Task<ApplicationUser> Create(RegisterDto registerInfo);
-        Task<ApplicationUser> Update(ApplicationUser user, UpdateAccountDto updateAccountInfo);
-        Task SendConfirmationEmail(ApplicationUser user, string confirmationUrl);
-        Task SendWelcomeEmail(ApplicationUser user);
-        Task ConfirmEmail(ApplicationUser user, string confirmationToken);
+        Task<UserAccount> FindByEmailAsync(string email);
+        Task<UserAccount> FindByIdAsync(Guid id);
+        Task<UserAccount> Create(RegisterDto registerInfo);
+        Task<UserAccount> Update(UserAccount user, UpdateAccountDto updateAccountInfo);
+        Task SendConfirmationEmail(UserAccount user, string confirmationUrl);
+        Task SendWelcomeEmail(UserAccount user);
+        Task ConfirmEmail(UserAccount user, string confirmationToken);
     }
 }

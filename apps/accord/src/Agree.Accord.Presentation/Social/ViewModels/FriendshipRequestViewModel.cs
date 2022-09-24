@@ -8,8 +8,8 @@ using Agree.Accord.Presentation.Identity.ViewModels;
 /// </summary>
 public class FriendshipRequestViewModel
 {
-    public ApplicationUserViewModel From { get; private set; }
-    public ApplicationUserViewModel To { get; private set; }
+    public UserAccountViewModel From { get; private set; }
+    public UserAccountViewModel To { get; private set; }
     public bool Accepted { get; private set; }
 
     /// <summary>
@@ -19,8 +19,8 @@ public class FriendshipRequestViewModel
     /// <returns>The view model.</returns>
     public static FriendshipRequestViewModel FromEntity(Friendship entity) => new()
     {
-        From = ApplicationUserViewModel.FromEntity(entity.From),
-        To = ApplicationUserViewModel.FromEntity(entity.To),
+        From = UserAccountViewModel.FromEntity(entity.From),
+        To = UserAccountViewModel.FromEntity(entity.To),
         Accepted = entity.Accepted
     };
 }

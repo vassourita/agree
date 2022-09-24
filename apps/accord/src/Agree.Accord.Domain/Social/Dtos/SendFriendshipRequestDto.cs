@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 public class SendFriendshipRequestDto
 {
     [Required]
-    public ApplicationUser From { get; set; }
+    public UserAccount From { get; set; }
 
     [Required]
     [RegularExpression(@"^([a-zA-Z0-9_-]{0,}#[0-9]{4})$")]

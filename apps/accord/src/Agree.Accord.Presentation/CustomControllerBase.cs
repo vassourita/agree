@@ -18,12 +18,12 @@ public class CustomControllerBase : ControllerBase
 
     public CustomControllerBase(AccountService accountService) => _accountService = accountService;
 
-    protected ApplicationUserViewModel CurrentlyLoggedUser =>
+    protected UserAccountViewModel CurrentlyLoggedUser =>
         HttpContext.User.Identity.IsAuthenticated
-        ? ApplicationUserViewModel.FromClaims(HttpContext.User)
+        ? UserAccountViewModel.FromClaims(HttpContext.User)
         : null;
 
-    protected async Task<ApplicationUser> GetAuthenticatedUserAccount()
+    protected async Task<UserAccount> GetAuthenticatedUserAccount()
         => await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
 
     protected IActionResult InternalServerError() => StatusCode((int)HttpStatusCode.InternalServerError);

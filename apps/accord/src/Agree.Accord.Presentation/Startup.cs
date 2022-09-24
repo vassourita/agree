@@ -26,9 +26,9 @@ public class Startup
                     .AllowCredentials()
                     .SetIsOriginAllowed(origin =>
                     {
-                        if (string.IsNullOrWhiteSpace(origin))
-                            return false;
-                        return origin.ToLower(System.Globalization.CultureInfo.CurrentCulture).StartsWith("http://localhost");
+                        return string.IsNullOrWhiteSpace(origin)
+                            ? false
+                            : origin.ToLower(System.Globalization.CultureInfo.CurrentCulture).StartsWith("http://localhost");
                     })
             )
         );

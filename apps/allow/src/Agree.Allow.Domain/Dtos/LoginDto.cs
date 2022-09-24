@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agree.Allow.Domain.Dtos
 {
-    public class LoginDto
+    public class LoginCommand
     {
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress(ErrorMessage = "{0} must be a valid email")]

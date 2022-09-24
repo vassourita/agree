@@ -1,9 +1,12 @@
-namespace Agree.Accord.Domain.Identity.Dtos;
+namespace Agree.Accord.Domain.Identity.Commands;
+
+using Agree.Accord.Domain.Identity.Results;
+using MediatR;
 
 /// <summary>
 /// The login request.
 /// </summary>
-public class LoginDto
+public class LoginCommand : IRequest<LoginResult>
 {
     /// <summary>
     /// The user email address for logging in.

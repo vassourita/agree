@@ -13,11 +13,11 @@ using Agree.Accord.SharedKernel.Data;
 
 public class DirectMessageService
 {
-    private readonly IRepository<Friendship> _friendshipRepository;
-    private readonly IRepository<DirectMessage> _directMessageRepository;
+    private readonly IRepository<Friendship, string> _friendshipRepository;
+    private readonly IRepository<DirectMessage, Guid> _directMessageRepository;
     private readonly AccountService _accountService;
 
-    public DirectMessageService(AccountService accountService, IRepository<Friendship> friendshipRepository, IRepository<DirectMessage> directMessageRepository)
+    public DirectMessageService(AccountService accountService, IRepository<Friendship, string> friendshipRepository, IRepository<DirectMessage, Guid> directMessageRepository)
     {
         _accountService = accountService;
         _friendshipRepository = friendshipRepository;
@@ -43,7 +43,7 @@ public class DirectMessageService
     public async Task<DirectMessage> GetDirectMessageByIdAsync(Guid id)
         => await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(id));
 
-    public async Task<DirectMessageResult> MarkAsRead(ApplicationUser loggedUser, Guid directMessageId)
+    public async Task<DirectMessageResult> MarkAsRead(UserAccount loggedUser, Guid directMessageId)
     {
         var directMessage = await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(directMessageId));
         if (directMessage == null)

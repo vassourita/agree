@@ -1,11 +1,12 @@
 namespace Agree.Accord.Domain.Servers;
 
 using System;
+using Agree.Accord.SharedKernel;
 
 /// <summary>
 /// A server category.
 /// </summary>
-public class Category
+public class Category : IEntity<Guid>
 {
     /// EF ctor
     protected Category() { }

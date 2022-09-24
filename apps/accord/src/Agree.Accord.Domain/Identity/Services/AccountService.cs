@@ -3,7 +3,7 @@ namespace Agree.Accord.Domain.Identity.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity.Dtos;
+using Agree.Accord.Domain.Identity.Commands;
 using Agree.Accord.Domain.Identity.Specifications;
 
 /// <summary>
@@ -11,9 +11,9 @@ using Agree.Accord.Domain.Identity.Specifications;
 /// </summary>
 public class AccountService
 {
-    private readonly IApplicationUserRepository _accountRepository;
+    private readonly IUserAccountRepository _accountRepository;
 
-    public AccountService(IApplicationUserRepository accountRepository) => _accountRepository = accountRepository;
+    public AccountService(IUserAccountRepository accountRepository) => _accountRepository = accountRepository;
 
     /// <summary>
     /// Generates a new DiscriminatorTag for the given display name.
@@ -37,7 +37,7 @@ public class AccountService
     /// </summary>
     /// <param name="id">The user id.</param>
     /// <returns>The user account or null if it doesn't exists.</returns>
-    public async Task<ApplicationUser> GetAccountByIdAsync(Guid id)
+    public async Task<UserAccount> GetAccountByIdAsync(Guid id)
         => await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(id));
 
     /// <summary>
@@ -45,7 +45,7 @@ public class AccountService
     /// </summary>
     /// <param name="email">The user email.</param>
     /// <returns>The user account or null if it doesn't exists.</returns>
-    public async Task<ApplicationUser> GetAccountByEmailAsync(string email)
+    public async Task<UserAccount> GetAccountByEmailAsync(string email)
         => await _accountRepository.GetFirstAsync(new EmailEqualSpecification(email));
 
     /// <summary>
@@ -53,6 +53,6 @@ public class AccountService
     /// </summary>
     /// <param name="query">The search input.</param>
     /// <returns>The user accounts that match the specified query.</returns>
-    public async Task<IEnumerable<ApplicationUser>> SearchUsers(SearchAccountsDto searchAccountsDto)
-        => await _accountRepository.SearchAsync(searchAccountsDto.Query, searchAccountsDto);
+    public async Task<IEnumerable<UserAccount>> SearchUsers(SearchAccountsCommand searchAccountsCommand)
+        => await _accountRepository.SearchAsync(searchAccountsCommand.Query, searchAccountsCommand);
 }

@@ -14,11 +14,11 @@ namespace Agree.Allow.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<UserAccount> _userManager;
         private readonly TokenConfiguration _tokenConfiguration;
 
         public TokenService(
-            UserManager<ApplicationUser> userManager,
+            UserManager<UserAccount> userManager,
             IOptions<TokenConfiguration> tokenConfiguration)
         {
             _userManager = userManager;

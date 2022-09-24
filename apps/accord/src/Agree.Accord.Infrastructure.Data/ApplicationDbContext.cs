@@ -20,18 +20,21 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<ApplicationUser>(b =>
+        modelBuilder.Entity<UserAccount>(b =>
         {
+            b.HasKey(u => u.Id);
+
             b.Property(u => u.EmailAddress)
                 .IsRequired()
                 .HasMaxLength(255);
-            b.Property(u => u.EmailConfirmed)
-                .IsRequired()
-                .HasDefaultValue(false);
 
             b.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(40);
+
+            b.Property(u => u.PasswordHash)
+                .IsRequired()
+                .HasMaxLength(512);
 
             b.Property(u => u.Tag)
                 .HasConversion(
@@ -40,6 +43,8 @@ public class ApplicationDbContext : DbContext
                 )
                 .IsRequired()
                 .HasMaxLength(4);
+
+            b.Ignore(u => u.NameTag);
 
             b.HasIndex(u => new { u.Tag, u.Username }).IsUnique();
 
@@ -93,6 +98,8 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Friendship>(b =>
         {
+            b.Ignore(f => f.Id);
+
             b.HasKey(f => new { f.FromId, f.ToId });
 
             b.HasOne(c => c.To);

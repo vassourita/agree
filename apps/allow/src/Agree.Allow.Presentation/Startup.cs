@@ -48,15 +48,17 @@ namespace Agree.Allow.Presentation
                         .AllowCredentials()
                         .SetIsOriginAllowed(origin =>
                         {
-                            if (string.IsNullOrWhiteSpace(origin)) return false;
-                            if (origin.ToLower().StartsWith("http://localhost")) return true;
+                            if (string.IsNullOrWhiteSpace(origin))
+                                return false;
+                            if (origin.ToLower().StartsWith("http://localhost"))
+                                return true;
                             return false;
                         })
                 )
             );
 
             services
-                .AddDefaultIdentity<ApplicationUser>(NativeContainerBootStrapper.ConfigureIdentity)
+                .AddDefaultIdentity<UserAccount>(NativeContainerBootStrapper.ConfigureIdentity)
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

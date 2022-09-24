@@ -3,6 +3,7 @@
     <ProjectReference Include="..\Agree.Accord.SharedKernel\Agree.Accord.SharedKernel.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
   </ItemGroup>
   <PropertyGroup>

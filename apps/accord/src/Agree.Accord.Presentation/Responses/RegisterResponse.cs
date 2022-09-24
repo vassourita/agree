@@ -7,7 +7,7 @@ using Agree.Accord.Presentation.Identity.ViewModels;
 /// </summary>
 public class RegisterResponse : UserResponse
 {
-    public RegisterResponse(ApplicationUserViewModel user) : base(user)
+    public RegisterResponse(UserAccountViewModel user) : base(user)
     {
     }
     public string Message => $"Account created succesfully.";

@@ -3,7 +3,7 @@ namespace Agree.Accord.Domain.Servers.Services;
 using System;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Servers.Dtos;
+using Agree.Accord.Domain.Servers.Commands;
 using Agree.Accord.Domain.Servers.Results;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
@@ -14,13 +14,13 @@ using Microsoft.AspNetCore.Identity;
 /// </summary>
 public class ServerService
 {
-    private readonly IRepository<Server> _serverRepository;
-    private readonly IRepository<ServerRole> _serverRoleRepository;
+    private readonly IRepository<Server, Guid> _serverRepository;
+    private readonly IRepository<ServerRole, Guid> _serverRoleRepository;
     private readonly IRepository<IdentityUserRole<Guid>> _userRoleRepository;
 
-    public ServerService(IRepository<Server> serverRepository,
+    public ServerService(IRepository<Server, Guid> serverRepository,
                          IRepository<IdentityUserRole<Guid>> userRoleRepository,
-                         IRepository<ServerRole> serverRoleRepository)
+                         IRepository<ServerRole, Guid> serverRoleRepository)
     {
         _serverRepository = serverRepository;
         _userRoleRepository = userRoleRepository;
@@ -30,19 +30,19 @@ public class ServerService
     /// <summary>
     /// Creates a new server.
     /// </summary>
-    /// <param name="createServerDto">The creation request data.</param>
+    /// <param name="CreateServerCommand">The creation request data.</param>
     /// <param name="owner">The user creating the server.</param>
     /// <returns>The result of the creation.</returns>
-    public async Task<CreateServerResult> CreateServerAsync(CreateServerDto createServerDto, ApplicationUser owner)
+    public async Task<CreateServerResult> CreateServerAsync(CreateServerCommand command, UserAccount owner)
     {
-        var validationResult = AnnotationValidator.TryValidate(createServerDto);
+        var validationResult = AnnotationValidator.TryValidate(command);
 
         if (validationResult.Failed)
         {
             return CreateServerResult.Fail(validationResult.Error.ToErrorList());
         }
 
-        var server = new Server(createServerDto.Name, createServerDto.PrivacyLevel, createServerDto.Description);
+        var server = new Server(command.Name, command.PrivacyLevel, command.Description);
         var category = Category.CreateDefaultWelcomeCategory(server);
         server.Categories.Add(category);
         server.Members.Add(owner);
