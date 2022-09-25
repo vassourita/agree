@@ -1,4 +1,4 @@
-<p align="center">
+<p align="center" style="background-color: #e0e0e0; padding: 15px 10px 10px">
    <img src="./assets/agree.svg" alt="Agree Logo" width="300"/>
 </p>
 
@@ -15,8 +15,6 @@
 :construction: ----- Better docs soon ----- :construction:
 </h2>
 <br/>
-
-I created this project to be the biggest and most complete in my portfolio. Here I intend to evolve and learn everything i'm able to while developing, from software architecture and design patterns to UX and documentation.
 
 | App name                | Description                      |
 | ----------------------- | -------------------------------- |
