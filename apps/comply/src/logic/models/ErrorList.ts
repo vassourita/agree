@@ -1,1 +1,0 @@
-export type ErrorList = Record<string, string[]>

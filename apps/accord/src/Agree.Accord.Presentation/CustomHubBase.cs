@@ -2,8 +2,9 @@ namespace Agree.Accord.Presentation;
 
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Domain.Identity.Requests;
 using Agree.Accord.Presentation.Identity.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
@@ -14,13 +15,14 @@ public class CustomHubBase : Hub
 {
     public const string AccessTokenCookieName = "agreeaccord_accesstoken";
 
-    protected readonly AccountService _accountService;
     private readonly ILogger<CustomHubBase> _logger;
 
-    public CustomHubBase(AccountService accountService, ILogger<CustomHubBase> logger)
+    protected readonly IMediator _mediator;
+
+    public CustomHubBase(ILogger<CustomHubBase> logger, IMediator mediator)
     {
-        _accountService = accountService;
         _logger = logger;
+        _mediator = mediator;
     }
 
     protected UserAccountViewModel CurrentlyLoggedUser =>
@@ -29,7 +31,7 @@ public class CustomHubBase : Hub
         : null;
 
     protected async Task<UserAccount> GetAuthenticatedUserAccount()
-        => await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
+        => await _mediator.Send(new GetAccountByIdRequest(CurrentlyLoggedUser.Id));
 
     public string GetConnectionId() => Context.ConnectionId;
 

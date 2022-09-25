@@ -3,8 +3,9 @@ namespace Agree.Accord.Presentation;
 using System.Net;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Services;
+using Agree.Accord.Domain.Identity.Requests;
 using Agree.Accord.Presentation.Identity.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -13,10 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 public class CustomControllerBase : ControllerBase
 {
     public const string AccessTokenCookieName = "agreeaccord_accesstoken";
+    protected readonly IMediator _mediator;
 
-    protected readonly AccountService _accountService;
-
-    public CustomControllerBase(AccountService accountService) => _accountService = accountService;
+    public CustomControllerBase(IMediator mediator) => _mediator = mediator;
 
     protected UserAccountViewModel CurrentlyLoggedUser =>
         HttpContext.User.Identity.IsAuthenticated
@@ -24,7 +24,7 @@ public class CustomControllerBase : ControllerBase
         : null;
 
     protected async Task<UserAccount> GetAuthenticatedUserAccount()
-        => await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
+        => await _mediator.Send(new GetAccountByIdRequest(CurrentlyLoggedUser.Id));
 
     protected IActionResult InternalServerError() => StatusCode((int)HttpStatusCode.InternalServerError);
 

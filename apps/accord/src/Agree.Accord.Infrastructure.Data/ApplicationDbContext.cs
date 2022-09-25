@@ -12,8 +12,7 @@ using Microsoft.EntityFrameworkCore;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    { }
+        : base(options) { }
 
     public DbSet<Server> Servers { get; set; }
 
@@ -22,6 +21,8 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<UserAccount>(b =>
         {
+            b.ToTable("UserAccounts");
+
             b.HasKey(u => u.Id);
 
             b.Property(u => u.EmailAddress)
@@ -49,11 +50,15 @@ public class ApplicationDbContext : DbContext
             b.HasIndex(u => new { u.Tag, u.Username }).IsUnique();
 
             b.HasMany(u => u.Servers)
-                .WithMany(s => s.Members);
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Server>(b =>
         {
+            b.ToTable("Servers");
+
             b.HasKey(s => s.Id);
 
             b.Property(s => s.Name)
@@ -72,20 +77,82 @@ public class ApplicationDbContext : DbContext
                 );
 
             b.HasMany(s => s.Members)
-                .WithMany(m => m.Servers);
+                .WithOne(m => m.Server)
+                .HasForeignKey(m => m.ServerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             b.HasMany(s => s.Roles)
-                .WithOne(r => r.Server);
+                .WithOne(r => r.Server)
+                .HasForeignKey(r => r.ServerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             b.HasMany(s => s.Categories)
-                .WithOne(c => c.Server);
+                .WithOne(c => c.Server)
+                .HasForeignKey(c => c.ServerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<ServerRole>(b => b.HasOne(r => r.Server)
-                .WithMany(s => s.Roles));
+        modelBuilder.Entity<ServerMember>(b =>
+        {
+            b.ToTable("ServerMembers");
+
+            b.HasKey(sm => new { sm.UserId, sm.ServerId });
+
+            b.Property(sm => sm.UserId)
+                .IsRequired();
+            b.Property(sm => sm.ServerId)
+                .IsRequired();
+
+            b.Ignore(sm => sm.Id);
+
+            b.HasOne(sm => sm.User)
+                .WithMany(m => m.Servers)
+                .HasForeignKey(sm => sm.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(sm => sm.Server)
+                .WithMany(s => s.Members)
+                .HasForeignKey(sm => sm.ServerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasMany(sm => sm.Roles)
+                .WithMany(r => r.ServerMembers)
+                .UsingEntity("ServerMemberRoles");
+        });
+
+        modelBuilder.Entity<ServerRole>(b =>
+        {
+            b.ToTable("ServerRoles");
+
+            b.HasKey(r => r.Id);
+
+            b.Property(r => r.Id)
+                .IsRequired();
+
+            b.Property(r => r.ServerId)
+                .IsRequired();
+
+            b.Property(r => r.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            b.HasOne(r => r.Server)
+                .WithMany(s => s.Roles)
+                .HasForeignKey(r => r.ServerId);
+
+            b.HasMany(r => r.ServerMembers)
+                .WithMany(sm => sm.Roles)
+                .UsingEntity("ServerMemberRoles");
+        });
 
         modelBuilder.Entity<Category>(b =>
         {
+            b.ToTable("Categories");
+
             b.HasKey(c => c.Id);
 
             b.Property(c => c.Name)
@@ -93,21 +160,36 @@ public class ApplicationDbContext : DbContext
                 .HasMaxLength(80);
 
             b.HasOne(c => c.Server)
-                .WithMany(s => s.Categories);
+                .WithMany(s => s.Categories)
+                .HasForeignKey(c => c.ServerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Friendship>(b =>
         {
+            b.ToTable("Friendships");
+
             b.Ignore(f => f.Id);
 
             b.HasKey(f => new { f.FromId, f.ToId });
 
-            b.HasOne(c => c.To);
-            b.HasOne(c => c.From);
+            b.HasOne(c => c.To)
+                .WithMany()
+                .HasForeignKey(c => c.ToId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            b.HasOne(c => c.From)
+                .WithMany()
+                .HasForeignKey(c => c.FromId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<DirectMessage>(b =>
         {
+            b.ToTable("DirectMessages");
+
             b.HasKey(f => f.Id);
 
             b.Property(f => f.Text)

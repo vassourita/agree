@@ -1,17 +1,16 @@
 namespace Agree.Accord.Presentation.Social.Controllers;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity.Services;
-using Agree.Accord.Domain.Social.Services;
+using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
-using Agree.Accord.Presentation.Social.Hubs;
-using Agree.Accord.Presentation.Social.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 /// <summary>
 /// A controller for managing friends.
@@ -21,40 +20,38 @@ using Microsoft.AspNetCore.SignalR;
 [Authorize]
 public class FriendsController : CustomControllerBase
 {
-    private readonly SocialService _socialService;
-    private readonly IHubContext<FriendshipHub> _hubContext;
-
-    public FriendsController(AccountService accountService, SocialService socialService, IHubContext<FriendshipHub> hubContext) : base(accountService)
-    {
-        _socialService = socialService;
-        _hubContext = hubContext;
-    }
+    public FriendsController(IMediator mediator) : base(mediator) { }
 
     [HttpGet]
     [Route("")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<UserAccountViewModel>>))]
     public async Task<IActionResult> Index()
     {
-        var friends = await _socialService.GetFriendsFromUserAsync(await GetAuthenticatedUserAccount());
-        return Ok(new { Friends = friends.Select(UserAccountViewModel.FromEntity) });
+        var friends = await _mediator.Send(new GetFriendsFromUserRequest(await GetAuthenticatedUserAccount()));
+        return Ok(new GenericResponse(friends.Select(UserAccountViewModel.FromEntity)));
     }
 
     [HttpDelete]
     [Route("{friendId:guid}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
     public async Task<IActionResult> Delete([FromRoute] Guid friendId)
     {
-        var result = await _socialService.RemoveFriend(await GetAuthenticatedUserAccount(), friendId);
+        var result = await _mediator.Send(new RemoveFriendRequest(await GetAuthenticatedUserAccount(), friendId));
         if (result.Failed)
         {
             return BadRequest(new ValidationErrorResponse(result.Error));
         }
-        await _hubContext.Clients
-            .User(friendId.ToString())
-            .SendAsync(
-                FriendshipHub.FriendshipRemovedMessage,
-                FriendshipRequestViewModel.FromEntity(result.Data)
-            );
+
+        // await _hubContext.Clients
+        //     .User(friendId.ToString())
+        //     .SendAsync(
+        //         FriendshipHub.FriendshipRemovedMessage,
+        //         FriendshipRequestViewModel.FromEntity(result.Data)
+        //     );
+
         return NoContent();
     }
 }

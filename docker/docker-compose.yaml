@@ -1,32 +1,12 @@
-version: '3'
+version: '3.7'
 
 services:
-  accord-postgres:
-    image: postgres
-    container_name: 'accord-postgres'
-    restart: always
-    ports:
-      - 4001:5432
-    environment:
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_USER=docker
-      - POSTGRES_DB=accord_db
-    volumes:
-      - '/var/lib/postgresql/data'
-    networks:
-      - accord-network
+  accord_postgres:
+    image: postgres:13-alpine
 
-  accord-redis:
-    image: redis:alpine
-    container_name: 'accord-redis'
-    restart: always
-    command: 'redis-server --requirepass docker'
-    ports:
-      - 4002:6379
-    volumes:
-      - '/data'
-    networks:
-      - accord-network
+volumes:
+  accord_postgres_volume:
+
 
 networks:
   accord-network:

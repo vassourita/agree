@@ -1,6 +1,7 @@
 namespace Agree.Accord.Domain.Servers;
 
 using System;
+using System.Collections.Generic;
 using Agree.Accord.SharedKernel;
 
 /// <summary>
@@ -26,4 +27,6 @@ public class ServerRole : IEntity<Guid>
     public string Name { get; private set; }
     public Guid ServerId { get; private set; }
     public Server Server { get; private set; }
+
+    public ICollection<ServerMember> ServerMembers { get; private set; }
 }

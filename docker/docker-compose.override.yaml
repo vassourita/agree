@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  accord_postgres:
+    container_name: 'accord_postgres'
+    restart: always
+    ports:
+      - 4001:5432
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_DB=accord_db
+    volumes:
+      - accord_postgres_volume:/var/lib/postgresql/data
+    networks:
+      - accord-network

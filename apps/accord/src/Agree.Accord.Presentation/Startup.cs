@@ -1,7 +1,6 @@
 namespace Agree.Accord.Presentation;
 
 using Agree.Accord.Infrastructure.IoC;
-using Agree.Accord.Presentation.Social.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,19 +20,14 @@ public class Startup
     {
         services.AddCors(options =>
             options.AddPolicy("DefaultCorsPolicy", builder =>
-                builder.WithMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
+                builder.AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .SetIsOriginAllowed(origin =>
-                    {
-                        return string.IsNullOrWhiteSpace(origin)
-                            ? false
-                            : origin.ToLower(System.Globalization.CultureInfo.CurrentCulture).StartsWith("http://localhost");
-                    })
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
             )
         );
 
-        services.AddAccordInfrastructure(Configuration)
+        services.AddAccordInfrastructure(Configuration, typeof(Startup).Assembly)
             .AddAccordAuthentication(Configuration);
 
         services.AddControllers().ConfigureApiBehaviorOptions(options =>
@@ -62,11 +56,6 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapHub<FriendshipHub>("/hubs/friendships");
-            endpoints.MapHub<DirectMessageHub>("/hubs/direct-messages");
-        });
+        app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }

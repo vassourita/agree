@@ -1,21 +1,14 @@
 namespace Agree.Accord.Presentation.Identity.Controllers;
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Commands;
-using Agree.Accord.Domain.Identity.Results;
-using Agree.Accord.Domain.Identity.Services;
-using Agree.Accord.Domain.Providers;
+using Agree.Accord.Domain.Identity.Requests;
 using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
-using Agree.Accord.SharedKernel;
-using Agree.Accord.SharedKernel.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -26,38 +19,22 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class AccountController : CustomControllerBase
 {
-    private readonly UserManager<UserAccount> _userManager;
-    private readonly SignInManager<UserAccount> _signInManager;
-    private readonly TokenService _tokenService;
-    private readonly IMailProvider _mailProvider;
-    private readonly IMediator _mediator;
-
-    public AccountController(
-        UserManager<UserAccount> userManager,
-        SignInManager<UserAccount> signInManager,
-        TokenService tokenService,
-        IMailProvider mailProvider,
-        AccountService accountService) : base(accountService)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _tokenService = tokenService;
-        _mailProvider = mailProvider;
-    }
+    public AccountController(IMediator mediator)
+        : base(mediator) { }
 
     [HttpPost]
     [Route("")]
     [AllowAnonymous]
-    public async Task<IActionResult> Register([FromBody] CreateAccountCommand command)
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GenericResponse<UserAccountViewModel>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
+    public async Task<IActionResult> Register([FromBody] CreateAccountRequest request)
     {
-        var result = await _mediator.Send<CreateAccountResult>(command);
+        var result = await _mediator.Send(request);
 
         if (result.Failed)
             return BadRequest(new ValidationErrorResponse(result.Error));
 
         var (account, token) = result.Data;
-
-        var userViewModel = UserAccountViewModel.FromEntity(account);
 
         Response.Cookies.Append(AccessTokenCookieName, token.Token, new CookieOptions
         {
@@ -67,33 +44,37 @@ public class AccountController : CustomControllerBase
 
         return Created(
             Url.Link("GetAccountById", new { account.Id }),
-            new RegisterResponse(userViewModel));
+            new GenericResponse(UserAccountViewModel.FromEntity(account)));
     }
 
     [HttpGet]
     [Route("@me")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<UserAccountViewModel>))]
     public async Task<IActionResult> Me()
     {
-        var entity = await _accountService.GetAccountByIdAsync(CurrentlyLoggedUser.Id);
-        return Ok(new UserResponse(UserAccountViewModel.FromEntity(entity)));
+        var entity = await _mediator.Send(new GetAccountByIdRequest(CurrentlyLoggedUser.Id));
+        return Ok(new GenericResponse(UserAccountViewModel.FromEntity(entity)));
     }
 
     [HttpGet]
     [Route("{id:guid}", Name = "GetAccountById")]
     [Authorize]
-    public async Task<IActionResult> Show([FromRoute] Guid id)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<UserAccountViewModel>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Show([FromRoute] GetAccountByIdRequest request)
     {
-        var entity = await _accountService.GetAccountByIdAsync(id);
-        return entity == null ? NotFound() : Ok(new UserResponse(UserAccountViewModel.FromEntity(entity)));
+        var entity = await _mediator.Send(request);
+        return entity == null ? NotFound() : Ok(new GenericResponse(UserAccountViewModel.FromEntity(entity)));
     }
 
     [HttpGet]
     [Route("")]
     [Authorize]
-    public async Task<IActionResult> Index([FromQuery] SearchAccountsCommand search)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<UserAccountViewModel>>))]
+    public async Task<IActionResult> Index([FromQuery] SearchAccountsRequest search)
     {
-        var entities = await _accountService.SearchUsers(search);
-        return Ok(new { users = entities.Select(UserAccountViewModel.FromEntity) });
+        var entities = await _mediator.Send(search);
+        return Ok(new GenericResponse(entities.Select(UserAccountViewModel.FromEntity)));
     }
 }

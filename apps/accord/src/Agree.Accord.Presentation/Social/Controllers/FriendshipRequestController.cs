@@ -1,17 +1,16 @@
 namespace Agree.Accord.Presentation.Social.Controllers;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity.Services;
-using Agree.Accord.Domain.Social.Dtos;
-using Agree.Accord.Domain.Social.Services;
+using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Responses;
-using Agree.Accord.Presentation.Social.Hubs;
 using Agree.Accord.Presentation.Social.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 /// <summary>
 /// A controller for managing friendship requests.
@@ -21,50 +20,48 @@ using Microsoft.AspNetCore.SignalR;
 [Authorize]
 public class FriendshipRequestController : CustomControllerBase
 {
-    private readonly SocialService _socialService;
-    private readonly IHubContext<FriendshipHub> _hubContext;
-
-    public FriendshipRequestController(AccountService accountService, SocialService socialService, IHubContext<FriendshipHub> hubContext) : base(accountService)
-    {
-        _socialService = socialService;
-        _hubContext = hubContext;
-    }
+    public FriendshipRequestController(IMediator mediator) : base(mediator) { }
 
     [HttpGet]
     [Route("sent")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<FriendshipRequestViewModel>>))]
     public async Task<IActionResult> SentRequests()
     {
-        var requests = await _socialService.GetSentFriendshipRequestsFromUserAsync(await GetAuthenticatedUserAccount());
+        var requests = await _mediator.Send(new GetUserSentFriendshipRequestsRequest(await GetAuthenticatedUserAccount()));
         return Ok(new { Requests = requests.Select(FriendshipRequestViewModel.FromEntity) });
     }
 
     [HttpGet]
     [Route("received")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<FriendshipRequestViewModel>>))]
     public async Task<IActionResult> ReceivedRequests()
     {
-        var requests = await _socialService.GetReceivedFriendshipRequestsFromUserAsync(await GetAuthenticatedUserAccount());
+        var requests = await _mediator.Send(new GetUserReceivedFriendshipRequestsRequest(await GetAuthenticatedUserAccount()));
         return Ok(new { Requests = requests.Select(FriendshipRequestViewModel.FromEntity) });
     }
 
     [HttpPost]
     [Route("")]
     [Authorize]
-    public async Task<IActionResult> Send([FromBody] SendFriendshipRequestDto friendshipRequestDto)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
+    public async Task<IActionResult> Send([FromBody] SendFriendshipRequestRequest friendshipRequestRequest)
     {
-        friendshipRequestDto.From = await GetAuthenticatedUserAccount();
-        var result = await _socialService.SendFriendshipRequest(friendshipRequestDto);
+        friendshipRequestRequest.From = await GetAuthenticatedUserAccount();
+        var result = await _mediator.Send(friendshipRequestRequest);
         if (result.Failed)
         {
             return BadRequest(new ValidationErrorResponse(result.Error));
         }
-        await _hubContext.Clients
-            .User(result.Data.ToId.ToString())
-            .SendAsync(
-                FriendshipHub.FriendshipRequestReceivedMessage,
-                FriendshipRequestViewModel.FromEntity(result.Data)
-            );
+
+        // await _hubContext.Clients
+        //     .User(result.Data.ToId.ToString())
+        //     .SendAsync(
+        //         FriendshipHub.FriendshipRequestReceivedMessage,
+        //         FriendshipRequestViewModel.FromEntity(result.Data)
+        //     );
 
         return Ok();
     }
@@ -72,38 +69,46 @@ public class FriendshipRequestController : CustomControllerBase
     [HttpPut]
     [Route("{fromUserId:guid}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
     public async Task<IActionResult> Accept([FromRoute] Guid fromUserId)
     {
-        var result = await _socialService.AcceptFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
+        var result = await _mediator.Send(new AcceptFriendshipRequestRequest(await GetAuthenticatedUserAccount(), fromUserId));
         if (result.Failed)
         {
-            return BadRequest();
+            return BadRequest(new ValidationErrorResponse(result.Error));
         }
-        await _hubContext.Clients
-            .User(fromUserId.ToString())
-            .SendAsync(
-                FriendshipHub.FriendshipRequestAcceptedMessage,
-                FriendshipRequestViewModel.FromEntity(result.Data)
-            );
+
+        // await _hubContext.Clients
+        //     .User(fromUserId.ToString())
+        //     .SendAsync(
+        //         FriendshipHub.FriendshipRequestAcceptedMessage,
+        //         FriendshipRequestViewModel.FromEntity(result.Data)
+        //     );
+
         return Ok();
     }
 
     [HttpDelete]
     [Route("{fromUserId:guid}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
     public async Task<IActionResult> Decline([FromRoute] Guid fromUserId)
     {
-        var result = await _socialService.DeclineFriendshipRequestAsync(await GetAuthenticatedUserAccount(), fromUserId);
+        var result = await _mediator.Send(new DeclineFriendshipRequestRequest(await GetAuthenticatedUserAccount(), fromUserId));
         if (result.Failed)
         {
-            return BadRequest();
+            return BadRequest(new ValidationErrorResponse(result.Error));
         }
-        await _hubContext.Clients
-            .User(fromUserId.ToString())
-            .SendAsync(
-                FriendshipHub.FriendshipRequestDeclinedMessage,
-                FriendshipRequestViewModel.FromEntity(result.Data)
-            );
+
+        // await _hubContext.Clients
+        //     .User(fromUserId.ToString())
+        //     .SendAsync(
+        //         FriendshipHub.FriendshipRequestDeclinedMessage,
+        //         FriendshipRequestViewModel.FromEntity(result.Data)
+        //     );
+
         return Ok();
     }
 }

@@ -20,8 +20,8 @@ public class UserAccountRepository : GenericRepository<UserAccount, Guid>, IUser
     {
         var result = await _dbContext.Set<UserAccount>().FromSqlRaw($@"
                 SELECT *
-                FROM ""AspNetUsers""
-                WHERE (""DisplayName"" || '#' || LPAD(""Tag""::varchar(4), 4, '0')) ILIKE '%{query}%'
+                FROM ""UserAccounts""
+                WHERE (""Username"" || '#' || LPAD(""Tag""::varchar(4), 4, '0')) ILIKE '%{query}%'
             ")
             .OrderBy(u => u.CreatedAt)
             .Skip((pagination.Page - 1) * pagination.PageSize)

@@ -1,11 +1,9 @@
 namespace Agree.Accord.Infrastructure.IoC;
 
-using Agree.Accord.Domain.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Agree.Accord.Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
-using Agree.Accord.SharedKernel.Data;
 using Agree.Accord.Domain.Identity.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Agree.Accord.Domain.Identity;
@@ -15,17 +13,20 @@ using Agree.Accord.Infrastructure.Configuration;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Servers.Services;
 using Agree.Accord.Domain.Social;
-using Agree.Accord.Domain.Social.Services;
+using Agree.Accord.SharedKernel.Data;
+using MediatR;
+using System.Reflection;
 
 /// <summary>
 /// Provides extension methods for the <see cref="IServiceCollection"/> interface that configure the application infrastructure and auth.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAccordInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAccordInfrastructure(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
+        services.AddMediatR(assembly, typeof(IUserAccountRepository).Assembly);
+
         // Options
         services.Configure<NativeMailProviderOptions>(options =>
         {
@@ -42,19 +43,15 @@ public static class ServiceCollectionExtensions
         // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
         // .LogTo(Console.WriteLine)
         );
-        services.AddTransient<IRepository<Friendship>, FriendshipRepository>();
+        services.AddTransient<IRepository<Friendship, string>, FriendshipRepository>();
         services.AddTransient<IUserAccountRepository, UserAccountRepository>();
-        services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<,>));
+        services.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>));
 
         // Providers
         services.AddScoped<IMailProvider, NativeMailProvider>();
-
-        // Domain Services
-        services.AddScoped<TokenService>();
-        services.AddScoped<AccountService>();
-        services.AddScoped<ServerService>();
-        services.AddScoped<SocialService>();
-        services.AddScoped<DirectMessageService>();
+        services.AddScoped<TokenFactory>();
+        services.AddScoped<DiscriminatorTagFactory>();
+        services.AddScoped<IPasswordManager, BCryptPasswordManager>();
 
         return services;
     }
