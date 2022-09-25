@@ -8,6 +8,9 @@ using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the retrieval of a direct message by its Id.
+/// </summary>
 public class GetDirectMessageByIdHandler : IRequestHandler<GetDirectMessagebyIdRequest, DirectMessage>
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;

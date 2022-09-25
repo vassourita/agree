@@ -9,6 +9,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the creation of a new <see cref="Server"/>.
+/// </summary>
 public class CreateServerHandler : IRequestHandler<CreateServerRequest, CreateServerResult>
 {
     private readonly IRepository<Server, Guid> _serverRepository;

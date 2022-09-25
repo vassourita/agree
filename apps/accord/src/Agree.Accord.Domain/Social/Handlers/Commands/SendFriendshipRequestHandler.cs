@@ -11,6 +11,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the sending of a friendship request.
+/// </summary>
 public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipRequestRequest, FriendshipRequestResult>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;

@@ -11,6 +11,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the sending of a direct message.
+/// </summary>
 public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest, DirectMessageResult>
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;

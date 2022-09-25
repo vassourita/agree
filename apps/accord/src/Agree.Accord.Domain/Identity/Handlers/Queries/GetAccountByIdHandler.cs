@@ -7,6 +7,9 @@ using Agree.Accord.Domain.Identity.Requests;
 using Agree.Accord.Domain.Identity.Specifications;
 using MediatR;
 
+/// <summary>
+/// Handles the retrieval of a <see cref="UserAccount"/> by its id.
+/// </summary>
 public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, UserAccount>
 {
     private readonly IUserAccountRepository _accountRepository;

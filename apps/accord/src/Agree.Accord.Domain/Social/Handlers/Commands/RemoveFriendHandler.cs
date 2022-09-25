@@ -9,6 +9,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the removal of a friend.
+/// </summary>
 public class RemoveFriendHandler : IRequestHandler<RemoveFriendRequest, RemoveFriendResult>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;

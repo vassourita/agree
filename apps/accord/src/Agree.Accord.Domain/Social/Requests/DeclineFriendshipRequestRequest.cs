@@ -11,6 +11,8 @@ using Agree.Accord.Domain.Social.Results;
 /// </summary>
 public class DeclineFriendshipRequestRequest : IRequest<FriendshipRequestResult>
 {
+    public DeclineFriendshipRequestRequest() { }
+
     public DeclineFriendshipRequestRequest(UserAccount loggedUser, Guid fromUserId)
     {
         LoggedUser = loggedUser;

@@ -29,12 +29,38 @@ public class Server : IEntity<Guid>
         Categories = new Collection<Category>();
     }
 
+    /// <summary>
+    /// The server id.
+    /// </summary>
     public Guid Id { get; private set; }
+
+    /// <summary>
+    /// The server name.
+    /// </summary>
     public string Name { get; private set; }
+
+    /// <summary>
+    /// The server description.
+    /// </summary>
     public string Description { get; private set; }
+
+    /// <summary>
+    /// The server privacy level.
+    /// </summary>
     public ServerPrivacy PrivacyLevel { get; private set; }
 
+    /// <summary>
+    /// The server members in a N-N pivot collection.
+    /// </summary>
     public ICollection<ServerMember> Members { get; private set; }
+
+    /// <summary>
+    /// The server roles.
+    /// </summary>
     public ICollection<ServerRole> Roles { get; private set; }
+
+    /// <summary>
+    /// The server categories.
+    /// </summary>
     public ICollection<Category> Categories { get; private set; }
 }

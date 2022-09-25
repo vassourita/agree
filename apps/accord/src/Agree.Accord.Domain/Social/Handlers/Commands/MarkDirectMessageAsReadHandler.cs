@@ -10,6 +10,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the marking of a direct message as read.
+/// </summary>
 public class MarkDirectMessageAsReadHandler : IRequestHandler<MarkDirectMessageAsReadRequest, DirectMessageResult>
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;

@@ -7,7 +7,11 @@ using Agree.Accord.SharedKernel.Data;
 /// </summary>
 public class EmailEqualSpecification : Specification<UserAccount>
 {
-    public EmailEqualSpecification(string email) => Expression = x => x.EmailAddress == email;
+    public EmailEqualSpecification(string email)
+        => Expression = x
+        => x.EmailAddress == email;
 
-    public EmailEqualSpecification(UserAccount account) => Expression = x => x.EmailAddress == account.EmailAddress;
+    public EmailEqualSpecification(UserAccount account)
+        => Expression = x
+        => x.EmailAddress == account.EmailAddress;
 }

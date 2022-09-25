@@ -5,7 +5,7 @@ using Agree.Accord.Domain.Identity.Results;
 using MediatR;
 
 /// <summary>
-/// The <see cref="CreateAccountRequest"/> class represents a request to create an account.
+/// Represents a request to create an account.
 /// </summary>
 public class CreateAccountRequest : IRequest<CreateAccountResult>
 {

@@ -8,7 +8,11 @@ using Agree.Accord.SharedKernel.Data;
 /// </summary>
 public class UserIdEqualSpecification : Specification<UserAccount>
 {
-    public UserIdEqualSpecification(Guid id) => Expression = x => x.Id == id;
+    public UserIdEqualSpecification(Guid id)
+        => Expression = x
+        => x.Id == id;
 
-    public UserIdEqualSpecification(UserAccount account) => Expression = x => x.Id == account.Id;
+    public UserIdEqualSpecification(UserAccount account)
+        => Expression = x
+        => x.Id == account.Id;
 }

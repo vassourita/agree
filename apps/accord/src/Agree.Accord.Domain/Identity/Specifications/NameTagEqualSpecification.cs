@@ -7,7 +7,11 @@ using Agree.Accord.SharedKernel.Data;
 /// </summary>
 public class NameTagEqualSpecification : Specification<UserAccount>
 {
-    public NameTagEqualSpecification(DiscriminatorTag tag, string userName) => Expression = u => u.Username == userName && u.Tag == tag;
+    public NameTagEqualSpecification(DiscriminatorTag tag, string userName)
+        => Expression = u
+        => u.Username == userName && u.Tag == tag;
 
-    public NameTagEqualSpecification(UserAccount account) => Expression = u => u.Username == account.Username && u.Tag == account.Tag;
+    public NameTagEqualSpecification(UserAccount account)
+        => Expression = u
+        => u.Username == account.Username && u.Tag == account.Tag;
 }

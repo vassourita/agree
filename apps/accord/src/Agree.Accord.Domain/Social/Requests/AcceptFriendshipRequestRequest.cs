@@ -11,6 +11,8 @@ using Agree.Accord.Domain.Social.Results;
 /// </summary>
 public class AcceptFriendshipRequestRequest : IRequest<FriendshipRequestResult>
 {
+    public AcceptFriendshipRequestRequest() { }
+
     public AcceptFriendshipRequestRequest(UserAccount loggedUser, Guid fromUserId)
     {
         LoggedUser = loggedUser;

@@ -20,13 +20,34 @@ public class ServerRole : IEntity<Guid>
         ServerId = server.Id;
     }
 
+    /// <summary>
+    /// Creates a new role with default admin permissions for a server.
+    /// </summary>
     public static ServerRole CreateDefaultAdminRole(Server server)
         => new("Admin", server);
 
+    /// <summary>
+    /// The role Id.
+    /// </summary>
     public Guid Id { get; private set; }
+
+    /// <summary>
+    /// The role name.
+    /// </summary>
     public string Name { get; private set; }
+
+    /// <summary>
+    /// The server Id this role belongs to.
+    /// </summary>
     public Guid ServerId { get; private set; }
+
+    /// <summary>
+    /// The server this role belongs to.
+    /// </summary>
     public Server Server { get; private set; }
 
+    /// <summary>
+    /// The server members with this role.
+    /// </summary>
     public ICollection<ServerMember> ServerMembers { get; private set; }
 }

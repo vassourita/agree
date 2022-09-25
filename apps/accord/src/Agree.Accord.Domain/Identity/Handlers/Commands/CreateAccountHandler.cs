@@ -9,6 +9,9 @@ using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the creation of a new <see cref="UserAccount"/>.
+/// </summary>
 public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, CreateAccountResult>
 {
     private readonly IUserAccountRepository _accountRepository;

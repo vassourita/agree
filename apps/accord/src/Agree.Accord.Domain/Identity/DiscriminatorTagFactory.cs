@@ -3,6 +3,9 @@ namespace Agree.Accord.Domain.Identity;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Specifications;
 
+/// <summary>
+/// Creates a <see cref="DiscriminatorTag"/> from a given <see cref="UserAccount"/>.
+/// </summary>
 public class DiscriminatorTagFactory
 {
     private readonly IUserAccountRepository _accountRepository;

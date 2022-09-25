@@ -3,7 +3,7 @@ namespace Agree.Accord.Domain.Social.Results;
 using Agree.Accord.SharedKernel;
 
 /// <summary>
-/// The result of an operation on a friendship request.
+/// The result of an operation on a friendship removal request.
 /// </summary>
 public class RemoveFriendResult : Result<Friendship, ErrorList>
 {

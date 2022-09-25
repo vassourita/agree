@@ -8,6 +8,9 @@ using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Identity.Tokens;
 using MediatR;
 
+/// <summary>
+/// Handles login requests using a password.
+/// </summary>
 public class PasswordLoginHandler : IRequestHandler<PasswordLoginRequest, PasswordLoginResult>
 {
     private readonly IUserAccountRepository _accountRepository;

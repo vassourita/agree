@@ -23,6 +23,9 @@ using System.Reflection;
 /// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the application's infrastructure services and domain handlers to the service collection.
+    /// </summary>
     public static IServiceCollection AddAccordInfrastructure(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
         services.AddMediatR(assembly, typeof(IUserAccountRepository).Assembly);
@@ -56,6 +59,9 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Adds the authentication and authorization configuration to the application.
+    /// </summary>
     public static IServiceCollection AddAccordAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var tokenConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();

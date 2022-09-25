@@ -8,6 +8,9 @@ using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
+/// <summary>
+/// Handles the retrieval of a user's sent friendship requests.
+/// </summary>
 public class GetUserSentFriendshipRequestsHandler : IRequestHandler<GetUserSentFriendshipRequestsRequest, IEnumerable<Friendship>>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;

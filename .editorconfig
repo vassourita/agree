@@ -13,6 +13,7 @@ root = true
 
 # All Files
 [*]
+generated_code = true
 charset = utf-8
 indent_style = space
 indent_size = 4

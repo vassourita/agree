@@ -10,5 +10,7 @@ public class DirectMessageFromOrToFriendPaginatedSpecification : PaginatedSpecif
 
 public class DirectMessageFromOrToFriendSpecification : Specification<DirectMessage>
 {
-    public DirectMessageFromOrToFriendSpecification(Guid requesterId, Guid friendId) => Expression = x => (x.From.Id == friendId && x.To.Id == requesterId) || (x.To.Id == friendId && x.From.Id == requesterId);
+    public DirectMessageFromOrToFriendSpecification(Guid requesterId, Guid friendId)
+        => Expression = x
+        => (x.From.Id == friendId && x.To.Id == requesterId) || (x.To.Id == friendId && x.From.Id == requesterId);
 }

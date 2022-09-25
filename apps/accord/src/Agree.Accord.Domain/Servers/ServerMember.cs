@@ -6,6 +6,10 @@ using System.Collections.ObjectModel;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.SharedKernel;
 
+/// <summary>
+/// Represents a member of a server.
+/// Works as a pivot entity between <see cref="Server"/> and <see cref="User"/>.
+/// </summary>
 public class ServerMember : IEntity<string>
 {
     // EF ctor

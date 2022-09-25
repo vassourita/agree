@@ -8,5 +8,7 @@ using Agree.Accord.SharedKernel.Data;
 /// </summary>
 public class SentFriendshipRequestSpecification : Specification<Friendship>
 {
-    public SentFriendshipRequestSpecification(Guid userId) => Expression = x => x.FromId == userId && !x.Accepted;
+    public SentFriendshipRequestSpecification(Guid userId)
+        => Expression = x
+        => x.FromId == userId && !x.Accepted;
 }
