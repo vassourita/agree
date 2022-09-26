@@ -2,6 +2,7 @@ namespace Agree.Accord.Presentation.Identity.Controllers;
 
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Requests;
+using Agree.Accord.Presentation.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

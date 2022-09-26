@@ -1,4 +1,4 @@
-namespace Agree.Accord.Presentation;
+namespace Agree.Accord.Presentation.Shared;
 
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;

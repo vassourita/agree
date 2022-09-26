@@ -1,6 +1,7 @@
 namespace Agree.Accord.Presentation;
 
 using Agree.Accord.Infrastructure.IoC;
+using Agree.Accord.Presentation.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +57,11 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints => endpoints.MapControllers());
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<SocketHub>("/socket");
+        });
+
     }
 }

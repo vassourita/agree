@@ -2,6 +2,7 @@ namespace Agree.Accord.Presentation.Social.Controllers;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Responses;
+using Agree.Accord.Presentation.Shared;
 using Agree.Accord.Presentation.Social.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -2,6 +2,7 @@ namespace Agree.Accord.Domain.Social.Handlers.Commands;
 
 using System.Threading;
 using System.Threading.Tasks;
+using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
 using Agree.Accord.Domain.Social.Specifications;
@@ -15,8 +16,13 @@ using MediatR;
 public class AcceptFriendshipRequestHandler : IRequestHandler<AcceptFriendshipRequestRequest, FriendshipRequestResult>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;
+    private readonly IMediator _mediator;
 
-    public AcceptFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository) => _friendshipRepository = friendshipRepository;
+    public AcceptFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IMediator mediator)
+    {
+        _friendshipRepository = friendshipRepository;
+        _mediator = mediator;
+    }
 
     public async Task<FriendshipRequestResult> Handle(AcceptFriendshipRequestRequest request, CancellationToken cancellationToken)
     {
@@ -30,6 +36,8 @@ public class AcceptFriendshipRequestHandler : IRequestHandler<AcceptFriendshipRe
 
         await _friendshipRepository.UpdateAsync(friendshipRequest);
         await _friendshipRepository.CommitAsync();
+
+        await _mediator.Publish(new FriendshipRequestAcceptedNotification(friendshipRequest));
 
         return FriendshipRequestResult.Ok(friendshipRequest);
     }

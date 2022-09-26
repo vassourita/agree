@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Identity.ViewModels;
 using Agree.Accord.Presentation.Responses;
+using Agree.Accord.Presentation.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

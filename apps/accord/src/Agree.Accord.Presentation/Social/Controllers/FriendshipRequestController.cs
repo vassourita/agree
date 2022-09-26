@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Responses;
+using Agree.Accord.Presentation.Shared;
 using Agree.Accord.Presentation.Social.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,13 +57,6 @@ public class FriendshipRequestController : CustomControllerBase
             return BadRequest(new ValidationErrorResponse(result.Error));
         }
 
-        // await _hubContext.Clients
-        //     .User(result.Data.ToId.ToString())
-        //     .SendAsync(
-        //         FriendshipHub.FriendshipRequestReceivedMessage,
-        //         FriendshipRequestViewModel.FromEntity(result.Data)
-        //     );
-
         return Ok();
     }
 
@@ -78,13 +72,6 @@ public class FriendshipRequestController : CustomControllerBase
         {
             return BadRequest(new ValidationErrorResponse(result.Error));
         }
-
-        // await _hubContext.Clients
-        //     .User(fromUserId.ToString())
-        //     .SendAsync(
-        //         FriendshipHub.FriendshipRequestAcceptedMessage,
-        //         FriendshipRequestViewModel.FromEntity(result.Data)
-        //     );
 
         return Ok();
     }

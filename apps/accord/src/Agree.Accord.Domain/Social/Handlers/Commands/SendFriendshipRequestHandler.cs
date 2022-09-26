@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Specifications;
+using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
 using Agree.Accord.Domain.Social.Specifications;
@@ -18,11 +19,13 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;
     private readonly IUserAccountRepository _accountRepository;
+    private readonly IMediator _mediator;
 
-    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IUserAccountRepository userAccountRepository)
+    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IUserAccountRepository userAccountRepository, IMediator mediator)
     {
         _friendshipRepository = friendshipRepository;
         _accountRepository = userAccountRepository;
+        _mediator = mediator;
     }
 
     public async Task<FriendshipRequestResult> Handle(SendFriendshipRequestRequest request, CancellationToken cancellationToken)
@@ -61,11 +64,13 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
             return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", errorMessage));
         }
 
-        var friendship = new Friendship(request.From, toUser);
+        var friendshipRequest = new Friendship(request.From, toUser);
 
-        await _friendshipRepository.InsertAsync(friendship);
+        await _friendshipRepository.InsertAsync(friendshipRequest);
         await _friendshipRepository.CommitAsync();
 
-        return FriendshipRequestResult.Ok(friendship);
+        await _mediator.Publish(new FriendshipRequestCreatedNotification(friendshipRequest));
+
+        return FriendshipRequestResult.Ok(friendshipRequest);
     }
 }
