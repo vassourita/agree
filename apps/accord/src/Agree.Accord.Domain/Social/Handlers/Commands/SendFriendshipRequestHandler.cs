@@ -41,7 +41,7 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
 
         if (request.From.NameTag == request.ToNameTag)
         {
-            return FriendshipRequestResult.Fail(new ErrorList().AddError("ToNameTag", "Cannot send a friendship request to yourself."));
+            return FriendshipRequestResult.Fail(new ErrorList("ToNameTag", "Cannot send a friendship request to yourself."));
         }
 
         var nameTag = request.ToNameTag.Split('#');
@@ -50,7 +50,7 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
         var toUser = await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName));
         if (toUser == null)
         {
-            return FriendshipRequestResult.Fail(new ErrorList().AddError("ToNameTag", "User does not exists."));
+            return FriendshipRequestResult.Fail(new ErrorList("ToNameTag", "User does not exists."));
         }
 
         var isAlreadyFriend = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(request.From.Id, toUser.Id));
@@ -61,7 +61,7 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
                 : isAlreadyFriend.FromId == request.From.Id
                     ? "You have already sent a friendship request to this user."
                     : "The user has already sent a friendship request to you.";
-            return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", errorMessage));
+            return FriendshipRequestResult.Fail(new ErrorList("Friendship", errorMessage));
         }
 
         var friendshipRequest = new Friendship(request.From, toUser);

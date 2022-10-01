@@ -33,17 +33,16 @@ public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest
     {
         var toUser = await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(request.ToId));
         if (toUser == null)
-        {
-            return DirectMessageResult.Fail(new ErrorList().AddError("ToId", "User not found"));
-        }
+            return DirectMessageResult.Fail(new ErrorList("ToId", "User not found"));
         if (toUser.Id == request.From.Id)
-        {
-            return DirectMessageResult.Fail(new ErrorList().AddError("ToId", "Cannot send a direct message to yourself"));
-        }
+            return DirectMessageResult.Fail(new ErrorList("ToId", "Cannot send a direct message to yourself"));
 
         var inReplyTo = request.InReplyToId.HasValue
             ? await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(request.InReplyToId.Value))
             : null;
+
+        if (inReplyTo != null && inReplyTo.FromId != request.From.Id && inReplyTo.ToId != request.From.Id)
+            return DirectMessageResult.Fail(new ErrorList("InReplyToId", "Cannot reply to a message that is not part of the conversation"));
 
         var directMessage = new DirectMessage(request.MessageText, request.From, toUser, inReplyTo);
 

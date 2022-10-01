@@ -24,6 +24,11 @@ public class ErrorList : Dictionary<string, List<string>>
     }
 
     public ErrorList() { }
+
+    public ErrorList(string propertyName, string errorMessage)
+    {
+        AddError(propertyName, errorMessage);
+    }
 }
 
 public static class ValidationResultExtensions

@@ -23,9 +23,9 @@ public class RemoveFriendHandler : IRequestHandler<RemoveFriendRequest, RemoveFr
         var friendship = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(request.User.Id, request.FriendId));
 
         if (friendship == null)
-            return RemoveFriendResult.Fail(new ErrorList().AddError("Friendship", "Friendship does not exist."));
+            return RemoveFriendResult.Fail(new ErrorList("Friendship", "Friendship does not exist."));
         if (!friendship.Accepted)
-            return RemoveFriendResult.Fail(new ErrorList().AddError("Friendship", "You are not friends with this user."));
+            return RemoveFriendResult.Fail(new ErrorList("Friendship", "You are not friends with this user."));
 
         await _friendshipRepository.DeleteAsync(friendship);
         await _friendshipRepository.CommitAsync();

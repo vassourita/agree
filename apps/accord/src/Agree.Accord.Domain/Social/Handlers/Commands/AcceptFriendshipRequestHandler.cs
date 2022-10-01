@@ -28,9 +28,9 @@ public class AcceptFriendshipRequestHandler : IRequestHandler<AcceptFriendshipRe
     {
         var friendshipRequest = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(request.FromUserId, request.LoggedUser.Id));
         if (friendshipRequest == null)
-            return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request does not exist."));
+            return FriendshipRequestResult.Fail(new ErrorList("Friendship", "Friendship request does not exist."));
         if (friendshipRequest.Accepted)
-            return FriendshipRequestResult.Fail(new ErrorList().AddError("Friendship", "Friendship request already accepted."));
+            return FriendshipRequestResult.Fail(new ErrorList("Friendship", "Friendship request already accepted."));
 
         friendshipRequest.Accept();
 

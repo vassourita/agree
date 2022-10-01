@@ -25,11 +25,11 @@ public class MarkDirectMessageAsReadHandler : IRequestHandler<MarkDirectMessageA
         var directMessage = await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(request.DirectMessageId));
         if (directMessage == null)
         {
-            return DirectMessageResult.Fail(new ErrorList().AddError("DirectMessageId", "Direct message not found."));
+            return DirectMessageResult.Fail(new ErrorList("DirectMessageId", "Direct message not found."));
         }
         if (directMessage.From.Id != request.Requester.Id)
         {
-            return DirectMessageResult.Fail(new ErrorList().AddError("DirectMessageId", "Direct message was not sent to you."));
+            return DirectMessageResult.Fail(new ErrorList("DirectMessageId", "Direct message was not sent to you."));
         }
 
         directMessage.MarkRead();
