@@ -19,4 +19,4 @@
 | App name                | Description                      |
 | ----------------------- | -------------------------------- |
 | [Accord](apps/accord)   | .NET WebApi + SignalR Websockets |
-| [Concord](apps/concord) | ReactJS SPA                      |
+| [Concord](apps/concord) | Blazor FrontEnd                  |
