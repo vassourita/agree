@@ -48,6 +48,7 @@ public static class ServiceCollectionExtensions
         );
         services.AddTransient<IRepository<Friendship, string>, FriendshipRepository>();
         services.AddTransient<IUserAccountRepository, UserAccountRepository>();
+        services.AddTransient<IDirectMessageRepository, DirectMessageRepository>();
         services.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>));
 
         // Providers
