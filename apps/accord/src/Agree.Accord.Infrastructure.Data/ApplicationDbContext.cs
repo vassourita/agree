@@ -196,8 +196,28 @@ public class ApplicationDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(400);
 
-            b.HasOne(c => c.To);
-            b.HasOne(c => c.From);
+            b.Property(f => f.Read)
+                .IsRequired();
+
+            b.HasOne(c => c.To)
+                .WithMany()
+                .HasForeignKey(c => c.ToId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(c => c.From)
+                .WithMany()
+                .HasForeignKey(c => c.FromId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasOne(c => c.InReplyTo)
+                .WithMany()
+                .HasForeignKey(c => c.InReplyToId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.Property(f => f.CreatedAt)
+                .IsRequired();
         });
     }
 }

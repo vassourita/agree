@@ -8,6 +8,7 @@ using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
+using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
@@ -40,7 +41,11 @@ public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest
             return DirectMessageResult.Fail(new ErrorList().AddError("ToId", "Cannot send a direct message to yourself"));
         }
 
-        var directMessage = new DirectMessage(request.MessageText, request.From, toUser);
+        var inReplyTo = request.InReplyToId.HasValue
+            ? await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(request.InReplyToId.Value))
+            : null;
+
+        var directMessage = new DirectMessage(request.MessageText, request.From, toUser, inReplyTo);
 
         await _directMessageRepository.InsertAsync(directMessage);
         await _directMessageRepository.CommitAsync();

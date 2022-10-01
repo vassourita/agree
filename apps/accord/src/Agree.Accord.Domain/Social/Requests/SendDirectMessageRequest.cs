@@ -35,4 +35,9 @@ public class SendDirectMessageRequest : IRequest<DirectMessageResult>
     [MaxLength(400)]
     public string MessageText { get; set; }
 
+    /// <summary>
+    /// The Id of the message this message is replying to.
+    /// </summary>
+    /// <value>The reply to message id.</value>
+    public Guid? InReplyToId { get; set; }
 }
