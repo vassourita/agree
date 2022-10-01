@@ -32,6 +32,7 @@ public class GetFriendChatRequest : IRequest<IEnumerable<DirectMessage>>
     /// </summary>
     /// <value>The number of items.</value>
     [Required]
+    [Range(1, 100)]
     public int PageSize { get; set; }
 
     /// <summary>
@@ -39,6 +40,5 @@ public class GetFriendChatRequest : IRequest<IEnumerable<DirectMessage>>
     /// Determines from which item the pagination will start.
     /// </summary>
     /// <value>The first item id.</value>
-    [Required]
-    public Guid FirstItemId { get; set; }
+    public Guid StartAtId { get; set; }
 }

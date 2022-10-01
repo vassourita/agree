@@ -19,16 +19,20 @@ public class DirectMessageRepository : GenericRepository<DirectMessage, Guid>, I
 
     public async Task<IEnumerable<DirectMessage>> SearchAsync(GetFriendChatRequest request)
     {
-        var startAt = await _dbContext.Set<DirectMessage>()
-            .Where(dm => dm.Id == request.FirstItemId)
-            .FirstOrDefaultAsync();
 
         var query = _dbContext
             .Set<DirectMessage>()
             .Where(dm => (dm.From.Id == request.UserId && dm.To.Id == request.FriendId) || (dm.From.Id == request.FriendId && dm.To.Id == request.UserId));
 
-        if (startAt != null)
-            query = query.Where(dm => dm.CreatedAt < startAt.CreatedAt);
+        if (request.StartAtId != Guid.Empty)
+        {
+            var startAt = await _dbContext.Set<DirectMessage>()
+                .Where(dm => dm.Id == request.StartAtId)
+                .FirstOrDefaultAsync();
+
+            if (startAt != null)
+                query = query.Where(dm => dm.CreatedAt < startAt.CreatedAt);
+        }
 
         query = query.OrderByDescending(dm => dm.CreatedAt)
             .Take(request.PageSize)

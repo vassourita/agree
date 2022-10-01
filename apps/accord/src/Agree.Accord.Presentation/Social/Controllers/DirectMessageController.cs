@@ -1,4 +1,7 @@
 namespace Agree.Accord.Presentation.Social.Controllers;
+
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Presentation.Responses;
@@ -53,15 +56,16 @@ public class DirectMessageController : CustomControllerBase
         return message == null ? NotFound() : Ok(new GenericResponse(DirectMessageViewModel.FromEntity(message)));
     }
 
-    // [HttpGet]
-    // [Route("friends/{friendId:guid}/direct-messages")]
-    // [Authorize]
-    // public async Task<IActionResult> Index([FromRoute] Guid friendId, [FromQuery] Pagination pagination)
-    // {
-    //     var requester = await GetAuthenticatedUserAccount();
-    //     var messages = await _mediator.Send(new GetDirectMessagesFromUserRequest(requester, friendId, pagination));
-    //     return Ok(new { Messages = messages.Select(DirectMessageViewModel.FromEntity) });
-    // }
+    [HttpGet]
+    [Route("friends/{friendId:guid}/direct-messages")]
+    [Authorize]
+    public async Task<IActionResult> Index([FromQuery] GetFriendChatRequest request, [FromRoute] Guid friendId)
+    {
+        request.FriendId = friendId;
+        request.UserId = CurrentlyLoggedUser.Id;
+        var messages = await _mediator.Send(request);
+        return Ok(new GenericResponse(messages.Select(DirectMessageViewModel.FromEntity)));
+    }
 
     // [HttpPut]
     // [Route("friends/{friendId:guid}/direct-messages")]

@@ -14,6 +14,7 @@ public class DirectMessageViewModel
     public UserAccountViewModel From { get; private set; }
     public UserAccountViewModel To { get; private set; }
     public bool Read { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     /// <summary>
     /// Creates a new instance of the <see cref="DirectMessageViewModel"/> class from a direct message entity.
@@ -26,6 +27,7 @@ public class DirectMessageViewModel
         From = UserAccountViewModel.FromEntity(entity.From),
         To = UserAccountViewModel.FromEntity(entity.To),
         Read = entity.Read,
-        Text = entity.Text
+        Text = entity.Text,
+        CreatedAt = entity.CreatedAt
     };
 }
