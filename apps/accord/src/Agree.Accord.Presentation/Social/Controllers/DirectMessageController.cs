@@ -1,6 +1,7 @@
 namespace Agree.Accord.Presentation.Social.Controllers;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Social.Requests;
@@ -20,13 +21,14 @@ public class DirectMessageController : CustomControllerBase
     public DirectMessageController(IMediator mediator) : base(mediator) { }
 
     [HttpPost]
-    [Route("direct-messages")]
+    [Route("friends/{friendId:guid}/direct-messages")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GenericResponse<DirectMessageViewModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
-    public async Task<IActionResult> SendDirectMessage(SendDirectMessageRequest request)
+    public async Task<IActionResult> SendDirectMessage([FromBody] SendDirectMessageRequest request, [FromRoute] Guid friendId)
     {
         request.From = await GetAuthenticatedUserAccount();
+        request.ToId = friendId;
         var result = await _mediator.Send(request);
         if (result.Failed)
         {
@@ -59,12 +61,13 @@ public class DirectMessageController : CustomControllerBase
     [HttpGet]
     [Route("friends/{friendId:guid}/direct-messages")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<DirectMessageViewModel>>))]
     public async Task<IActionResult> Index([FromQuery] GetFriendChatRequest request, [FromRoute] Guid friendId)
     {
         request.FriendId = friendId;
         request.UserId = CurrentlyLoggedUser.Id;
         var messages = await _mediator.Send(request);
-        return Ok(new GenericResponse(messages.Select(DirectMessageViewModel.FromEntity)));
+        return Ok(new GenericResponse(messages.Select(m => DirectMessageViewModel.FromEntity(m))));
     }
 
     // [HttpPut]

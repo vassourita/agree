@@ -37,7 +37,8 @@ public class DirectMessageRepository : GenericRepository<DirectMessage, Guid>, I
         query = query.OrderByDescending(dm => dm.CreatedAt)
             .Take(request.PageSize)
             .Include(dm => dm.From)
-            .Include(dm => dm.To);
+            .Include(dm => dm.To)
+            .Include(dm => dm.InReplyTo);
 
         return await query.ToListAsync();
     }
@@ -47,7 +48,8 @@ public class DirectMessageRepository : GenericRepository<DirectMessage, Guid>, I
         var query = _dbContext.Set<DirectMessage>()
             .Where(specification.Expression)
             .Include(dm => dm.From)
-            .Include(dm => dm.To);
+            .Include(dm => dm.To)
+            .Include(dm => dm.InReplyTo);
 
         return await query.FirstOrDefaultAsync();
     }
@@ -57,7 +59,8 @@ public class DirectMessageRepository : GenericRepository<DirectMessage, Guid>, I
         var query = _dbContext.Set<DirectMessage>()
             .Where(specification.Expression)
             .Include(dm => dm.From)
-            .Include(dm => dm.To);
+            .Include(dm => dm.To)
+            .Include(dm => dm.InReplyTo);
 
         return await query.ToListAsync();
     }

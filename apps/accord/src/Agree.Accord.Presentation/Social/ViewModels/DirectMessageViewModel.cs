@@ -13,6 +13,7 @@ public class DirectMessageViewModel
     public string Text { get; private set; }
     public UserAccountViewModel From { get; private set; }
     public UserAccountViewModel To { get; private set; }
+    public DirectMessageViewModel InReplyTo { get; private set; }
     public bool Read { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
@@ -21,11 +22,12 @@ public class DirectMessageViewModel
     /// </summary>
     /// <param name="entity">The direct message entity.</param>
     /// <returns>The view model.</returns>
-    public static DirectMessageViewModel FromEntity(DirectMessage entity) => new()
+    public static DirectMessageViewModel FromEntity(DirectMessage entity, bool hideReply = false) => new()
     {
         Id = entity.Id,
         From = UserAccountViewModel.FromEntity(entity.From),
         To = UserAccountViewModel.FromEntity(entity.To),
+        InReplyTo = entity.InReplyTo != null ? FromEntity(entity.InReplyTo, true) : null,
         Read = entity.Read,
         Text = entity.Text,
         CreatedAt = entity.CreatedAt
