@@ -31,7 +31,29 @@ public class DirectMessageRepository : GenericRepository<DirectMessage, Guid>, I
             query = query.Where(dm => dm.CreatedAt < startAt.CreatedAt);
 
         query = query.OrderByDescending(dm => dm.CreatedAt)
-            .Take(request.PageSize);
+            .Take(request.PageSize)
+            .Include(dm => dm.From)
+            .Include(dm => dm.To);
+
+        return await query.ToListAsync();
+    }
+
+    public new async Task<DirectMessage> GetFirstAsync(Specification<DirectMessage> specification)
+    {
+        var query = _dbContext.Set<DirectMessage>()
+            .Where(specification.Expression)
+            .Include(dm => dm.From)
+            .Include(dm => dm.To);
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public new async Task<IEnumerable<DirectMessage>> GetAllAsync(Specification<DirectMessage> specification)
+    {
+        var query = _dbContext.Set<DirectMessage>()
+            .Where(specification.Expression)
+            .Include(dm => dm.From)
+            .Include(dm => dm.To);
 
         return await query.ToListAsync();
     }

@@ -32,6 +32,10 @@ public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest
         {
             return DirectMessageResult.Fail(new ErrorList().AddError("ToId", "User not found"));
         }
+        if (toUser.Id == request.From.Id)
+        {
+            return DirectMessageResult.Fail(new ErrorList().AddError("ToId", "Cannot send a direct message to yourself"));
+        }
 
         var directMessage = new DirectMessage(request.MessageText, request.From, toUser);
 

@@ -13,9 +13,9 @@ using MediatR;
 /// </summary>
 public class GetDirectMessageByIdHandler : IRequestHandler<GetDirectMessagebyIdRequest, DirectMessage>
 {
-    private readonly IRepository<DirectMessage, Guid> _directMessageRepository;
+    private readonly IDirectMessageRepository _directMessageRepository;
 
-    public GetDirectMessageByIdHandler(IRepository<DirectMessage, Guid> directMessageRepository) => _directMessageRepository = directMessageRepository;
+    public GetDirectMessageByIdHandler(IDirectMessageRepository directMessageRepository) => _directMessageRepository = directMessageRepository;
 
     public async Task<DirectMessage> Handle(GetDirectMessagebyIdRequest request, CancellationToken cancellationToken)
         => await _directMessageRepository.GetFirstAsync(new DirectMessageIdEqualSpecification(request.Id));
