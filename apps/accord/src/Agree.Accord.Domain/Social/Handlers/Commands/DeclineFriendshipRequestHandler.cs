@@ -35,7 +35,7 @@ public class DeclineFriendshipRequestHandler : IRequestHandler<DeclineFriendship
         await _friendshipRepository.DeleteAsync(friendshipRequest);
         await _friendshipRepository.CommitAsync();
 
-        await _mediator.Publish(new FriendshipRequestDeclinedNotification(friendshipRequest));
+        await _mediator.Publish(new FriendshipRequestDeclinedNotification(friendshipRequest), cancellationToken);
 
         return FriendshipRequestResult.Ok(friendshipRequest);
     }

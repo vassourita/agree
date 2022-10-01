@@ -69,7 +69,7 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
         await _friendshipRepository.InsertAsync(friendshipRequest);
         await _friendshipRepository.CommitAsync();
 
-        await _mediator.Publish(new FriendshipRequestCreatedNotification(friendshipRequest));
+        await _mediator.Publish(new FriendshipRequestCreatedNotification(friendshipRequest), cancellationToken);
 
         return FriendshipRequestResult.Ok(friendshipRequest);
     }

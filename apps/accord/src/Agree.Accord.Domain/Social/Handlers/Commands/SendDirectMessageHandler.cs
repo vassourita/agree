@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Specifications;
+using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
 using Agree.Accord.SharedKernel;
@@ -18,11 +19,13 @@ public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;
     private readonly IUserAccountRepository _accountRepository;
+    private readonly IMediator _mediator;
 
-    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, IUserAccountRepository userAccountRepository)
+    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, IUserAccountRepository userAccountRepository, IMediator mediator)
     {
         _directMessageRepository = directMessageRepository;
         _accountRepository = userAccountRepository;
+        _mediator = mediator;
     }
 
     public async Task<DirectMessageResult> Handle(SendDirectMessageRequest request, CancellationToken cancellationToken)
@@ -41,6 +44,8 @@ public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest
 
         await _directMessageRepository.InsertAsync(directMessage);
         await _directMessageRepository.CommitAsync();
+
+        await _mediator.Publish(new DirectMessageCreatedNotification(directMessage), cancellationToken);
 
         return DirectMessageResult.Ok(directMessage);
     }

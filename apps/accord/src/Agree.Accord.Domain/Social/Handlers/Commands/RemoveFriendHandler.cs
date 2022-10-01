@@ -20,7 +20,6 @@ public class RemoveFriendHandler : IRequestHandler<RemoveFriendRequest, RemoveFr
 
     public async Task<RemoveFriendResult> Handle(RemoveFriendRequest request, CancellationToken cancellationToken)
     {
-
         var friendship = await _friendshipRepository.GetFirstAsync(new FriendshipExistsSpecification(request.User.Id, request.FriendId));
 
         if (friendship == null)
