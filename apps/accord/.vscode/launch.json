@@ -10,15 +10,10 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Agree.Accord.Presentation/bin/Debug/net5.0/Agree.Accord.Presentation.dll",
+            "program": "${workspaceFolder}/src/Agree.Accord.Presentation/bin/Debug/net6.0/Agree.Accord.Presentation.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Agree.Accord.Presentation",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
