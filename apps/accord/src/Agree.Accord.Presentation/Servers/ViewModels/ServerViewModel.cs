@@ -1,7 +1,10 @@
 namespace Agree.Accord.Presentation.Servers.ViewModels;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Agree.Accord.Domain.Servers;
+using Agree.Accord.Presentation.Identity.ViewModels;
 
 /// <summary>
 /// A server view model.
@@ -13,6 +16,10 @@ public class ServerViewModel
     public string Description { get; private set; }
     public string PrivacyLevel { get; private set; }
 
+    public IEnumerable<RoleViewModel> Roles { get; private set; }
+
+    public IEnumerable<UserAccountViewModel> Members { get; private set; }
+
     /// <summary>
     /// Creates a new instance of the <see cref="ServerViewModel"/> class from a server entity.
     /// </summary>
@@ -23,6 +30,8 @@ public class ServerViewModel
         Id = entity.Id,
         Name = entity.Name,
         Description = entity.Description,
-        PrivacyLevel = entity.PrivacyLevel.ToString()
+        PrivacyLevel = entity.PrivacyLevel.ToString(),
+        Roles = entity.Roles.Select(r => RoleViewModel.FromEntity(r, true)),
+        Members = entity.Members.Select(sm => UserAccountViewModel.FromEntity(sm.User))
     };
 }

@@ -1,5 +1,6 @@
 namespace Agree.Accord.SharedKernel;
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,6 +29,11 @@ public class ErrorList : Dictionary<string, List<string>>
     public ErrorList(string propertyName, string errorMessage)
     {
         AddError(propertyName, errorMessage);
+    }
+
+    public bool HasErrors(string v)
+    {
+        return this.ContainsKey(v);
     }
 }
 

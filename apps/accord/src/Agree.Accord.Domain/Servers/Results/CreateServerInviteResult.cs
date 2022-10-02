@@ -1,10 +1,8 @@
 namespace Agree.Accord.Domain.Servers.Results;
 
+using Agree.Accord.Domain.Servers;
 using Agree.Accord.SharedKernel;
 
-/// <summary>
-/// The result of a server creation.
-/// </summary>
 public class CreateServerResult : Result<Server, ErrorList>
 {
     private CreateServerResult(Server server) : base(server)

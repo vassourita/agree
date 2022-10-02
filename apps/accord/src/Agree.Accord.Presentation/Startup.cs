@@ -31,8 +31,14 @@ public class Startup
         services.AddAccordInfrastructure(Configuration, typeof(Startup).Assembly)
             .AddAccordAuthentication(Configuration);
 
-        services.AddControllers().ConfigureApiBehaviorOptions(options =>
-            options.SuppressModelStateInvalidFilter = true);
+        services.AddControllers()
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+            )
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         services.AddSignalR();
 
         services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agree.Accord.Presentation", Version = "v1" }));
