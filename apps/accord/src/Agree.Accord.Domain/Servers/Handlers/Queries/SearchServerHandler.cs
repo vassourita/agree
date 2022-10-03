@@ -16,5 +16,5 @@ public class SearchServersHandler : IRequestHandler<SearchServersRequest, IEnume
     public SearchServersHandler(IServerRepository accountRepository) => _serverRepository = accountRepository;
 
     public async Task<IEnumerable<Server>> Handle(SearchServersRequest request, CancellationToken cancellationToken)
-        => await _serverRepository.SearchAsync(request.Query, request);
+        => await _serverRepository.SearchAsync(request.Query, request.UserId, request);
 }

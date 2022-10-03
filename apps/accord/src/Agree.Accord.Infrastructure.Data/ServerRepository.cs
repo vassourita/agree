@@ -16,12 +16,22 @@ public class ServerRepository : GenericRepository<Server, Guid>, IServerReposito
     public ServerRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }
 
-    public async Task<IEnumerable<Server>> SearchAsync(string query, Pagination pagination)
+    public async Task<IEnumerable<Server>> SearchAsync(string query, Guid userId, Pagination pagination)
     {
-        var result = await _dbContext.Set<Server>().FromSqlRaw($@"
+        query = $"%{query}%";
+        var result = await _dbContext.Set<Server>().FromSqlInterpolated($@"
                 SELECT *
-                FROM ""Servers""
-                WHERE ""Name"" ILIKE '%{query}%' OR ""Description"" ILIKE '%{query}%'
+                FROM ""Servers"" AS s
+                WHERE (
+                    s.""Name"" ILIKE {query} OR
+                    s.""Description"" ILIKE {query}
+                )
+                AND CASE WHEN s.""PrivacyLevel"" = 'Secret' THEN EXISTS (
+                    SELECT 1
+                    FROM ""ServerMembers"" AS sm
+                    WHERE sm.""ServerId"" = s.""Id"" AND sm.""UserId"" = {userId}
+                )
+                ELSE TRUE END
             ")
             .OrderBy(s => s.CreatedAt)
             .Skip((pagination.Page - 1) * pagination.PageSize)

@@ -7,5 +7,5 @@ using Agree.Accord.SharedKernel.Data;
 
 public interface IServerRepository : IRepository<Server, Guid>
 {
-    public Task<IEnumerable<Server>> SearchAsync(string query, Pagination pagination);
+    public Task<IEnumerable<Server>> SearchAsync(string query, Guid id, Pagination pagination);
 }

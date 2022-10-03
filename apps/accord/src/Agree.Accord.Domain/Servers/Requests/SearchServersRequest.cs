@@ -1,5 +1,6 @@
 namespace Agree.Accord.Domain.Servers.Requests;
 
+using System;
 using System.Collections.Generic;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
@@ -10,4 +11,6 @@ using MediatR;
 public class SearchServersRequest : Pagination, IRequest<IEnumerable<Server>>
 {
     public string Query { get; set; }
+
+    public Guid UserId { get; set; }
 }

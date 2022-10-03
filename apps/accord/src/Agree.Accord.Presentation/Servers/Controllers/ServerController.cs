@@ -47,6 +47,7 @@ public class ServerController : CustomControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<Server>>))]
     public async Task<IActionResult> Index([FromQuery] SearchServersRequest request)
     {
+        request.UserId = (await GetAuthenticatedUserAccount()).Id;
         var result = await _mediator.Send(request);
         return Ok(new GenericResponse(result.Select(ServerViewModel.FromEntity)));
     }
