@@ -68,6 +68,9 @@ public class ApplicationDbContext : DbContext
             b.Property(s => s.Description)
                 .HasMaxLength(300);
 
+            b.Property(s => s.CreatedAt)
+                .IsRequired();
+
             b.Property(s => s.PrivacyLevel)
                 .HasColumnType("varchar(10)")
                 .IsRequired()

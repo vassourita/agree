@@ -23,6 +23,7 @@ public class ServerRepository : GenericRepository<Server, Guid>, IServerReposito
                 FROM ""Servers""
                 WHERE ""Name"" ILIKE '%{query}%' OR ""Description"" ILIKE '%{query}%'
             ")
+            .OrderBy(s => s.CreatedAt)
             .Skip((pagination.Page - 1) * pagination.PageSize)
             .Take(pagination.PageSize)
             .ToListAsync();

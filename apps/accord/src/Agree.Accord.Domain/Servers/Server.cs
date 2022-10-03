@@ -24,6 +24,7 @@ public class Server : IEntity<Guid>
         Name = name;
         Description = description;
         PrivacyLevel = privacyLevel;
+        CreatedAt = DateTime.UtcNow;
         Members = new Collection<ServerMember>();
         Roles = new Collection<ServerRole>();
         Categories = new Collection<Category>();
@@ -48,6 +49,11 @@ public class Server : IEntity<Guid>
     /// The server privacy level.
     /// </summary>
     public ServerPrivacy PrivacyLevel { get; private set; }
+
+    /// <summary>
+    /// The server creation date.
+    /// </summary>
+    public DateTime CreatedAt { get; private set; }
 
     /// <summary>
     /// The server members in a N-N pivot collection.
