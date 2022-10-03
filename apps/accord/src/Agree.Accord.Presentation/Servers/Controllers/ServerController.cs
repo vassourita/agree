@@ -40,4 +40,14 @@ public class ServerController : CustomControllerBase
             return BadRequest(result.Error);
         return Ok(new GenericResponse(ServerViewModel.FromEntity(result.Data)));
     }
+
+    [HttpGet]
+    [Route("")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<IEnumerable<Server>>))]
+    public async Task<IActionResult> Index([FromQuery] SearchServersRequest request)
+    {
+        var result = await _mediator.Send(request);
+        return Ok(new GenericResponse(result.Select(ServerViewModel.FromEntity)));
+    }
 }

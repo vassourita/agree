@@ -17,6 +17,7 @@ using Agree.Accord.Domain.Social;
 using Agree.Accord.SharedKernel.Data;
 using MediatR;
 using System.Reflection;
+using Agree.Accord.Domain.Servers;
 
 /// <summary>
 /// Provides extension methods for the <see cref="IServiceCollection"/> interface that configure the application infrastructure and auth.
@@ -49,6 +50,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IRepository<Friendship, string>, FriendshipRepository>();
         services.AddTransient<IUserAccountRepository, UserAccountRepository>();
         services.AddTransient<IDirectMessageRepository, DirectMessageRepository>();
+        services.AddTransient<IServerRepository, ServerRepository>();
         services.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>));
 
         // Providers
