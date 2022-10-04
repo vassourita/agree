@@ -35,12 +35,13 @@ public class GenericRepository<T, TId> : IRepository<T, TId>
         }
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification) => specification is PaginatedSpecification<T> paginatedSpecification
+    public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification)
+        => specification is PaginatedSpecification<T> paginatedSpecification
             ? await _dbContext.Set<T>()
-                 .Where(specification.Expression)
-                 .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
-                 .Take(paginatedSpecification.Pagination.PageSize)
-                 .ToListAsync()
+                    .Where(specification.Expression)
+                    .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
+                    .Take(paginatedSpecification.Pagination.PageSize)
+                    .ToListAsync()
             : await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
 
     public async Task<T> GetFirstAsync(Specification<T> specification)

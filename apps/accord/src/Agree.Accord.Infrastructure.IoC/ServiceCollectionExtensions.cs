@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddAccordInfrastructure(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
-        services.AddMediatR(assembly, typeof(IUserAccountRepository).Assembly);
+        services.AddMediatR(assembly, typeof(IDirectMessageRepository).Assembly);
 
         // Options
         services.Configure<NativeMailProviderOptions>(options =>
@@ -48,9 +48,7 @@ public static class ServiceCollectionExtensions
         // .LogTo(Console.WriteLine)
         );
         services.AddTransient<IRepository<Friendship, string>, FriendshipRepository>();
-        services.AddTransient<IUserAccountRepository, UserAccountRepository>();
         services.AddTransient<IDirectMessageRepository, DirectMessageRepository>();
-        services.AddTransient<IServerRepository, ServerRepository>();
         services.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>));
 
         // Providers

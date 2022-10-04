@@ -38,7 +38,9 @@ public class ServerController : CustomControllerBase
         var result = await _mediator.Send(request);
         if (result.Failed)
             return BadRequest(result.Error);
-        return Ok(new GenericResponse(ServerViewModel.FromEntity(result.Data)));
+        return Created(
+            Url.Link("GetServerById", new { id = result.Data.Id }),
+            new GenericResponse(ServerViewModel.FromEntity(result.Data)));
     }
 
     [HttpGet]
@@ -50,5 +52,23 @@ public class ServerController : CustomControllerBase
         request.UserId = (await GetAuthenticatedUserAccount()).Id;
         var result = await _mediator.Send(request);
         return Ok(new GenericResponse(result.Select(ServerViewModel.FromEntity)));
+    }
+
+    [HttpGet]
+    [Route("{serverId:guid}", Name = "GetServerById")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<Server>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Show([FromRoute] Guid serverId)
+    {
+        var request = new GetServerByIdRequest
+        {
+            ServerId = serverId,
+            UserId = (await GetAuthenticatedUserAccount()).Id
+        };
+        var result = await _mediator.Send(request);
+        if (result == null)
+            return NotFound();
+        return Ok(new GenericResponse(ServerViewModel.FromEntity(result)));
     }
 }

@@ -1,5 +1,6 @@
 namespace Agree.Accord.Domain.Identity.Handlers.Commands;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Requests;
@@ -14,12 +15,12 @@ using MediatR;
 /// </summary>
 public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, CreateAccountResult>
 {
-    private readonly IUserAccountRepository _accountRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
     private readonly IPasswordManager _passwordManager;
     private readonly TokenFactory _tokenFactory;
     private readonly DiscriminatorTagFactory _discriminatorTagFactory;
 
-    public CreateAccountHandler(IUserAccountRepository accountRepository, TokenFactory tokenFactory, IPasswordManager passwordManager, DiscriminatorTagFactory discriminatorTagFactory)
+    public CreateAccountHandler(IRepository<UserAccount, Guid> accountRepository, TokenFactory tokenFactory, IPasswordManager passwordManager, DiscriminatorTagFactory discriminatorTagFactory)
     {
         _accountRepository = accountRepository;
         _passwordManager = passwordManager;

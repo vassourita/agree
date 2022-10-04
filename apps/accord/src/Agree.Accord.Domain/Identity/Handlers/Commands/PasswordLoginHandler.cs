@@ -1,11 +1,13 @@
 namespace Agree.Accord.Domain.Identity.Handlers.Commands;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity.Requests;
 using Agree.Accord.Domain.Identity.Results;
 using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Identity.Tokens;
+using Agree.Accord.SharedKernel.Data;
 using MediatR;
 
 /// <summary>
@@ -13,11 +15,11 @@ using MediatR;
 /// </summary>
 public class PasswordLoginHandler : IRequestHandler<PasswordLoginRequest, PasswordLoginResult>
 {
-    private readonly IUserAccountRepository _accountRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
     private readonly IPasswordManager _passwordManager;
     private readonly TokenFactory _tokenFactory;
 
-    public PasswordLoginHandler(IUserAccountRepository accountRepository, TokenFactory tokenFactory, IPasswordManager passwordManager)
+    public PasswordLoginHandler(IRepository<UserAccount, Guid> accountRepository, TokenFactory tokenFactory, IPasswordManager passwordManager)
     {
         _accountRepository = accountRepository;
         _tokenFactory = tokenFactory;

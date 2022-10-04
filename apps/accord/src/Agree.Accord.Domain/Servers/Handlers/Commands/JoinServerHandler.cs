@@ -27,7 +27,7 @@ public class JoinServerHandler : IRequestHandler<JoinServerRequest, JoinServerRe
 
     public async Task<JoinServerResult> Handle(JoinServerRequest request, CancellationToken cancellationToken)
     {
-        var server = await _serverRepository.GetFirstAsync(new ServerIdEqualSpecification(request.ServerId));
+        var server = await _serverRepository.GetFirstAsync(new ServerIdEqualSpecification(request.ServerId, request.User.Id));
 
         if (server is null)
             return JoinServerResult.Fail(new ErrorList("ServerId", "Server not found."));

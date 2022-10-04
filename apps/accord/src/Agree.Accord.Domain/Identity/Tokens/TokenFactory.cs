@@ -8,6 +8,7 @@ using Agree.Accord.Domain.Identity.Specifications;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Agree.Accord.SharedKernel.Data;
 
 /// <summary>
 /// Service for creating and managing tokens.
@@ -15,10 +16,10 @@ using Microsoft.IdentityModel.Tokens;
 public class TokenFactory
 {
     private readonly JwtConfiguration _jwtConfiguration;
-    private readonly IUserAccountRepository _accountRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
 
     public TokenFactory(IOptions<JwtConfiguration> jwtConfiguration,
-                        IUserAccountRepository accountRepository)
+                        IRepository<UserAccount, Guid> accountRepository)
     {
         _jwtConfiguration = jwtConfiguration.Value;
         _accountRepository = accountRepository;

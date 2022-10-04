@@ -1,5 +1,6 @@
 namespace Agree.Accord.Domain.Social.Handlers.Commands;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
@@ -18,10 +19,10 @@ using MediatR;
 public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipRequestRequest, FriendshipRequestResult>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;
-    private readonly IUserAccountRepository _accountRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
     private readonly IMediator _mediator;
 
-    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IUserAccountRepository userAccountRepository, IMediator mediator)
+    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IRepository<UserAccount, Guid> userAccountRepository, IMediator mediator)
     {
         _friendshipRepository = friendshipRepository;
         _accountRepository = userAccountRepository;

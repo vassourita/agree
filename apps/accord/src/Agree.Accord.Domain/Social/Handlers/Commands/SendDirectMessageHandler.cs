@@ -19,10 +19,10 @@ using MediatR;
 public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest, DirectMessageResult>
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;
-    private readonly IUserAccountRepository _accountRepository;
+    private readonly IRepository<UserAccount, Guid> _accountRepository;
     private readonly IMediator _mediator;
 
-    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, IUserAccountRepository userAccountRepository, IMediator mediator)
+    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, IRepository<UserAccount, Guid> userAccountRepository, IMediator mediator)
     {
         _directMessageRepository = directMessageRepository;
         _accountRepository = userAccountRepository;

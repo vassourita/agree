@@ -1,6 +1,7 @@
 namespace Agree.Accord.Infrastructure.Data;
 
 using System;
+using System.Diagnostics;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Servers;
 using Agree.Accord.Domain.Social;
@@ -15,6 +16,11 @@ public class ApplicationDbContext : DbContext
         : base(options) { }
 
     public DbSet<Server> Servers { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder
+            .LogTo(Console.WriteLine)
+            .EnableSensitiveDataLogging();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
