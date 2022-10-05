@@ -23,6 +23,18 @@ public class ErrorList : Dictionary<string, List<string>>
             return this;
         }
     }
+    public ErrorList AddErrors(IEnumerable<ValidationResult> validationResults)
+    {
+        var errors = validationResults.ToErrorList();
+        foreach (var error in errors)
+        {
+            foreach (var message in error.Value)
+            {
+                AddError(error.Key, message);
+            }
+        }
+        return this;
+    }
 
     public ErrorList() { }
 
@@ -34,6 +46,11 @@ public class ErrorList : Dictionary<string, List<string>>
     public bool HasErrors(string v)
     {
         return this.ContainsKey(v);
+    }
+
+    public bool HasErrors()
+    {
+        return this.Any();
     }
 }
 

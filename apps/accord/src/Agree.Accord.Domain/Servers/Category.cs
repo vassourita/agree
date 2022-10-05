@@ -15,12 +15,14 @@ public class Category : IEntity<Guid>
     {
         Id = Guid.NewGuid();
         Name = name;
+        Position = Server.Categories.Count;
         Server = server;
         ServerId = server.Id;
     }
 
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public int Position { get; set; }
 
     public Guid ServerId { get; set; }
     public Server Server { get; set; }

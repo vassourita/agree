@@ -2,6 +2,7 @@ namespace Agree.Accord.Domain.Servers;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Agree.Accord.SharedKernel;
 
 /// <summary>
@@ -18,6 +19,8 @@ public class ServerRole : IEntity<Guid>
         Name = name;
         Server = server;
         ServerId = server.Id;
+        ServerMembers = new Collection<ServerMember>();
+        Permissions = new Collection<ServerRolePermission>();
     }
 
     /// <summary>
@@ -50,4 +53,9 @@ public class ServerRole : IEntity<Guid>
     /// The server members with this role.
     /// </summary>
     public ICollection<ServerMember> ServerMembers { get; private set; }
+
+    /// <summary>
+    /// The permissions this role has.
+    /// </summary>
+    public ICollection<ServerRolePermission> Permissions { get; private set; }
 }
