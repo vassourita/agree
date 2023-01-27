@@ -1,10 +1,11 @@
-namespace Agree.Allow.Presentation.Accounts;
+namespace Agree.Allow.Presentation.Accounts.Controllers;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Agree.Allow.Domain.Requests;
+using Agree.Allow.Presentation.Accounts.ViewModels;
 using Agree.SharedKernel.Presentation.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

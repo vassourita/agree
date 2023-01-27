@@ -24,8 +24,7 @@ public static class ServiceCollectionExtensions
             options.SigningKey = tokenConfig.SigningKey;
         });
 
-        var accountRepository = services.BuildServiceProvider().GetService<IRepository<UserAccount, Guid>>();
-        var tokenValidator = new TokenValidator(tokenConfig, accountRepository);
+        var tokenValidator = services.BuildServiceProvider().GetService<TokenValidator>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

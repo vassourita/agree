@@ -1,4 +1,4 @@
-namespace Agree.Allow.Presentation.Accounts;
+namespace Agree.Allow.Presentation.Accounts.ViewModels;
 
 using System.Security.Claims;
 using System;
