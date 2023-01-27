@@ -3,11 +3,16 @@ version: '3.7'
 services:
   accord_postgres:
     image: postgres:13-alpine
+  allow_postgres:
+    image: postgres:13-alpine
 
 volumes:
   accord_postgres_volume:
+  allow_postgres_volume:
 
 
 networks:
   accord-network:
+    driver: bridge
+  allow-network:
     driver: bridge
