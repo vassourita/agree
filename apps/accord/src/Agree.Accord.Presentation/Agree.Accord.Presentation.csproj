@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />

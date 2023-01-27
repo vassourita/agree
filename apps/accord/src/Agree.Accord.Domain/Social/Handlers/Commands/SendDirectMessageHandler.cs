@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
@@ -19,19 +18,19 @@ using MediatR;
 public class SendDirectMessageHandler : IRequestHandler<SendDirectMessageRequest, DirectMessageResult>
 {
     private readonly IRepository<DirectMessage, Guid> _directMessageRepository;
-    private readonly IRepository<UserAccount, Guid> _accountRepository;
+    private readonly AllowClient _allowClient;
     private readonly IMediator _mediator;
 
-    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, IRepository<UserAccount, Guid> userAccountRepository, IMediator mediator)
+    public SendDirectMessageHandler(IRepository<DirectMessage, Guid> directMessageRepository, AllowClient allowClient, IMediator mediator)
     {
         _directMessageRepository = directMessageRepository;
-        _accountRepository = userAccountRepository;
+        _allowClient = allowClient;
         _mediator = mediator;
     }
 
     public async Task<DirectMessageResult> Handle(SendDirectMessageRequest request, CancellationToken cancellationToken)
     {
-        var toUser = await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(request.ToId));
+        var toUser = await _allowClient.GetUserAccountById(request.ToId);
         if (toUser == null)
             return DirectMessageResult.Fail(new ErrorList("ToId", "User not found"));
         if (toUser.Id == request.From.Id)

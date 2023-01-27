@@ -3,7 +3,6 @@ namespace Agree.Accord.Presentation.Shared;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Requests;
-using Agree.Accord.Presentation.Identity.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -25,9 +24,9 @@ public class CustomHubBase : Hub
         _mediator = mediator;
     }
 
-    protected UserAccountViewModel CurrentlyLoggedUser =>
+    protected UserAccount CurrentlyLoggedUser =>
         Context.User.Identity.IsAuthenticated
-        ? UserAccountViewModel.FromClaims(Context.User)
+        ? UserAccount.FromClaims(Context.User)
         : null;
 
     protected async Task<UserAccount> GetAuthenticatedUserAccount()

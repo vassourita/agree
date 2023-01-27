@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Agree.Allow.Domain/Agree.Allow.Domain.csproj" />
+    <ProjectReference Include="../../../../building-blocks/Agree.SharedKernel/Agree.SharedKernel.csproj"/>
+    <ProjectReference Include="../Agree.Allow.Infrastructure/Agree.Allow.Infrastructure.csproj" />
+    <ProjectReference Include="../Agree.Allow.Infrastructure.Data/Agree.Allow.Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Identity.Requests;
-using Agree.Accord.Presentation.Identity.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +17,9 @@ public class CustomControllerBase : ControllerBase
 
     public CustomControllerBase(IMediator mediator) => _mediator = mediator;
 
-    protected UserAccountViewModel CurrentlyLoggedUser =>
+    protected UserAccount CurrentlyLoggedUser =>
         HttpContext.User.Identity.IsAuthenticated
-        ? UserAccountViewModel.FromClaims(HttpContext.User)
+        ? UserAccount.FromClaims(HttpContext.User)
         : null;
 
     protected async Task<UserAccount> GetAuthenticatedUserAccount()

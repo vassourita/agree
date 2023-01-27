@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Agree.Accord.Domain.Identity;
-using Agree.Accord.Domain.Identity.Specifications;
 using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;
@@ -19,13 +18,13 @@ using MediatR;
 public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipRequestRequest, FriendshipRequestResult>
 {
     private readonly IRepository<Friendship, string> _friendshipRepository;
-    private readonly IRepository<UserAccount, Guid> _accountRepository;
+    private readonly AllowClient _allowClient;
     private readonly IMediator _mediator;
 
-    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, IRepository<UserAccount, Guid> userAccountRepository, IMediator mediator)
+    public SendFriendshipRequestHandler(IRepository<Friendship, string> friendshipRepository, AllowClient allowClient, IMediator mediator)
     {
         _friendshipRepository = friendshipRepository;
-        _accountRepository = userAccountRepository;
+        _allowClient = allowClient;
         _mediator = mediator;
     }
 
@@ -45,10 +44,7 @@ public class SendFriendshipRequestHandler : IRequestHandler<SendFriendshipReques
             return FriendshipRequestResult.Fail(new ErrorList("ToNameTag", "Cannot send a friendship request to yourself."));
         }
 
-        var nameTag = request.ToNameTag.Split('#');
-        var displayName = nameTag[0];
-        var tag = DiscriminatorTag.Parse(nameTag[1]);
-        var toUser = await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName));
+        var toUser = await _allowClient.GetUserAccountByNameTag(request.ToNameTag);
         if (toUser == null)
         {
             return FriendshipRequestResult.Fail(new ErrorList("ToNameTag", "User does not exists."));
