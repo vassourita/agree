@@ -16,16 +16,13 @@ using Agree.SharedKernel.Data;
 public class RefreshTokenFactory
 {
     private readonly JwtConfiguration _jwtConfiguration;
-    private readonly string _currentAudience;
 
-    public RefreshTokenFactory(IOptions<JwtConfiguration> jwtConfiguration,
-                        string currentAudience)
+    public RefreshTokenFactory(IOptions<JwtConfiguration> jwtConfiguration)
     {
         _jwtConfiguration = jwtConfiguration.Value;
-        _currentAudience = currentAudience;
     }
 
-    private Token GenerateRefreshTokenCore(UserAccount account)
+    private Token GenerateRefreshTokenCore(UserAccount account, string audience)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
@@ -39,7 +36,6 @@ public class RefreshTokenFactory
                 new Claim("refresh", "y")
             }),
             Issuer = _jwtConfiguration.Issuer,
-            Audience = _currentAudience,
             Expires = expiresIn,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
         };
@@ -53,5 +49,5 @@ public class RefreshTokenFactory
     /// </summary>
     /// <param name="account">The user account.</param>
     /// <returns>The generated Refresh token.</returns>
-    public Task<Token> GenerateAsync(UserAccount account) => Task.Run(() => GenerateRefreshTokenCore(account));
+    public Task<Token> GenerateAsync(UserAccount account, string audience) => Task.Run(() => GenerateRefreshTokenCore(account, audience));
 }

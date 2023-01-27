@@ -7,18 +7,18 @@ using Agree.SharedKernel;
 [Serializable]
 public class EmptyBodyException : Exception
 {
-    private readonly ErrorList _errors = new();
+    public readonly ErrorList Errors = new();
 
     public EmptyBodyException(string propertyName)
         : base($"{propertyName} cannot be null or empty.")
     {
-        _errors.AddError(propertyName, $"{propertyName} cannot be null or empty.");
+        Errors.AddError(propertyName, $"{propertyName} cannot be null or empty.");
     }
 
     public EmptyBodyException(string propertyName, string message)
         : base(message)
     {
-        _errors.AddError(propertyName, message);
+        Errors.AddError(propertyName, message);
     }
 
     protected EmptyBodyException(SerializationInfo info, StreamingContext context)

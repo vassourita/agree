@@ -16,25 +16,13 @@ using Agree.SharedKernel.Data;
 public class AccessTokenFactory
 {
     private readonly JwtConfiguration _jwtConfiguration;
-    private readonly IRepository<UserAccount, Guid> _accountRepository;
-    private readonly RefreshTokenFactory _refreshTokenFactory;
-    private readonly TokenValidator _tokenValidator;
-    private readonly string _currentAudience;
 
-    public AccessTokenFactory(IOptions<JwtConfiguration> jwtConfiguration,
-                        IRepository<UserAccount, Guid> accountRepository,
-                        RefreshTokenFactory refreshTokenFactory,
-                        TokenValidator tokenValidator,
-                        string currentAudience)
+    public AccessTokenFactory(IOptions<JwtConfiguration> jwtConfiguration)
     {
         _jwtConfiguration = jwtConfiguration.Value;
-        _accountRepository = accountRepository;
-        _refreshTokenFactory = refreshTokenFactory;
-        _tokenValidator = tokenValidator;
-        _currentAudience = currentAudience;
     }
 
-    private Token GenerateAccessTokenCore(UserAccount account)
+    private Token GenerateAccessTokenCore(UserAccount account, string audience)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
@@ -49,7 +37,6 @@ public class AccessTokenFactory
                 new Claim(ClaimTypes.Email, account.EmailAddress)
             }),
             Issuer = _jwtConfiguration.Issuer,
-            Audience = _currentAudience,
             Expires = expiresIn,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
         };
@@ -63,5 +50,5 @@ public class AccessTokenFactory
     /// </summary>
     /// <param name="account">The user account.</param>
     /// <returns>The generated access token.</returns>
-    public Task<Token> GenerateAsync(UserAccount account) => Task.Run(() => GenerateAccessTokenCore(account));
+    public Task<Token> GenerateAsync(UserAccount account, string audience) => Task.Run(() => GenerateAccessTokenCore(account, audience));
 }

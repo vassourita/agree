@@ -12,6 +12,8 @@ using Agree.SharedKernel.Data;
 using MediatR;
 using System.Reflection;
 using Agree.Allow.Domain;
+using Agree.Allow.Domain.Tokens;
+using Agree.Allow.Infrastructure.Providers;
 
 /// <summary>
 /// Provides extension methods for the <see cref="IServiceCollection"/> interface that configure the application infrastructure and auth.
@@ -24,6 +26,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAllowInfrastructure(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
         services.AddMediatR(assembly, typeof(UserAccount).Assembly);
+
+        services.AddScoped<TokenValidator>();
+        services.AddScoped<AccessTokenFactory>();
+        services.AddScoped<RefreshTokenFactory>();
+
+        services.AddScoped<IPasswordManager, BCryptPasswordManager>();
 
         // Data
         services.AddDbContext<ApplicationDbContext>(options =>

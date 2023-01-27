@@ -20,7 +20,6 @@ public static class ServiceCollectionExtensions
             options.AccessTokenExpiresInMinutes = 60;
             options.RefreshTokenExpiresInDays = 30;
             options.Issuer = tokenConfig.Issuer;
-            options.Audiences = tokenConfig.Audiences;
             options.SigningKey = tokenConfig.SigningKey;
         });
 
@@ -33,13 +32,9 @@ public static class ServiceCollectionExtensions
                 options.RequireHttpsMetadata = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = tokenConfig.Issuer,
-                    ValidateAudience = true,
-                    ValidAudiences = tokenConfig.Audiences,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.SigningKey)),
+                    ValidateIssuer = false,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = false,
                 };
                 options.Events = new JwtBearerEvents
                 {

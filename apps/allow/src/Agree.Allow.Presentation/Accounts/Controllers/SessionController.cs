@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Agree.Allow.Domain.Requests;
 using Agree.Allow.Presentation.Accounts.ViewModels;
 using Agree.Allow.Presentation.Exceptions;
-using Agree.SharedKernel;
 using Agree.SharedKernel.Presentation.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -33,26 +32,37 @@ public class SessionController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
     public async Task<IActionResult> Store(
         [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] PasswordLoginRequest? body,
-        [FromQuery] string grantType,
-        [FromQuery] string refreshToken)
+        [FromQuery(Name = "grant_type")] string grantType,
+        [FromQuery(Name = "refresh_token")] string refreshToken)
     {
-        IAuthenticationRequest command = grantType.Trim() switch
+        try
         {
-            "password" => body switch
+            IAuthenticationRequest command = grantType.Trim() switch
             {
-                null => throw new EmptyBodyException(nameof(body)),
-                _ => body
-            },
-            "refresh_token" => new RefreshTokenRequest(refreshToken),
-            null or "" => throw new InvalidGrantTypeException(),
-            _ => throw new InvalidGrantTypeException(grantType)
-        };
+                "password" => body switch
+                {
+                    null => throw new EmptyBodyException(nameof(body)),
+                    _ => body
+                },
+                "refresh_token" => new RefreshTokenRequest(refreshToken),
+                null or "" => throw new InvalidGrantTypeException(),
+                _ => throw new InvalidGrantTypeException(grantType)
+            };
 
-        var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-        if (result.Failed)
-            return BadRequest();
+            if (result.Failed)
+                return BadRequest();
 
-        return Ok(new AuthenticationViewModel(result.Data));
+            return Ok(new AuthenticationViewModel(result.Data));
+        }
+        catch (EmptyBodyException ex)
+        {
+            return BadRequest(new ValidationErrorResponse(ex.Errors));
+        }
+        catch (InvalidGrantTypeException ex)
+        {
+            return BadRequest(new ValidationErrorResponse(ex.Errors));
+        }
     }
 }

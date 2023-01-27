@@ -30,8 +30,6 @@ public class TokenValidator
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = true,
             ValidIssuer = _jwtConfiguration.Issuer,
-            ValidateAudience = true,
-            ValidAudiences = _jwtConfiguration.Audiences,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };

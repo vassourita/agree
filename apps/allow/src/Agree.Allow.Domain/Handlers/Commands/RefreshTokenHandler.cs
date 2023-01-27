@@ -32,7 +32,7 @@ public class RefreshTokenHandler : IRequestHandler<RefreshTokenRequest, Authenti
 
     public async Task<AuthenticationResult> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
     {
-        var user = await _tokenValidator.ValidateAsync(request.RefreshToken);
+        var user = await _tokenValidator.ValidateAsync(request.RefreshToken, true);
 
         if (user == null)
             return AuthenticationResult.Fail();
