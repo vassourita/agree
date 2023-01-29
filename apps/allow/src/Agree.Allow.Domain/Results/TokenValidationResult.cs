@@ -1,16 +1,14 @@
 namespace Agree.Allow.Domain.Results;
 
-using Agree.Allow.Domain.Tokens;
 using Agree.SharedKernel;
 
-/// <summary>
-/// The result of a login operation.
-/// </summary>
-public class TokenValidationResult : Result
+public class TokenValidationResult : Result<UserAccount>
 {
-    private TokenValidationResult(bool succeeded) : base(succeeded)
+    private TokenValidationResult(UserAccount user) : base(user)
+    { }
+    private TokenValidationResult() : base()
     { }
 
-    public static TokenValidationResult Ok() => new(true);
-    public static TokenValidationResult Fail() => new(false);
+    public static TokenValidationResult Ok(UserAccount user) => new(user);
+    public static TokenValidationResult Fail() => new();
 }

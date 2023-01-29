@@ -3,7 +3,6 @@ namespace Agree.Accord.Domain.Social.Handlers.Commands;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Social.Notifications;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Results;

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
@@ -10,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../building-blocks/Agree.SharedKernel/Agree.SharedKernel.csproj"/>
+    <ProjectReference Include="../../../../building-blocks/Agree.SharedKernel/Agree.SharedKernel.csproj" />
     <ProjectReference Include="../Agree.Allow.Domain/Agree.Allow.Domain.csproj" />
   </ItemGroup>
 

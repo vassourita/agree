@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <ItemGroup>
-    <ProjectReference Include="..\Agree.Accord.SharedKernel\Agree.Accord.SharedKernel.csproj" />
+    <ProjectReference Include="../../../../building-blocks/Agree.SharedKernel/Agree.SharedKernel.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />

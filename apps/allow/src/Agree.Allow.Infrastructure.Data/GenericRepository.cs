@@ -4,29 +4,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agree.Allow.Domain;
 using Agree.SharedKernel;
 using Agree.SharedKernel.Data;
 using Agree.SharedKernel.Exceptions;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-/// <summary>
-/// A generic repository for the data access layer using Entity Framework.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class GenericRepository<T, TId> : IRepository<T, TId>
-    where T : class, IEntity<TId>
+public class GenericRepository<TDbModel, TEntity, TId> : IRepository<TEntity, TId>
+    where TEntity : class, IEntity<TId>
+    where TDbModel : class
 {
     protected readonly ApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
+    private readonly SpecificationConverter<TDbModel, TEntity, TId> _specificationConverter = new();
 
-    public GenericRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
+    public GenericRepository(ApplicationDbContext dbContext, IMapper mapper)
+    {
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
     public Task CommitAsync() => _dbContext.SaveChangesAsync();
 
-    public Task DeleteAsync(T entity)
+    public Task DeleteAsync(TEntity entity)
     {
         try
         {
-            _dbContext.Set<T>().Remove(entity);
+            var dbModel = _mapper.Map<TDbModel>(entity);
+            _dbContext.Set<TDbModel>().Remove(dbModel);
             return Task.FromResult(DatabaseOperationResult.Ok());
         }
         catch
@@ -35,47 +41,64 @@ public class GenericRepository<T, TId> : IRepository<T, TId>
         }
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
-        => await _dbContext.Set<T>().ToListAsync();
-
-    public async Task<IEnumerable<T>> GetAllAsync(Specification<T> specification)
-        => specification is PaginatedSpecification<T> paginatedSpecification
-            ? await _dbContext.Set<T>()
-                    .Where(specification.Expression)
-                    .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
-                    .Take(paginatedSpecification.Pagination.PageSize)
-                    .ToListAsync()
-            : await _dbContext.Set<T>().Where(specification.Expression).ToListAsync();
-
-    public async Task<T?> GetFirstAsync(Specification<T> specification)
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        var result = await _dbContext.Set<T>().Where(specification.Expression).FirstOrDefaultAsync();
-        return result;
+        var result = await _dbContext.Set<TDbModel>().ToListAsync();
+        return _mapper.Map<IEnumerable<TEntity>>(result);
     }
 
-    public async Task<T> InsertAsync(T entity)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Specification<TEntity> specification)
     {
-        try
+        if (specification is PaginatedSpecification<TEntity> paginatedSpecification)
         {
-            var response = await _dbContext.Set<T>().AddAsync(entity);
-            return response.Entity;
+            var convertedExpression = _specificationConverter.Convert(paginatedSpecification);
+            var result = await _dbContext.Set<TDbModel>()
+                .Where(convertedExpression)
+                .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
+                .Take(paginatedSpecification.Pagination.PageSize)
+                .ToListAsync();
+            return _mapper.Map<IEnumerable<TEntity>>(result);
         }
-        catch (Exception e)
+        else
         {
-            throw new RepositoryOperationException($"An error ocurred while inserting entity {nameof(T)}#{entity.Id}", e);
+            var convertedExpression = _specificationConverter.Convert(specification);
+            var result = await _dbContext.Set<TDbModel>().Where(convertedExpression).ToListAsync();
+            return _mapper.Map<IEnumerable<TEntity>>(result);
         }
     }
 
-    public Task<T> UpdateAsync(T entity)
+    public async Task<TEntity?> GetFirstAsync(Specification<TEntity> specification)
+    {
+        var convertedExpression = _specificationConverter.Convert(specification);
+        var result = await _dbContext.Set<TDbModel>().Where(convertedExpression).FirstOrDefaultAsync();
+        return _mapper.Map<TEntity>(result);
+    }
+
+    public async Task<TEntity> InsertAsync(TEntity entity)
     {
         try
         {
-            var response = _dbContext.Set<T>().Update(entity);
-            return Task.FromResult(response.Entity);
+            var dbModel = _mapper.Map<TDbModel>(entity);
+            var response = await _dbContext.Set<TDbModel>().AddAsync(dbModel);
+            return _mapper.Map<TEntity>(response.Entity);
         }
         catch (Exception e)
         {
-            throw new RepositoryOperationException($"An error ocurred while updating entity {nameof(T)}#{entity.Id}", e);
+            throw new RepositoryOperationException(nameof(TEntity), $"An error ocurred while inserting entity {nameof(TEntity)}#{entity.Id}", e);
+        }
+    }
+
+    public Task<TEntity> UpdateAsync(TEntity entity)
+    {
+        try
+        {
+            var dbModel = _mapper.Map<TDbModel>(entity);
+            _dbContext.Set<TDbModel>().Update(dbModel);
+            return Task.FromResult(entity);
+        }
+        catch (Exception e)
+        {
+            throw new RepositoryOperationException(nameof(TEntity), $"An error ocurred while updating entity {nameof(TEntity)}#{entity.Id}", e);
         }
     }
 }

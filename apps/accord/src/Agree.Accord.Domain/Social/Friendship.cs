@@ -1,7 +1,6 @@
 namespace Agree.Accord.Domain.Social;
 
 using System;
-using Agree.Accord.Domain.Identity;
 using Agree.Accord.SharedKernel;
 
 /// <summary>

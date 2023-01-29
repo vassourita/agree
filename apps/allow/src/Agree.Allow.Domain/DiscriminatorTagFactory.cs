@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 using Agree.Allow.Domain.Specifications;
 using Agree.SharedKernel.Data;
 
-/// <summary>
-/// Creates a <see cref="DiscriminatorTag"/> from a given <see cref="UserAccount"/>.
-/// </summary>
 public class DiscriminatorTagFactory
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;

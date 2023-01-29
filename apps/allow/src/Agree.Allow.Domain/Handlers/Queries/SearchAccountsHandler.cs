@@ -10,9 +10,6 @@ using Agree.Allow.Domain.Specifications;
 using Agree.SharedKernel.Data;
 using MediatR;
 
-/// <summary>
-/// Handles the search of paginated <see cref="UserAccount"/>s by a query.
-/// </summary>
 public class SearchAccountsHandler : IRequestHandler<SearchAccountsRequest, IEnumerable<UserAccount>>
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;

@@ -9,9 +9,6 @@ using Agree.Allow.Domain.Tokens;
 using Agree.SharedKernel.Data;
 using MediatR;
 
-/// <summary>
-/// Handles login requests using a password.
-/// </summary>
 public class ValidateTokenHandler : IRequestHandler<ValidateTokenRequest, TokenValidationResult>
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;
@@ -37,6 +34,6 @@ public class ValidateTokenHandler : IRequestHandler<ValidateTokenRequest, TokenV
         if (user == null)
             return TokenValidationResult.Fail();
 
-        return TokenValidationResult.Ok();
+        return TokenValidationResult.Ok(user);
     }
 }

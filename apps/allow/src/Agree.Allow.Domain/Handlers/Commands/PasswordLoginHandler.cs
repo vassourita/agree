@@ -10,9 +10,6 @@ using Agree.Allow.Domain.Tokens;
 using Agree.SharedKernel.Data;
 using MediatR;
 
-/// <summary>
-/// Handles login requests using a password.
-/// </summary>
 public class PasswordLoginHandler : IRequestHandler<PasswordLoginRequest, AuthenticationResult>
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Agree.Accord.Domain.Identity;
 using Agree.Accord.Domain.Social.Requests;
 using Agree.Accord.Domain.Social.Specifications;
 using Agree.Accord.SharedKernel.Data;

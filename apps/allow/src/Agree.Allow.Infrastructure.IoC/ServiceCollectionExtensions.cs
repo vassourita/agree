@@ -15,14 +15,8 @@ using Agree.Allow.Domain;
 using Agree.Allow.Domain.Tokens;
 using Agree.Allow.Infrastructure.Providers;
 
-/// <summary>
-/// Provides extension methods for the <see cref="IServiceCollection"/> interface that configure the application infrastructure and auth.
-/// </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
-    /// Adds the application's infrastructure services and domain handlers to the service collection.
-    /// </summary>
     public static IServiceCollection AddAllowInfrastructure(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
     {
         services.AddMediatR(assembly, typeof(UserAccount).Assembly);

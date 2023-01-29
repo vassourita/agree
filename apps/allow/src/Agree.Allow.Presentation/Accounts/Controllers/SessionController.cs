@@ -17,13 +17,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 [ApiController]
 [AllowAnonymous]
 [Route("api/sessions")]
-public class SessionController : ControllerBase
+public class SessionController : CustomControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public SessionController(IMediator mediator)
+    public SessionController(IMediator mediator) : base(mediator)
     {
-        _mediator = mediator;
     }
 
     [HttpPost]
@@ -41,7 +38,7 @@ public class SessionController : ControllerBase
             {
                 "password" => body switch
                 {
-                    null => throw new EmptyBodyException(nameof(body)),
+                    null => throw new EmptyBodyException(),
                     _ => body
                 },
                 "refresh_token" => new RefreshTokenRequest(refreshToken),

@@ -2,9 +2,6 @@ namespace Agree.Allow.Domain.Specifications;
 
 using Agree.SharedKernel.Data;
 
-/// <summary>
-/// A specification that checks if the account name of a given user is equal to a given value.
-/// </summary>
 public class UserNameEqualSpecification : Specification<UserAccount>
 {
     public UserNameEqualSpecification(string userName)

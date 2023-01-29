@@ -3,9 +3,6 @@ namespace Agree.Allow.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-/// <summary>
-/// A factory for creating <see cref="ApplicationDbContext"/> instances during design-time builds.
-/// </summary>
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
     public ApplicationDbContext CreateDbContext(string[] args)

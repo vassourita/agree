@@ -11,9 +11,6 @@ using Agree.SharedKernel;
 using Agree.SharedKernel.Data;
 using MediatR;
 
-/// <summary>
-/// Handles the creation of a new <see cref="UserAccount"/>.
-/// </summary>
 public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, CreateAccountResult>
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;

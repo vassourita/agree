@@ -4,15 +4,10 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
-using Agree.Allow.Domain.Specifications;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Agree.SharedKernel.Data;
 
-/// <summary>
-/// Service for creating and managing access tokens.
-/// </summary>
 public class AccessTokenFactory
 {
     private readonly JwtConfiguration _jwtConfiguration;
@@ -22,7 +17,7 @@ public class AccessTokenFactory
         _jwtConfiguration = jwtConfiguration.Value;
     }
 
-    private Token GenerateAccessTokenCore(UserAccount account, string audience)
+    private Token GenerateAccessTokenCore(UserAccount account)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
@@ -50,5 +45,5 @@ public class AccessTokenFactory
     /// </summary>
     /// <param name="account">The user account.</param>
     /// <returns>The generated access token.</returns>
-    public Task<Token> GenerateAsync(UserAccount account, string audience) => Task.Run(() => GenerateAccessTokenCore(account, audience));
+    public Task<Token> GenerateAsync(UserAccount account) => Task.Run(() => GenerateAccessTokenCore(account));
 }

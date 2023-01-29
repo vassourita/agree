@@ -18,13 +18,10 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 [Route("api/accounts")]
 [Authorize]
-public class AccountController : ControllerBase
+public class AccountController : CustomControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public AccountController(IMediator mediator)
+    public AccountController(IMediator mediator) : base(mediator)
     {
-        _mediator = mediator;
     }
 
     [HttpPost]

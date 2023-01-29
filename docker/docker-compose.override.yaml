@@ -14,3 +14,17 @@ services:
       - accord_postgres_volume:/var/lib/postgresql/data
     networks:
       - accord-network
+
+  allow_postgres:
+    container_name: 'allow_postgres'
+    restart: always
+    ports:
+      - 4002:5432
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_DB=allow_db
+    volumes:
+      - allow_postgres_volume:/var/lib/postgresql/data
+    networks:
+      - allow-network

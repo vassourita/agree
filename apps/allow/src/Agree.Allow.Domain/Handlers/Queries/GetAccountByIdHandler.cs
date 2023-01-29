@@ -9,9 +9,6 @@ using Agree.Allow.Domain.Specifications;
 using Agree.SharedKernel.Data;
 using MediatR;
 
-/// <summary>
-/// Handles the retrieval of a <see cref="UserAccount"/> by its id.
-/// </summary>
 public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, UserAccount>
 {
     private readonly IRepository<UserAccount, Guid> _accountRepository;
