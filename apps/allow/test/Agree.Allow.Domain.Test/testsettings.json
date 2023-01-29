@@ -1,0 +1,18 @@
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "JwtConfiguration": {
+        "SigningKey": "d6f3c6b9bb9f3be036c93196f93906c7",
+        "Issuer": "http://localhost:5000/",
+        "AccessTokenExpiresInMinutes": 30,
+        "RefreshTokenExpiresInDays": 30
+    },
+    "ConnectionStrings": {
+        "DefaultConnection": ":memory:"
+    }
+}

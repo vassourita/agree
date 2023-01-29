@@ -86,8 +86,32 @@ public class DiscriminatorTag : ValueObject
         return TryParse(number, out var tag) ? tag : NewTag();
     }
 
+    /// <summary>
+    /// Increments the tag value by one.
+    /// </summary>
+    public DiscriminatorTag Increment()
+    {
+        var newValue = Value + 1;
+        return new DiscriminatorTag((ushort)newValue);
+    }
+
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+    }
+
+    public override int CompareTo(object obj)
+    {
+        if (obj == null)
+        {
+            return 1;
+        }
+
+        if (obj is DiscriminatorTag other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+
+        throw new ArgumentException("Object is not a DiscriminatorTag");
     }
 }

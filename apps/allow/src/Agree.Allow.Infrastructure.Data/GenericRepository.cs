@@ -47,30 +47,45 @@ public class GenericRepository<TDbModel, TEntity, TId> : IRepository<TEntity, TI
         return _mapper.Map<IEnumerable<TEntity>>(result);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(Specification<TEntity> specification)
-    {
-        if (specification is PaginatedSpecification<TEntity> paginatedSpecification)
-        {
-            var convertedExpression = _specificationConverter.Convert(paginatedSpecification);
-            var result = await _dbContext.Set<TDbModel>()
-                .Where(convertedExpression)
-                .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
-                .Take(paginatedSpecification.Pagination.PageSize)
-                .ToListAsync();
-            return _mapper.Map<IEnumerable<TEntity>>(result);
-        }
-        else
-        {
-            var convertedExpression = _specificationConverter.Convert(specification);
-            var result = await _dbContext.Set<TDbModel>().Where(convertedExpression).ToListAsync();
-            return _mapper.Map<IEnumerable<TEntity>>(result);
-        }
-    }
-
-    public async Task<TEntity?> GetFirstAsync(Specification<TEntity> specification)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specification)
     {
         var convertedExpression = _specificationConverter.Convert(specification);
-        var result = await _dbContext.Set<TDbModel>().Where(convertedExpression).FirstOrDefaultAsync();
+        var query = _dbContext.Set<TDbModel>()
+            .Where(convertedExpression);
+
+        if (specification is IOrderedSpecification<TEntity> orderedSpecification && orderedSpecification.OrderingExpression != null)
+        {
+            var convertedOrderedExpression = _specificationConverter.Convert(orderedSpecification);
+            query = !orderedSpecification.IsDescending
+                ? query.OrderBy(convertedOrderedExpression)
+                : query.OrderByDescending(convertedOrderedExpression);
+        }
+
+        if (specification is IPaginatedSpecification<TEntity> paginatedSpecification && paginatedSpecification.Pagination != null)
+        {
+            query = query
+                .Skip((paginatedSpecification.Pagination.Page - 1) * paginatedSpecification.Pagination.PageSize)
+                .Take(paginatedSpecification.Pagination.PageSize);
+        }
+
+        var result = await query.ToListAsync();
+        return _mapper.Map<IEnumerable<TEntity>>(result);
+    }
+
+    public async Task<TEntity?> GetFirstAsync(ISpecification<TEntity> specification)
+    {
+        var convertedExpression = _specificationConverter.Convert(specification);
+        var query = _dbContext.Set<TDbModel>()
+            .Where(convertedExpression);
+
+        if (specification is IOrderedSpecification<TEntity> orderedSpecification && orderedSpecification.OrderingExpression != null)
+        {
+            var convertedOrderedExpression = _specificationConverter.Convert(orderedSpecification);
+            query = query
+                .OrderBy(convertedOrderedExpression);
+        }
+
+        var result = await query.FirstOrDefaultAsync();
         return _mapper.Map<TEntity>(result);
     }
 

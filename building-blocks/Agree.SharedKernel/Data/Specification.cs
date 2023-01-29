@@ -5,19 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-public abstract class Specification<T>
+public abstract class Specification<T> : ISpecification<T>
 {
     public Specification()
     { }
 
     public Expression<Func<T, bool>> Expression { get; protected set; }
-}
-
-public abstract class PaginatedSpecification<T> : Specification<T>
-{
-    public IPagination Pagination { get; protected set; }
-
-    public PaginatedSpecification(IPagination pagination) => Pagination = pagination;
 }
 
 public abstract class AndSpecification<T> : Specification<T>
@@ -26,20 +19,6 @@ public abstract class AndSpecification<T> : Specification<T>
     public Specification<T> Right { get; protected set; }
 
     public AndSpecification(Specification<T> left, Specification<T> right)
-    {
-        Left = left;
-        Right = right;
-        Expression = Left.Expression.And(Right.Expression);
-    }
-}
-
-public abstract class PaginatedAndSpecification<T> : PaginatedSpecification<T>
-{
-    public Specification<T> Left { get; protected set; }
-    public Specification<T> Right { get; protected set; }
-
-    public PaginatedAndSpecification(Specification<T> left, Specification<T> right, IPagination pagination)
-        : base(pagination)
     {
         Left = left;
         Right = right;

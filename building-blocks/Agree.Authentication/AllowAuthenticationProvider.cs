@@ -25,7 +25,7 @@ public class AllowAuthenticationProvider : IAuthenticationProvider
 
     private readonly HttpClient _httpClient = new HttpClient();
 
-    public AllowAuthenticationProvider(string baseUrl, string appKey, Token refreshToken, Token accessToken)
+    public AllowAuthenticationProvider(string baseUrl, string appKey, Token? refreshToken, Token? accessToken)
     {
         _httpClient.BaseAddress = new Uri(baseUrl);
         _httpClient.DefaultRequestHeaders.Add("X-App-Key", appKey);
@@ -34,9 +34,8 @@ public class AllowAuthenticationProvider : IAuthenticationProvider
 
         _baseUrl = baseUrl;
         _appKey = appKey;
-        _refreshToken = refreshToken;
-        _accessToken = accessToken;
-        UserAccount = GetUserAccountAsync().Result;
+        _refreshToken = refreshToken ?? null;
+        _accessToken = accessToken ?? null;
     }
 
     public async Task<AuthenticationResult> AuthenticateAsync(AuthenticationRequest request)

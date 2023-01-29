@@ -54,17 +54,6 @@ public static class AuthenticationExtensions
 
     public static IServiceCollection AddAllowAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var tokenConfig = configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
-        var key = Encoding.ASCII.GetBytes(tokenConfig.SigningKey);
-
-        services.Configure<JwtConfiguration>(options =>
-        {
-            options.AccessTokenExpiresInMinutes = 60;
-            options.RefreshTokenExpiresInDays = 30;
-            options.Issuer = tokenConfig.Issuer;
-            options.SigningKey = tokenConfig.SigningKey;
-        });
-
         var mediator = services.BuildServiceProvider().GetService<IMediator>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

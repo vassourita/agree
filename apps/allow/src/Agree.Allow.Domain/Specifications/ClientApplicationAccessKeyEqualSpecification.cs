@@ -5,6 +5,6 @@ using Agree.SharedKernel.Data;
 public class ClientApplicationAccessKeyEqualSpecification : Specification<ClientApplication>
 {
     public ClientApplicationAccessKeyEqualSpecification(string accessKey)
-        => Expression = u
-        => u.AccessKey == accessKey;
+        => Expression = x
+        => x.AccessKey == accessKey;
 }

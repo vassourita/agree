@@ -27,9 +27,9 @@ public class AccessTokenFactory
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, account.NameTag),
-                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
-                new Claim(ClaimTypes.Email, account.EmailAddress)
+                new Claim(JwtRegisteredClaimNames.Name, account.NameTag),
+                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, account.EmailAddress)
             }),
             Issuer = _jwtConfiguration.Issuer,
             Expires = expiresIn,

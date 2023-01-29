@@ -28,6 +28,7 @@ public class Startup
         );
 
         services.AddAllowInfrastructure(Configuration, typeof(Startup).Assembly)
+            .AddAllowDbContext(Configuration)
             .AddAllowAuthentication(Configuration);
 
         services.AddControllers()

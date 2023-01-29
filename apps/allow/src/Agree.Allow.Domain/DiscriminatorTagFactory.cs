@@ -11,13 +11,19 @@ public class DiscriminatorTagFactory
 
     public DiscriminatorTagFactory(IRepository<UserAccount, Guid> accountRepository) => _accountRepository = accountRepository;
 
-    public async Task<DiscriminatorTag> GenerateDiscriminatorTagAsync(string displayName)
+    public async Task<DiscriminatorTag> GenerateDiscriminatorTagAsync(string username)
     {
-        DiscriminatorTag tag;
+        DiscriminatorTag tag = DiscriminatorTag.Parse(0);
 
-        do
-            tag = DiscriminatorTag.NewTag();
-        while (await _accountRepository.GetFirstAsync(new NameTagEqualSpecification(tag, displayName)) != null);
+        var sameNameTagCheck = await _accountRepository.GetFirstAsync(new UserNameEqualSpecification(username, true));
+
+        if (sameNameTagCheck == null)
+            return tag;
+
+        tag = sameNameTagCheck.Tag.Increment();
+
+        if (tag.Value > 9999)
+            return null;
 
         return tag;
     }

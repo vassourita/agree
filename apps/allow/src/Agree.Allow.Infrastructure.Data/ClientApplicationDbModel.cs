@@ -1,10 +1,10 @@
-namespace Agree.Allow.Domain;
+namespace Agree.Allow.Infrastructure.Data;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("ClientApplications")]
-public class ClientApplication
+public class ClientApplicationDbModel
 {
     [Key]
     public Guid Id { get; private set; }

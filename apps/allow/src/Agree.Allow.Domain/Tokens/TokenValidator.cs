@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Agree.Allow.Domain.Specifications;
 using Agree.SharedKernel.Data;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 public class TokenValidator
@@ -12,16 +13,17 @@ public class TokenValidator
     private readonly JwtConfiguration _jwtConfiguration;
     private readonly IRepository<UserAccount, Guid> _accountRepository;
 
-    public TokenValidator(JwtConfiguration jwtConfiguration,
+    public TokenValidator(IOptions<JwtConfiguration> jwtConfiguration,
                     IRepository<UserAccount, Guid> accountRepository)
     {
-        _jwtConfiguration = jwtConfiguration;
+        _jwtConfiguration = jwtConfiguration.Value;
         _accountRepository = accountRepository;
     }
 
     public async Task<UserAccount> ValidateAsync(string token, bool validateRefresh = false)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
+        tokenHandler.MapInboundClaims = false;
         var key = Encoding.ASCII.GetBytes(_jwtConfiguration.SigningKey);
 
         var validationParameters = new TokenValidationParameters
@@ -31,22 +33,31 @@ public class TokenValidator
             ValidateIssuer = true,
             ValidIssuer = _jwtConfiguration.Issuer,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ValidateAudience = false
         };
 
-        var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
-
-        var accountId = Guid.Parse(principal.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-
-        if (validateRefresh)
+        try
         {
-            var refreshTokenCheck = principal.Claims.First(x => x.Type == "refresh_token").Value;
-            if (string.IsNullOrWhiteSpace(refreshTokenCheck) || refreshTokenCheck != "y")
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+
+            var accountId = principal.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrWhiteSpace(accountId))
                 return null;
+
+            if (validateRefresh)
+            {
+                var refreshTokenCheck = principal.Claims.FirstOrDefault(x => x.Type == "rsh")?.Value;
+                if (string.IsNullOrWhiteSpace(refreshTokenCheck) || refreshTokenCheck != "y")
+                    return null;
+            }
+
+            var account = await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(Guid.Parse(accountId)));
+
+            return account;
         }
-
-        var account = await _accountRepository.GetFirstAsync(new UserIdEqualSpecification(accountId));
-
-        return account;
+        catch (SecurityTokenException)
+        {
+            return null;
+        }
     }
 }

@@ -41,11 +41,14 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountRequest, Create
         if (userExists != null)
             errorList.AddError("EmailAddress", "Email already in use.");
 
+        var tag = await _discriminatorTagFactory.GenerateDiscriminatorTagAsync(request.Username);
+        if (tag == null)
+            errorList.AddError("Username", "Username is unavailable.");
+
         if (errorList.HasErrors)
             return CreateAccountResult.Fail(errorList);
 
         var passwordHash = await _passwordManager.HashAsync(request.Password);
-        var tag = await _discriminatorTagFactory.GenerateDiscriminatorTagAsync(request.Username);
         var user = new UserAccount(request.Username, request.EmailAddress, passwordHash, tag);
 
         await _accountRepository.InsertAsync(user);

@@ -6,10 +6,10 @@ using Agree.SharedKernel.Data;
 public class UserIdEqualSpecification : Specification<UserAccount>
 {
     public UserIdEqualSpecification(Guid id)
-        => Expression = u
-        => u.Id == id;
+        => Expression = x
+        => x.Id == id;
 
     public UserIdEqualSpecification(UserAccount account)
-        => Expression = u
-        => u.Id == account.Id;
+        => Expression = x
+        => x.Id == account.Id;
 }

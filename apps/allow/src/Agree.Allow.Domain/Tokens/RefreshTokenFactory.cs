@@ -27,12 +27,12 @@ public class RefreshTokenFactory
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
-                new Claim("refresh", "y")
+                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                new Claim("rsh", "y")
             }),
             Issuer = _jwtConfiguration.Issuer,
             Expires = expiresIn,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
         var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);

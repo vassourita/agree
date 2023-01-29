@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
         : base(options) { }
 
     public DbSet<UserAccountDbModel> UserAccounts { get; set; }
+    public DbSet<ClientApplicationDbModel> ClientApplications { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder

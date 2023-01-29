@@ -3,7 +3,7 @@ namespace Agree.SharedKernel;
 using System.Collections.Generic;
 using System.Linq;
 
-public abstract class ValueObject
+public abstract class ValueObject : IComparable
 {
     protected static bool EqualOperator(ValueObject left, ValueObject right)
     {
@@ -41,4 +41,6 @@ public abstract class ValueObject
         => GetEqualityComponents()
             .Select(x => x != null ? x.GetHashCode() : 0)
             .Aggregate((x, y) => x ^ y);
+
+    public abstract int CompareTo(object obj);
 }

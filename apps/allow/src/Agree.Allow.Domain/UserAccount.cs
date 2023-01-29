@@ -3,6 +3,7 @@
 using System;
 using Agree.SharedKernel;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 public class UserAccount : IEntity<Guid>
 {
@@ -32,16 +33,16 @@ public class UserAccount : IEntity<Guid>
 
     public ClaimsPrincipal ToClaimsPrincipal() => new(new ClaimsIdentity(new[]
     {
-        new Claim(ClaimTypes.NameIdentifier, Id.ToString()),
-        new Claim(ClaimTypes.Name, NameTag),
-        new Claim(ClaimTypes.Email, EmailAddress),
+        new Claim(JwtRegisteredClaimNames.Sub, Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Name, NameTag),
+        new Claim(JwtRegisteredClaimNames.Email, EmailAddress)
     }));
 
     public static UserAccount FromClaims(ClaimsPrincipal principal)
     {
-        var id = Guid.Parse(principal.FindFirstValue(ClaimTypes.NameIdentifier));
-        var nameTag = principal.FindFirstValue(ClaimTypes.Name);
-        var emailAddress = principal.FindFirstValue(ClaimTypes.Email);
+        var id = Guid.Parse(principal.FindFirstValue(JwtRegisteredClaimNames.Sub));
+        var nameTag = principal.FindFirstValue(JwtRegisteredClaimNames.Name);
+        var emailAddress = principal.FindFirstValue(JwtRegisteredClaimNames.Email);
 
         var username = nameTag.Split('#')[0];
         var tag = (DiscriminatorTag)Enum.Parse(typeof(DiscriminatorTag), nameTag.Split('#')[1]);
