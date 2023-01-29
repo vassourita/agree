@@ -18,8 +18,13 @@ public class RefreshTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateRefreshToken()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.NotNull(token);
         Assert.NotNull(token.Type);
         Assert.NotNull(token.TokenValue);
@@ -29,18 +34,28 @@ public class RefreshTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldGenerateAsyncRefreshTokenWithCorrectType()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.Equal("Bearer", token.Type);
     }
 
     [Fact]
     public async Task GenerateAsync_ShouldCreateRefreshTokenWithValidExpirationDate()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
         var expectedExpirationDate = DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenExpiresInDays);
         var expected = ((DateTimeOffset)expectedExpirationDate).ToUnixTimeSeconds();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.True(token.ExpiresIn <= expected);
         Assert.True(token.ExpiresIn > expected - 1);
     }
@@ -48,8 +63,13 @@ public class RefreshTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateRefreshTokenWithExpectedClaims()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         var decoded = DecodeToken(token.TokenValue);
         Assert.Equal(userAccount.Id.ToString(), decoded.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
         Assert.Equal("y", decoded.Claims.Single(x => x.Type == "rsh").Value);
@@ -58,8 +78,13 @@ public class RefreshTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateRefreshTokenWithExpectedIssuer()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         var decoded = DecodeToken(token.TokenValue);
         Assert.Equal(_jwtConfiguration.Issuer, decoded.Issuer);
     }

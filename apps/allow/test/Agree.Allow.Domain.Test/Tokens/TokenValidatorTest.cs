@@ -7,21 +7,24 @@ using Microsoft.Extensions.Options;
 
 public class TokenValidatorTest : TokenTest
 {
-    private readonly TokenValidator _sut;
     private readonly JwtConfiguration _jwtConfiguration;
 
     public TokenValidatorTest()
     {
-        _sut = Resolve<TokenValidator>();
         _jwtConfiguration = Resolve<IOptions<JwtConfiguration>>().Value;
     }
 
     [Fact]
     public async Task ValidateAsync_WithValidAccessToken_ReturnsUserAccount()
     {
+        // Arrange
         var (expectedAccount, token) = await GenerateAccessToken();
-        var account = await _sut.ValidateAsync(token);
+        var sut = Resolve<TokenValidator>();
 
+        // Act
+        var account = await sut.ValidateAsync(token);
+
+        // Assert
         Assert.NotNull(account);
         Assert.Equal(expectedAccount.Id, account.Id);
     }
@@ -29,18 +32,28 @@ public class TokenValidatorTest : TokenTest
     [Fact]
     public async Task ValidateAsync_WithInvalidToken_ReturnsNull()
     {
+        // Arrange
         var (_, token) = await GenerateAccessToken();
-        var account = await _sut.ValidateAsync(token + "invalid");
+        var sut = Resolve<TokenValidator>();
 
+        // Act
+        var account = await sut.ValidateAsync(token + "invalid");
+
+        // Assert
         Assert.Null(account);
     }
 
     [Fact]
     public async Task ValidateAsync_WithValidRefreshToken_ReturnsUserAccount()
     {
+        // Arrange
         var (expectedAccount, token) = await GenerateRefreshToken();
-        var account = await _sut.ValidateAsync(token, true);
+        var sut = Resolve<TokenValidator>();
 
+        // Act
+        var account = await sut.ValidateAsync(token, true);
+
+        // Assert
         Assert.NotNull(account);
         Assert.Equal(expectedAccount.Id, account.Id);
     }
@@ -48,18 +61,28 @@ public class TokenValidatorTest : TokenTest
     [Fact]
     public async Task ValidateAsync_WithInvalidRefreshToken_ReturnsNull()
     {
+        // Arrange
         var (_, token) = await GenerateRefreshToken();
-        var account = await _sut.ValidateAsync(token + "invalid", true);
+        var sut = Resolve<TokenValidator>();
 
+        // Act
+        var account = await sut.ValidateAsync(token + "invalid", true);
+
+        // Assert
         Assert.Null(account);
     }
 
     [Fact]
     public async Task ValidateAsync_WithValidateRefreshFlagAndAccessToken_ReturnsNull()
     {
+        // Arrange
         var (_, token) = await GenerateAccessToken();
-        var account = await _sut.ValidateAsync(token, true);
+        var sut = Resolve<TokenValidator>();
 
+        // Act
+        var account = await sut.ValidateAsync(token, true);
+
+        // Assert
         Assert.Null(account);
     }
 }

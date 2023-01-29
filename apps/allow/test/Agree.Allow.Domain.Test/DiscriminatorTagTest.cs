@@ -41,8 +41,7 @@ public class DiscriminatorTagTest
     [Fact]
     public void NewTag_ShouldReturnTagBetween1And9999()
     {
-        var oneMillion = 1000000;
-        for (var i = 0; i < oneMillion; i++)
+        for (var i = 0; i < 1000000; i++)
         {
             var tag = DiscriminatorTag.NewTag();
             Assert.True(tag.Value >= 1);

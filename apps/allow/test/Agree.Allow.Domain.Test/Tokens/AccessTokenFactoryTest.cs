@@ -17,8 +17,13 @@ public class AccessTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateAccessToken()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.NotNull(token);
         Assert.NotNull(token.Type);
         Assert.NotNull(token.TokenValue);
@@ -28,18 +33,28 @@ public class AccessTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldGenerateAsyncAccessTokenWithCorrectType()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.Equal("Bearer", token.Type);
     }
 
     [Fact]
     public async Task GenerateAsync_ShouldCreateAccessTokenWithValidExpirationDate()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
         var expectedExpirationDate = DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenExpiresInMinutes);
         var expected = ((DateTimeOffset)expectedExpirationDate).ToUnixTimeSeconds();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         Assert.True(token.ExpiresIn <= expected);
         Assert.True(token.ExpiresIn > expected - 1);
     }
@@ -47,8 +62,13 @@ public class AccessTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateAccessTokenWithExpectedClaims()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         var decoded = DecodeToken(token.TokenValue);
         Assert.Equal(userAccount.Id.ToString(), decoded.Claims.Single(x => x.Type == "sub").Value);
         Assert.Equal(userAccount.EmailAddress, decoded.Claims.Single(x => x.Type == "email").Value);
@@ -58,8 +78,13 @@ public class AccessTokenFactoryTest : TokenTest
     [Fact]
     public async Task GenerateAsync_ShouldCreateAccessTokenWithExpectedIssuer()
     {
+        // Arrange
         var userAccount = await CreateTestUserAccount();
+
+        // Act
         var token = await _sut.GenerateAsync(userAccount);
+
+        // Assert
         var decoded = DecodeToken(token.TokenValue);
         Assert.Equal(_jwtConfiguration.Issuer, decoded.Issuer);
     }

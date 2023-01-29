@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Agree.Allow.Domain.Tokens;
 using Agree.Allow.Test;
 
-public class TokenTest : TestBase
+public abstract class TokenTest : TestBase
 {
     protected JwtSecurityToken DecodeToken(string token)
     {
